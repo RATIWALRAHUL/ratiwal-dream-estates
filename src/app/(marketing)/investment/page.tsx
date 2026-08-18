@@ -1,35 +1,33 @@
 import { getMetadata } from "@/lib/seo";
-import { Container } from "@/components/shared/Container";
-import { SectionHeader } from "@/components/shared/SectionHeader";
-import { Breadcrumbs } from "@/components/shared/Breadcrumbs";
-import { PlaceholderContent } from "@/components/shared/PlaceholderContent";
+import { 
+  InvestmentHero, 
+  InvestmentThesis, 
+  InvestmentCalculator, 
+  InvestmentCorridors, 
+  InvestmentRiskMitigation, 
+  InvestmentProfiles, 
+  InvestmentLifecycle, 
+  InvestmentCTA 
+} from "@/components/sections/investment";
 
 export const metadata = getMetadata({
-  title: "Investment Strategy",
-  description: "Analyze growth corridors, land documentation checklists, and plot investment potential in Rajasthan and Maharashtra.",
+  title: "Investment Strategy — Capital Allocation & Growth Corridors",
+  description:
+    "Discover Ratiwal Dream Estates' institutional land investment thesis. Model land ROI, explore high-velocity growth corridors in Jaipur & Navi Mumbai, and access 100% verified titles.",
   slug: "/investment",
 });
 
 export default function InvestmentPage() {
-  const breadcrumbItems = [{ label: "Investment", href: "/investment" }];
-
   return (
-    <section className="py-8" aria-labelledby="investment-title">
-      <Container>
-        <Breadcrumbs items={breadcrumbItems} />
-        
-        <SectionHeader
-          title="Strategic Land Investments"
-          subtitle="Investment Philosophy"
-          description="Explore wealth preservation strategies through verified, clear-title residential and commercial plots."
-        />
-
-        <div className="space-y-6 max-w-4xl my-8">
-          <PlaceholderContent sectionName="Rajasthan Growth Corridors & Highways" />
-          <PlaceholderContent sectionName="Maharashtra Outer Nodes & Ports Expansion" />
-          <PlaceholderContent sectionName="Clear Land Titles Verification Guidelines" />
-        </div>
-      </Container>
-    </section>
+    <div className="flex flex-col w-full">
+      <InvestmentHero />
+      <InvestmentThesis />
+      <InvestmentCalculator />
+      <InvestmentCorridors />
+      <InvestmentRiskMitigation />
+      <InvestmentProfiles />
+      <InvestmentLifecycle />
+      <InvestmentCTA />
+    </div>
   );
 }

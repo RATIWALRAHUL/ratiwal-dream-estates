@@ -41,18 +41,19 @@ export default function Header() {
           </a>
 
           {/* Logo Brand Title */}
-          <Link href="/" className="nav-logo" aria-label="Ratiwal Dream Estates home">
+          <Link href="/" className="nav-logo flex items-center justify-center my-auto shrink-0" aria-label="Ratiwal Dream Estates home">
             <Image
               src="/images/brand/ratiwal-logo.svg"
               alt={`${siteConfig.name} Logo`}
-              width={168}
-              height={68}
-              className="h-10 lg:h-12 w-auto object-contain"
+              width={160}
+              height={60}
+              priority
+              className="h-8 sm:h-9 lg:h-11 w-auto object-contain"
             />
           </Link>
 
           {/* Desktop Navigation Link Lists */}
-          <nav className="hidden lg:flex nav-links" aria-label="Main Navigation">
+          <nav className="hidden lg:flex nav-links my-auto" aria-label="Main Navigation">
             {navigationConfig.mainNav.filter((link) => ["Home","Properties","Investment","About Us","Contact"].includes(link.label)).map((link) => {
               const isActive = pathname === link.href;
               return (
@@ -68,7 +69,7 @@ export default function Header() {
           </nav>
 
           {/* Desktop CTAs */}
-          <div className="hidden lg:flex nav-ctas">
+          <div className="hidden lg:flex nav-ctas my-auto">
             <a
               href={whatsappUrl}
               target="_blank"
@@ -88,7 +89,7 @@ export default function Header() {
           {/* Mobile Navigation Trigger Button */}
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className="lg:hidden nav-toggle focus-visible:outline"
+            className="lg:hidden nav-toggle flex items-center justify-center my-auto shrink-0 focus-visible:outline"
             aria-expanded={isOpen}
             aria-controls="mobile-navigation"
             aria-label="Toggle navigation menu"

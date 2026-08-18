@@ -1,9 +1,9 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 620 250" role="img" aria-labelledby="title">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="90 10 440 235" role="img" aria-labelledby="title">
   <title id="title">Ratiwal Dream Estates</title>
   <g fill="none" stroke="#1598c7" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
     <path d="M235 86 310 18l75 68"/>
     <path d="M258 83v30M286 58v77M310 34v112M338 17v137M365 83v30"/>
   </g>
-  <text x="310" y="202" text-anchor="middle" fill="#050505" font-family="Arial, Helvetica, sans-serif" font-size="52" letter-spacing="1">RATIWAL DREAM</text>
-  <text x="310" y="235" text-anchor="middle" fill="#050505" font-family="Arial, Helvetica, sans-serif" font-size="25" letter-spacing="12">ESTATES</text>
+  <text x="310" y="202" text-anchor="middle" fill="#050505" font-family="Arial, Helvetica, sans-serif" font-size="52" font-weight="bold" letter-spacing="1">RATIWAL DREAM</text>
+  <text x="310" y="235" text-anchor="middle" fill="#050505" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="600" letter-spacing="12">ESTATES</text>
 </svg>

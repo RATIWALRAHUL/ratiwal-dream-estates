@@ -8,7 +8,7 @@ export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
 }
 
 const Input = forwardRef<HTMLInputElement, InputProps>(
-  ({ className, type = "text", label, error, helperText, ...props }, ref) => {
+  ({ className, type = "text", label, error, helperText, required, ...props }, ref) => {
     const generatedId = useId();
     const id = props.id || generatedId;
     const errorId = `${id}-error`;
@@ -17,18 +17,19 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
     return (
       <div className="w-full flex flex-col space-y-1.5">
         {label && (
-          <label htmlFor={id} className="text-sm font-medium text-text-main flex items-center">
+          <label htmlFor={id} className="text-xs sm:text-[13px] font-bold text-[var(--midnight)] flex items-center">
             {label}
-            {props.required && <span className="text-error-color ml-1" aria-hidden="true">*</span>}
+            {required && <span className="text-red-500 ml-1 font-bold" aria-hidden="true">*</span>}
           </label>
         )}
         <input
           ref={ref}
           id={id}
           type={type}
+          required={required}
           className={cn(
-            "w-full min-h-[48px] rounded border border-border-color bg-white px-3.5 py-2.5 text-sm text-text-main placeholder:text-text-muted transition-colors focus-visible:outline focus-visible:ring-2 focus-visible:ring-primary-blue",
-            error ? "border-error-color focus-visible:ring-error-color" : "hover:border-gray-400",
+            "w-full min-h-[48px] rounded-xl border border-[rgba(7,26,40,0.12)] bg-white px-4 py-2.5 text-xs sm:text-sm text-[var(--midnight)] placeholder:text-[var(--text-secondary)] shadow-xs transition-all duration-200 focus:outline-none focus:border-[var(--ratwal-blue)] focus:ring-2 focus:ring-[rgba(8,127,195,0.18)] hover:border-[rgba(8,127,195,0.4)]",
+            error ? "border-red-400 focus:ring-red-400/20" : "",
             className
           )}
           aria-invalid={error ? "true" : "false"}
@@ -36,11 +37,11 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
           {...props}
         />
         {error ? (
-          <p id={errorId} className="text-xs font-medium text-error-color" role="alert">
+          <p id={errorId} className="text-xs font-medium text-red-500 mt-1" role="alert">
             {error}
           </p>
         ) : helperText ? (
-          <p id={helperId} className="text-xs text-text-muted">
+          <p id={helperId} className="text-xs text-[var(--text-secondary)] mt-0.5">
             {helperText}
           </p>
         ) : null}

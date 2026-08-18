@@ -1,35 +1,33 @@
 import { getMetadata } from "@/lib/seo";
-import { Container } from "@/components/shared/Container";
-import { SectionHeader } from "@/components/shared/SectionHeader";
-import { Breadcrumbs } from "@/components/shared/Breadcrumbs";
-import { PlaceholderContent } from "@/components/shared/PlaceholderContent";
+import { 
+  AboutHero, 
+  AboutStory, 
+  AboutVerificationProtocol, 
+  AboutLeadership, 
+  AboutMilestones, 
+  AboutCoreValues, 
+  AboutCorridors, 
+  AboutCTA 
+} from "@/components/sections/about";
 
 export const metadata = getMetadata({
-  title: "About Us",
-  description: "Learn more about Ratiwal Dream Estates, our founding principles, and our commitment to lifelong property consultancy built on trust.",
+  title: "About Us — Lifelong Property Consultancy Built on Trust",
+  description:
+    "Learn about Ratiwal Dream Estates, our founding principles, our 6-stage land verification protocol, and our fiduciary commitment to transparent property advisory in Rajasthan and Maharashtra.",
   slug: "/about",
 });
 
 export default function AboutPage() {
-  const breadcrumbItems = [{ label: "About Us", href: "/about" }];
-
   return (
-    <section className="py-8" aria-labelledby="about-title">
-      <Container>
-        <Breadcrumbs items={breadcrumbItems} />
-        
-        <SectionHeader
-          title="Lifelong Property Consultancy"
-          subtitle="Our Company"
-          description="At Ratiwal Dream Estates, we help you acquire verified land assets with complete transactional visibility."
-        />
-
-        <div className="space-y-6 max-w-4xl my-8">
-          <PlaceholderContent sectionName="Advisory Philosophy & Governance" />
-          <PlaceholderContent sectionName="Founders' Profile & Real-Estate Experience" />
-          <PlaceholderContent sectionName="Transparency & Legal Compliance Frameworks" />
-        </div>
-      </Container>
-    </section>
+    <div className="flex flex-col w-full">
+      <AboutHero />
+      <AboutStory />
+      <AboutVerificationProtocol />
+      <AboutLeadership />
+      <AboutMilestones />
+      <AboutCoreValues />
+      <AboutCorridors />
+      <AboutCTA />
+    </div>
   );
 }
