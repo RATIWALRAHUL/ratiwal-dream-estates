@@ -30,8 +30,9 @@ export const navigationConfig = {
     ] as NavLink[],
     support: [
       { label: "Contact Us", href: "/contact" },
-      { label: "Privacy Policy", href: "/privacy-policy" }, // future placeholder
-      { label: "Terms of Service", href: "/terms-of-service" }, // future placeholder
+      { label: "Privacy Policy", href: "/privacy-policy" },
+      { label: "Terms of Service", href: "/terms-of-service" },
+      { label: "RERA & Disclaimer", href: "/disclaimer" },
     ] as NavLink[],
   },
 };

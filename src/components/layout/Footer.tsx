@@ -400,12 +400,15 @@ export default function Footer() {
               <Link
                 key={link.href}
                 href={link.href}
-                className="text-slate-500 hover:text-[#087fc3] transition-colors"
+                className="text-slate-500 hover:text-[#087fc3] transition-colors focus-visible:outline focus-visible:ring-1 focus-visible:ring-[#087fc3] rounded px-1"
               >
                 {link.label}
               </Link>
             ))}
-            <Link href="/sitemap.xml" className="text-slate-500 hover:text-[#087fc3] transition-colors">
+            <Link
+              href="/sitemap.xml"
+              className="text-slate-500 hover:text-[#087fc3] transition-colors focus-visible:outline focus-visible:ring-1 focus-visible:ring-[#087fc3] rounded px-1"
+            >
               Sitemap
             </Link>
 

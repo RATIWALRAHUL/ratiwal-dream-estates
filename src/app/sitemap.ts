@@ -14,6 +14,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/testimonials",
     "/insights",
     "/contact",
+    "/privacy-policy",
+    "/terms-of-service",
+    "/disclaimer",
   ];
 
   const staticUrls = staticRoutes.map((route) => ({
