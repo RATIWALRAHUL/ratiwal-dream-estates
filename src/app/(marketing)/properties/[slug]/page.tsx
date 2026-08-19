@@ -1,19 +1,21 @@
 import { notFound } from "next/navigation";
 import { getMetadata } from "@/lib/seo";
-import { properties } from "@/data/properties";
-import { Container } from "@/components/shared/Container";
-import { Breadcrumbs } from "@/components/shared/Breadcrumbs";
-import { PropertyGallery } from "@/components/property/PropertyGallery";
-import { PropertyHighlights } from "@/components/property/PropertyHighlights";
-import { PropertyEnquiry } from "@/components/property/PropertyEnquiry";
+import {
+  getAllProperties,
+  getPropertyBySlug,
+  getRelatedProperties,
+} from "@/data/properties";
+import { PropertyDetailPageClient } from "@/components/property/detail/PropertyDetailPageClient";
+import { siteConfig } from "@/config/site";
 
-interface PropertyPageProps {
+interface PropertyDetailPageProps {
   params: Promise<{ slug: string }>;
 }
 
-export async function generateMetadata({ params }: PropertyPageProps) {
+export async function generateMetadata({ params }: PropertyDetailPageProps) {
   const { slug } = await params;
-  const property = properties.find((p) => p.slug === slug);
+  const property = getPropertyBySlug(slug);
+
   if (!property) {
     return getMetadata({
       title: "Property Not Found",
@@ -21,65 +23,111 @@ export async function generateMetadata({ params }: PropertyPageProps) {
     });
   }
 
+  const primaryImage =
+    property.images && property.images.length > 0
+      ? `${siteConfig.url}${property.images[0]}`
+      : `${siteConfig.url}/images/about/township-development.jpg`;
+
   return getMetadata({
-    title: property.name,
-    description: property.shortDescription,
+    title: `${property.name} in ${property.city}`,
+    description: `Explore verified property information, plot sizes (${property.plotSizes.join(
+      ", "
+    )}), pricing status (${property.priceLabel}), connectivity, documents, and site-visit options for ${
+      property.name
+    } in ${property.city}, ${property.state}.`,
     slug: `/properties/${property.slug}`,
+    image: primaryImage,
   });
 }
 
-// Generate static paths at build time
 export async function generateStaticParams() {
+  const properties = getAllProperties();
   return properties.map((property) => ({
     slug: property.slug,
   }));
 }
 
-export default async function PropertyDetailPage({ params }: PropertyPageProps) {
+export default async function PropertyDetailPage({ params }: PropertyDetailPageProps) {
   const { slug } = await params;
-  const property = properties.find((p) => p.slug === slug);
+  const property = getPropertyBySlug(slug);
 
   if (!property) {
     notFound();
   }
 
-  const breadcrumbItems = [
-    { label: "Properties", href: "/properties" },
-    { label: property.name, href: `/properties/${property.slug}` },
-  ];
+  const relatedProperties = getRelatedProperties(property.slug, 3);
+  const coords = property.coordinates || { latitude: 26.8428, longitude: 75.6415 };
+
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Place",
+        "@id": `${siteConfig.url}/properties/${property.slug}#place`,
+        name: property.name,
+        description: property.description,
+        address: {
+          "@type": "PostalAddress",
+          streetAddress: property.location,
+          addressLocality: property.city,
+          addressRegion: property.state,
+          addressCountry: "IN",
+        },
+        geo: {
+          "@type": "GeoCoordinates",
+          latitude: coords.latitude,
+          longitude: coords.longitude,
+        },
+      },
+      {
+        "@type": "RealEstateListing",
+        "@id": `${siteConfig.url}/properties/${property.slug}#listing`,
+        name: property.name,
+        url: `${siteConfig.url}/properties/${property.slug}`,
+        description: property.shortDescription,
+        datePosted: property.createdAt,
+        dateModified: property.updatedAt,
+        category: property.propertyType,
+      },
+      {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: "Home",
+            item: siteConfig.url,
+          },
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: "Properties",
+            item: `${siteConfig.url}/properties`,
+          },
+          {
+            "@type": "ListItem",
+            position: 3,
+            name: property.name,
+            item: `${siteConfig.url}/properties/${property.slug}`,
+          },
+        ],
+      },
+    ],
+  };
 
   return (
-    <article className="py-8" aria-labelledby="property-detail-title">
-      <Container>
-        <Breadcrumbs items={breadcrumbItems} />
+    <>
+      {/* Schema.org Structured Data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mt-6">
-          {/* Main Info Left Column */}
-          <div className="lg:col-span-2 space-y-6">
-            <h1 id="property-detail-title" className="text-h1 text-primary-dark font-bold font-heading">
-              {property.name}
-            </h1>
-            
-            <PropertyGallery images={property.images} />
-
-            <div className="prose max-w-none mt-6">
-              <h2 className="text-h3 text-primary-dark font-heading font-semibold border-b pb-2">
-                Project Overview
-              </h2>
-              <p className="text-body text-text-main leading-relaxed mt-4">
-                {property.description}
-              </p>
-            </div>
-
-            <PropertyHighlights property={property} />
-          </div>
-
-          {/* Sticky Action Panel Right Column */}
-          <div className="lg:col-span-1">
-            <PropertyEnquiry property={property} />
-          </div>
-        </div>
-      </Container>
-    </article>
+      {/* Main Luxury Property Detail Client Experience */}
+      <PropertyDetailPageClient
+        property={property}
+        relatedProperties={relatedProperties}
+      />
+    </>
   );
 }

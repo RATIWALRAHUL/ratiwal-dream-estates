@@ -15,6 +15,12 @@ import {
   WhyChooseFAQ,
   FinalConsultationCTA,
 } from "@/components/sections/why-choose-us";
+import {
+  buildBreadcrumbSchema,
+  buildFAQSchema,
+  buildWebPageSchema,
+  sanitizeJsonLd,
+} from "@/lib/schema";
 
 export const metadata = getMetadata({
   title: "Why Choose Ratwal Dream Estates | Verified Property Advisory",
@@ -24,38 +30,21 @@ export const metadata = getMetadata({
 });
 
 export default function WhyChooseUsPage() {
-  // BreadcrumbList JSON-LD Schema
-  const breadcrumbSchema = {
+  const jsonLd = {
     "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    itemListElement: [
-      {
-        "@type": "ListItem",
-        position: 1,
-        name: "Home",
-        item: siteConfig.url,
-      },
-      {
-        "@type": "ListItem",
-        position: 2,
-        name: "Why Choose Us",
-        item: `${siteConfig.url}/why-choose-us`,
-      },
-    ],
-  };
-
-  // FAQPage JSON-LD Schema strictly for visibly rendered FAQs
-  const faqSchema = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: whyChooseUsData.faqs.map((faq) => ({
-      "@type": "Question",
-      name: faq.question,
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: faq.answer,
-      },
-    })),
+    "@graph": [
+      buildWebPageSchema({
+        title: "Why Choose Ratwal Dream Estates | Verified Property Advisory",
+        description:
+          "Discover Ratwal Dream Estates’ verification-first approach to property discovery, documentation support, pricing transparency, and local real-estate guidance.",
+        url: `${siteConfig.url}/why-choose-us`,
+      }),
+      buildBreadcrumbSchema([
+        { name: "Home", url: siteConfig.url },
+        { name: "Why Choose Us", url: `${siteConfig.url}/why-choose-us` },
+      ]),
+      buildFAQSchema(whyChooseUsData.faqs),
+    ].filter(Boolean),
   };
 
   return (
@@ -63,11 +52,7 @@ export default function WhyChooseUsPage() {
       {/* Structured Data Schemas */}
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+        dangerouslySetInnerHTML={{ __html: sanitizeJsonLd(jsonLd) }}
       />
 
       <main id="main-content" className="w-full">

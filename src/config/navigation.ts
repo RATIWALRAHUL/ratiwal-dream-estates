@@ -7,6 +7,7 @@ export const navigationConfig = {
   mainNav: [
     { label: "Home", href: "/" },
     { label: "Properties", href: "/properties" },
+    { label: "Locations", href: "/locations" },
     { label: "Investment", href: "/investment" },
     { label: "About Us", href: "/about" },
     { label: "Why Choose Us", href: "/why-choose-us" },

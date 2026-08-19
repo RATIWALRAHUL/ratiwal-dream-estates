@@ -204,7 +204,6 @@ const Select = forwardRef<HTMLSelectElement, SelectProps>(
             disabled={disabled}
             aria-haspopup="listbox"
             aria-expanded={isOpen}
-            aria-invalid={error ? "true" : "false"}
             aria-describedby={error ? errorId : undefined}
             className={cn(
               "w-full min-h-[48px] px-4 py-2.5 rounded-xl text-left text-xs sm:text-sm font-medium transition-all duration-200 flex items-center justify-between gap-2 border bg-white shadow-xs focus:outline-none",

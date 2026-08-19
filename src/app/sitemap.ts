@@ -3,6 +3,7 @@ import { siteConfig } from "@/config/site";
 import { properties } from "@/data/properties";
 import { locations } from "@/data/locations";
 import { getAllPublishedCaseStudies } from "@/data/testimonials";
+import { getAllApprovedArticles } from "@/data/insights";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const staticRoutes = [
@@ -36,17 +37,24 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   const locationUrls = locations.map((loc) => ({
     url: `${siteConfig.url}/locations/${loc.slug}`,
-    lastModified: new Date(),
+    lastModified: new Date(loc.lastVerifiedAt || "2026-08-15"),
     changeFrequency: "monthly" as const,
     priority: 0.6,
   }));
 
   const caseStudyUrls = getAllPublishedCaseStudies().map((cs) => ({
     url: `${siteConfig.url}/testimonials/${cs.slug}`,
-    lastModified: new Date(),
+    lastModified: new Date(cs.lastReviewedAt || "2026-08-15"),
     changeFrequency: "monthly" as const,
     priority: 0.6,
   }));
 
-  return [...staticUrls, ...propertyUrls, ...locationUrls, ...caseStudyUrls];
+  const insightUrls = getAllApprovedArticles().map((art) => ({
+    url: `${siteConfig.url}/insights/${art.slug}`,
+    lastModified: new Date(art.updatedAt || art.publishedAt),
+    changeFrequency: "monthly" as const,
+    priority: 0.7,
+  }));
+
+  return [...staticUrls, ...propertyUrls, ...locationUrls, ...caseStudyUrls, ...insightUrls];
 }

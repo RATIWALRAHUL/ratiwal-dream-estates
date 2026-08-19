@@ -30,10 +30,13 @@ export default function Header() {
   }, []);
 
   const whatsappUrl = generateWhatsAppUrl({ type: "general" });
+  const isHomePage = pathname === "/";
+  // On inner pages at all times, OR on homepage when scrolled, show dark logo and dark header theme
+  const showDarkTheme = isScrolled || !isHomePage;
 
   return (
     <>
-      <header className={cn("site-header", isScrolled && "is-scrolled")}>
+      <header className={cn("site-header", isScrolled && "is-scrolled", !isHomePage && "is-inner-page")}>
         <div className="nav-shell">
           {/* Accessibility skip-to-content helper */}
           <a href="#main-content" className="skip-link">
@@ -42,7 +45,7 @@ export default function Header() {
 
           {/* Logo Brand Title */}
           <Link href="/" className="nav-logo flex items-center justify-center my-auto shrink-0 relative" aria-label="Ratiwal Dream Estates home">
-            {/* White logo for transparent navbar state */}
+            {/* White logo for transparent navbar state on homepage hero */}
             <Image
               src="/images/brand/ratiwal-logo-white.svg"
               alt={`${siteConfig.name} Logo`}
@@ -51,10 +54,10 @@ export default function Header() {
               priority
               className={cn(
                 "h-10 sm:h-11 lg:h-12 w-auto object-contain transition-opacity duration-300",
-                isScrolled ? "opacity-0 absolute pointer-events-none" : "opacity-100 relative"
+                showDarkTheme ? "opacity-0 absolute pointer-events-none" : "opacity-100 relative"
               )}
             />
-            {/* Dark logo for scrolled white navbar state */}
+            {/* Dark logo for inner pages and scrolled states */}
             <Image
               src="/images/brand/ratiwal-logo.svg"
               alt={`${siteConfig.name} Logo`}
@@ -63,14 +66,14 @@ export default function Header() {
               priority
               className={cn(
                 "h-10 sm:h-11 lg:h-12 w-auto object-contain transition-opacity duration-300",
-                isScrolled ? "opacity-100 relative" : "opacity-0 absolute pointer-events-none"
+                showDarkTheme ? "opacity-100 relative" : "opacity-0 absolute pointer-events-none"
               )}
             />
           </Link>
 
           {/* Desktop Navigation Link Lists */}
           <nav className="hidden lg:flex nav-links my-auto" aria-label="Main Navigation">
-            {navigationConfig.mainNav.filter((link) => ["Home","Properties","Investment","About Us","Contact"].includes(link.label)).map((link) => {
+            {navigationConfig.mainNav.filter((link) => ["Home", "Properties", "Locations", "Investment", "Insights", "About Us", "Contact"].includes(link.label)).map((link) => {
               const isActive = pathname === link.href;
               return (
                 <Link

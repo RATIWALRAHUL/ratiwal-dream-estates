@@ -1,75 +1,112 @@
-import Link from "next/link";
+import { Suspense } from "react";
 import { getMetadata } from "@/lib/seo";
-import { Container } from "@/components/shared/Container";
-import { SectionHeader } from "@/components/shared/SectionHeader";
-import { Breadcrumbs } from "@/components/shared/Breadcrumbs";
-import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/components/ui/Card";
-import { Button } from "@/components/ui/Button";
-import { Badge } from "@/components/ui/Badge";
-import { insights } from "@/data/insights";
-import { Calendar, User, Clock } from "lucide-react";
+import { getAllApprovedArticles, getFeaturedArticle } from "@/data/insights";
+import { getAllApprovedResources } from "@/data/resources";
+import { InsightsHero } from "@/components/insights/InsightsHero";
+import { FeaturedInsight } from "@/components/insights/FeaturedInsight";
+import { InsightDirectory } from "@/components/insights/InsightDirectory";
+import { GuidedContentPaths } from "@/components/insights/GuidedContentPaths";
+import { MarketGuideSpotlight } from "@/components/insights/MarketGuideSpotlight";
+import { ResourceLibrary } from "@/components/insights/ResourceLibrary";
+import { EditorialStandards } from "@/components/insights/EditorialStandards";
+import { InsightFinalCTA } from "@/components/insights/InsightFinalCTA";
+import { siteConfig } from "@/config/site";
 
 export const metadata = getMetadata({
-  title: "Property Insights",
-  description: "Read land investment guides, legal documentation checklists, and market corridor analysis from our team.",
+  title: "Property Insights, Buying Guides & Market Research",
+  description:
+    "Explore property-buying guides, documentation checklists, RERA education, location insights, and market resources from Ratwal Dream Estates.",
   slug: "/insights",
+  image: `${siteConfig.url}/images/locations/jaipur.jpg`,
 });
 
 export default function InsightsPage() {
-  const breadcrumbItems = [{ label: "Insights", href: "/insights" }];
+  const approvedArticles = getAllApprovedArticles();
+  const featuredArticle = getFeaturedArticle();
+  const approvedResources = getAllApprovedResources();
+
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "CollectionPage",
+        "@id": `${siteConfig.url}/insights#webpage`,
+        url: `${siteConfig.url}/insights`,
+        name: "Property Insights, Buying Guides & Market Research | Ratwal Dream Estates",
+        description:
+          "Explore property-buying guides, documentation checklists, RERA education, location insights, and market resources from Ratwal Dream Estates.",
+        breadcrumb: {
+          "@type": "BreadcrumbList",
+          itemListElement: [
+            {
+              "@type": "ListItem",
+              position: 1,
+              name: "Home",
+              item: siteConfig.url,
+            },
+            {
+              "@type": "ListItem",
+              position: 2,
+              name: "Insights",
+              item: `${siteConfig.url}/insights`,
+            },
+          ],
+        },
+      },
+      {
+        "@type": "Blog",
+        "@id": `${siteConfig.url}/insights#blog`,
+        name: "Ratwal Property Intelligence Journal",
+        description: "Authoritative research on plotted land, statutory revenue documentation, and masterplans in Rajasthan and Maharashtra.",
+        blogPost: approvedArticles.map((art) => ({
+          "@type": "BlogPosting",
+          headline: art.title,
+          description: art.excerpt,
+          url: `${siteConfig.url}/insights/${art.slug}`,
+          datePublished: art.publishedAt,
+          dateModified: art.updatedAt || art.publishedAt,
+          author: {
+            "@type": "Organization",
+            name: art.author.name,
+          },
+        })),
+      },
+    ],
+  };
 
   return (
-    <section className="py-8" aria-labelledby="insights-title">
-      <Container>
-        <Breadcrumbs items={breadcrumbItems} />
-        
-        <SectionHeader
-          title="Market & Legal Insights"
-          subtitle="Real-Estate Blog"
-          description="Access vetted guides covering plot buying documentation, title registries, and structural corridor analysis."
-        />
+    <>
+      {/* Schema.org Structured Data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-8">
-          {insights.map((article) => (
-            <Card key={article.id} className="flex flex-col hover:shadow-md transition-shadow duration-300">
-              <CardHeader className="p-5 pb-2">
-                <div className="flex items-center space-x-3 mb-2">
-                  <Badge variant="secondary">{article.category}</Badge>
-                  <span className="text-[10px] text-text-muted flex items-center space-x-1">
-                    <Clock className="h-3.5 w-3.5 text-primary-blue flex-shrink-0" aria-hidden="true" />
-                    <span>{article.readTime}</span>
-                  </span>
-                </div>
-                <CardTitle className="text-base text-primary-dark line-clamp-2">
-                  {article.title}
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="p-5 pt-0 flex-1">
-                <p className="text-xs text-text-muted mb-4 leading-relaxed line-clamp-3">
-                  {article.excerpt}
-                </p>
-                <div className="flex items-center space-x-4 text-[10px] text-text-muted mt-3">
-                  <span className="flex items-center space-x-1">
-                    <User className="h-3 w-3" />
-                    <span>{article.author}</span>
-                  </span>
-                  <span className="flex items-center space-x-1">
-                    <Calendar className="h-3 w-3" />
-                    <span>{article.publishDate}</span>
-                  </span>
-                </div>
-              </CardContent>
-              <CardFooter className="p-5 pt-3 mt-auto">
-                <Link href={`/insights/${article.slug}`} className="w-full">
-                  <Button variant="outline" size="sm" className="w-full focus-visible:outline">
-                    Read Article
-                  </Button>
-                </Link>
-              </CardFooter>
-            </Card>
-          ))}
-        </div>
-      </Container>
-    </section>
+      {/* 1. Editorial Hero */}
+      <InsightsHero featuredArticle={featuredArticle} />
+
+      {/* 2. Featured Lead Publication */}
+      <FeaturedInsight article={featuredArticle} />
+
+      {/* 3. Article Directory & Filters (Wrapped in Suspense for useSearchParams) */}
+      <Suspense fallback={<div className="py-24 text-center">Loading property research journal...</div>}>
+        <InsightDirectory articles={approvedArticles} />
+      </Suspense>
+
+      {/* 4. Guided Content Paths */}
+      <GuidedContentPaths />
+
+      {/* 5. Regional Market Spotlight */}
+      <MarketGuideSpotlight />
+
+      {/* 6. Downloadable Practical Tools & Resource Library */}
+      <ResourceLibrary resources={approvedResources} />
+
+      {/* 7. Editorial Transparency Standards */}
+      <EditorialStandards />
+
+      {/* 8. Advisory Conversion CTA */}
+      <InsightFinalCTA />
+    </>
   );
 }

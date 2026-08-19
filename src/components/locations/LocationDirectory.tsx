@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo } from "react";
+import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { Compass, RotateCcw } from "lucide-react";
 import { Location } from "@/types/location";
@@ -101,13 +102,13 @@ export function LocationDirectory({ locations }: LocationDirectoryProps) {
               We currently operate in verified corridors across Rajasthan and Maharashtra. Try adjusting your region or
               property category filters.
             </p>
-            <a
+            <Link
               href="/locations#location-directory"
               className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#031C2B] text-white text-xs font-semibold uppercase tracking-wider hover:bg-[#082B3B] transition-colors"
             >
               <RotateCcw className="w-3.5 h-3.5" />
               <span>Show All Operating Markets</span>
-            </a>
+            </Link>
           </div>
         )}
       </div>

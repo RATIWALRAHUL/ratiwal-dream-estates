@@ -4,16 +4,4 @@ export interface BreadcrumbItem {
 }
 
 export type { Testimonial } from "./testimonial";
-
-export interface Insight {
-  id: string;
-  slug: string;
-  title: string;
-  excerpt: string;
-  content: string;
-  category: string;
-  author: string;
-  publishDate: string;
-  readTime: string;
-  coverImage?: string;
-}
+export type { InsightArticle, DownloadableResource } from "./insight";
