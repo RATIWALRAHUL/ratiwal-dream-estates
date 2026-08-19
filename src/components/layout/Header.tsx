@@ -19,7 +19,7 @@ export default function Header() {
 
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 120) {
+      if (window.scrollY > 60) {
         setIsScrolled(true);
       } else {
         setIsScrolled(false);
@@ -41,14 +41,30 @@ export default function Header() {
           </a>
 
           {/* Logo Brand Title */}
-          <Link href="/" className="nav-logo flex items-center justify-center my-auto shrink-0" aria-label="Ratiwal Dream Estates home">
+          <Link href="/" className="nav-logo flex items-center justify-center my-auto shrink-0 relative" aria-label="Ratiwal Dream Estates home">
+            {/* White logo for transparent navbar state */}
+            <Image
+              src="/images/brand/ratiwal-logo-white.svg"
+              alt={`${siteConfig.name} Logo`}
+              width={180}
+              height={120}
+              priority
+              className={cn(
+                "h-10 sm:h-11 lg:h-12 w-auto object-contain transition-opacity duration-300",
+                isScrolled ? "opacity-0 absolute pointer-events-none" : "opacity-100 relative"
+              )}
+            />
+            {/* Dark logo for scrolled white navbar state */}
             <Image
               src="/images/brand/ratiwal-logo.svg"
               alt={`${siteConfig.name} Logo`}
-              width={160}
-              height={60}
+              width={180}
+              height={120}
               priority
-              className="h-8 sm:h-9 lg:h-11 w-auto object-contain"
+              className={cn(
+                "h-10 sm:h-11 lg:h-12 w-auto object-contain transition-opacity duration-300",
+                isScrolled ? "opacity-100 relative" : "opacity-0 absolute pointer-events-none"
+              )}
             />
           </Link>
 

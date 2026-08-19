@@ -1,59 +1,113 @@
+import { Suspense } from "react";
 import { getMetadata } from "@/lib/seo";
-import { Container } from "@/components/shared/Container";
-import { SectionHeader } from "@/components/shared/SectionHeader";
-import { Breadcrumbs } from "@/components/shared/Breadcrumbs";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
-import { testimonials } from "@/data/testimonials";
-import { Star } from "lucide-react";
+import {
+  getAllPublishedTestimonials,
+  getAllPublishedCaseStudies,
+} from "@/data/testimonials";
+import { TestimonialsHero } from "@/components/testimonials/TestimonialsHero";
+import { TrustSummary } from "@/components/testimonials/TrustSummary";
+import { FeaturedClientStory } from "@/components/testimonials/FeaturedClientStory";
+import { TestimonialDirectory } from "@/components/testimonials/TestimonialDirectory";
+import { CaseStudyGrid } from "@/components/testimonials/CaseStudyGrid";
+import { ClientJourney } from "@/components/testimonials/ClientJourney";
+import { VerificationMethod } from "@/components/testimonials/VerificationMethod";
+import { TestimonialsFAQ } from "@/components/testimonials/TestimonialsFAQ";
+import { TestimonialsFinalCTA } from "@/components/testimonials/TestimonialsFinalCTA";
+import { siteConfig } from "@/config/site";
 
 export const metadata = getMetadata({
-  title: "Client Testimonials",
-  description: "Read reviews and success stories from plot buyers and real-estate investors who trust Ratiwal Dream Estates.",
+  title: "Client Stories & Property Experiences",
+  description:
+    "Read verified client experiences and property advisory case studies from Ratwal Dream Estates.",
   slug: "/testimonials",
+  image: `${siteConfig.url}/images/about/office-consultation.jpg`,
 });
 
 export default function TestimonialsPage() {
-  const breadcrumbItems = [{ label: "Testimonials", href: "/testimonials" }];
+  const publishedTestimonials = getAllPublishedTestimonials();
+  const publishedCaseStudies = getAllPublishedCaseStudies();
+  const featuredCaseStudy = publishedCaseStudies[0];
+
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "CollectionPage",
+        "@id": `${siteConfig.url}/testimonials#webpage`,
+        url: `${siteConfig.url}/testimonials`,
+        name: "Client Stories & Property Experiences | Ratwal Dream Estates",
+        description:
+          "Read verified client experiences and property advisory case studies from Ratwal Dream Estates.",
+        breadcrumb: {
+          "@type": "BreadcrumbList",
+          itemListElement: [
+            {
+              "@type": "ListItem",
+              position: 1,
+              name: "Home",
+              item: siteConfig.url,
+            },
+            {
+              "@type": "ListItem",
+              position: 2,
+              name: "Client Stories",
+              item: `${siteConfig.url}/testimonials`,
+            },
+          ],
+        },
+      },
+      {
+        "@type": "ItemList",
+        "@id": `${siteConfig.url}/testimonials#casestudies`,
+        name: "Published Land Advisory Case Studies",
+        itemListElement: publishedCaseStudies.map((cs, idx) => ({
+          "@type": "ListItem",
+          position: idx + 1,
+          name: cs.title,
+          url: `${siteConfig.url}/testimonials/${cs.slug}`,
+          description: cs.summary,
+        })),
+      },
+    ],
+  };
 
   return (
-    <section className="py-8" aria-labelledby="testimonials-title">
-      <Container>
-        <Breadcrumbs items={breadcrumbItems} />
-        
-        <SectionHeader
-          title="Client Testimonials"
-          subtitle="Customer Experiences"
-          description="Read verified reports from plot buyers and real-estate investors who partner with us for lifelong land advisory."
-        />
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-8">
-          {testimonials.map((testimonial) => (
-            <Card key={testimonial.id} className="hover:shadow-md transition-shadow duration-300">
-              <CardHeader className="p-5 pb-2">
-                <div className="flex items-center space-x-1 mb-2">
-                  {Array.from({ length: testimonial.rating }).map((_, i) => (
-                    <Star key={i} className="h-4 w-4 fill-warning-color text-warning-color" aria-hidden="true" />
-                  ))}
-                </div>
-                <CardTitle className="text-base text-primary-dark">
-                  {testimonial.name}
-                </CardTitle>
-                <span className="text-xs text-text-muted block mt-1">
-                  Location: {testimonial.location} {testimonial.role ? `| ${testimonial.role}` : ""}
-                </span>
-              </CardHeader>
-              <CardContent className="p-5 pt-0">
-                <p className="text-xs text-text-main italic leading-relaxed">
-                  &ldquo;{testimonial.comment}&rdquo;
-                </p>
-                <span className="text-[10px] text-text-muted mt-3 block">
-                  Reviewed on: {testimonial.date}
-                </span>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-      </Container>
-    </section>
+      {/* 1. Premium Editorial Hero */}
+      <TestimonialsHero />
+
+      {/* 2. Trust Summary Strip */}
+      <TrustSummary />
+
+      {/* 3. Featured Client Story Preview */}
+      {featuredCaseStudy && (
+        <FeaturedClientStory caseStudy={featuredCaseStudy} />
+      )}
+
+      {/* 4. Testimonial Directory with Filters (Wrapped in Suspense for useSearchParams) */}
+      <Suspense fallback={<div className="py-24 text-center">Loading client stories...</div>}>
+        <TestimonialDirectory testimonials={publishedTestimonials} />
+      </Suspense>
+
+      {/* 5. Detailed Case-Study Library */}
+      <CaseStudyGrid caseStudies={publishedCaseStudies} />
+
+      {/* 6. Client Advisory Journey Timeline */}
+      <ClientJourney />
+
+      {/* 7. How Stories Are Verified & Privacy Standards */}
+      <VerificationMethod />
+
+      {/* 8. Frequently Asked Questions */}
+      <TestimonialsFAQ />
+
+      {/* 9. Final Advisory Conversion CTA */}
+      <TestimonialsFinalCTA />
+    </>
   );
 }

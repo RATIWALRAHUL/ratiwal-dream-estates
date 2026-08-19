@@ -299,3 +299,16 @@ export const properties: Property[] = [
     updatedAt: "2026-08-16T16:00:00Z",
   },
 ];
+
+export function getAllProperties(): Property[] {
+  return properties;
+}
+
+export function getFeaturedProperties(): Property[] {
+  return properties.filter((p) => p.featured);
+}
+
+export function getPropertyBySlug(slug: string): Property | undefined {
+  return properties.find((p) => p.slug.toLowerCase() === slug.toLowerCase());
+}
+

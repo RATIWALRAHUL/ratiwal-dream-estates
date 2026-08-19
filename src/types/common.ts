@@ -3,15 +3,7 @@ export interface BreadcrumbItem {
   href: string;
 }
 
-export interface Testimonial {
-  id: string;
-  name: string;
-  location: string;
-  role?: string;
-  comment: string;
-  rating: number;
-  date: string;
-}
+export type { Testimonial } from "./testimonial";
 
 export interface Insight {
   id: string;

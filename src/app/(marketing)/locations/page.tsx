@@ -1,57 +1,91 @@
-import Link from "next/link";
 import { getMetadata } from "@/lib/seo";
-import { Container } from "@/components/shared/Container";
-import { SectionHeader } from "@/components/shared/SectionHeader";
-import { Breadcrumbs } from "@/components/shared/Breadcrumbs";
 import { locations } from "@/data/locations";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
-import { Button } from "@/components/ui/Button";
+import { LocationsHero } from "@/components/locations/LocationsHero";
+import { MarketMap } from "@/components/locations/MarketMap";
+import { LocationDirectory } from "@/components/locations/LocationDirectory";
+import { MicroMarketPreview } from "@/components/locations/MicroMarketPreview";
+import { LocationComparison } from "@/components/locations/LocationComparison";
+import { LocationAdvisoryCTA } from "@/components/locations/LocationAdvisoryCTA";
+import { siteConfig } from "@/config/site";
 
 export const metadata = getMetadata({
-  title: "Featured Locations",
-  description: "Browse properties and land developments in Jaipur, Ajmer, Navi Mumbai, Panvel, Bhiwadi, and other locations.",
+  title: "Property Locations & Market Guides",
+  description:
+    "Explore Ratwal Dream Estates property locations, micro-markets, infrastructure context, and available real-estate opportunities across Rajasthan and Maharashtra.",
   slug: "/locations",
+  image: `${siteConfig.url}/images/locations/jaipur.jpg`,
 });
 
 export default function LocationsPage() {
-  const breadcrumbItems = [{ label: "Locations", href: "/locations" }];
+  // Structured Data (JSON-LD) for CollectionPage and ItemList
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "CollectionPage",
+        "@id": `${siteConfig.url}/locations#webpage`,
+        url: `${siteConfig.url}/locations`,
+        name: "Property Locations & Market Guides | Ratwal Dream Estates",
+        description:
+          "Explore Ratwal Dream Estates operating locations, verified micro-markets, infrastructure timelines, and available plotted land opportunities.",
+        breadcrumb: {
+          "@type": "BreadcrumbList",
+          itemListElement: [
+            {
+              "@type": "ListItem",
+              position: 1,
+              name: "Home",
+              item: siteConfig.url,
+            },
+            {
+              "@type": "ListItem",
+              position: 2,
+              name: "Locations",
+              item: `${siteConfig.url}/locations`,
+            },
+          ],
+        },
+      },
+      {
+        "@type": "ItemList",
+        "@id": `${siteConfig.url}/locations#itemlist`,
+        name: "Operating Real Estate Markets",
+        itemListElement: locations.map((loc, index) => ({
+          "@type": "ListItem",
+          position: index + 1,
+          name: loc.name,
+          url: `${siteConfig.url}/locations/${loc.slug}`,
+          description: loc.shortDescription,
+        })),
+      },
+    ],
+  };
 
   return (
-    <section className="py-8" aria-labelledby="locations-title">
-      <Container>
-        <Breadcrumbs items={breadcrumbItems} />
-        
-        <SectionHeader
-          title="Vetted Real-Estate Locations"
-          subtitle="Explore Locations"
-          description="Discover land and plot investment opportunities across Jaipur, Ajmer, Navi Mumbai, Panvel, Bhiwadi, and more."
-        />
+    <>
+      {/* Schema.org Structured Data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 my-8">
-          {locations.map((loc) => (
-            <Card key={loc.id} className="flex flex-col justify-between hover:shadow-md transition-shadow">
-              <CardHeader className="p-5">
-                <span className="text-xs text-primary-blue font-semibold uppercase tracking-wider block">
-                  {loc.state}
-                </span>
-                <CardTitle className="text-lg text-primary-dark mt-1">
-                  {loc.name}
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="p-5 pt-0">
-                <p className="text-xs text-text-muted mb-4 leading-relaxed">
-                  {loc.description}
-                </p>
-                <Link href={`/locations/${loc.slug}`}>
-                  <Button variant="outline" size="sm" className="w-full focus-visible:outline">
-                    View Plots in {loc.name}
-                  </Button>
-                </Link>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-      </Container>
-    </section>
+      {/* 1. Editorial Location Hero */}
+      <LocationsHero locations={locations} />
+
+      {/* 2. Interactive Market Navigator Map */}
+      <MarketMap locations={locations} />
+
+      {/* 3. Location Directory with Verified Filter State */}
+      <LocationDirectory locations={locations} />
+
+      {/* 4. Strategic Micro-Market Context Preview */}
+      <MicroMarketPreview locations={locations} />
+
+      {/* 5. Side-by-Side Market Comparison Tool */}
+      <LocationComparison locations={locations} />
+
+      {/* 6. Location Advisory Consultation CTA */}
+      <LocationAdvisoryCTA />
+    </>
   );
 }

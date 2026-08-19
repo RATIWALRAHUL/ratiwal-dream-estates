@@ -80,9 +80,9 @@ export default function MobileNavigation({ isOpen, onClose }: MobileNavigationPr
             <Image
               src="/images/brand/ratiwal-logo.svg"
               alt={`${siteConfig.name} Logo`}
-              width={140}
-              height={48}
-              className="h-8 w-auto object-contain"
+              width={160}
+              height={100}
+              className="h-10 w-auto object-contain"
             />
           </Link>
           <button

@@ -2,6 +2,7 @@ import { MetadataRoute } from "next";
 import { siteConfig } from "@/config/site";
 import { properties } from "@/data/properties";
 import { locations } from "@/data/locations";
+import { getAllPublishedCaseStudies } from "@/data/testimonials";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const staticRoutes = [
@@ -40,5 +41,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.6,
   }));
 
-  return [...staticUrls, ...propertyUrls, ...locationUrls];
+  const caseStudyUrls = getAllPublishedCaseStudies().map((cs) => ({
+    url: `${siteConfig.url}/testimonials/${cs.slug}`,
+    lastModified: new Date(),
+    changeFrequency: "monthly" as const,
+    priority: 0.6,
+  }));
+
+  return [...staticUrls, ...propertyUrls, ...locationUrls, ...caseStudyUrls];
 }
