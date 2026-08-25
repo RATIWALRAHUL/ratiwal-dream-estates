@@ -35,8 +35,8 @@ export function InvestmentHero() {
         <div className="max-w-4xl mx-auto text-center mb-12 sm:mb-16">
           <Reveal>
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[var(--advisor-ivory)] border border-[rgba(8,127,195,0.2)] shadow-xs mb-4">
-              <Sparkles size={15} className="text-[var(--ratwal-blue)]" />
-              <span className="text-[11.5px] sm:text-[12.5px] font-bold tracking-[0.16em] uppercase text-[var(--ratwal-blue)] font-body">
+              <Sparkles size={15} className="text-[var(--ratiwal-blue)]" />
+              <span className="text-[11.5px] sm:text-[12.5px] font-bold tracking-[0.16em] uppercase text-[var(--ratiwal-blue)] font-body">
                 STRATEGIC LAND ALLOCATION &amp; WEALTH PRESERVATION
               </span>
             </div>
@@ -48,7 +48,7 @@ export function InvestmentHero() {
               className="font-instrument text-[2.75rem] sm:text-[3.6rem] md:text-[4.4rem] lg:text-[4.9rem] text-[var(--midnight)] font-normal leading-[1.02] tracking-tight mb-5 sm:mb-6"
             >
               Transforming strategic land into{" "}
-              <span className="italic text-[var(--ratwal-blue)]">generational wealth.</span>
+              <span className="italic text-[var(--ratiwal-blue)]">generational wealth.</span>
             </h1>
           </Reveal>
 
@@ -82,7 +82,7 @@ export function InvestmentHero() {
                   key={idx}
                   className="p-4 rounded-2xl bg-white/80 backdrop-blur-md border border-[rgba(7,26,40,0.08)] shadow-xs transition-all duration-300 hover:border-[rgba(8,127,195,0.3)] hover:shadow-sm text-left flex flex-col justify-between"
                 >
-                  <div className="w-9 h-9 rounded-xl bg-[var(--cyan-soft)] text-[var(--ratwal-blue)] flex items-center justify-center mb-3">
+                  <div className="w-9 h-9 rounded-xl bg-[var(--cyan-soft)] text-[var(--ratiwal-blue)] flex items-center justify-center mb-3">
                     <h.icon size={18} strokeWidth={2} />
                   </div>
                   <div>

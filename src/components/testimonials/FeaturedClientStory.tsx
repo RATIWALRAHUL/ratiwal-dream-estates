@@ -54,7 +54,7 @@ export function FeaturedClientStory({ caseStudy }: FeaturedClientStoryProps) {
 
                 <div className="p-4 rounded-xl bg-white border border-[rgba(7,26,40,0.07)]">
                   <span className="text-xs font-bold text-[#0784C8] uppercase block mb-1">
-                    Ratwal Advisory Approach
+                    Ratiwal Advisory Approach
                   </span>
                   <p className="text-xs text-[#536574] leading-relaxed">
                     {caseStudy.advisoryApproach[0]}

@@ -97,13 +97,13 @@ export function PropertiesFilterSection({ properties }: PropertiesFilterSectionP
           
           {/* Search Field (8 Cols) */}
           <div className="md:col-span-8 relative">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-[var(--ratwal-blue)] w-4 h-4" />
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-[var(--ratiwal-blue)] w-4 h-4" />
             <input
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search by plot name, road, corridor, or keyword (e.g. Ajmer Road, Ring Road, Panvel)..."
-              className="w-full pl-11 pr-4 py-3 rounded-xl bg-[var(--surface)] border border-[rgba(7,26,40,0.08)] focus:border-[var(--ratwal-blue)] focus:bg-white text-xs sm:text-sm text-[var(--midnight)] outline-none transition-all"
+              className="w-full pl-11 pr-4 py-3 rounded-xl bg-[var(--surface)] border border-[rgba(7,26,40,0.08)] focus:border-[var(--ratiwal-blue)] focus:bg-white text-xs sm:text-sm text-[var(--midnight)] outline-none transition-all"
             />
             {searchQuery && (
               <button
@@ -124,7 +124,7 @@ export function PropertiesFilterSection({ properties }: PropertiesFilterSectionP
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value as "featured" | "newest" | "name")}
               aria-label="Sort properties"
-              className="w-full py-3 px-3.5 rounded-xl bg-[var(--surface)] border border-[rgba(7,26,40,0.08)] text-xs sm:text-sm font-semibold text-[var(--midnight)] outline-none cursor-pointer focus:border-[var(--ratwal-blue)]"
+              className="w-full py-3 px-3.5 rounded-xl bg-[var(--surface)] border border-[rgba(7,26,40,0.08)] text-xs sm:text-sm font-semibold text-[var(--midnight)] outline-none cursor-pointer focus:border-[var(--ratiwal-blue)]"
             >
               <option value="featured">Featured First</option>
               <option value="newest">Newly Listed</option>
@@ -140,7 +140,7 @@ export function PropertiesFilterSection({ properties }: PropertiesFilterSectionP
           {/* Location Filters */}
           <div className="flex flex-wrap items-center gap-1.5">
             <span className="text-xs font-bold text-[var(--midnight)] mr-1 flex items-center gap-1">
-              <MapPin size={13} className="text-[var(--ratwal-blue)]" />
+              <MapPin size={13} className="text-[var(--ratiwal-blue)]" />
               City:
             </span>
             {cities.map((city) => (
@@ -149,7 +149,7 @@ export function PropertiesFilterSection({ properties }: PropertiesFilterSectionP
                 onClick={() => setSelectedCity(city)}
                 className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
                   selectedCity === city
-                    ? "bg-[var(--ratwal-blue)] text-white shadow-xs"
+                    ? "bg-[var(--ratiwal-blue)] text-white shadow-xs"
                     : "bg-[var(--surface)] text-[var(--text-secondary)] hover:text-[var(--midnight)] hover:bg-[var(--mist-blue)]"
                 }`}
               >
@@ -161,7 +161,7 @@ export function PropertiesFilterSection({ properties }: PropertiesFilterSectionP
           {/* Type Filter */}
           <div className="flex flex-wrap items-center gap-1.5">
             <span className="text-xs font-bold text-[var(--midnight)] mr-1 flex items-center gap-1">
-              <Building2 size={13} className="text-[var(--ratwal-blue)]" />
+              <Building2 size={13} className="text-[var(--ratiwal-blue)]" />
               Type:
             </span>
             {propertyTypes.map((type) => (
@@ -200,7 +200,7 @@ export function PropertiesFilterSection({ properties }: PropertiesFilterSectionP
           Showing <strong className="text-[var(--midnight)]">{filteredProperties.length}</strong> verified {filteredProperties.length === 1 ? "land opportunity" : "land opportunities"}
         </div>
         {selectedCity !== "All" && (
-          <span className="text-xs font-bold px-2.5 py-1 rounded-md bg-[var(--cyan-soft)] text-[var(--ratwal-blue-deep)]">
+          <span className="text-xs font-bold px-2.5 py-1 rounded-md bg-[var(--cyan-soft)] text-[var(--ratiwal-blue-deep)]">
             Filtered by: {selectedCity}
           </span>
         )}

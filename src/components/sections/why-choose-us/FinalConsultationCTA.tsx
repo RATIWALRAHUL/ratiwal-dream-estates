@@ -16,7 +16,7 @@ export function FinalConsultationCTA() {
           <div className="relative rounded-3xl bg-[var(--midnight)] text-white p-8 sm:p-14 md:p-20 overflow-hidden shadow-2xl border border-[rgba(255,255,255,0.1)] text-center">
             
             {/* Ambient Background Glows */}
-            <div className="absolute -top-24 -left-24 w-96 h-96 rounded-full bg-[var(--ratwal-blue)]/20 blur-3xl pointer-events-none" />
+            <div className="absolute -top-24 -left-24 w-96 h-96 rounded-full bg-[var(--ratiwal-blue)]/20 blur-3xl pointer-events-none" />
             <div className="absolute -bottom-24 -right-24 w-96 h-96 rounded-full bg-[var(--cyan)]/15 blur-3xl pointer-events-none" />
 
             <div className="relative z-10 max-w-3xl mx-auto">
@@ -40,7 +40,7 @@ export function FinalConsultationCTA() {
               <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-6">
                 <Link
                   href={finalCta.primaryCta.href}
-                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-full bg-[var(--ratwal-blue)] hover:bg-[var(--ratwal-blue-deep)] text-white text-sm font-bold shadow-lg shadow-[rgba(8,127,195,0.4)] transition-all duration-300 group hover:scale-105"
+                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-full bg-[var(--ratiwal-blue)] hover:bg-[var(--ratiwal-blue-deep)] text-white text-sm font-bold shadow-lg shadow-[rgba(8,127,195,0.4)] transition-all duration-300 group hover:scale-105"
                 >
                   <span>{finalCta.primaryCta.label}</span>
                   <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />

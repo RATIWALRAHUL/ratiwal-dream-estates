@@ -61,7 +61,7 @@ export function ContactHero() {
           <Reveal>
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[var(--advisor-ivory)] border border-[rgba(8,127,195,0.2)] shadow-xs mb-4">
               <span className="w-2 h-2 rounded-full bg-[#20c978] animate-pulse" />
-              <span className="text-[11.5px] sm:text-[12.5px] font-bold tracking-[0.16em] uppercase text-[var(--ratwal-blue)] font-body">
+              <span className="text-[11.5px] sm:text-[12.5px] font-bold tracking-[0.16em] uppercase text-[var(--ratiwal-blue)] font-body">
                 PRIVATE CLIENT ADVISORY DESK
               </span>
             </div>
@@ -73,7 +73,7 @@ export function ContactHero() {
               className="font-instrument text-[2.75rem] sm:text-[3.6rem] md:text-[4.4rem] lg:text-[4.9rem] text-[var(--midnight)] font-normal leading-[1.02] tracking-tight mb-5"
             >
               Let’s discuss your land investment with{" "}
-              <span className="italic text-[var(--ratwal-blue)]">complete clarity.</span>
+              <span className="italic text-[var(--ratiwal-blue)]">complete clarity.</span>
             </h1>
           </Reveal>
 
@@ -103,7 +103,7 @@ export function ContactHero() {
                       className={`w-11 h-11 rounded-xl flex items-center justify-center transition-transform group-hover:scale-110 ${
                         card.isWhatsApp
                           ? "bg-[#25d366]/15 text-[#20ba59]"
-                          : "bg-[var(--cyan-soft)] text-[var(--ratwal-blue-deep)]"
+                          : "bg-[var(--cyan-soft)] text-[var(--ratiwal-blue-deep)]"
                       }`}
                     >
                       <card.icon size={22} strokeWidth={1.8} />
@@ -112,7 +112,7 @@ export function ContactHero() {
                       className={`text-[11px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full ${
                         card.isWhatsApp
                           ? "bg-[#25d366]/10 text-[#128c7e]"
-                          : "bg-[var(--mist-blue)] text-[var(--ratwal-blue-deep)]"
+                          : "bg-[var(--mist-blue)] text-[var(--ratiwal-blue-deep)]"
                       }`}
                     >
                       {card.badge}
@@ -141,7 +141,7 @@ export function ContactHero() {
                       card.isWhatsApp
                         ? "bg-[#25d366] text-white hover:bg-[#20ba59] shadow-sm"
                         : card.isPrimary
-                        ? "bg-[var(--ratwal-blue)] text-white hover:bg-[var(--ratwal-blue-deep)] shadow-sm"
+                        ? "bg-[var(--ratiwal-blue)] text-white hover:bg-[var(--ratiwal-blue-deep)] shadow-sm"
                         : "bg-[var(--surface)] text-[var(--midnight)] hover:bg-[var(--mist-blue)] border border-[rgba(7,26,40,0.08)]"
                     }`}
                   >

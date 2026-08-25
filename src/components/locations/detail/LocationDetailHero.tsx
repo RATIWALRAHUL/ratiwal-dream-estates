@@ -47,8 +47,8 @@ export function LocationDetailHero({ location }: LocationDetailHeroProps) {
             {/* Eyebrow Badge */}
             <div className="flex flex-wrap items-center gap-2.5 mb-4">
               <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[var(--advisor-ivory)] border border-[rgba(8,127,195,0.2)] shadow-xs">
-                <Compass size={13} className="text-[var(--ratwal-blue)]" />
-                <span className="text-[11px] font-bold tracking-[0.14em] uppercase text-[var(--ratwal-blue)] font-body">
+                <Compass size={13} className="text-[var(--ratiwal-blue)]" />
+                <span className="text-[11px] font-bold tracking-[0.14em] uppercase text-[var(--ratiwal-blue)] font-body">
                   REGIONAL MARKET GUIDE
                 </span>
               </div>
@@ -63,7 +63,7 @@ export function LocationDetailHero({ location }: LocationDetailHeroProps) {
               className="font-instrument text-[2.5rem] sm:text-[3.25rem] md:text-[3.75rem] text-[var(--midnight)] font-normal leading-[1.05] tracking-tight mb-4"
             >
               Explore property opportunities in{" "}
-              <span className="italic text-[var(--ratwal-blue)]">{location.name}.</span>
+              <span className="italic text-[var(--ratiwal-blue)]">{location.name}.</span>
             </h1>
 
             {/* Short Tagline & Editorial Description */}
@@ -74,14 +74,14 @@ export function LocationDetailHero({ location }: LocationDetailHeroProps) {
             {/* Badges Bar: Available listings & Property categories */}
             <div className="flex flex-wrap items-center gap-2.5 mb-8">
               <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white border border-[rgba(7,26,40,0.1)] text-xs text-[var(--midnight)] font-semibold shadow-xs">
-                <Building2 className="w-3.5 h-3.5 text-[var(--ratwal-blue)]" />
+                <Building2 className="w-3.5 h-3.5 text-[var(--ratiwal-blue)]" />
                 <span>{stats.propertyCount} Verified Listings</span>
               </div>
 
               {location.propertyTypes.map((type, i) => (
                 <span
                   key={i}
-                  className="px-3 py-1.5 rounded-lg bg-[var(--mist-blue)] border border-[rgba(8,127,195,0.15)] text-xs font-medium text-[var(--ratwal-blue)]"
+                  className="px-3 py-1.5 rounded-lg bg-[var(--mist-blue)] border border-[rgba(8,127,195,0.15)] text-xs font-medium text-[var(--ratiwal-blue)]"
                 >
                   {type}
                 </span>

@@ -41,8 +41,8 @@ export function LocationsHero({ locations }: LocationsHeroProps) {
         <div className="max-w-4xl mx-auto text-center mb-10 sm:mb-12">
           <Reveal>
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[var(--advisor-ivory)] border border-[rgba(8,127,195,0.2)] shadow-xs mb-4">
-              <Compass size={15} className="text-[var(--ratwal-blue)]" />
-              <span className="text-[11.5px] sm:text-[12.5px] font-bold tracking-[0.16em] uppercase text-[var(--ratwal-blue)] font-body">
+              <Compass size={15} className="text-[var(--ratiwal-blue)]" />
+              <span className="text-[11.5px] sm:text-[12.5px] font-bold tracking-[0.16em] uppercase text-[var(--ratiwal-blue)] font-body">
                 VERIFIED REGIONAL CORRIDORS &amp; MICRO-MARKETS
               </span>
             </div>
@@ -54,7 +54,7 @@ export function LocationsHero({ locations }: LocationsHeroProps) {
               className="font-instrument text-[2.75rem] sm:text-[3.6rem] md:text-[4.4rem] lg:text-[4.8rem] text-[var(--midnight)] font-normal leading-[1.02] tracking-tight mb-5"
             >
               Property opportunities{" "}
-              <span className="italic text-[var(--ratwal-blue)]">shaped by location.</span>
+              <span className="italic text-[var(--ratiwal-blue)]">shaped by location.</span>
             </h1>
           </Reveal>
 
@@ -72,7 +72,7 @@ export function LocationsHero({ locations }: LocationsHeroProps) {
                   key={idx}
                   className="p-3 rounded-xl bg-white border border-[rgba(7,26,40,0.08)] shadow-xs text-left flex items-center gap-2.5"
                 >
-                  <div className="w-8 h-8 rounded-lg bg-[var(--cyan-soft)] text-[var(--ratwal-blue)] flex items-center justify-center flex-shrink-0">
+                  <div className="w-8 h-8 rounded-lg bg-[var(--cyan-soft)] text-[var(--ratiwal-blue)] flex items-center justify-center flex-shrink-0">
                     <b.icon size={16} />
                   </div>
                   <div>

@@ -200,7 +200,7 @@ export const locations: Location[] = [
           "The Ajmer Road corridor (benefiting from Mahindra World City SEZ and direct NH-48 transit) and the Southern Ring Road corridor (providing 6-lane access between major highways) currently feature the strongest statutory planning, underground utilities, and institutional connectivity.",
       },
       {
-        question: "How does Ratwal Dream Estates verify Jaipur property listings?",
+        question: "How does Ratiwal Dream Estates verify Jaipur property listings?",
         answer:
           "Every listed plot undergoes a rigorous 4-step due diligence: 30-year revenue search, JDA/ADA sanction map verification, Khasra-to-layout superimposition, and on-ground Total Station boundary verification before recommendation.",
       },

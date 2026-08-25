@@ -1,70 +1,49 @@
-# Ratiwal Dream Estates - Next.js Web Foundation
+# Ratiwal Dream Estates — Official Platform Documentation
 
-A secure, accessible, high-performance, and SEO-friendly Next.js web application for **Ratiwal Dream Estates**, built on the core brand positioning:
 > **“Lifelong Property Consultancy, Built on Trust & Transparency.”**
 
----
-
-## Technology Stack
-
-- **Framework:** Next.js (latest App Router architecture)
-- **Language:** TypeScript (strict mode)
-- **Styling:** Tailwind CSS (v4 with `@theme` configurations)
-- **Forms:** React Hook Form + Zod validation
-- **Icons:** Lucide React
-- **Utilities:** `clsx` and `tailwind-merge` for class operations
+Welcome to the **Ratiwal Dream Estates** documentation portal. The project documentation is consolidated into two dedicated guides:
 
 ---
 
-## Prerequisites
+## 📚 Documentation Guides
 
-- **Node.js:** v18.17.0 or higher
-- **npm:** v9.x or higher
+### 🛠️ 1. [Developer Guide (DEVELOPER_GUIDE.md)](./DEVELOPER_GUIDE.md)
+*Complete technical reference for engineers, developers, and DevOps teams.*
+- **System Architecture:** Next.js 16 App Router, TypeScript 5, Tailwind CSS v4, MongoDB Atlas.
+- **Database Layer & Models:** Mongoose models (`Location`, `Property`, `PlotOption`), embedded subdocument schemas, integer paise currency handling, canonical square feet area conversion.
+- **Backend Utilities & Response Formatters:** Standardized API envelopes, Zod environment validation, structured logger, and error handling classes.
+- **Migration & Index CLI:** Idempotent catalog migration tool (`npm run migrate:catalog`) and index management tool (`npm run db:indexes`).
+- **Testing & Quality Assurance:** Automated test suites (`npm run test:foundation`, `npm run test:models`), static analysis, and build validation.
 
 ---
 
-## Installation & Commands
+### 💼 2. [Client & Stakeholder Guide (CLIENT_GUIDE.md)](./CLIENT_GUIDE.md)
+*Executive overview for business stakeholders, property consultants, and clients.*
+- **Brand Vision & Philosophy:** Rigorous due diligence, zero hidden costs, verified title search.
+- **Platform Features & Page Inventory:** 40 responsive pages covering property showcases, interactive plot options table, corridor growth hubs, and investment thesis.
+- **Buyer Protection Protocols:** 6-stage verification framework, RERA compliance audits, and physical land demarcation checks.
+- **Lead Capture & Customer Experience:** Direct WhatsApp advisory, multi-channel site-visit booking (physical + virtual tours), and contextual property inquiry forms.
+- **Future Roadmap:** Upcoming CMS administration portal, CRM webhook integration, and automated investor diligence packets.
 
-1. **Clone or Navigate to the Directory:**
-   ```bash
-   cd ratiwal-dream-estates
-   ```
+---
 
-2. **Install Dependencies:**
-   ```bash
-   # Use prefer-offline / offline if you are running in restricted network environments
-   npm install
-   ```
+## 🚀 Quick Start for Developers
 
-3. **Development Command:**
-   Runs the application locally at `http://localhost:3000`:
-   ```bash
-   npm run dev
-   ```
+```bash
+# Install dependencies
+npm install
 
-4. **Lint Checks:**
-   Validates code formatting and import guidelines:
-   ```bash
-   npm run lint
-   ```
+# Run local development server
+npm run dev
 
-5. **TypeScript Check:**
-   Runs static type checking:
-   ```bash
-   npx tsc --noEmit
-   ```
+# Run all test suites
+npm run test:foundation
+npm run test:models
 
-6. **Production Build Command:**
-   Compiles and builds the production bundle with static optimization:
-   ```bash
-   npm run build
-   ```
-
-7. **Start Server:**
-   Runs the compiled production server locally:
-   ```bash
-   npm run start
-   ```
+# Production build
+npm run build
+```
 
 ---
 

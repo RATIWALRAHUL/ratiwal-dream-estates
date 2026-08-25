@@ -15,12 +15,12 @@ export function LegalCallout({ data, className }: LegalCalloutProps) {
       case "warning":
         return <AlertTriangle className="w-4 h-4 text-amber-600 flex-shrink-0 mt-0.5" />;
       case "rera":
-        return <ShieldCheck className="w-4 h-4 text-[var(--ratwal-blue)] flex-shrink-0 mt-0.5" />;
+        return <ShieldCheck className="w-4 h-4 text-[var(--ratiwal-blue)] flex-shrink-0 mt-0.5" />;
       case "note":
         return <Info className="w-4 h-4 text-[var(--text-secondary)] flex-shrink-0 mt-0.5" />;
       case "info":
       default:
-        return <AlertCircle className="w-4 h-4 text-[var(--ratwal-blue)] flex-shrink-0 mt-0.5" />;
+        return <AlertCircle className="w-4 h-4 text-[var(--ratiwal-blue)] flex-shrink-0 mt-0.5" />;
     }
   };
 
@@ -61,7 +61,7 @@ export function LegalCallout({ data, className }: LegalCalloutProps) {
                 href={data.link.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 font-bold text-xs text-[var(--ratwal-blue)] hover:text-[var(--ratwal-blue-deep)] transition-colors underline decoration-dotted"
+                className="inline-flex items-center gap-1.5 font-bold text-xs text-[var(--ratiwal-blue)] hover:text-[var(--ratiwal-blue-deep)] transition-colors underline decoration-dotted"
               >
                 <span>{data.link.label}</span>
                 <ExternalLink className="w-3 h-3" />

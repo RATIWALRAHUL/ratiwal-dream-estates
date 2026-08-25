@@ -21,7 +21,7 @@ export function BuyerDeliverables() {
         {/* Header */}
         <div className="max-w-3xl mb-12 sm:mb-16">
           <Reveal>
-            <span className="text-xs font-bold uppercase tracking-[0.18em] text-[var(--ratwal-blue)] block mb-2">
+            <span className="text-xs font-bold uppercase tracking-[0.18em] text-[var(--ratiwal-blue)] block mb-2">
               CLIENT DELIVERABLES
             </span>
             <h2
@@ -43,10 +43,10 @@ export function BuyerDeliverables() {
               <div className="p-7 sm:p-8 rounded-2xl sm:rounded-3xl bg-white border border-[rgba(7,26,40,0.08)] shadow-xs hover:shadow-md transition-all duration-300 h-full flex flex-col justify-between group">
                 <div>
                   <div className="flex items-center justify-between gap-3 mb-4">
-                    <div className="w-10 h-10 rounded-xl bg-[var(--surface)] text-[var(--ratwal-blue)] flex items-center justify-center group-hover:bg-[var(--mist-blue)] transition-colors">
+                    <div className="w-10 h-10 rounded-xl bg-[var(--surface)] text-[var(--ratiwal-blue)] flex items-center justify-center group-hover:bg-[var(--mist-blue)] transition-colors">
                       <FileText size={18} />
                     </div>
-                    <span className="px-3 py-1 rounded-full bg-[var(--surface)] text-[var(--ratwal-blue-deep)] text-[11px] font-bold uppercase tracking-wider border border-[rgba(7,26,40,0.06)]">
+                    <span className="px-3 py-1 rounded-full bg-[var(--surface)] text-[var(--ratiwal-blue-deep)] text-[11px] font-bold uppercase tracking-wider border border-[rgba(7,26,40,0.06)]">
                       {del.tag}
                     </span>
                   </div>
@@ -65,7 +65,7 @@ export function BuyerDeliverables() {
                     </span>
                     {del.itemsIncluded.map((item, iIdx) => (
                       <div key={iIdx} className="flex items-center gap-2 text-xs text-[var(--midnight)] font-medium">
-                        <Check size={13} className="text-[var(--ratwal-blue)] flex-shrink-0" />
+                        <Check size={13} className="text-[var(--ratiwal-blue)] flex-shrink-0" />
                         <span>{item}</span>
                       </div>
                     ))}
@@ -101,7 +101,7 @@ export function BuyerDeliverables() {
 
               <Link
                 href="/contact"
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-full bg-[var(--ratwal-blue)] hover:bg-[var(--ratwal-blue-deep)] text-white text-xs sm:text-sm font-bold shadow-xs transition-colors"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-full bg-[var(--ratiwal-blue)] hover:bg-[var(--ratiwal-blue-deep)] text-white text-xs sm:text-sm font-bold shadow-xs transition-colors"
               >
                 <span>Submit Inquiry</span>
                 <ArrowRight size={14} />

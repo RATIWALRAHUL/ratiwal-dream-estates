@@ -52,7 +52,7 @@ export function InvestmentLifecycle() {
         {/* Header */}
         <div className="max-w-3xl mx-auto text-center mb-12 sm:mb-16">
           <Reveal>
-            <span className="text-[12px] font-bold tracking-[0.16em] uppercase text-[var(--ratwal-blue)] block mb-2">
+            <span className="text-[12px] font-bold tracking-[0.16em] uppercase text-[var(--ratiwal-blue)] block mb-2">
               DISCIPLINED PROCESS
             </span>
 
@@ -61,7 +61,7 @@ export function InvestmentLifecycle() {
               className="font-instrument text-[2.4rem] sm:text-[3.2rem] md:text-[3.8rem] text-[var(--midnight)] font-normal leading-[1.05] tracking-tight mb-4"
             >
               The 5-phase land investment{" "}
-              <span className="italic text-[var(--ratwal-blue)]">lifecycle.</span>
+              <span className="italic text-[var(--ratiwal-blue)]">lifecycle.</span>
             </h2>
 
             <p className="text-base sm:text-lg text-[var(--text-secondary)] leading-relaxed">
@@ -77,10 +77,10 @@ export function InvestmentLifecycle() {
               <div className="p-5 sm:p-6 rounded-2xl bg-white border border-[rgba(7,26,40,0.08)] shadow-xs hover:border-[rgba(8,127,195,0.3)] hover:shadow-md transition-all duration-300 h-full flex flex-col justify-between relative group">
                 <div>
                   <div className="flex items-center justify-between mb-4">
-                    <div className="w-10 h-10 rounded-xl bg-[var(--cyan-soft)] text-[var(--ratwal-blue-deep)] flex items-center justify-center font-bold text-xs">
+                    <div className="w-10 h-10 rounded-xl bg-[var(--cyan-soft)] text-[var(--ratiwal-blue-deep)] flex items-center justify-center font-bold text-xs">
                       {phase.num}
                     </div>
-                    <phase.icon size={18} className="text-[var(--text-secondary)] group-hover:text-[var(--ratwal-blue)] transition-colors" />
+                    <phase.icon size={18} className="text-[var(--text-secondary)] group-hover:text-[var(--ratiwal-blue)] transition-colors" />
                   </div>
 
                   <h3 className="font-instrument text-xl text-[var(--midnight)] font-normal mb-2 leading-snug">
@@ -92,7 +92,7 @@ export function InvestmentLifecycle() {
                   </p>
                 </div>
 
-                <div className="pt-3 mt-3 border-t border-[rgba(7,26,40,0.04)] text-[11px] font-bold text-[var(--ratwal-blue)]">
+                <div className="pt-3 mt-3 border-t border-[rgba(7,26,40,0.04)] text-[11px] font-bold text-[var(--ratiwal-blue)]">
                   Step 0{idx + 1}
                 </div>
               </div>

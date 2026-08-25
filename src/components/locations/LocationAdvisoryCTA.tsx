@@ -40,7 +40,7 @@ export function LocationAdvisoryCTA() {
 
               {/* Supporting Copy */}
               <p className="text-sm sm:text-base text-[#c5d8e4] leading-relaxed max-w-[600px] mb-8">
-                Speak with a dedicated Ratwal property advisor to compare sectoral land values, JDA/CIDCO statutory
+                Speak with a dedicated Ratiwal property advisor to compare sectoral land values, JDA/CIDCO statutory
                 approvals, revenue conversion status, and private off-market opportunities tailored to your requirements.
               </p>
 

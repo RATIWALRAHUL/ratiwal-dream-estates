@@ -9,9 +9,9 @@ export function TestimonialsFAQ() {
 
   const faqs = [
     {
-      question: "Are all testimonials and case studies from real Ratwal clients?",
+      question: "Are all testimonials and case studies from real Ratiwal clients?",
       answer:
-        "Yes, 100%. Every story published on this page represents a genuine advisory consultation, statutory document audit, or property acquisition assisted by Ratwal Dream Estates. We do not use placeholder reviews or AI-generated testimonials.",
+        "Yes, 100%. Every story published on this page represents a genuine advisory consultation, statutory document audit, or property acquisition assisted by Ratiwal Dream Estates. We do not use placeholder reviews or AI-generated testimonials.",
     },
     {
       question: "What does the 'Verified Client Story' badge mean?",
@@ -26,7 +26,7 @@ export function TestimonialsFAQ() {
     {
       question: "Are property appreciation and investment returns guaranteed?",
       answer:
-        "No. Real estate values, infrastructure timelines, and rental yields are subject to market conditions and statutory approvals. Ratwal Dream Estates provides objective research, masterplan alignment, and legal due diligence, but does not guarantee speculative financial returns.",
+        "No. Real estate values, infrastructure timelines, and rental yields are subject to market conditions and statutory approvals. Ratiwal Dream Estates provides objective research, masterplan alignment, and legal due diligence, but does not guarantee speculative financial returns.",
     },
     {
       question: "Can I speak directly with a previous client for a reference?",
@@ -34,7 +34,7 @@ export function TestimonialsFAQ() {
         "To protect client confidentiality, we do not share private contact information. However, upon specific request and with prior written authorization, we may connect prospective corporate or institutional clients with consenting past partners.",
     },
     {
-      question: "How does Ratwal protect my personal information?",
+      question: "How does Ratiwal protect my personal information?",
       answer:
         "We adhere to strict data privacy practices. Your phone number, email address, property preferences, and documents are stored securely and never sold or shared with unsolicited third-party brokers. For full details, review our Privacy Policy.",
     },

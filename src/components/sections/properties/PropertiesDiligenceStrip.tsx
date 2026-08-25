@@ -35,8 +35,8 @@ export function PropertiesDiligenceStrip() {
         <div className="max-w-3xl mx-auto text-center mb-10">
           <Reveal>
             <div className="flex items-center justify-center gap-2 mb-2">
-              <ShieldCheck size={16} className="text-[var(--ratwal-blue)]" />
-              <span className="text-[11.5px] font-bold tracking-[0.16em] uppercase text-[var(--ratwal-blue)]">
+              <ShieldCheck size={16} className="text-[var(--ratiwal-blue)]" />
+              <span className="text-[11.5px] font-bold tracking-[0.16em] uppercase text-[var(--ratiwal-blue)]">
                 FIDUCIARY ASSURANCE
               </span>
             </div>
@@ -46,7 +46,7 @@ export function PropertiesDiligenceStrip() {
               className="font-instrument text-2xl sm:text-3xl md:text-4xl text-[var(--midnight)] font-normal leading-tight"
             >
               Every property includes our verified{" "}
-              <span className="italic text-[var(--ratwal-blue)]">legal dossier.</span>
+              <span className="italic text-[var(--ratiwal-blue)]">legal dossier.</span>
             </h2>
           </Reveal>
         </div>
@@ -56,7 +56,7 @@ export function PropertiesDiligenceStrip() {
             <Reveal key={idx} delay={idx * 60}>
               <div className="p-5 rounded-2xl bg-white border border-[rgba(7,26,40,0.08)] shadow-xs h-full flex flex-col justify-between">
                 <div>
-                  <div className="w-10 h-10 rounded-xl bg-[var(--cyan-soft)] text-[var(--ratwal-blue-deep)] flex items-center justify-center mb-3">
+                  <div className="w-10 h-10 rounded-xl bg-[var(--cyan-soft)] text-[var(--ratiwal-blue-deep)] flex items-center justify-center mb-3">
                     <item.icon size={20} />
                   </div>
                   <h3 className="text-sm font-bold text-[var(--midnight)] mb-1.5 leading-snug">
@@ -67,7 +67,7 @@ export function PropertiesDiligenceStrip() {
                   </p>
                 </div>
 
-                <div className="pt-3 mt-3 border-t border-[rgba(7,26,40,0.04)] flex items-center gap-1 text-[11px] font-bold text-[var(--ratwal-blue)]">
+                <div className="pt-3 mt-3 border-t border-[rgba(7,26,40,0.04)] flex items-center gap-1 text-[11px] font-bold text-[var(--ratiwal-blue)]">
                   <CheckCircle2 size={13} />
                   <span>Pre-Verified by Ratiwal</span>
                 </div>

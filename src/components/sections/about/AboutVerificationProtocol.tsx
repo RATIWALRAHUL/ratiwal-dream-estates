@@ -100,8 +100,8 @@ export function AboutVerificationProtocol() {
         <div className="max-w-3xl mx-auto text-center mb-12 sm:mb-16">
           <Reveal>
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[var(--advisor-ivory)] border border-[rgba(8,127,195,0.2)] mb-3">
-              <ShieldCheck size={15} className="text-[var(--ratwal-blue)]" />
-              <span className="text-[11.5px] font-bold tracking-[0.16em] uppercase text-[var(--ratwal-blue)]">
+              <ShieldCheck size={15} className="text-[var(--ratiwal-blue)]" />
+              <span className="text-[11.5px] font-bold tracking-[0.16em] uppercase text-[var(--ratiwal-blue)]">
                 OUR 6-STAGE VERIFICATION PROTOCOL
               </span>
             </div>
@@ -111,7 +111,7 @@ export function AboutVerificationProtocol() {
               className="font-instrument text-[2.4rem] sm:text-[3.2rem] md:text-[3.8rem] text-[var(--midnight)] font-normal leading-[1.05] tracking-tight mb-4"
             >
               How we verify every parcel before{" "}
-              <span className="italic text-[var(--ratwal-blue)]">you invest.</span>
+              <span className="italic text-[var(--ratiwal-blue)]">you invest.</span>
             </h2>
 
             <p className="text-base sm:text-lg text-[var(--text-secondary)] leading-relaxed">
@@ -133,7 +133,7 @@ export function AboutVerificationProtocol() {
                   onClick={() => setActiveStep(idx)}
                   className={`w-full text-left p-4 rounded-xl transition-all duration-300 flex items-center justify-between border ${
                     isCurrent
-                      ? "bg-white border-[var(--ratwal-blue)] shadow-md translate-x-1"
+                      ? "bg-white border-[var(--ratiwal-blue)] shadow-md translate-x-1"
                       : "bg-white/60 hover:bg-white border-[rgba(7,26,40,0.06)] hover:border-[rgba(8,127,195,0.2)]"
                   }`}
                   aria-pressed={isCurrent}
@@ -142,8 +142,8 @@ export function AboutVerificationProtocol() {
                     <div
                       className={`w-9 h-9 rounded-lg flex items-center justify-center font-bold text-xs transition-colors ${
                         isCurrent
-                          ? "bg-[var(--ratwal-blue)] text-white"
-                          : "bg-[var(--cyan-soft)] text-[var(--ratwal-blue)]"
+                          ? "bg-[var(--ratiwal-blue)] text-white"
+                          : "bg-[var(--cyan-soft)] text-[var(--ratiwal-blue)]"
                       }`}
                     >
                       {step.num}
@@ -161,7 +161,7 @@ export function AboutVerificationProtocol() {
                     size={18}
                     className={`transition-transform duration-300 ${
                       isCurrent
-                        ? "text-[var(--ratwal-blue)] translate-x-1"
+                        ? "text-[var(--ratiwal-blue)] translate-x-1"
                         : "text-[var(--text-secondary)] opacity-40"
                     }`}
                   />
@@ -180,10 +180,10 @@ export function AboutVerificationProtocol() {
 
               <div>
                 <div className="flex items-center justify-between mb-4">
-                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-md bg-[var(--cyan-soft)] text-[var(--ratwal-blue-deep)] text-xs font-bold uppercase tracking-wider">
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-md bg-[var(--cyan-soft)] text-[var(--ratiwal-blue-deep)] text-xs font-bold uppercase tracking-wider">
                     Stage {steps[activeStep].num} &bull; {steps[activeStep].tag}
                   </span>
-                  <div className="w-10 h-10 rounded-xl bg-[var(--mist-blue)] text-[var(--ratwal-blue)] flex items-center justify-center">
+                  <div className="w-10 h-10 rounded-xl bg-[var(--mist-blue)] text-[var(--ratiwal-blue)] flex items-center justify-center">
                     {React.createElement(steps[activeStep].icon, { size: 20 })}
                   </div>
                 </div>
@@ -195,7 +195,7 @@ export function AboutVerificationProtocol() {
                 <div className="space-y-3.5 mb-6">
                   {steps[activeStep].details.map((detail, dIdx) => (
                     <div key={dIdx} className="flex items-start gap-3">
-                      <div className="w-5 h-5 rounded-full bg-[rgba(8,127,195,0.12)] text-[var(--ratwal-blue)] flex items-center justify-center flex-shrink-0 mt-0.5">
+                      <div className="w-5 h-5 rounded-full bg-[rgba(8,127,195,0.12)] text-[var(--ratiwal-blue)] flex items-center justify-center flex-shrink-0 mt-0.5">
                         <CheckCircle size={13} strokeWidth={2.5} />
                       </div>
                       <p className="text-sm sm:text-base text-[var(--text-secondary)] leading-relaxed">
@@ -208,7 +208,7 @@ export function AboutVerificationProtocol() {
 
               {/* Assurance Guarantee Footer */}
               <div className="pt-4 border-t border-[rgba(7,26,40,0.08)] flex items-center justify-between text-xs text-[var(--midnight)] font-medium">
-                <span className="flex items-center gap-1.5 text-[var(--ratwal-blue-deep)] font-semibold">
+                <span className="flex items-center gap-1.5 text-[var(--ratiwal-blue-deep)] font-semibold">
                   <ShieldCheck size={15} />
                   Ratiwal Due Diligence Standard
                 </span>

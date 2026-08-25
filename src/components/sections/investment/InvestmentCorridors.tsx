@@ -92,8 +92,8 @@ export function InvestmentCorridors() {
         <div className="max-w-3xl mx-auto text-center mb-12 sm:mb-16">
           <Reveal>
             <div className="flex items-center justify-center gap-2 mb-3">
-              <Compass size={16} className="text-[var(--ratwal-blue)]" />
-              <span className="text-[12px] font-bold tracking-[0.16em] uppercase text-[var(--ratwal-blue)]">
+              <Compass size={16} className="text-[var(--ratiwal-blue)]" />
+              <span className="text-[12px] font-bold tracking-[0.16em] uppercase text-[var(--ratiwal-blue)]">
                 MICRO-MARKET DEEP DIVE
               </span>
             </div>
@@ -103,7 +103,7 @@ export function InvestmentCorridors() {
               className="font-instrument text-[2.4rem] sm:text-[3.2rem] md:text-[3.8rem] text-[var(--midnight)] font-normal leading-[1.05] tracking-tight mb-4"
             >
               Strategic growth vectors analyzed by{" "}
-              <span className="italic text-[var(--ratwal-blue)]">our advisors.</span>
+              <span className="italic text-[var(--ratiwal-blue)]">our advisors.</span>
             </h2>
 
             <p className="text-base sm:text-lg text-[var(--text-secondary)] leading-relaxed">
@@ -120,7 +120,7 @@ export function InvestmentCorridors() {
               onClick={() => setActiveTab(idx)}
               className={`px-4 py-2.5 rounded-full text-xs sm:text-sm font-bold transition-all ${
                 activeTab === idx
-                  ? "bg-[var(--ratwal-blue)] text-white shadow-sm scale-105"
+                  ? "bg-[var(--ratiwal-blue)] text-white shadow-sm scale-105"
                   : "bg-white text-[var(--text-secondary)] hover:text-[var(--midnight)] hover:bg-[var(--mist-blue)] border border-[rgba(7,26,40,0.08)]"
               }`}
             >
@@ -136,11 +136,11 @@ export function InvestmentCorridors() {
             {/* Left 7 Cols */}
             <div className="lg:col-span-7 space-y-5">
               <div className="flex flex-wrap items-center gap-2.5">
-                <span className="px-3 py-1 rounded-full bg-[var(--cyan-soft)] text-[var(--ratwal-blue-deep)] text-xs font-bold uppercase tracking-wider">
+                <span className="px-3 py-1 rounded-full bg-[var(--cyan-soft)] text-[var(--ratiwal-blue-deep)] text-xs font-bold uppercase tracking-wider">
                   {corridorData[activeTab].badge}
                 </span>
                 <span className="px-3 py-1 rounded-full bg-[var(--surface)] text-[var(--text-secondary)] text-xs font-semibold border border-[rgba(7,26,40,0.08)] flex items-center gap-1">
-                  <MapPin size={13} className="text-[var(--ratwal-blue)]" />
+                  <MapPin size={13} className="text-[var(--ratiwal-blue)]" />
                   {corridorData[activeTab].hub}
                 </span>
               </div>
@@ -160,7 +160,7 @@ export function InvestmentCorridors() {
                 </span>
                 {corridorData[activeTab].catalysts.map((cat, cIdx) => (
                   <div key={cIdx} className="flex items-start gap-2.5 text-xs sm:text-sm text-[var(--text-secondary)]">
-                    <CheckCircle2 size={16} className="text-[var(--ratwal-blue)] flex-shrink-0 mt-0.5" />
+                    <CheckCircle2 size={16} className="text-[var(--ratiwal-blue)] flex-shrink-0 mt-0.5" />
                     <span>{cat}</span>
                   </div>
                 ))}
@@ -196,7 +196,7 @@ export function InvestmentCorridors() {
               <div className="pt-3">
                 <Link
                   href="/contact"
-                  className="inline-flex items-center justify-center gap-2 w-full py-3 px-4 rounded-xl bg-[var(--ratwal-blue)] hover:bg-[var(--ratwal-blue-deep)] text-white font-bold text-xs shadow-md transition-all"
+                  className="inline-flex items-center justify-center gap-2 w-full py-3 px-4 rounded-xl bg-[var(--ratiwal-blue)] hover:bg-[var(--ratiwal-blue-deep)] text-white font-bold text-xs shadow-md transition-all"
                 >
                   <span>Request Due Diligence Dossier</span>
                   <ArrowRight size={14} />

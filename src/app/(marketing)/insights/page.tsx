@@ -15,7 +15,7 @@ import { siteConfig } from "@/config/site";
 export const metadata = getMetadata({
   title: "Property Insights, Buying Guides & Market Research",
   description:
-    "Explore property-buying guides, documentation checklists, RERA education, location insights, and market resources from Ratwal Dream Estates.",
+    "Explore property-buying guides, documentation checklists, RERA education, location insights, and market resources from Ratiwal Dream Estates.",
   slug: "/insights",
   image: `${siteConfig.url}/images/locations/jaipur.jpg`,
 });
@@ -32,9 +32,9 @@ export default function InsightsPage() {
         "@type": "CollectionPage",
         "@id": `${siteConfig.url}/insights#webpage`,
         url: `${siteConfig.url}/insights`,
-        name: "Property Insights, Buying Guides & Market Research | Ratwal Dream Estates",
+        name: "Property Insights, Buying Guides & Market Research | Ratiwal Dream Estates",
         description:
-          "Explore property-buying guides, documentation checklists, RERA education, location insights, and market resources from Ratwal Dream Estates.",
+          "Explore property-buying guides, documentation checklists, RERA education, location insights, and market resources from Ratiwal Dream Estates.",
         breadcrumb: {
           "@type": "BreadcrumbList",
           itemListElement: [
@@ -56,7 +56,7 @@ export default function InsightsPage() {
       {
         "@type": "Blog",
         "@id": `${siteConfig.url}/insights#blog`,
-        name: "Ratwal Property Intelligence Journal",
+        name: "Ratiwal Property Intelligence Journal",
         description: "Authoritative research on plotted land, statutory revenue documentation, and masterplans in Rajasthan and Maharashtra.",
         blogPost: approvedArticles.map((art) => ({
           "@type": "BlogPosting",

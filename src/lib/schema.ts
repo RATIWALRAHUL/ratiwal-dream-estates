@@ -20,7 +20,7 @@ export function buildRealEstateAgentSchema() {
   return {
     "@type": "RealEstateAgent",
     "@id": `${siteConfig.url}/#organization`,
-    name: "Ratwal Dream Estates",
+    name: "Ratiwal Dream Estates",
     alternateName: "Ratiwal Dream Estates",
     url: siteConfig.url,
     logo: {
@@ -80,7 +80,7 @@ export function buildWebSiteSchema() {
     "@type": "WebSite",
     "@id": `${siteConfig.url}/#website`,
     url: siteConfig.url,
-    name: "Ratwal Dream Estates",
+    name: "Ratiwal Dream Estates",
     publisher: {
       "@id": `${siteConfig.url}/#organization`,
     },

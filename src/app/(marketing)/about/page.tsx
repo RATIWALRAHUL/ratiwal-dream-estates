@@ -15,7 +15,7 @@ import { siteConfig } from "@/config/site";
 export const metadata = getMetadata({
   title: "About Us — Lifelong Property Consultancy Built on Trust",
   description:
-    "Learn about Ratwal Dream Estates, our founding principles, our 6-stage land verification protocol, and our fiduciary commitment to transparent property advisory in Rajasthan and Maharashtra.",
+    "Learn about Ratiwal Dream Estates, our founding principles, our 6-stage land verification protocol, and our fiduciary commitment to transparent property advisory in Rajasthan and Maharashtra.",
   slug: "/about",
 });
 
@@ -24,9 +24,9 @@ export default function AboutPage() {
     "@context": "https://schema.org",
     "@graph": [
       buildWebPageSchema({
-        title: "About Us — Lifelong Property Consultancy Built on Trust | Ratwal Dream Estates",
+        title: "About Us — Lifelong Property Consultancy Built on Trust | Ratiwal Dream Estates",
         description:
-          "Learn about Ratwal Dream Estates, our founding principles, our 6-stage land verification protocol, and our fiduciary commitment to transparent property advisory.",
+          "Learn about Ratiwal Dream Estates, our founding principles, our 6-stage land verification protocol, and our fiduciary commitment to transparent property advisory.",
         url: `${siteConfig.url}/about`,
         type: "AboutPage",
       }),

@@ -9,7 +9,7 @@ export const insights: InsightArticle[] = [
     category: "Property Buying Guides",
     tags: ["Plot Buying", "Due Diligence", "JDA", "RERA", "Land Title"],
     author: {
-      name: "Ratwal Editorial Research Team",
+      name: "Ratiwal Editorial Research Team",
       role: "Land Advisory & Due Diligence Desk",
       bio: "Senior research analysts and statutory planning specialists focusing on plotted land corridors across Rajasthan and Maharashtra.",
     },
@@ -104,7 +104,7 @@ export const insights: InsightArticle[] = [
     category: "Legal & Documentation",
     tags: ["Land Titles", "Jamabandi", "7/12 Extract", "Revenue Records", "Mutation"],
     author: {
-      name: "Ratwal Editorial Research Team",
+      name: "Ratiwal Editorial Research Team",
       role: "Legal & Revenue Analysis Desk",
       bio: "Statutory land research team documenting property revenue frameworks and documentation standards.",
     },
@@ -195,7 +195,7 @@ export const insights: InsightArticle[] = [
     category: "RERA Education",
     tags: ["RERA", "Buyer Protection", "Escrow", "Plotted Townships", "MahaRERA"],
     author: {
-      name: "Ratwal Editorial Research Team",
+      name: "Ratiwal Editorial Research Team",
       role: "Compliance & Regulatory Desk",
       bio: "Specialists in real-estate statutory frameworks and developer compliance audits.",
     },
@@ -276,7 +276,7 @@ export const insights: InsightArticle[] = [
     category: "Site Visit & Evaluation",
     tags: ["Site Visit", "Inspection", "Survey", "Boundary Demarcation", "Infrastructure"],
     author: {
-      name: "Ratwal Editorial Research Team",
+      name: "Ratiwal Editorial Research Team",
       role: "Technical Survey & Field Inspection Desk",
       bio: "Civil engineers and site inspectors documenting physical verification frameworks.",
     },
@@ -339,7 +339,7 @@ export const insights: InsightArticle[] = [
     category: "Market Intelligence",
     tags: ["Infrastructure", "Masterplans", "Corridors", "Expressways", "NMIA"],
     author: {
-      name: "Ratwal Editorial Research Team",
+      name: "Ratiwal Editorial Research Team",
       role: "Geospatial & Corridor Analysis Desk",
       bio: "Urban planning analysts auditing state infrastructure masterplans and transportation corridors.",
     },
@@ -409,7 +409,7 @@ export const insights: InsightArticle[] = [
     category: "Property Buying Guides",
     tags: ["Land Pricing", "PLC", "Stamp Duty", "Registration", "Additional Charges"],
     author: {
-      name: "Ratwal Editorial Research Team",
+      name: "Ratiwal Editorial Research Team",
       role: "Financial & Valuation Desk",
       bio: "Real estate financial analysts breaking down land valuation models and statutory tax liabilities.",
     },

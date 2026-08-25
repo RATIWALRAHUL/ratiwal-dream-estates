@@ -109,12 +109,12 @@ export default function MobileNavigation({ isOpen, onClose }: MobileNavigationPr
                 className={cn(
                   "text-sm font-semibold py-3 px-4 rounded-xl transition-all flex items-center justify-between",
                   isActive
-                    ? "text-[var(--ratwal-blue)] bg-[var(--mist-blue)] font-bold shadow-xs"
-                    : "text-[var(--midnight)] hover:bg-[var(--surface)] hover:text-[var(--ratwal-blue)]"
+                    ? "text-[var(--ratiwal-blue)] bg-[var(--mist-blue)] font-bold shadow-xs"
+                    : "text-[var(--midnight)] hover:bg-[var(--surface)] hover:text-[var(--ratiwal-blue)]"
                 )}
               >
                 <span>{link.label}</span>
-                {isActive && <span className="w-1.5 h-1.5 rounded-full bg-[var(--ratwal-blue)]" />}
+                {isActive && <span className="w-1.5 h-1.5 rounded-full bg-[var(--ratiwal-blue)]" />}
               </Link>
             );
           })}
@@ -136,14 +136,14 @@ export default function MobileNavigation({ isOpen, onClose }: MobileNavigationPr
           <Link
             href="/contact"
             onClick={onClose}
-            className="flex items-center justify-center space-x-2 py-3 px-4 bg-[var(--ratwal-blue)] text-white rounded-full font-bold hover:bg-[var(--ratwal-blue-deep)] transition-colors text-xs sm:text-sm shadow-md shadow-[rgba(8,127,195,0.25)]"
+            className="flex items-center justify-center space-x-2 py-3 px-4 bg-[var(--ratiwal-blue)] text-white rounded-full font-bold hover:bg-[var(--ratiwal-blue-deep)] transition-colors text-xs sm:text-sm shadow-md shadow-[rgba(8,127,195,0.25)]"
           >
             <span>Talk to an Expert</span>
             <ArrowRight className="h-4 w-4" />
           </Link>
 
           <div className="flex items-center justify-center gap-2 pt-2 text-[11px] text-[var(--text-secondary)] font-medium">
-            <ShieldCheck size={13} className="text-[var(--ratwal-blue)]" />
+            <ShieldCheck size={13} className="text-[var(--ratiwal-blue)]" />
             <span>100% Verified Land Advisory</span>
           </div>
         </div>

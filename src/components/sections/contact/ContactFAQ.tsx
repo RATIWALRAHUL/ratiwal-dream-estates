@@ -38,8 +38,8 @@ export function ContactFAQ() {
         <div className="max-w-3xl mx-auto text-center mb-12 sm:mb-16">
           <Reveal>
             <div className="flex items-center justify-center gap-2 mb-3">
-              <HelpCircle size={16} className="text-[var(--ratwal-blue)]" />
-              <span className="text-[12px] font-bold tracking-[0.16em] uppercase text-[var(--ratwal-blue)]">
+              <HelpCircle size={16} className="text-[var(--ratiwal-blue)]" />
+              <span className="text-[12px] font-bold tracking-[0.16em] uppercase text-[var(--ratiwal-blue)]">
                 FREQUENTLY ASKED QUESTIONS
               </span>
             </div>
@@ -49,7 +49,7 @@ export function ContactFAQ() {
               className="font-instrument text-[2.4rem] sm:text-[3.2rem] md:text-[3.8rem] text-[var(--midnight)] font-normal leading-[1.05] tracking-tight mb-4"
             >
               Everything you need to know about{" "}
-              <span className="italic text-[var(--ratwal-blue)]">consulting with us.</span>
+              <span className="italic text-[var(--ratiwal-blue)]">consulting with us.</span>
             </h2>
 
             <p className="text-base sm:text-lg text-[var(--text-secondary)] leading-relaxed">
@@ -67,13 +67,13 @@ export function ContactFAQ() {
                 <div className="rounded-2xl bg-white border border-[rgba(7,26,40,0.08)] shadow-xs overflow-hidden transition-all duration-300">
                   <button
                     onClick={() => setOpenIndex(isOpen ? null : idx)}
-                    className="w-full p-5 sm:p-6 text-left flex items-center justify-between gap-4 font-semibold text-sm sm:text-base text-[var(--midnight)] hover:text-[var(--ratwal-blue)] transition-colors"
+                    className="w-full p-5 sm:p-6 text-left flex items-center justify-between gap-4 font-semibold text-sm sm:text-base text-[var(--midnight)] hover:text-[var(--ratiwal-blue)] transition-colors"
                     aria-expanded={isOpen}
                   >
                     <span>{faq.q}</span>
                     <ChevronDown
                       size={18}
-                      className={`text-[var(--ratwal-blue)] flex-shrink-0 transition-transform duration-300 ${
+                      className={`text-[var(--ratiwal-blue)] flex-shrink-0 transition-transform duration-300 ${
                         isOpen ? "rotate-180" : ""
                       }`}
                     />

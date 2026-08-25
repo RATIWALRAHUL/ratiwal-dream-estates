@@ -4,7 +4,7 @@ export const testimonials: Testimonial[] = [
   {
     id: "test-jaipur-sunil",
     quote:
-      "Ratwal Dream Estates helped us filter through dozens of confusing developer claims in Jaipur. Their team physically inspected the 90A revenue conversion papers and JDA sectoral layout before we paid any token amount. That level of transparency is rare in real estate.",
+      "Ratiwal Dream Estates helped us filter through dozens of confusing developer claims in Jaipur. Their team physically inspected the 90A revenue conversion papers and JDA sectoral layout before we paid any token amount. That level of transparency is rare in real estate.",
     clientDisplayName: "Sunil & Rashmi K.",
     clientType: "First-Time Residential Plot Buyer",
     city: "Jaipur",
@@ -30,7 +30,7 @@ export const testimonials: Testimonial[] = [
   {
     id: "test-mumbai-nri",
     quote:
-      "As an NRI living in Dubai, coordinating land due diligence in the Panvel-NAINA corridor felt daunting. Ratwal provided certified 30-year 7/12 revenue search reports, digital drone plot surveys, and complete liaison through registration without requiring multiple trips.",
+      "As an NRI living in Dubai, coordinating land due diligence in the Panvel-NAINA corridor felt daunting. Ratiwal provided certified 30-year 7/12 revenue search reports, digital drone plot surveys, and complete liaison through registration without requiring multiple trips.",
     clientDisplayName: "Verified NRI Investor",
     clientType: "Overseas Property Buyer (UAE)",
     city: "Navi Mumbai / Panvel",
@@ -56,7 +56,7 @@ export const testimonials: Testimonial[] = [
   {
     id: "test-jaipur-commercial",
     quote:
-      "We needed a high-visibility commercial plot along the Jaipur Ring Road for our logistics venture. Ratwal evaluated 7 prospective highway parcels, verified 200ft access rights with JDA, and ensured zero title litigation. Exceptional institutional advisory.",
+      "We needed a high-visibility commercial plot along the Jaipur Ring Road for our logistics venture. Ratiwal evaluated 7 prospective highway parcels, verified 200ft access rights with JDA, and ensured zero title litigation. Exceptional institutional advisory.",
     clientDisplayName: "Commercial Logistics Buyer",
     clientType: "Enterprise Land Banking",
     city: "Jaipur",
@@ -82,7 +82,7 @@ export const testimonials: Testimonial[] = [
   {
     id: "test-ajmer-retreat",
     quote:
-      "Finding a scenic plot overlooking the Aravalli hills on the Pushkar Bypass was a dream. Ratwal verified that the layout was strictly outside eco-sensitive forest boundaries and had genuine ADA approval. The entire transaction was honest and dignified.",
+      "Finding a scenic plot overlooking the Aravalli hills on the Pushkar Bypass was a dream. Ratiwal verified that the layout was strictly outside eco-sensitive forest boundaries and had genuine ADA approval. The entire transaction was honest and dignified.",
     clientDisplayName: "Rajendra & Meenakshi V.",
     clientType: "Retirement Villa Buyer",
     city: "Ajmer",
@@ -108,7 +108,7 @@ export const testimonials: Testimonial[] = [
   {
     id: "test-bhiwadi-industrial",
     quote:
-      "For manufacturing and logistics in the NCR-Bhiwadi corridor, power grid sanction and container road access make or break a facility. Ratwal’s advisory team provided complete RIICO zoning clarity before we finalized our commitment.",
+      "For manufacturing and logistics in the NCR-Bhiwadi corridor, power grid sanction and container road access make or break a facility. Ratiwal’s advisory team provided complete RIICO zoning clarity before we finalized our commitment.",
     clientDisplayName: "Industrial Facility Investor",
     clientType: "Corporate Land Buyer",
     city: "Bhiwadi",
@@ -164,7 +164,7 @@ export const caseStudies: CaseStudy[] = [
       "The family successfully acquired a 200 sq. yd corner plot in Royal Palms Township with an immediate JDA registry and mutation (Dakhil Kharij) completed in their name.",
     timeframe: "45 days from initial advisory consultation to registered title deed.",
     clientQuote:
-      "Ratwal Dream Estates made sure we didn’t fall into the trap of unapproved agricultural societies. Every single document was checked before we spent a rupee.",
+      "Ratiwal Dream Estates made sure we didn’t fall into the trap of unapproved agricultural societies. Every single document was checked before we spent a rupee.",
     relatedPropertySlug: "royal-palms-township-ajmer-road-jaipur",
     relatedLocationSlug: "jaipur",
     heroImage: "/images/locations/jaipur.jpg",
@@ -240,7 +240,7 @@ export const caseStudies: CaseStudy[] = [
       "Secured a prime 2,500 sq. yd commercial parcel with direct expressway frontage and immediate construction clearance.",
     timeframe: "60 days structured advisory.",
     clientQuote:
-      "Ratwal's understanding of JDA commercial zoning and highway access rights saved us months of bureaucratic uncertainty.",
+      "Ratiwal's understanding of JDA commercial zoning and highway access rights saved us months of bureaucratic uncertainty.",
     relatedPropertySlug: "ring-road-logistics-commercial-hub-jaipur",
     relatedLocationSlug: "jaipur",
     heroImage: "/images/locations/bhiwadi.jpg",

@@ -44,7 +44,7 @@ export function PropertyQuickFacts({ property }: PropertyQuickFactsProps) {
         month: "short",
         year: "numeric",
       }),
-      subtext: "Ratwal Advisory Verified",
+      subtext: "Ratiwal Advisory Verified",
     },
   ];
 

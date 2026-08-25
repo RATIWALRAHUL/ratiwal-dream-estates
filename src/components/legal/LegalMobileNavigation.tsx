@@ -38,7 +38,7 @@ export function LegalMobileNavigation({ sections }: LegalMobileNavigationProps) 
           className="w-full min-h-[48px] px-4 py-3 flex items-center justify-between gap-3 text-left focus-visible:outline"
         >
           <div className="flex items-center gap-2.5 overflow-hidden">
-            <ListFilter size={16} className="text-[var(--ratwal-blue)] flex-shrink-0" />
+            <ListFilter size={16} className="text-[var(--ratiwal-blue)] flex-shrink-0" />
             <div className="overflow-hidden">
               <span className="text-[10px] uppercase font-bold tracking-wider text-[var(--text-secondary)] block">
                 Table of Contents
@@ -50,13 +50,13 @@ export function LegalMobileNavigation({ sections }: LegalMobileNavigationProps) 
           </div>
 
           <div className="flex items-center gap-1.5 flex-shrink-0">
-            <span className="text-[11px] font-bold text-[var(--ratwal-blue)] hidden sm:inline">
+            <span className="text-[11px] font-bold text-[var(--ratiwal-blue)] hidden sm:inline">
               {isOpen ? "Close" : "Jump to"}
             </span>
             <ChevronDown
               size={18}
               className={cn(
-                "text-[var(--ratwal-blue)] transition-transform duration-200",
+                "text-[var(--ratiwal-blue)] transition-transform duration-200",
                 isOpen && "rotate-180"
               )}
             />
@@ -80,7 +80,7 @@ export function LegalMobileNavigation({ sections }: LegalMobileNavigationProps) 
                   className={cn(
                     "min-h-[44px] flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-medium transition-colors",
                     isActive
-                      ? "bg-[var(--mist-blue)] text-[var(--ratwal-blue-deep)] font-bold shadow-2xs"
+                      ? "bg-[var(--mist-blue)] text-[var(--ratiwal-blue-deep)] font-bold shadow-2xs"
                       : "text-[var(--midnight)] hover:bg-white"
                   )}
                 >
@@ -88,7 +88,7 @@ export function LegalMobileNavigation({ sections }: LegalMobileNavigationProps) 
                     className={cn(
                       "font-mono text-[10px] px-1.5 py-0.5 rounded flex-shrink-0",
                       isActive
-                        ? "bg-[var(--ratwal-blue)] text-white font-bold"
+                        ? "bg-[var(--ratiwal-blue)] text-white font-bold"
                         : "bg-white text-[var(--text-secondary)] border border-[rgba(7,26,40,0.08)]"
                     )}
                   >

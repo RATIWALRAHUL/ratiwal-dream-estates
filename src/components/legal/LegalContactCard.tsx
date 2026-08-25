@@ -9,8 +9,8 @@ export function LegalContactCard() {
   return (
     <div className="mt-12 p-6 sm:p-8 rounded-2xl bg-white border border-[rgba(7,26,40,0.1)] shadow-sm">
       <div className="flex items-center gap-2 mb-2">
-        <ShieldCheck size={18} className="text-[var(--ratwal-blue)]" />
-        <span className="text-xs font-bold uppercase tracking-widest text-[var(--ratwal-blue)]">
+        <ShieldCheck size={18} className="text-[var(--ratiwal-blue)]" />
+        <span className="text-xs font-bold uppercase tracking-widest text-[var(--ratiwal-blue)]">
           Compliance &amp; Advisory Desk
         </span>
       </div>
@@ -27,16 +27,16 @@ export function LegalContactCard() {
         {/* Phone */}
         <a
           href={`tel:${siteConfig.contact.phone}`}
-          className="p-3.5 rounded-xl bg-[var(--surface)] border border-[rgba(7,26,40,0.06)] hover:border-[var(--ratwal-blue)]/40 transition-colors flex items-start gap-3 group"
+          className="p-3.5 rounded-xl bg-[var(--surface)] border border-[rgba(7,26,40,0.06)] hover:border-[var(--ratiwal-blue)]/40 transition-colors flex items-start gap-3 group"
         >
-          <div className="w-8 h-8 rounded-lg bg-white text-[var(--ratwal-blue)] flex items-center justify-center flex-shrink-0 shadow-xs">
+          <div className="w-8 h-8 rounded-lg bg-white text-[var(--ratiwal-blue)] flex items-center justify-center flex-shrink-0 shadow-xs">
             <Phone size={15} />
           </div>
           <div>
             <span className="text-[11px] font-bold text-[var(--text-secondary)] uppercase tracking-wider block">
               Official Helpline
             </span>
-            <span className="font-bold text-[var(--midnight)] group-hover:text-[var(--ratwal-blue)] transition-colors">
+            <span className="font-bold text-[var(--midnight)] group-hover:text-[var(--ratiwal-blue)] transition-colors">
               {siteConfig.contact.phone}
             </span>
           </div>
@@ -45,16 +45,16 @@ export function LegalContactCard() {
         {/* Email */}
         <a
           href={`mailto:${siteConfig.contact.email}`}
-          className="p-3.5 rounded-xl bg-[var(--surface)] border border-[rgba(7,26,40,0.06)] hover:border-[var(--ratwal-blue)]/40 transition-colors flex items-start gap-3 group"
+          className="p-3.5 rounded-xl bg-[var(--surface)] border border-[rgba(7,26,40,0.06)] hover:border-[var(--ratiwal-blue)]/40 transition-colors flex items-start gap-3 group"
         >
-          <div className="w-8 h-8 rounded-lg bg-white text-[var(--ratwal-blue)] flex items-center justify-center flex-shrink-0 shadow-xs">
+          <div className="w-8 h-8 rounded-lg bg-white text-[var(--ratiwal-blue)] flex items-center justify-center flex-shrink-0 shadow-xs">
             <Mail size={15} />
           </div>
           <div className="overflow-hidden">
             <span className="text-[11px] font-bold text-[var(--text-secondary)] uppercase tracking-wider block">
               Compliance Email
             </span>
-            <span className="font-bold text-[var(--midnight)] group-hover:text-[var(--ratwal-blue)] transition-colors truncate block">
+            <span className="font-bold text-[var(--midnight)] group-hover:text-[var(--ratiwal-blue)] transition-colors truncate block">
               {siteConfig.contact.email}
             </span>
           </div>
@@ -62,7 +62,7 @@ export function LegalContactCard() {
 
         {/* Location & Hours */}
         <div className="p-3.5 rounded-xl bg-[var(--surface)] border border-[rgba(7,26,40,0.06)] flex items-start gap-3">
-          <div className="w-8 h-8 rounded-lg bg-white text-[var(--ratwal-blue)] flex items-center justify-center flex-shrink-0 shadow-xs">
+          <div className="w-8 h-8 rounded-lg bg-white text-[var(--ratiwal-blue)] flex items-center justify-center flex-shrink-0 shadow-xs">
             <MapPin size={15} />
           </div>
           <div>

@@ -70,7 +70,7 @@ export function AboutMilestones() {
             <Reveal key={idx} delay={idx * 75}>
               <div className="p-6 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md hover:border-white/20 transition-all duration-300 flex flex-col justify-between h-full">
                 <div>
-                  <div className="w-10 h-10 rounded-xl bg-[var(--ratwal-blue)]/30 text-[var(--cyan)] flex items-center justify-center mb-4">
+                  <div className="w-10 h-10 rounded-xl bg-[var(--ratiwal-blue)]/30 text-[var(--cyan)] flex items-center justify-center mb-4">
                     <item.icon size={20} />
                   </div>
 

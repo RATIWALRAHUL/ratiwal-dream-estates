@@ -61,7 +61,7 @@ export function VerificationMethod() {
             </p>
             <div className="p-4 rounded-xl bg-[#F5F1E9] border border-[rgba(7,26,40,0.08)] text-xs text-[#2c3e50] leading-relaxed">
               <strong className="text-[#031C2B] block mb-1">Our Verification Guarantee:</strong>
-              “Verified means Ratwal Dream Estates has confirmed the review is connected to a genuine client interaction, statutory masterplan consultation, or land acquisition record.”
+              “Verified means Ratiwal Dream Estates has confirmed the review is connected to a genuine client interaction, statutory masterplan consultation, or land acquisition record.”
             </div>
           </div>
 

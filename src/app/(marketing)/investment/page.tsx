@@ -15,7 +15,7 @@ import { siteConfig } from "@/config/site";
 export const metadata = getMetadata({
   title: "Investment Strategy — Capital Allocation & Growth Corridors",
   description:
-    "Discover Ratwal Dream Estates' institutional land investment thesis. Model land ROI, explore high-velocity growth corridors in Jaipur & Navi Mumbai, and access 100% verified titles.",
+    "Discover Ratiwal Dream Estates' institutional land investment thesis. Model land ROI, explore high-velocity growth corridors in Jaipur & Navi Mumbai, and access 100% verified titles.",
   slug: "/investment",
 });
 
@@ -24,9 +24,9 @@ export default function InvestmentPage() {
     "@context": "https://schema.org",
     "@graph": [
       buildWebPageSchema({
-        title: "Investment Strategy — Capital Allocation & Growth Corridors | Ratwal Dream Estates",
+        title: "Investment Strategy — Capital Allocation & Growth Corridors | Ratiwal Dream Estates",
         description:
-          "Discover Ratwal Dream Estates' institutional land investment thesis. Model land ROI, explore high-velocity growth corridors in Jaipur & Navi Mumbai, and access 100% verified titles.",
+          "Discover Ratiwal Dream Estates' institutional land investment thesis. Model land ROI, explore high-velocity growth corridors in Jaipur & Navi Mumbai, and access 100% verified titles.",
         url: `${siteConfig.url}/investment`,
       }),
       buildBreadcrumbSchema([

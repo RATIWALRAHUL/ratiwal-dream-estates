@@ -42,8 +42,8 @@ export function LocalExpertisePreview() {
         <div className="max-w-3xl mb-12 sm:mb-16">
           <Reveal>
             <div className="flex items-center gap-2 mb-2">
-              <MapPin size={16} className="text-[var(--ratwal-blue)]" />
-              <span className="text-xs font-bold uppercase tracking-[0.18em] text-[var(--ratwal-blue)]">
+              <MapPin size={16} className="text-[var(--ratiwal-blue)]" />
+              <span className="text-xs font-bold uppercase tracking-[0.18em] text-[var(--ratiwal-blue)]">
                 LOCAL MARKET INTELLIGENCE
               </span>
             </div>
@@ -69,13 +69,13 @@ export function LocalExpertisePreview() {
 
             return (
               <Reveal key={corridor.slug} delay={idx * 150}>
-                <div className="p-7 sm:p-8 rounded-2xl sm:rounded-3xl bg-[var(--surface)] border border-[rgba(7,26,40,0.08)] h-full flex flex-col justify-between shadow-xs hover:border-[var(--ratwal-blue)]/40 hover:shadow-sm transition-all duration-300 group">
+                <div className="p-7 sm:p-8 rounded-2xl sm:rounded-3xl bg-[var(--surface)] border border-[rgba(7,26,40,0.08)] h-full flex flex-col justify-between shadow-xs hover:border-[var(--ratiwal-blue)]/40 hover:shadow-sm transition-all duration-300 group">
                   <div>
                     <div className="flex items-center justify-between gap-2 mb-4">
-                      <span className="px-3 py-1 rounded-full bg-white text-[var(--ratwal-blue-deep)] text-[11px] font-bold uppercase tracking-wider border border-[rgba(7,26,40,0.06)]">
+                      <span className="px-3 py-1 rounded-full bg-white text-[var(--ratiwal-blue-deep)] text-[11px] font-bold uppercase tracking-wider border border-[rgba(7,26,40,0.06)]">
                         {corridor.city.split(",")[0]}
                       </span>
-                      <span className="text-xs font-semibold text-[var(--ratwal-blue)]">
+                      <span className="text-xs font-semibold text-[var(--ratiwal-blue)]">
                         {count > 0 ? `${count} Verified Listing${count > 1 ? "s" : ""}` : "Active Advisory Hub"}
                       </span>
                     </div>
@@ -94,7 +94,7 @@ export function LocalExpertisePreview() {
                       </span>
                       {corridor.categories.map((cat, cIdx) => (
                         <div key={cIdx} className="flex items-center gap-2 text-xs text-[var(--midnight)] font-medium">
-                          <Navigation size={12} className="text-[var(--ratwal-blue)] flex-shrink-0" />
+                          <Navigation size={12} className="text-[var(--ratiwal-blue)] flex-shrink-0" />
                           <span>{cat}</span>
                         </div>
                       ))}
@@ -104,7 +104,7 @@ export function LocalExpertisePreview() {
                   <div className="pt-6 mt-6 border-t border-[rgba(7,26,40,0.06)]">
                     <Link
                       href={`/locations/${corridor.slug}`}
-                      className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-bold text-[var(--ratwal-blue)] hover:text-[var(--ratwal-blue-deep)] transition-colors group-hover:translate-x-0.5"
+                      className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-bold text-[var(--ratiwal-blue)] hover:text-[var(--ratiwal-blue-deep)] transition-colors group-hover:translate-x-0.5"
                     >
                       <span>Explore {corridor.city.split(",")[0]} corridors</span>
                       <ArrowRight size={14} />

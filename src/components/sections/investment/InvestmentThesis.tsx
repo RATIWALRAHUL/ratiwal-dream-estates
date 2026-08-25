@@ -44,8 +44,8 @@ export function InvestmentThesis() {
         <div className="max-w-3xl mx-auto text-center mb-12 sm:mb-16">
           <Reveal>
             <div className="flex items-center justify-center gap-2 mb-3">
-              <span className="w-1.5 h-1.5 rounded-full bg-[var(--ratwal-blue)]" />
-              <span className="text-[12px] font-bold tracking-[0.16em] uppercase text-[var(--ratwal-blue)]">
+              <span className="w-1.5 h-1.5 rounded-full bg-[var(--ratiwal-blue)]" />
+              <span className="text-[12px] font-bold tracking-[0.16em] uppercase text-[var(--ratiwal-blue)]">
                 OUR INVESTMENT THESIS
               </span>
             </div>
@@ -55,7 +55,7 @@ export function InvestmentThesis() {
               className="font-instrument text-[2.4rem] sm:text-[3.2rem] md:text-[3.8rem] text-[var(--midnight)] font-normal leading-[1.05] tracking-tight mb-4"
             >
               Why verified land consistently outperforms{" "}
-              <span className="italic text-[var(--ratwal-blue)]">built assets.</span>
+              <span className="italic text-[var(--ratiwal-blue)]">built assets.</span>
             </h2>
 
             <p className="text-base sm:text-lg text-[var(--text-secondary)] leading-relaxed">
@@ -91,7 +91,7 @@ export function InvestmentThesis() {
             <Reveal key={idx} delay={idx * 60}>
               <div className="p-6 rounded-2xl bg-white border border-[rgba(7,26,40,0.08)] shadow-xs hover:border-[rgba(8,127,195,0.3)] hover:shadow-md transition-all duration-300 h-full flex flex-col justify-between">
                 <div>
-                  <div className="w-10 h-10 rounded-xl bg-[var(--cyan-soft)] text-[var(--ratwal-blue-deep)] flex items-center justify-center mb-4">
+                  <div className="w-10 h-10 rounded-xl bg-[var(--cyan-soft)] text-[var(--ratiwal-blue-deep)] flex items-center justify-center mb-4">
                     <item.icon size={20} strokeWidth={2} />
                   </div>
                   <h3 className="font-instrument text-2xl text-[var(--midnight)] font-normal leading-snug mb-2">
@@ -129,8 +129,8 @@ export function InvestmentThesis() {
                   <div className="md:col-span-3 font-bold text-sm text-[var(--midnight)]">
                     {row.metric}
                   </div>
-                  <div className="md:col-span-5 p-3 rounded-xl bg-[var(--mist-blue)] text-xs sm:text-sm text-[var(--ratwal-blue-deep)] font-medium">
-                    <span className="font-bold block text-[11px] uppercase tracking-wider text-[var(--ratwal-blue)] mb-0.5">
+                  <div className="md:col-span-5 p-3 rounded-xl bg-[var(--mist-blue)] text-xs sm:text-sm text-[var(--ratiwal-blue-deep)] font-medium">
+                    <span className="font-bold block text-[11px] uppercase tracking-wider text-[var(--ratiwal-blue)] mb-0.5">
                       ✓ Plotted Land Asset
                     </span>
                     {row.land}

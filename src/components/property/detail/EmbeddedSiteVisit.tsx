@@ -1,67 +1,174 @@
 "use client";
-
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { siteVisitSchema, SiteVisitSchema } from "@/lib/validations/site-visit";
-import { Calendar, CheckCircle2, Clock, User, Phone, Users, ShieldCheck, Video, MapPin } from "lucide-react";
+import {
+  Calendar,
+  CheckCircle2,
+  Clock,
+  ShieldCheck,
+  Video,
+  MapPin,
+  Loader2,
+  Users,
+  Building,
+} from "lucide-react";
 import { Property } from "@/types/property";
 
 interface EmbeddedSiteVisitProps {
   property: Property;
 }
 
+interface AvailableSlot {
+  startAt: string;
+  endAt: string;
+  displayTime: string;
+  durationMinutes: number;
+  available: boolean;
+}
+
+interface FormData {
+  fullName: string;
+  phone: string;
+  email: string;
+  visitorCount: number;
+  message: string;
+  consentGranted: boolean;
+  _honeypot?: string;
+}
+
 export function EmbeddedSiteVisit({ property }: EmbeddedSiteVisitProps) {
+  const [meetingMode, setMeetingMode] = useState<"IN_PERSON" | "VIRTUAL_TOUR">("IN_PERSON");
+  const [selectedDate, setSelectedDate] = useState<string>("");
+  const [selectedSlot, setSelectedSlot] = useState<AvailableSlot | null>(null);
+
+  const [availableSlots, setAvailableSlots] = useState<AvailableSlot[]>([]);
+  const [isLoadingSlots, setIsLoadingSlots] = useState(false);
+  const [slotsError, setSlotsError] = useState<string | null>(null);
+
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
-  const [submitSuccess, setSubmitSuccess] = useState(false);
-  const [visitType, setVisitType] = useState<"physical" | "virtual">("physical");
+  const [confirmedRef, setConfirmedRef] = useState<string | null>(null);
+
+  const formStartedAt = useState(() => new Date().toISOString())[0];
 
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm<SiteVisitSchema>({
-    resolver: zodResolver(siteVisitSchema),
+  } = useForm<FormData>({
     defaultValues: {
-      propertyId: property.id,
-      propertyName: property.name,
-      numberOfVisitors: 1,
-      preferredDate: "",
-      preferredTime: "11:00 AM",
+      fullName: "",
+      phone: "",
+      email: "",
+      visitorCount: 1,
       message: "",
-      honeypot: "",
+      consentGranted: true,
+      _honeypot: "",
     },
   });
 
-  const onSubmit = async (values: SiteVisitSchema) => {
+  // Calculate default date (tomorrow)
+  useEffect(() => {
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    const dateStr = tomorrow.toISOString().split("T")[0];
+    setSelectedDate(dateStr);
+  }, []);
+
+  // Fetch slots whenever selectedDate or propertyId or meetingMode changes
+  useEffect(() => {
+    if (!selectedDate || !property.id) return;
+
+    let isMounted = true;
+    setIsLoadingSlots(true);
+    setSlotsError(null);
+    setSelectedSlot(null);
+
+    const endDate = new Date(selectedDate);
+    endDate.setDate(endDate.getDate() + 2); // 3-day query window
+
+    const params = new URLSearchParams({
+      propertyId: property.id,
+      startDate: selectedDate,
+      endDate: endDate.toISOString().split("T")[0],
+      meetingMode,
+    });
+
+    fetch(`/api/site-visits/availability?${params.toString()}`)
+      .then((res) => res.json())
+      .then((data) => {
+        if (!isMounted) return;
+        if (data.success && Array.isArray(data.data?.slots)) {
+          // Filter slots matching the selectedDate in IST
+          const matching = data.data.slots.filter((s: AvailableSlot) => {
+            const slotDate = new Date(s.startAt).toLocaleDateString("en-CA", { timeZone: "Asia/Kolkata" });
+            return slotDate === selectedDate;
+          });
+          setAvailableSlots(matching);
+          if (matching.length > 0) {
+            setSelectedSlot(matching[0]);
+          }
+        } else {
+          setAvailableSlots([]);
+        }
+      })
+      .catch(() => {
+        if (isMounted) setSlotsError("Unable to load live availability. You can still submit your preferred time.");
+      })
+      .finally(() => {
+        if (isMounted) setIsLoadingSlots(false);
+      });
+
+    return () => {
+      isMounted = false;
+    };
+  }, [selectedDate, property.id, meetingMode]);
+
+  const onSubmit = async (values: FormData) => {
     setIsSubmitting(true);
     setSubmitError(null);
+
     try {
+      const preferredStartAt = selectedSlot
+        ? selectedSlot.startAt
+        : new Date(`${selectedDate}T11:00:00+05:30`).toISOString();
+
+      const preferredEndAt = selectedSlot ? selectedSlot.endAt : undefined;
+
       const payload = {
-        ...values,
-        message: `[${visitType === "physical" ? "On-Ground Site Visit" : "Virtual Consultation"}] ${values.message || ""}`,
+        fullName: values.fullName,
+        phone: values.phone,
+        email: values.email || undefined,
+        propertyId: property.id,
+        preferredStartAt,
+        preferredEndAt,
+        meetingMode,
+        visitorCount: Number(values.visitorCount) || 1,
+        message: values.message ? `[${meetingMode === "IN_PERSON" ? "On-Ground Inspection" : "Virtual Consultation"}] ${values.message}` : undefined,
+        consentGranted: true,
+        _honeypot: values._honeypot,
+        _formStartedAt: formStartedAt,
       };
 
-      const response = await fetch("/api/site-visits", {
+      const response = await fetch("/api/site-visits/requests", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       });
 
       const data = await response.json();
-      if (!response.ok) {
-        throw new Error(data.error || "Form submission failed");
+      if (!response.ok || !data.success) {
+        throw new Error(data.error || "Booking request failed. Please check inputs.");
       }
 
-      setSubmitSuccess(true);
+      setConfirmedRef(data.referenceNumber || "RDE-SV-CONFIRMED");
       reset();
-    } catch (err: unknown) {
+    } catch (err) {
       setSubmitError(
         err instanceof Error
           ? err.message
-          : "An error occurred while booking. Please try again or reach out on WhatsApp."
+          : "An error occurred while booking. Please try again."
       );
     } finally {
       setIsSubmitting(false);
@@ -71,7 +178,7 @@ export function EmbeddedSiteVisit({ property }: EmbeddedSiteVisitProps) {
   return (
     <section id="book-site-visit" aria-labelledby="site-visit-heading" className="mb-12">
       <div className="p-7 sm:p-10 rounded-3xl bg-gradient-to-br from-[#031C2B] via-[#072435] to-[#082B3B] text-white border border-[rgba(255,255,255,0.12)] shadow-[0_16px_40px_rgba(3,28,43,0.3)] relative overflow-hidden">
-        {/* Subtle grid */}
+        {/* Subtle background grid */}
         <div
           className="absolute inset-0 opacity-[0.05] pointer-events-none bg-[radial-gradient(#52BDE9_1px,transparent_1px)] [background-size:24px_24px]"
           aria-hidden="true"
@@ -82,7 +189,7 @@ export function EmbeddedSiteVisit({ property }: EmbeddedSiteVisitProps) {
           <div className="text-center mb-8">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[rgba(82,189,233,0.14)] border border-[rgba(82,189,233,0.3)] text-[#52BDE9] text-xs font-bold uppercase tracking-wider mb-3">
               <Calendar className="w-3.5 h-3.5" aria-hidden="true" />
-              <span>Direct Booking</span>
+              <span>Direct Advisor Booking</span>
             </div>
             <h2
               id="site-visit-heading"
@@ -91,17 +198,17 @@ export function EmbeddedSiteVisit({ property }: EmbeddedSiteVisitProps) {
               Schedule a site visit or virtual consultation.
             </h2>
             <p className="text-xs sm:text-sm text-[#c5d8e4] max-w-lg mx-auto">
-              Inspect on-ground boundary demarcation, sector roads, and title deeds with our local land advisors.
+              Inspect on-ground boundary demarcation, sector roads, and JDA/RERA revenue dossiers with our land advisors.
             </p>
           </div>
 
-          {/* Visit Type Toggle */}
+          {/* Mode Toggle */}
           <div className="flex rounded-2xl bg-[rgba(255,255,255,0.08)] p-1.5 border border-[rgba(255,255,255,0.12)] mb-6 max-w-md mx-auto">
             <button
               type="button"
-              onClick={() => setVisitType("physical")}
+              onClick={() => setMeetingMode("IN_PERSON")}
               className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl text-xs font-bold transition-all ${
-                visitType === "physical"
+                meetingMode === "IN_PERSON"
                   ? "bg-[#0784C8] text-white shadow-sm"
                   : "text-[#c5d8e4] hover:text-white"
               }`}
@@ -112,9 +219,9 @@ export function EmbeddedSiteVisit({ property }: EmbeddedSiteVisitProps) {
 
             <button
               type="button"
-              onClick={() => setVisitType("virtual")}
+              onClick={() => setMeetingMode("VIRTUAL_TOUR")}
               className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl text-xs font-bold transition-all ${
-                visitType === "virtual"
+                meetingMode === "VIRTUAL_TOUR"
                   ? "bg-[#0784C8] text-white shadow-sm"
                   : "text-[#c5d8e4] hover:text-white"
               }`}
@@ -125,23 +232,31 @@ export function EmbeddedSiteVisit({ property }: EmbeddedSiteVisitProps) {
           </div>
 
           {/* Success State */}
-          {submitSuccess ? (
-            <div className="p-8 rounded-2xl bg-[rgba(36,209,127,0.12)] border border-[rgba(36,209,127,0.3)] text-center text-white">
-              <div className="w-12 h-12 rounded-full bg-[#24D17F] text-[#031C2B] flex items-center justify-center mx-auto mb-4">
+          {confirmedRef ? (
+            <div className="p-8 rounded-2xl bg-[rgba(36,209,127,0.12)] border border-[rgba(36,209,127,0.3)] text-center text-white space-y-4">
+              <div className="w-12 h-12 rounded-full bg-[#24D17F] text-[#031C2B] flex items-center justify-center mx-auto">
                 <CheckCircle2 className="w-6 h-6" />
               </div>
-              <h3 className="font-heading text-xl font-bold text-white mb-2">
-                Booking Request Confirmed
-              </h3>
-              <p className="text-xs sm:text-sm text-[#c5d8e4] mb-6">
-                Our property advisor will contact you within 4 business hours to confirm your {visitType === "physical" ? "on-site inspection" : "virtual consultation"} itinerary for {property.name}.
+              <div>
+                <span className="text-[10px] font-mono font-bold tracking-widest text-[#24D17F] uppercase">
+                  BOOKING REQUEST RECORDED
+                </span>
+                <h3 className="font-heading text-xl font-bold text-white mt-1">
+                  Reference #{confirmedRef}
+                </h3>
+              </div>
+              <p className="text-xs sm:text-sm text-[#c5d8e4] max-w-md mx-auto">
+                Our property advisor will verify on-ground logistics and contact you shortly to confirm your itinerary for {property.name}.
+              </p>
+              <p className="text-[11px] text-[#7a93a5] italic">
+                Preferred times are subject to advisor and property availability.
               </p>
               <button
                 type="button"
-                onClick={() => setSubmitSuccess(false)}
+                onClick={() => setConfirmedRef(null)}
                 className="px-5 py-2.5 rounded-full bg-[#031C2B] hover:bg-[#0784C8] text-white text-xs font-semibold uppercase tracking-wider transition-colors border border-[rgba(255,255,255,0.2)]"
               >
-                Schedule Another Visit
+                Book Another Tour
               </button>
             </div>
           ) : (
@@ -154,10 +269,65 @@ export function EmbeddedSiteVisit({ property }: EmbeddedSiteVisitProps) {
               )}
 
               {/* Honeypot */}
-              <input type="text" className="hidden" tabIndex={-1} autoComplete="off" {...register("honeypot")} />
+              <input type="text" className="hidden" tabIndex={-1} autoComplete="off" {...register("_honeypot")} />
 
+              {/* Step 1: Select Date & Slot */}
+              <div className="p-4 rounded-2xl bg-[rgba(255,255,255,0.05)] border border-[rgba(255,255,255,0.1)] space-y-3">
+                <div className="flex items-center justify-between">
+                  <label className="text-xs font-bold text-[#52BDE9] uppercase tracking-wider">
+                    1. Choose Preferred Date & Slot
+                  </label>
+                  <span className="text-[10px] text-[#a0b6c6] font-mono">Asia/Kolkata (IST)</span>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                  <div className="sm:col-span-1">
+                    <input
+                      type="date"
+                      value={selectedDate}
+                      min={new Date().toISOString().split("T")[0]}
+                      onChange={(e) => setSelectedDate(e.target.value)}
+                      className="w-full px-3 py-2 rounded-xl bg-[rgba(255,255,255,0.08)] border border-[rgba(255,255,255,0.15)] text-white text-xs focus:outline-none focus:ring-2 focus:ring-[#52BDE9]"
+                    />
+                  </div>
+
+                  <div className="sm:col-span-2">
+                    {isLoadingSlots ? (
+                      <div className="flex items-center gap-2 py-2 text-xs text-[#a0b6c6]">
+                        <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                        <span>Checking advisor schedule…</span>
+                      </div>
+                    ) : availableSlots.length === 0 ? (
+                      <div className="py-2 text-xs text-[#a0b6c6] italic">
+                        {slotsError || "No fixed open slots found. An advisor will coordinate your preferred time."}
+                      </div>
+                    ) : (
+                      <div className="grid grid-cols-2 gap-1.5">
+                        {availableSlots.slice(0, 4).map((slot) => {
+                          const isSelected = selectedSlot?.startAt === slot.startAt;
+                          return (
+                            <button
+                              key={slot.startAt}
+                              type="button"
+                              onClick={() => setSelectedSlot(slot)}
+                              className={`px-2.5 py-1.5 rounded-lg text-[11px] font-mono font-medium transition-all text-left truncate ${
+                                isSelected
+                                  ? "bg-[#52BDE9] text-[#031C2B] font-bold shadow-xs"
+                                  : "bg-[rgba(255,255,255,0.08)] text-white hover:bg-[rgba(255,255,255,0.15)]"
+                              }`}
+                            >
+                              {slot.displayTime.replace(" (IST)", "")}
+                            </button>
+                          );
+                        })}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+
+              {/* Step 2: Contact Information */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {/* Full Name */}
                 <div>
                   <label className="block text-xs font-bold text-[#a0b6c6] uppercase tracking-wider mb-1.5">
                     Your Name *
@@ -166,58 +336,38 @@ export function EmbeddedSiteVisit({ property }: EmbeddedSiteVisitProps) {
                     type="text"
                     placeholder="e.g. Vikram Sharma"
                     className="w-full px-4 py-2.5 rounded-xl bg-[rgba(255,255,255,0.08)] border border-[rgba(255,255,255,0.15)] text-white text-sm focus:outline-none focus:ring-2 focus:ring-[#52BDE9]"
-                    {...register("name")}
+                    {...register("fullName", { required: "Name is required" })}
                   />
-                  {errors.name && <p className="text-xs text-red-400 mt-1">{errors.name.message}</p>}
+                  {errors.fullName && <p className="text-xs text-red-400 mt-1">{errors.fullName.message}</p>}
                 </div>
 
-                {/* Phone */}
                 <div>
                   <label className="block text-xs font-bold text-[#a0b6c6] uppercase tracking-wider mb-1.5">
-                    Phone Number (WhatsApp) *
+                    Phone (WhatsApp) *
                   </label>
                   <input
                     type="tel"
                     placeholder="+91 98765 43210"
                     className="w-full px-4 py-2.5 rounded-xl bg-[rgba(255,255,255,0.08)] border border-[rgba(255,255,255,0.15)] text-white text-sm focus:outline-none focus:ring-2 focus:ring-[#52BDE9]"
-                    {...register("phone")}
+                    {...register("phone", { required: "Phone is required" })}
                   />
                   {errors.phone && <p className="text-xs text-red-400 mt-1">{errors.phone.message}</p>}
                 </div>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                {/* Preferred Date */}
-                <div>
+                <div className="sm:col-span-2">
                   <label className="block text-xs font-bold text-[#a0b6c6] uppercase tracking-wider mb-1.5">
-                    Preferred Date *
+                    Email Address (Optional)
                   </label>
                   <input
-                    type="date"
+                    type="email"
+                    placeholder="name@domain.com"
                     className="w-full px-4 py-2.5 rounded-xl bg-[rgba(255,255,255,0.08)] border border-[rgba(255,255,255,0.15)] text-white text-sm focus:outline-none focus:ring-2 focus:ring-[#52BDE9]"
-                    {...register("preferredDate")}
+                    {...register("email")}
                   />
-                  {errors.preferredDate && <p className="text-xs text-red-400 mt-1">{errors.preferredDate.message}</p>}
                 </div>
 
-                {/* Preferred Time */}
-                <div>
-                  <label className="block text-xs font-bold text-[#a0b6c6] uppercase tracking-wider mb-1.5">
-                    Preferred Time *
-                  </label>
-                  <select
-                    className="w-full px-4 py-2.5 rounded-xl bg-[rgba(255,255,255,0.08)] border border-[rgba(255,255,255,0.15)] text-white text-sm focus:outline-none focus:ring-2 focus:ring-[#52BDE9]"
-                    {...register("preferredTime")}
-                  >
-                    <option value="10:00 AM" className="bg-[#031C2B] text-white">10:00 AM - Morning</option>
-                    <option value="12:00 PM" className="bg-[#031C2B] text-white">12:00 PM - Noon</option>
-                    <option value="03:00 PM" className="bg-[#031C2B] text-white">03:00 PM - Afternoon</option>
-                    <option value="05:00 PM" className="bg-[#031C2B] text-white">05:00 PM - Evening</option>
-                  </select>
-                  {errors.preferredTime && <p className="text-xs text-red-400 mt-1">{errors.preferredTime.message}</p>}
-                </div>
-
-                {/* Number of Visitors */}
                 <div>
                   <label className="block text-xs font-bold text-[#a0b6c6] uppercase tracking-wider mb-1.5">
                     Visitors
@@ -228,36 +378,46 @@ export function EmbeddedSiteVisit({ property }: EmbeddedSiteVisitProps) {
                     max={10}
                     defaultValue={1}
                     className="w-full px-4 py-2.5 rounded-xl bg-[rgba(255,255,255,0.08)] border border-[rgba(255,255,255,0.15)] text-white text-sm font-mono focus:outline-none focus:ring-2 focus:ring-[#52BDE9]"
-                    {...register("numberOfVisitors", { valueAsNumber: true })}
+                    {...register("visitorCount", { valueAsNumber: true })}
                   />
                 </div>
               </div>
 
-              {/* Specific Requirements Note */}
               <div>
                 <label className="block text-xs font-bold text-[#a0b6c6] uppercase tracking-wider mb-1.5">
-                  Specific Requirements or Plot Dimensions (Optional)
+                  Specific Requirements or Plot Interests (Optional)
                 </label>
                 <textarea
                   rows={2}
-                  placeholder="e.g. Interested in 200 Sq. Yd corner plots, need revenue search verification report."
+                  placeholder="e.g. Interested in East-facing villa plots, requesting revenue search review."
                   className="w-full px-4 py-2 rounded-xl bg-[rgba(255,255,255,0.08)] border border-[rgba(255,255,255,0.15)] text-white text-sm focus:outline-none focus:ring-2 focus:ring-[#52BDE9]"
                   {...register("message")}
                 />
               </div>
 
-              {/* Submit Button */}
+              {/* Submit */}
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full py-3.5 rounded-full bg-[#0784C8] hover:bg-[#129be0] text-white font-bold text-xs uppercase tracking-wider transition-all duration-300 shadow-md focus-visible:outline disabled:opacity-50"
+                className="w-full py-3.5 rounded-full bg-[#0784C8] hover:bg-[#129be0] text-white font-bold text-xs uppercase tracking-wider transition-all duration-300 shadow-md focus-visible:outline disabled:opacity-50 flex items-center justify-center gap-2"
               >
-                {isSubmitting ? "Submitting Booking..." : `Confirm ${visitType === "physical" ? "Site Visit" : "Virtual Consultation"}`}
+                {isSubmitting ? (
+                  <>
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                    <span>Transmitting Request…</span>
+                  </>
+                ) : (
+                  <span>Request {meetingMode === "IN_PERSON" ? "Site Visit" : "Virtual Consultation"}</span>
+                )}
               </button>
 
-              <div className="flex items-center justify-center gap-1.5 text-[11px] text-[#7a93a5] text-center pt-2">
+              <p className="text-[11px] text-[#7a93a5] text-center italic">
+                * Preferred times are subject to advisor and property confirmation.
+              </p>
+
+              <div className="flex items-center justify-center gap-1.5 text-[11px] text-[#7a93a5] text-center pt-1">
                 <ShieldCheck className="w-3.5 h-3.5 text-[#24D17F]" />
-                <span>Your information is strictly protected under our privacy policy. No promotional spam.</span>
+                <span>Your contact details are strictly confidential. No marketing spam.</span>
               </div>
             </form>
           )}

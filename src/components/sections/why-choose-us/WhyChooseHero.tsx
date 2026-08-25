@@ -33,10 +33,10 @@ export function WhyChooseHero() {
           <div className="lg:col-span-7">
             <Reveal>
               <div className="flex items-center gap-3 mb-4">
-                <span className="text-[11px] font-mono font-bold uppercase tracking-widest text-[var(--ratwal-blue)] px-2.5 py-1 rounded bg-white border border-[rgba(7,26,40,0.08)] shadow-2xs">
+                <span className="text-[11px] font-mono font-bold uppercase tracking-widest text-[var(--ratiwal-blue)] px-2.5 py-1 rounded bg-white border border-[rgba(7,26,40,0.08)] shadow-2xs">
                   {hero.index}
                 </span>
-                <span className="text-xs font-bold uppercase tracking-[0.18em] text-[var(--ratwal-blue)]">
+                <span className="text-xs font-bold uppercase tracking-[0.18em] text-[var(--ratiwal-blue)]">
                   {hero.eyebrow}
                 </span>
               </div>
@@ -46,7 +46,7 @@ export function WhyChooseHero() {
                 className="font-instrument text-4xl sm:text-5xl md:text-6xl lg:text-[4.25rem] text-[var(--midnight)] font-normal leading-[1.04] tracking-tight mb-6"
               >
                 Clarity before{" "}
-                <span className="italic text-[var(--ratwal-blue)] font-normal">
+                <span className="italic text-[var(--ratiwal-blue)] font-normal">
                   commitment.
                 </span>
               </h1>
@@ -59,7 +59,7 @@ export function WhyChooseHero() {
               <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 mb-6">
                 <Link
                   href={hero.primaryCta.href}
-                  className="inline-flex items-center justify-center gap-2.5 px-7 py-3.5 rounded-full bg-[var(--ratwal-blue)] hover:bg-[var(--ratwal-blue-deep)] text-white text-sm font-bold shadow-md shadow-[rgba(8,127,195,0.28)] transition-all duration-300 group hover:-translate-y-0.5"
+                  className="inline-flex items-center justify-center gap-2.5 px-7 py-3.5 rounded-full bg-[var(--ratiwal-blue)] hover:bg-[var(--ratiwal-blue-deep)] text-white text-sm font-bold shadow-md shadow-[rgba(8,127,195,0.28)] transition-all duration-300 group hover:-translate-y-0.5"
                 >
                   <span>{hero.primaryCta.label}</span>
                   <ArrowRight size={15} className="transition-transform group-hover:translate-x-1" />
@@ -70,14 +70,14 @@ export function WhyChooseHero() {
                   className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-full bg-white hover:bg-[var(--surface)] text-[var(--midnight)] border border-[rgba(7,26,40,0.12)] text-sm font-bold transition-colors"
                 >
                   <span>{hero.secondaryCta.label}</span>
-                  <ArrowRight size={14} className="text-[var(--ratwal-blue)]" />
+                  <ArrowRight size={14} className="text-[var(--ratiwal-blue)]" />
                 </Link>
               </div>
 
               {/* Trust Microcopy & Architectural Geolocation Tag */}
               <div className="pt-6 border-t border-[rgba(7,26,40,0.08)] flex flex-wrap items-center justify-between gap-3 text-xs text-[var(--text-secondary)]">
                 <div className="flex items-center gap-2">
-                  <CheckCircle size={14} className="text-[var(--ratwal-blue)] flex-shrink-0" />
+                  <CheckCircle size={14} className="text-[var(--ratiwal-blue)] flex-shrink-0" />
                   <span className="font-medium">{hero.trustMicrocopy}</span>
                 </div>
                 <span className="font-mono text-[11px] text-[var(--text-secondary)] opacity-80">

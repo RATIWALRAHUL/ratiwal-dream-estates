@@ -6,16 +6,35 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "test:foundation": "tsx --conditions=react-server scripts/test-foundation.ts",
+    "test:models": "tsx --conditions=react-server scripts/test-database-models.ts",
+    "test:dashboard": "tsx --conditions=react-server scripts/test-dashboard.ts",
+    "test:crud": "tsx --conditions=react-server scripts/test-property-crud.ts",
+    "test:media": "tsx --conditions=react-server scripts/test-imagekit.ts",
+    "test:locations": "tsx --conditions=react-server scripts/test-location-crud.ts",
+    "test:communications": "tsx --conditions=react-server scripts/test-communications.ts",
+    "test:analytics": "tsx --conditions=react-server scripts/test-analytics.ts",
+    "test:inventory": "tsx --conditions=react-server scripts/test-inventory.ts",
+    "test:legal-vault": "tsx --conditions=react-server scripts/test-legal-vault.ts",
+    "test:team": "tsx --conditions=react-server scripts/test-settings-team.ts",
+    "test:deals": "tsx --conditions=react-server scripts/test-deals-bookings.ts",
+    "migrate:catalog": "tsx --conditions=react-server src/lib/db/migrations/seed-catalog.ts",
+    "db:indexes": "tsx --conditions=react-server src/lib/db/indexes.ts",
+    "audit:orphans": "tsx --conditions=react-server scripts/audit-orphans.ts",
+    "audit:orphans:fix": "tsx --conditions=react-server scripts/audit-orphans.ts --fix"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.7.1",
     "clsx": "^2.1.1",
+    "imagekit": "^6.0.0",
     "lucide-react": "^1.31.0",
+    "mongoose": "^9.9.3",
     "next": "16.3.0",
     "react": "19.2.8",
     "react-dom": "19.2.8",
     "react-hook-form": "^7.85.0",
+    "server-only": "^0.0.1",
     "tailwind-merge": "^3.6.0",
     "zod": "^4.4.3"
   },
@@ -27,6 +46,7 @@
     "eslint": "^9",
     "eslint-config-next": "16.3.0",
     "tailwindcss": "^4",
+    "tsx": "^4.23.12",
     "typescript": "^5"
   }
 }

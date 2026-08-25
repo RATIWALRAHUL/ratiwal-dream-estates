@@ -29,7 +29,7 @@ export function getMetadata({
     title: pageTitle,
     description: pageDescription,
     applicationName: siteConfig.name,
-    authors: [{ name: "Ratwal Dream Estates Editorial Desk", url: siteConfig.url }],
+    authors: [{ name: "Ratiwal Dream Estates Editorial Desk", url: siteConfig.url }],
     creator: siteConfig.name,
     publisher: siteConfig.name,
     formatDetection: {

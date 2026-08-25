@@ -38,8 +38,8 @@ export function AboutStory() {
           <div className="lg:col-span-7">
             <Reveal>
               <div className="flex items-center gap-2 mb-3">
-                <span className="w-1.5 h-1.5 rounded-full bg-[var(--ratwal-blue)]" />
-                <span className="text-[12px] font-bold tracking-[0.16em] uppercase text-[var(--ratwal-blue)]">
+                <span className="w-1.5 h-1.5 rounded-full bg-[var(--ratiwal-blue)]" />
+                <span className="text-[12px] font-bold tracking-[0.16em] uppercase text-[var(--ratiwal-blue)]">
                   OUR ORIGIN &amp; PURPOSE
                 </span>
               </div>
@@ -49,7 +49,7 @@ export function AboutStory() {
                 className="font-instrument text-[2.4rem] sm:text-[3rem] md:text-[3.5rem] text-[var(--midnight)] font-normal leading-[1.05] tracking-tight mb-6"
               >
                 Built to bring institutional rigor to{" "}
-                <span className="italic text-[var(--ratwal-blue)]">private land ownership.</span>
+                <span className="italic text-[var(--ratiwal-blue)]">private land ownership.</span>
               </h2>
             </Reveal>
 
@@ -77,7 +77,7 @@ export function AboutStory() {
                   "Clear Written Documentation Briefs",
                 ].map((item, idx) => (
                   <div key={idx} className="flex items-center gap-2.5">
-                    <CheckCircle2 size={18} className="text-[var(--ratwal-blue)] flex-shrink-0" />
+                    <CheckCircle2 size={18} className="text-[var(--ratiwal-blue)] flex-shrink-0" />
                     <span className="text-sm font-semibold text-[var(--midnight)]">{item}</span>
                   </div>
                 ))}
@@ -113,7 +113,7 @@ export function AboutStory() {
               {pillars.map((pillar, index) => (
                 <Reveal key={index} delay={250 + index * 50}>
                   <div className="p-4 rounded-xl bg-white border border-[rgba(7,26,40,0.08)] shadow-xs transition-all duration-300 hover:border-[rgba(8,127,195,0.3)] hover:shadow-sm flex gap-3.5">
-                    <div className="w-9 h-9 rounded-lg bg-[var(--cyan-soft)] text-[var(--ratwal-blue)] flex items-center justify-center flex-shrink-0 mt-0.5">
+                    <div className="w-9 h-9 rounded-lg bg-[var(--cyan-soft)] text-[var(--ratiwal-blue)] flex items-center justify-center flex-shrink-0 mt-0.5">
                       <pillar.icon size={18} strokeWidth={2} />
                     </div>
                     <div>

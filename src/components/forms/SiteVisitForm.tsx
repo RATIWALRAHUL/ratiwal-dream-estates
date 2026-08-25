@@ -1,9 +1,6 @@
 "use client";
-
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { siteVisitSchema, SiteVisitSchema } from "@/lib/validations/site-visit";
 import { Input } from "@/components/ui/Input";
 import { Select } from "@/components/ui/Select";
 import { Textarea } from "@/components/ui/Textarea";
@@ -15,6 +12,17 @@ interface SiteVisitFormProps {
   onSuccess?: () => void;
 }
 
+interface FormValues {
+  name: string;
+  phone: string;
+  email: string;
+  preferredDate: string;
+  preferredTime: string;
+  numberOfVisitors: number;
+  message?: string;
+  honeypot?: string;
+}
+
 export function SiteVisitForm({
   propertyId,
   propertyName,
@@ -22,42 +30,51 @@ export function SiteVisitForm({
 }: SiteVisitFormProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
-  const [submitSuccess, setSubmitSuccess] = useState(false);
+  const [confirmedRef, setConfirmedRef] = useState<string | null>(null);
 
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm<SiteVisitSchema>({
-    resolver: zodResolver(siteVisitSchema),
+  } = useForm<FormValues>({
     defaultValues: {
-      propertyId,
-      propertyName,
       numberOfVisitors: 1,
       preferredDate: "",
-      preferredTime: "",
+      preferredTime: "11:00 AM",
       message: "",
       honeypot: "",
     },
   });
 
-  const onSubmit = async (values: SiteVisitSchema) => {
+  const onSubmit = async (values: FormValues) => {
     setIsSubmitting(true);
     setSubmitError(null);
     try {
-      const response = await fetch("/api/site-visits", {
+      const preferredStartAt = new Date(`${values.preferredDate}T11:00:00+05:30`).toISOString();
+
+      const response = await fetch("/api/site-visits/requests", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(values),
+        body: JSON.stringify({
+          fullName: values.name,
+          phone: values.phone,
+          email: values.email || undefined,
+          propertyId,
+          preferredStartAt,
+          visitorCount: Number(values.numberOfVisitors) || 1,
+          message: values.message,
+          consentGranted: true,
+          _honeypot: values.honeypot,
+        }),
       });
 
       const data = await response.json();
-      if (!response.ok) {
+      if (!response.ok || !data.success) {
         throw new Error(data.error || "Form submission failed");
       }
 
-      setSubmitSuccess(true);
+      setConfirmedRef(data.referenceNumber || "RDE-SV-RECEIVED");
       reset();
       if (onSuccess) {
         setTimeout(onSuccess, 2000);
@@ -70,14 +87,17 @@ export function SiteVisitForm({
     }
   };
 
-  if (submitSuccess) {
+  if (confirmedRef) {
     return (
-      <div className="p-6 bg-success-color/10 border border-success-color/20 rounded text-center">
-        <h4 className="font-heading font-semibold text-lg text-success-color mb-2">
-          Site Visit Scheduled
+      <div className="p-6 bg-emerald-50 border border-emerald-200 rounded-2xl text-center space-y-2">
+        <h4 className="font-serif font-bold text-lg text-emerald-800">
+          Tour Request Recorded #{confirmedRef}
         </h4>
-        <p className="text-sm text-text-muted">
-          Your request is recorded. Our team will verify dates and contact you to coordinate logisitics.
+        <p className="text-xs text-[#647581]">
+          Your request is recorded. Our team will verify dates and contact you to coordinate logistics for {propertyName}.
+        </p>
+        <p className="text-[10px] text-[#647581] italic">
+          * Preferred times are subject to advisor and property confirmation.
         </p>
       </div>
     );
@@ -86,16 +106,14 @@ export function SiteVisitForm({
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 text-left">
       {submitError && (
-        <div className="p-4 bg-error-color/10 border border-error-color/20 rounded text-sm text-error-color" role="alert">
+        <div className="p-4 bg-rose-50 border border-rose-200 rounded-xl text-xs text-rose-800" role="alert">
           {submitError}
         </div>
       )}
 
-      {/* Honeypot hidden input field to capture spam bots */}
-      <div className="visually-hidden">
-        <label htmlFor="visit-honeypot">Do not fill this out if you are human</label>
+      {/* Honeypot hidden input field */}
+      <div className="hidden">
         <input
-          id="visit-honeypot"
           type="text"
           tabIndex={-1}
           autoComplete="off"
@@ -103,8 +121,8 @@ export function SiteVisitForm({
         />
       </div>
 
-      <div className="p-3 bg-gray-50 border border-border-color rounded text-xs text-text-muted mb-2">
-        Tour Location: <strong className="text-text-main">{propertyName}</strong>
+      <div className="p-3 bg-gray-50 border border-border-color rounded-xl text-xs text-[#647581] mb-2">
+        Tour Location: <strong className="text-[#071a28]">{propertyName}</strong>
       </div>
 
       <Input
@@ -112,23 +130,22 @@ export function SiteVisitForm({
         placeholder="e.g. Ramesh Chandra"
         required
         error={errors.name?.message}
-        {...register("name")}
+        {...register("name", { required: "Name is required" })}
       />
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <Input
           label="Phone Number"
           type="tel"
-          placeholder="e.g. +91XXXXXXXXXX"
+          placeholder="e.g. +91 98765 43210"
           required
           error={errors.phone?.message}
-          {...register("phone")}
+          {...register("phone", { required: "Phone is required" })}
         />
         <Input
           label="Email Address"
           type="email"
           placeholder="e.g. name@domain.com"
-          required
           error={errors.email?.message}
           {...register("email")}
         />
@@ -140,21 +157,20 @@ export function SiteVisitForm({
             label="Preferred Date"
             type="date"
             required
+            min={new Date().toISOString().split("T")[0]}
             error={errors.preferredDate?.message}
-            {...register("preferredDate")}
+            {...register("preferredDate", { required: "Date is required" })}
           />
         </div>
         <Select
           label="Preferred Time Slot"
           required
-          placeholder="Select slot"
           options={[
-            { value: "10:00 AM - 12:00 PM", label: "Morning (10AM - 12PM)" },
-            { value: "12:00 PM - 02:00 PM", label: "Midday (12PM - 2PM)" },
-            { value: "02:00 PM - 04:00 PM", label: "Afternoon (2PM - 4PM)" },
-            { value: "04:00 PM - 06:00 PM", label: "Evening (4PM - 6PM)" },
+            { value: "10:00 AM", label: "Morning (10:00 AM)" },
+            { value: "12:00 PM", label: "Noon (12:00 PM)" },
+            { value: "03:00 PM", label: "Afternoon (03:00 PM)" },
+            { value: "05:00 PM", label: "Evening (05:00 PM)" },
           ]}
-          error={errors.preferredTime?.message}
           {...register("preferredTime")}
         />
       </div>
@@ -172,13 +188,16 @@ export function SiteVisitForm({
       <Textarea
         label="Special Instructions (Optional)"
         placeholder="Details on travel direction, specific plots, or consultation topics..."
-        error={errors.message?.message}
         {...register("message")}
       />
 
       <Button type="submit" isLoading={isSubmitting} className="w-full">
         Schedule Tour
       </Button>
+
+      <p className="text-[11px] text-[#647581] text-center italic">
+        * Preferred times are subject to advisor and property confirmation.
+      </p>
     </form>
   );
 }

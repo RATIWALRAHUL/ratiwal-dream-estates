@@ -23,8 +23,8 @@ export function AdvisorPreview() {
               {/* Left Column: Advisory Council Statement (7 cols) */}
               <div className="lg:col-span-7">
                 <div className="flex items-center gap-2 mb-3">
-                  <UserCheck size={16} className="text-[var(--ratwal-blue)]" />
-                  <span className="text-xs font-bold uppercase tracking-[0.18em] text-[var(--ratwal-blue)]">
+                  <UserCheck size={16} className="text-[var(--ratiwal-blue)]" />
+                  <span className="text-xs font-bold uppercase tracking-[0.18em] text-[var(--ratiwal-blue)]">
                     {advisorSection.eyebrow}
                   </span>
                 </div>
@@ -43,7 +43,7 @@ export function AdvisorPreview() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-8">
                   {advisorSection.pillars.map((pillar, pIdx) => (
                     <div key={pIdx} className="flex items-start gap-2 text-xs sm:text-[13px] text-[var(--midnight)] font-medium">
-                      <span className="w-4 h-4 rounded-full bg-[var(--mist-blue)] text-[var(--ratwal-blue)] flex items-center justify-center flex-shrink-0 mt-0.5">
+                      <span className="w-4 h-4 rounded-full bg-[var(--mist-blue)] text-[var(--ratiwal-blue)] flex items-center justify-center flex-shrink-0 mt-0.5">
                         <Check size={10} className="stroke-[3]" />
                       </span>
                       <span>{pillar}</span>
@@ -53,7 +53,7 @@ export function AdvisorPreview() {
 
                 <Link
                   href="/contact"
-                  className="inline-flex items-center gap-2.5 px-7 py-3.5 rounded-full bg-[var(--ratwal-blue)] hover:bg-[var(--ratwal-blue-deep)] text-white text-sm font-bold shadow-md shadow-[rgba(8,127,195,0.25)] transition-all duration-300 group"
+                  className="inline-flex items-center gap-2.5 px-7 py-3.5 rounded-full bg-[var(--ratiwal-blue)] hover:bg-[var(--ratiwal-blue-deep)] text-white text-sm font-bold shadow-md shadow-[rgba(8,127,195,0.25)] transition-all duration-300 group"
                 >
                   <span>Talk to an Advisor</span>
                   <ArrowRight size={15} className="transition-transform group-hover:translate-x-1" />
@@ -64,7 +64,7 @@ export function AdvisorPreview() {
               <div className="lg:col-span-5">
                 <div className="p-7 sm:p-8 rounded-2xl bg-[var(--surface)] border border-[rgba(7,26,40,0.08)] shadow-2xs">
                   <div className="flex items-center gap-2 mb-4">
-                    <ShieldCheck size={18} className="text-[var(--ratwal-blue)]" />
+                    <ShieldCheck size={18} className="text-[var(--ratiwal-blue)]" />
                     <span className="font-instrument text-xl sm:text-2xl text-[var(--midnight)] font-normal">
                       {advisorSection.councilTitle}
                     </span>

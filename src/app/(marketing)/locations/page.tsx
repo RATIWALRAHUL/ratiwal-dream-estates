@@ -11,7 +11,7 @@ import { siteConfig } from "@/config/site";
 export const metadata = getMetadata({
   title: "Property Locations & Market Guides",
   description:
-    "Explore Ratwal Dream Estates property locations, micro-markets, infrastructure context, and available real-estate opportunities across Rajasthan and Maharashtra.",
+    "Explore Ratiwal Dream Estates property locations, micro-markets, infrastructure context, and available real-estate opportunities across Rajasthan and Maharashtra.",
   slug: "/locations",
   image: `${siteConfig.url}/images/locations/jaipur.jpg`,
 });
@@ -25,9 +25,9 @@ export default function LocationsPage() {
         "@type": "CollectionPage",
         "@id": `${siteConfig.url}/locations#webpage`,
         url: `${siteConfig.url}/locations`,
-        name: "Property Locations & Market Guides | Ratwal Dream Estates",
+        name: "Property Locations & Market Guides | Ratiwal Dream Estates",
         description:
-          "Explore Ratwal Dream Estates operating locations, verified micro-markets, infrastructure timelines, and available plotted land opportunities.",
+          "Explore Ratiwal Dream Estates operating locations, verified micro-markets, infrastructure timelines, and available plotted land opportunities.",
         breadcrumb: {
           "@type": "BreadcrumbList",
           itemListElement: [

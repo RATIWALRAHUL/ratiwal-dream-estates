@@ -228,7 +228,7 @@ export default async function CaseStudyDetailPage({ params }: CaseStudyPageProps
               {/* Advisory Approach */}
               <div>
                 <h2 className="font-heading text-2xl text-[#031C2B] font-normal mb-4">
-                  Ratwal Advisory Approach
+                  Ratiwal Advisory Approach
                 </h2>
                 <div className="space-y-3">
                   {caseStudy.advisoryApproach.map((step, idx) => (

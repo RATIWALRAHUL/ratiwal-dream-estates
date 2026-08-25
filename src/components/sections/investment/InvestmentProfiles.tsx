@@ -49,8 +49,8 @@ export function InvestmentProfiles() {
         <div className="max-w-3xl mx-auto text-center mb-12 sm:mb-16">
           <Reveal>
             <div className="flex items-center justify-center gap-2 mb-3">
-              <Users size={16} className="text-[var(--ratwal-blue)]" />
-              <span className="text-[12px] font-bold tracking-[0.16em] uppercase text-[var(--ratwal-blue)]">
+              <Users size={16} className="text-[var(--ratiwal-blue)]" />
+              <span className="text-[12px] font-bold tracking-[0.16em] uppercase text-[var(--ratiwal-blue)]">
                 INVESTOR PROFILES
               </span>
             </div>
@@ -60,7 +60,7 @@ export function InvestmentProfiles() {
               className="font-instrument text-[2.4rem] sm:text-[3.2rem] md:text-[3.8rem] text-[var(--midnight)] font-normal leading-[1.05] tracking-tight mb-4"
             >
               Tailored advisory for your{" "}
-              <span className="italic text-[var(--ratwal-blue)]">capital goals.</span>
+              <span className="italic text-[var(--ratiwal-blue)]">capital goals.</span>
             </h2>
 
             <p className="text-base sm:text-lg text-[var(--text-secondary)] leading-relaxed">
@@ -75,7 +75,7 @@ export function InvestmentProfiles() {
             <Reveal key={idx} delay={idx * 60}>
               <div className="p-6 sm:p-7 rounded-2xl bg-white border border-[rgba(7,26,40,0.08)] shadow-xs hover:border-[rgba(8,127,195,0.3)] hover:shadow-md transition-all duration-300 h-full flex flex-col justify-between">
                 <div>
-                  <div className="w-11 h-11 rounded-xl bg-[var(--cyan-soft)] text-[var(--ratwal-blue-deep)] flex items-center justify-center mb-4">
+                  <div className="w-11 h-11 rounded-xl bg-[var(--cyan-soft)] text-[var(--ratiwal-blue-deep)] flex items-center justify-center mb-4">
                     <p.icon size={22} strokeWidth={1.8} />
                   </div>
 
@@ -83,7 +83,7 @@ export function InvestmentProfiles() {
                     {p.title}
                   </h3>
 
-                  <span className="text-[11px] font-bold uppercase tracking-wider text-[var(--ratwal-blue)] block mb-3">
+                  <span className="text-[11px] font-bold uppercase tracking-wider text-[var(--ratiwal-blue)] block mb-3">
                     {p.focus}
                   </span>
 
@@ -98,7 +98,7 @@ export function InvestmentProfiles() {
                   </div>
                   <Link
                     href="/contact"
-                    className="inline-flex items-center gap-1 text-xs font-bold text-[var(--ratwal-blue)] hover:text-[var(--ratwal-blue-deep)] transition-colors group"
+                    className="inline-flex items-center gap-1 text-xs font-bold text-[var(--ratiwal-blue)] hover:text-[var(--ratiwal-blue-deep)] transition-colors group"
                   >
                     <span>Request Strategy</span>
                     <ArrowRight size={13} className="transition-transform group-hover:translate-x-1" />

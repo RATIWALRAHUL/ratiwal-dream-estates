@@ -16,7 +16,7 @@ export function LegalSection({ section }: LegalSectionProps) {
     >
       {/* Section Header */}
       <div className="flex items-baseline gap-3 mb-4">
-        <span className="font-mono text-xs font-bold px-2 py-0.5 rounded bg-[var(--surface)] border border-[rgba(7,26,40,0.1)] text-[var(--ratwal-blue)] flex-shrink-0">
+        <span className="font-mono text-xs font-bold px-2 py-0.5 rounded bg-[var(--surface)] border border-[rgba(7,26,40,0.1)] text-[var(--ratiwal-blue)] flex-shrink-0">
           {section.sectionNumber}
         </span>
         <h2
@@ -39,7 +39,7 @@ export function LegalSection({ section }: LegalSectionProps) {
         <ul className="my-4 space-y-2.5 pl-1" aria-label={`Details for ${section.title}`}>
           {section.bullets.map((b, bIdx) => (
             <li key={bIdx} className="flex items-start gap-2.5 text-xs sm:text-sm text-[var(--midnight)]">
-              <span className="w-4 h-4 rounded-full bg-[var(--mist-blue)] text-[var(--ratwal-blue)] flex items-center justify-center flex-shrink-0 mt-0.5">
+              <span className="w-4 h-4 rounded-full bg-[var(--mist-blue)] text-[var(--ratiwal-blue)] flex items-center justify-center flex-shrink-0 mt-0.5">
                 <Check className="w-2.5 h-2.5 stroke-[3]" />
               </span>
               <span className="leading-relaxed">{b}</span>
@@ -63,7 +63,7 @@ export function LegalSection({ section }: LegalSectionProps) {
                 <ul className="space-y-1.5 pt-1">
                   {sub.bullets.map((sb, sbIdx) => (
                     <li key={sbIdx} className="text-xs text-[var(--midnight)] flex items-start gap-2">
-                      <span className="text-[var(--ratwal-blue)]">•</span>
+                      <span className="text-[var(--ratiwal-blue)]">•</span>
                       <span>{sb}</span>
                     </li>
                   ))}

@@ -41,8 +41,8 @@ export function ContactOffices() {
         <div className="max-w-3xl mx-auto text-center mb-12 sm:mb-16">
           <Reveal>
             <div className="flex items-center justify-center gap-2 mb-3">
-              <MapPin size={16} className="text-[var(--ratwal-blue)]" />
-              <span className="text-[12px] font-bold tracking-[0.16em] uppercase text-[var(--ratwal-blue)]">
+              <MapPin size={16} className="text-[var(--ratiwal-blue)]" />
+              <span className="text-[12px] font-bold tracking-[0.16em] uppercase text-[var(--ratiwal-blue)]">
                 REGIONAL ADVISORY HUBS
               </span>
             </div>
@@ -52,7 +52,7 @@ export function ContactOffices() {
               className="font-instrument text-[2.4rem] sm:text-[3.2rem] md:text-[3.8rem] text-[var(--midnight)] font-normal leading-[1.05] tracking-tight mb-4"
             >
               Visit our offices or coordinate{" "}
-              <span className="italic text-[var(--ratwal-blue)]">on-ground meetings.</span>
+              <span className="italic text-[var(--ratiwal-blue)]">on-ground meetings.</span>
             </h2>
 
             <p className="text-base sm:text-lg text-[var(--text-secondary)] leading-relaxed">
@@ -68,10 +68,10 @@ export function ContactOffices() {
               <div className="p-5 sm:p-7 md:p-9 rounded-2xl sm:rounded-3xl bg-white border border-[rgba(7,26,40,0.1)] shadow-sm hover:shadow-md transition-all duration-300 h-full flex flex-col justify-between">
                 <div>
                   <div className="flex flex-wrap items-center justify-between gap-2 mb-4">
-                    <span className="inline-flex items-center px-3 py-1 rounded-full bg-[var(--cyan-soft)] text-[var(--ratwal-blue-deep)] text-[11px] sm:text-xs font-bold uppercase tracking-wider whitespace-nowrap">
+                    <span className="inline-flex items-center px-3 py-1 rounded-full bg-[var(--cyan-soft)] text-[var(--ratiwal-blue-deep)] text-[11px] sm:text-xs font-bold uppercase tracking-wider whitespace-nowrap">
                       {office.tag}
                     </span>
-                    <span className="text-xs font-bold text-[var(--ratwal-blue)] whitespace-nowrap">
+                    <span className="text-xs font-bold text-[var(--ratiwal-blue)] whitespace-nowrap">
                       {office.state}
                     </span>
                   </div>
@@ -83,23 +83,23 @@ export function ContactOffices() {
                   {/* Contact Meta Details */}
                   <div className="space-y-3 text-xs sm:text-sm text-[var(--midnight)] mb-6">
                     <div className="flex items-start gap-3">
-                      <MapPin size={17} className="text-[var(--ratwal-blue)] flex-shrink-0 mt-0.5" />
+                      <MapPin size={17} className="text-[var(--ratiwal-blue)] flex-shrink-0 mt-0.5" />
                       <span>{office.address}</span>
                     </div>
                     <div className="flex items-center gap-3">
-                      <Phone size={17} className="text-[var(--ratwal-blue)] flex-shrink-0" />
-                      <a href={`tel:${office.phone.replace(/[^0-9+]/g, "")}`} className="hover:text-[var(--ratwal-blue)] font-semibold">
+                      <Phone size={17} className="text-[var(--ratiwal-blue)] flex-shrink-0" />
+                      <a href={`tel:${office.phone.replace(/[^0-9+]/g, "")}`} className="hover:text-[var(--ratiwal-blue)] font-semibold">
                         {office.phone}
                       </a>
                     </div>
                     <div className="flex items-center gap-3">
-                      <Mail size={17} className="text-[var(--ratwal-blue)] flex-shrink-0" />
-                      <a href={`mailto:${office.email}`} className="hover:text-[var(--ratwal-blue)] font-medium">
+                      <Mail size={17} className="text-[var(--ratiwal-blue)] flex-shrink-0" />
+                      <a href={`mailto:${office.email}`} className="hover:text-[var(--ratiwal-blue)] font-medium">
                         {office.email}
                       </a>
                     </div>
                     <div className="flex items-center gap-3">
-                      <Clock size={17} className="text-[var(--ratwal-blue)] flex-shrink-0" />
+                      <Clock size={17} className="text-[var(--ratiwal-blue)] flex-shrink-0" />
                       <span className="text-[var(--text-secondary)]">{office.hours}</span>
                     </div>
                   </div>
@@ -107,7 +107,7 @@ export function ContactOffices() {
                   {/* Focus Corridors */}
                   <div className="pt-4 border-t border-[rgba(7,26,40,0.06)] mb-5">
                     <h4 className="text-xs font-bold uppercase tracking-wider text-[var(--midnight)] mb-2.5 flex items-center gap-1.5">
-                      <Compass size={14} className="text-[var(--ratwal-blue)]" />
+                      <Compass size={14} className="text-[var(--ratiwal-blue)]" />
                       Growth Corridors Covered
                     </h4>
                     <div className="flex flex-wrap gap-1.5">
@@ -126,7 +126,7 @@ export function ContactOffices() {
                     href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(office.mapQuery)}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-bold text-[var(--ratwal-blue)] hover:text-[var(--ratwal-blue-deep)] transition-colors group"
+                    className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-bold text-[var(--ratiwal-blue)] hover:text-[var(--ratiwal-blue-deep)] transition-colors group"
                   >
                     <span>Open in Google Maps</span>
                     <ExternalLink size={14} className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
@@ -145,7 +145,7 @@ export function ContactOffices() {
           <div className="relative rounded-2xl sm:rounded-3xl overflow-hidden border border-[rgba(7,26,40,0.12)] shadow-md bg-white">
             <div className="p-4 sm:p-5 bg-[var(--surface)] border-b border-[rgba(7,26,40,0.08)] flex flex-wrap items-center justify-between gap-3">
               <div className="flex items-center gap-2.5">
-                <div className="w-8 h-8 rounded-lg bg-[var(--cyan-soft)] text-[var(--ratwal-blue)] flex items-center justify-center">
+                <div className="w-8 h-8 rounded-lg bg-[var(--cyan-soft)] text-[var(--ratiwal-blue)] flex items-center justify-center">
                   <Navigation size={16} />
                 </div>
                 <div>
@@ -162,7 +162,7 @@ export function ContactOffices() {
                 href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent("Jaipur, Rajasthan, India")}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-[var(--ratwal-blue)] text-white text-xs font-bold hover:bg-[var(--ratwal-blue-deep)] transition-all shadow-xs"
+                className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-[var(--ratiwal-blue)] text-white text-xs font-bold hover:bg-[var(--ratiwal-blue-deep)] transition-all shadow-xs"
               >
                 Get Directions <ExternalLink size={12} />
               </a>

@@ -18,7 +18,7 @@ import { siteConfig } from "@/config/site";
 export const metadata = getMetadata({
   title: "Client Stories & Property Experiences",
   description:
-    "Read verified client experiences and property advisory case studies from Ratwal Dream Estates.",
+    "Read verified client experiences and property advisory case studies from Ratiwal Dream Estates.",
   slug: "/testimonials",
   image: `${siteConfig.url}/images/about/office-consultation.jpg`,
 });
@@ -35,9 +35,9 @@ export default function TestimonialsPage() {
         "@type": "CollectionPage",
         "@id": `${siteConfig.url}/testimonials#webpage`,
         url: `${siteConfig.url}/testimonials`,
-        name: "Client Stories & Property Experiences | Ratwal Dream Estates",
+        name: "Client Stories & Property Experiences | Ratiwal Dream Estates",
         description:
-          "Read verified client experiences and property advisory case studies from Ratwal Dream Estates.",
+          "Read verified client experiences and property advisory case studies from Ratiwal Dream Estates.",
         breadcrumb: {
           "@type": "BreadcrumbList",
           itemListElement: [

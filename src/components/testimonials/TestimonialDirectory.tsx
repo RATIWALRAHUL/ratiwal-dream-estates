@@ -67,7 +67,7 @@ export function TestimonialDirectory({ testimonials }: TestimonialDirectoryProps
             Experiences across different property journeys.
           </h2>
           <p className="text-sm sm:text-base text-[#4a6171] leading-relaxed">
-            Read verified feedback from home-seekers, NRI investors, and commercial enterprises who partnered with Ratwal Dream Estates.
+            Read verified feedback from home-seekers, NRI investors, and commercial enterprises who partnered with Ratiwal Dream Estates.
           </p>
         </div>
 

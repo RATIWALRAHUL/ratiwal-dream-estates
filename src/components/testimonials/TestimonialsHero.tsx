@@ -44,7 +44,7 @@ export function TestimonialsHero() {
 
             {/* Supporting Copy */}
             <p className="text-base md:text-lg text-[#c5d8e4] font-normal leading-relaxed max-w-[620px] mb-8">
-              Read how buyers and investors experienced Ratwal Dream Estates’ approach to property discovery,
+              Read how buyers and investors experienced Ratiwal Dream Estates’ approach to property discovery,
               revenue verification support, and local on-ground guidance across Rajasthan and Maharashtra.
             </p>
 
@@ -82,7 +82,7 @@ export function TestimonialsHero() {
             <div className="relative aspect-[4/3] sm:aspect-[16/11] lg:aspect-[4/3] rounded-2xl overflow-hidden border border-[rgba(255,255,255,0.16)] shadow-[0_24px_60px_rgba(0,0,0,0.45)]">
               <Image
                 src="/images/about/office-consultation.jpg"
-                alt="Ratwal Dream Estates advisory consultation and documentation review"
+                alt="Ratiwal Dream Estates advisory consultation and documentation review"
                 fill
                 priority
                 sizes="(max-width: 1024px) 100vw, 42vw"

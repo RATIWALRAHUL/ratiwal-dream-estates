@@ -115,7 +115,7 @@ export function MarketMap({ locations, selectedLocationSlug, onSelectLocation }:
                   <svg
                     viewBox="0 0 700 500"
                     className="w-full h-full max-h-[460px]"
-                    aria-label="Interactive map of Ratwal operating markets in Rajasthan and Maharashtra"
+                    aria-label="Interactive map of Ratiwal operating markets in Rajasthan and Maharashtra"
                   >
                     {/* Background Regional Corridor Highway Connections */}
                     <g stroke="rgba(82,189,233,0.25)" strokeWidth="1.5" strokeDasharray="4 4" fill="none">

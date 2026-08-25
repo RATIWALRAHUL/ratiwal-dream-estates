@@ -23,8 +23,8 @@ export function VerificationTimeline() {
           <div className="lg:col-span-5 lg:sticky lg:top-28">
             <Reveal>
               <div className="flex items-center gap-2 mb-3">
-                <ShieldCheck size={16} className="text-[var(--ratwal-blue)]" />
-                <span className="text-xs font-bold uppercase tracking-[0.18em] text-[var(--ratwal-blue)]">
+                <ShieldCheck size={16} className="text-[var(--ratiwal-blue)]" />
+                <span className="text-xs font-bold uppercase tracking-[0.18em] text-[var(--ratiwal-blue)]">
                   {verificationProtocol.eyebrow}
                 </span>
               </div>
@@ -34,7 +34,7 @@ export function VerificationTimeline() {
                 className="font-instrument text-3xl sm:text-4xl md:text-5xl text-[var(--midnight)] font-normal leading-[1.08] tracking-tight mb-5"
               >
                 A structured approach to{" "}
-                <span className="italic text-[var(--ratwal-blue)] font-normal">
+                <span className="italic text-[var(--ratiwal-blue)] font-normal">
                   property verification.
                 </span>
               </h2>
@@ -46,7 +46,7 @@ export function VerificationTimeline() {
               {/* Legal Disclosure Callout */}
               <div className="p-4 sm:p-5 rounded-2xl bg-white border border-[rgba(7,26,40,0.1)] shadow-2xs mb-6">
                 <div className="flex items-start gap-2.5">
-                  <Info size={16} className="text-[var(--ratwal-blue)] flex-shrink-0 mt-0.5" />
+                  <Info size={16} className="text-[var(--ratiwal-blue)] flex-shrink-0 mt-0.5" />
                   <p className="text-xs text-[var(--text-secondary)] leading-relaxed">
                     <span className="font-bold text-[var(--midnight)]">Important Legal Note:</span>{" "}
                     {verificationProtocol.disclaimer}
@@ -56,7 +56,7 @@ export function VerificationTimeline() {
 
               {/* Progress summary badge */}
               <div className="hidden lg:flex items-center gap-3 p-3 rounded-xl bg-[var(--surface)] border border-[rgba(7,26,40,0.06)]">
-                <Sparkles size={16} className="text-[var(--ratwal-blue)]" />
+                <Sparkles size={16} className="text-[var(--ratiwal-blue)]" />
                 <span className="text-xs font-bold text-[var(--midnight)]">
                   Step {activeStep + 1} of {verificationProtocol.steps.length}: {verificationProtocol.steps[activeStep].title}
                 </span>
@@ -76,7 +76,7 @@ export function VerificationTimeline() {
                     className={cn(
                       "p-6 sm:p-7 rounded-2xl sm:rounded-3xl border transition-all duration-300 cursor-pointer text-left",
                       isSelected
-                        ? "bg-white border-[var(--ratwal-blue)] shadow-md ring-1 ring-[var(--ratwal-blue)]/20"
+                        ? "bg-white border-[var(--ratiwal-blue)] shadow-md ring-1 ring-[var(--ratiwal-blue)]/20"
                         : "bg-white/80 hover:bg-white border-[rgba(7,26,40,0.08)] hover:border-[rgba(7,26,40,0.16)] shadow-xs"
                     )}
                   >
@@ -86,7 +86,7 @@ export function VerificationTimeline() {
                           className={cn(
                             "font-mono text-xs font-bold px-2.5 py-1 rounded-lg transition-colors",
                             isSelected
-                              ? "bg-[var(--ratwal-blue)] text-white"
+                              ? "bg-[var(--ratiwal-blue)] text-white"
                               : "bg-[var(--surface)] text-[var(--text-secondary)]"
                           )}
                         >
@@ -106,7 +106,7 @@ export function VerificationTimeline() {
                     <ul className="space-y-2 mb-4 pt-2 border-t border-[rgba(7,26,40,0.06)]">
                       {step.details.map((detail, dIdx) => (
                         <li key={dIdx} className="flex items-start gap-2 text-xs text-[var(--midnight)]">
-                          <span className="w-4 h-4 rounded-full bg-[var(--mist-blue)] text-[var(--ratwal-blue)] flex items-center justify-center flex-shrink-0 mt-0.5">
+                          <span className="w-4 h-4 rounded-full bg-[var(--mist-blue)] text-[var(--ratiwal-blue)] flex items-center justify-center flex-shrink-0 mt-0.5">
                             <Check size={10} className="stroke-[3]" />
                           </span>
                           <span className="leading-relaxed">{detail}</span>
@@ -116,7 +116,7 @@ export function VerificationTimeline() {
 
                     {/* Key Stage Outcome Pill */}
                     <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[var(--surface)] text-[11px] font-semibold text-[var(--midnight)] border border-[rgba(7,26,40,0.06)]">
-                      <span className="w-1.5 h-1.5 rounded-full bg-[var(--ratwal-blue)]" />
+                      <span className="w-1.5 h-1.5 rounded-full bg-[var(--ratiwal-blue)]" />
                       <span>Outcome: {step.keyOutcome}</span>
                     </div>
                   </div>

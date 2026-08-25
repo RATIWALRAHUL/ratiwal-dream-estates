@@ -62,7 +62,7 @@ export function ArticleHero({ article }: ArticleHeroProps) {
           ) : (
             <div>
               <span className="text-[#7a93a5] block mb-1">Editorial Desk</span>
-              <strong className="text-white block font-medium">Ratwal Research</strong>
+              <strong className="text-white block font-medium">Ratiwal Research</strong>
               <span className="text-[11px] text-[#a0b6c6]">Compliance Verified</span>
             </div>
           )}

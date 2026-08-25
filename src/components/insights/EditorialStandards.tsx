@@ -46,7 +46,7 @@ export function EditorialStandards() {
               How our guides <br />are prepared.
             </h2>
             <p className="text-sm sm:text-base text-[#4a6171] leading-relaxed mb-6">
-              Ratwal Dream Estates’ Property Intelligence platform is designed as an objective research resource for home-seekers and investors. We prioritize factual accuracy, verifiable documentation, and buyer protection over promotional marketing.
+              Ratiwal Dream Estates’ Property Intelligence platform is designed as an objective research resource for home-seekers and investors. We prioritize factual accuracy, verifiable documentation, and buyer protection over promotional marketing.
             </p>
             <div className="flex flex-wrap gap-4 text-xs font-bold text-[#0784C8]">
               <Link href="/why-choose-us" className="inline-flex items-center gap-1 hover:underline">

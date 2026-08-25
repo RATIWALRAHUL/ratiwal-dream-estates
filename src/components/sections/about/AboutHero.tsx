@@ -35,8 +35,8 @@ export function AboutHero() {
         <div className="max-w-4xl mx-auto text-center">
           <Reveal>
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[var(--advisor-ivory)] border border-[rgba(8,127,195,0.2)] shadow-xs mb-5">
-              <span className="w-2 h-2 rounded-full bg-[var(--ratwal-blue)] animate-pulse" />
-              <span className="text-[11.5px] sm:text-[12.5px] font-bold tracking-[0.16em] uppercase text-[var(--ratwal-blue)] font-body">
+              <span className="w-2 h-2 rounded-full bg-[var(--ratiwal-blue)] animate-pulse" />
+              <span className="text-[11.5px] sm:text-[12.5px] font-bold tracking-[0.16em] uppercase text-[var(--ratiwal-blue)] font-body">
                 FOUNDED ON TRUST &amp; TRANSPARENCY
               </span>
             </div>
@@ -48,7 +48,7 @@ export function AboutHero() {
               className="font-instrument text-[2.75rem] sm:text-[3.6rem] md:text-[4.4rem] lg:text-[4.9rem] text-[var(--midnight)] font-normal leading-[1.02] tracking-tight mb-5 sm:mb-6"
             >
               Guiding generational wealth through{" "}
-              <span className="italic text-[var(--ratwal-blue)]">verified land assets.</span>
+              <span className="italic text-[var(--ratiwal-blue)]">verified land assets.</span>
             </h1>
           </Reveal>
 
@@ -82,7 +82,7 @@ export function AboutHero() {
                   key={idx}
                   className="flex items-center gap-2 p-2.5 sm:p-3 rounded-xl bg-white/80 backdrop-blur-md border border-[rgba(7,26,40,0.08)] shadow-xs transition-all duration-300 hover:border-[rgba(8,127,195,0.3)] hover:shadow-sm"
                 >
-                  <div className="w-8 h-8 rounded-lg bg-[var(--cyan-soft)] text-[var(--ratwal-blue)] flex items-center justify-center flex-shrink-0">
+                  <div className="w-8 h-8 rounded-lg bg-[var(--cyan-soft)] text-[var(--ratiwal-blue)] flex items-center justify-center flex-shrink-0">
                     <b.icon size={16} strokeWidth={2} />
                   </div>
                   <span className="text-[12px] sm:text-[13px] font-semibold text-[var(--midnight)] text-left leading-tight">

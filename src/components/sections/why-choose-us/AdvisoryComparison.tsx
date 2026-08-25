@@ -18,7 +18,7 @@ export function AdvisoryComparison() {
         {/* Header */}
         <div className="max-w-3xl mb-12 sm:mb-16">
           <Reveal>
-            <span className="text-xs font-bold uppercase tracking-[0.18em] text-[var(--ratwal-blue)] block mb-2">
+            <span className="text-xs font-bold uppercase tracking-[0.18em] text-[var(--ratiwal-blue)] block mb-2">
               METHODOLOGY COMPARISON
             </span>
             <h2
@@ -63,7 +63,7 @@ export function AdvisoryComparison() {
             </div>
           </Reveal>
 
-          {/* Column 2: Ratwal Advisory Approach (Midnight Surface with Cyan Accent) */}
+          {/* Column 2: Ratiwal Advisory Approach (Midnight Surface with Cyan Accent) */}
           <Reveal delay={200}>
             <div className="p-7 sm:p-9 rounded-2xl sm:rounded-3xl bg-[var(--midnight)] text-white border border-[var(--cyan)]/30 shadow-xl h-full flex flex-col justify-between relative overflow-hidden">
               {/* Subtle Ambient Cyan Glow */}
@@ -74,7 +74,7 @@ export function AdvisoryComparison() {
                   <div className="flex items-center gap-2">
                     <span className="w-2 h-2 rounded-full bg-[var(--cyan)]" />
                     <h3 className="font-instrument text-2xl sm:text-3xl text-white font-normal">
-                      The Ratwal Advisory Approach
+                      The Ratiwal Advisory Approach
                     </h3>
                   </div>
                   <span className="px-3 py-1 rounded-full bg-[var(--cyan)]/15 border border-[var(--cyan)]/30 text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-[var(--cyan)]">
@@ -85,10 +85,10 @@ export function AdvisoryComparison() {
                 <ul className="space-y-4">
                   {comparison.map((c, idx) => (
                     <li key={idx} className="flex items-start gap-3 text-xs sm:text-sm text-white/90 leading-relaxed">
-                      <span className="w-4 h-4 rounded-full bg-[var(--ratwal-blue)] text-white flex items-center justify-center flex-shrink-0 mt-0.5">
+                      <span className="w-4 h-4 rounded-full bg-[var(--ratiwal-blue)] text-white flex items-center justify-center flex-shrink-0 mt-0.5">
                         <Check size={10} className="stroke-[3]" />
                       </span>
-                      <span>{c.ratwalApproach}</span>
+                      <span>{c.ratiwalApproach}</span>
                     </li>
                   ))}
                 </ul>

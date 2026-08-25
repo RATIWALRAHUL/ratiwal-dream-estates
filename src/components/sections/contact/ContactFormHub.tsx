@@ -31,8 +31,8 @@ export function ContactFormHub() {
         <div className="max-w-3xl mx-auto text-center mb-10 sm:mb-12">
           <Reveal>
             <div className="flex items-center justify-center gap-2 mb-3">
-              <span className="w-1.5 h-1.5 rounded-full bg-[var(--ratwal-blue)]" />
-              <span className="text-[12px] font-bold tracking-[0.16em] uppercase text-[var(--ratwal-blue)]">
+              <span className="w-1.5 h-1.5 rounded-full bg-[var(--ratiwal-blue)]" />
+              <span className="text-[12px] font-bold tracking-[0.16em] uppercase text-[var(--ratiwal-blue)]">
                 SELECT CONSULTATION MODE
               </span>
             </div>
@@ -42,7 +42,7 @@ export function ContactFormHub() {
               className="font-instrument text-[2.4rem] sm:text-[3.2rem] md:text-[3.6rem] text-[var(--midnight)] font-normal leading-[1.05] tracking-tight mb-4"
             >
               Choose how you wish to{" "}
-              <span className="italic text-[var(--ratwal-blue)]">connect with us.</span>
+              <span className="italic text-[var(--ratiwal-blue)]">connect with us.</span>
             </h2>
 
             <p className="text-base sm:text-lg text-[var(--text-secondary)] leading-relaxed">
@@ -58,7 +58,7 @@ export function ContactFormHub() {
               onClick={() => setActiveTab("enquiry")}
               className={`py-2.5 px-3 rounded-xl text-xs sm:text-sm font-bold transition-all duration-300 flex items-center justify-center gap-1.5 ${
                 activeTab === "enquiry"
-                  ? "bg-[var(--ratwal-blue)] text-white shadow-sm"
+                  ? "bg-[var(--ratiwal-blue)] text-white shadow-sm"
                   : "text-[var(--text-secondary)] hover:text-[var(--midnight)] hover:bg-[var(--surface)]"
               }`}
             >
@@ -70,7 +70,7 @@ export function ContactFormHub() {
               onClick={() => setActiveTab("site-visit")}
               className={`py-2.5 px-3 rounded-xl text-xs sm:text-sm font-bold transition-all duration-300 flex items-center justify-center gap-1.5 ${
                 activeTab === "site-visit"
-                  ? "bg-[var(--ratwal-blue)] text-white shadow-sm"
+                  ? "bg-[var(--ratiwal-blue)] text-white shadow-sm"
                   : "text-[var(--text-secondary)] hover:text-[var(--midnight)] hover:bg-[var(--surface)]"
               }`}
             >
@@ -100,7 +100,7 @@ export function ContactFormHub() {
             {activeTab === "enquiry" && (
               <div>
                 <div className="mb-6 pb-4 border-b border-[rgba(7,26,40,0.06)]">
-                  <span className="text-[11px] font-bold uppercase tracking-wider text-[var(--ratwal-blue)]">
+                  <span className="text-[11px] font-bold uppercase tracking-wider text-[var(--ratiwal-blue)]">
                     Mode 1 &bull; Comprehensive Land Advisory
                   </span>
                   <h3 className="font-instrument text-2xl sm:text-3xl text-[var(--midnight)] font-normal mt-1">
@@ -117,7 +117,7 @@ export function ContactFormHub() {
             {activeTab === "site-visit" && (
               <div>
                 <div className="mb-6 pb-4 border-b border-[rgba(7,26,40,0.06)]">
-                  <span className="text-[11px] font-bold uppercase tracking-wider text-[var(--ratwal-blue)]">
+                  <span className="text-[11px] font-bold uppercase tracking-wider text-[var(--ratiwal-blue)]">
                     Mode 2 &bull; On-Ground Inspection Tour
                   </span>
                   <h3 className="font-instrument text-2xl sm:text-3xl text-[var(--midnight)] font-normal mt-1">
@@ -224,21 +224,21 @@ export function ContactFormHub() {
             {/* Quick Response Guarantees */}
             <div className="p-6 rounded-2xl bg-white border border-[rgba(7,26,40,0.08)] shadow-xs space-y-4">
               <h3 className="text-xs font-bold uppercase tracking-wider text-[var(--midnight)] flex items-center gap-2">
-                <Clock size={16} className="text-[var(--ratwal-blue)]" />
+                <Clock size={16} className="text-[var(--ratiwal-blue)]" />
                 Our Advisory Commitment
               </h3>
 
               <div className="space-y-3 text-xs sm:text-[13px] text-[var(--text-secondary)]">
                 <div className="flex items-start gap-2.5">
-                  <CheckCircle2 size={16} className="text-[var(--ratwal-blue)] flex-shrink-0 mt-0.5" />
+                  <CheckCircle2 size={16} className="text-[var(--ratiwal-blue)] flex-shrink-0 mt-0.5" />
                   <span><strong>Under 2-Hour Response:</strong> An advisor reviews your criteria promptly during working hours.</span>
                 </div>
                 <div className="flex items-start gap-2.5">
-                  <CheckCircle2 size={16} className="text-[var(--ratwal-blue)] flex-shrink-0 mt-0.5" />
+                  <CheckCircle2 size={16} className="text-[var(--ratiwal-blue)] flex-shrink-0 mt-0.5" />
                   <span><strong>Accompanied Site Visits:</strong> Private site visit logistics arranged directly from Jaipur.</span>
                 </div>
                 <div className="flex items-start gap-2.5">
-                  <CheckCircle2 size={16} className="text-[var(--ratwal-blue)] flex-shrink-0 mt-0.5" />
+                  <CheckCircle2 size={16} className="text-[var(--ratiwal-blue)] flex-shrink-0 mt-0.5" />
                   <span><strong>100% Confidential:</strong> Your investment parameters and contact data are strictly protected.</span>
                 </div>
               </div>

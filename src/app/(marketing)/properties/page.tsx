@@ -21,7 +21,7 @@ export default function PropertiesPage() {
     "@context": "https://schema.org",
     "@graph": [
       buildWebPageSchema({
-        title: "Verified Residential & Commercial Plots Portfolio | Ratwal Dream Estates",
+        title: "Verified Residential & Commercial Plots Portfolio | Ratiwal Dream Estates",
         description:
           "Explore our vetted collection of premium residential and commercial plots in Jaipur, Ajmer, Navi Mumbai, Panvel, and Bhiwadi.",
         url: `${siteConfig.url}/properties`,

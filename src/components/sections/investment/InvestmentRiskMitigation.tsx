@@ -73,7 +73,7 @@ export function InvestmentRiskMitigation() {
               <div className="p-6 sm:p-8 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md hover:border-white/20 transition-all duration-300 h-full flex flex-col justify-between">
                 <div>
                   <div className="flex items-center justify-between mb-4">
-                    <div className="w-10 h-10 rounded-xl bg-[var(--ratwal-blue)]/30 text-[var(--cyan)] flex items-center justify-center">
+                    <div className="w-10 h-10 rounded-xl bg-[var(--ratiwal-blue)]/30 text-[var(--cyan)] flex items-center justify-center">
                       <item.icon size={20} />
                     </div>
                     <span className="text-[11px] uppercase tracking-wider font-bold text-white/50">
@@ -94,7 +94,7 @@ export function InvestmentRiskMitigation() {
                   </div>
 
                   {/* The Ratiwal Shield */}
-                  <div className="p-3.5 rounded-xl bg-[var(--ratwal-blue)]/20 border border-[var(--cyan)]/30 text-xs sm:text-[13px] text-white">
+                  <div className="p-3.5 rounded-xl bg-[var(--ratiwal-blue)]/20 border border-[var(--cyan)]/30 text-xs sm:text-[13px] text-white">
                     <span className="text-[11px] uppercase font-bold text-[var(--cyan)] flex items-center gap-1.5 mb-1">
                       <ShieldCheck size={14} />
                       The Ratiwal Shield:

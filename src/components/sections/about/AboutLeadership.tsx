@@ -102,7 +102,7 @@ export function AboutLeadership() {
               {credentials.map((cred, idx) => (
                 <Reveal key={idx} delay={150 + idx * 50}>
                   <div className="flex items-start gap-3 p-3.5 rounded-xl bg-white/5 border border-white/10 backdrop-blur-sm">
-                    <div className="w-8 h-8 rounded-lg bg-[var(--ratwal-blue)]/30 text-[var(--cyan)] flex items-center justify-center flex-shrink-0 mt-0.5">
+                    <div className="w-8 h-8 rounded-lg bg-[var(--ratiwal-blue)]/30 text-[var(--cyan)] flex items-center justify-center flex-shrink-0 mt-0.5">
                       <ShieldCheck size={18} />
                     </div>
                     <div>

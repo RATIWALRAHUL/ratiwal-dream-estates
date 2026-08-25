@@ -17,7 +17,7 @@ import { buildRealEstateAgentSchema, buildWebSiteSchema, sanitizeJsonLd } from "
 export const metadata = getMetadata({
   title: "Premium Plots in Jaipur & Navi Mumbai",
   description:
-    "Discover verified residential and commercial plots with Ratwal Dream Estates, your trusted property consultancy.",
+    "Discover verified residential and commercial plots with Ratiwal Dream Estates, your trusted property consultancy.",
   slug: "",
 });
 

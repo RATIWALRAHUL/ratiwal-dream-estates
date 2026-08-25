@@ -26,8 +26,8 @@ export function WhyChooseFAQ() {
         <div className="max-w-3xl mb-12 sm:mb-16">
           <Reveal>
             <div className="flex items-center gap-2 mb-2">
-              <HelpCircle size={16} className="text-[var(--ratwal-blue)]" />
-              <span className="text-xs font-bold uppercase tracking-[0.18em] text-[var(--ratwal-blue)]">
+              <HelpCircle size={16} className="text-[var(--ratiwal-blue)]" />
+              <span className="text-xs font-bold uppercase tracking-[0.18em] text-[var(--ratiwal-blue)]">
                 FREQUENTLY ASKED QUESTIONS
               </span>
             </div>
@@ -54,7 +54,7 @@ export function WhyChooseFAQ() {
                   className={cn(
                     "rounded-2xl border transition-all duration-200 overflow-hidden",
                     isOpen
-                      ? "bg-[var(--surface)] border-[var(--ratwal-blue)]/50 shadow-2xs"
+                      ? "bg-[var(--surface)] border-[var(--ratiwal-blue)]/50 shadow-2xs"
                       : "bg-white hover:bg-[var(--surface)]/50 border-[rgba(7,26,40,0.08)]"
                   )}
                 >
@@ -63,14 +63,14 @@ export function WhyChooseFAQ() {
                     onClick={() => toggleFaq(faq.id)}
                     aria-expanded={isOpen}
                     aria-controls={`faq-answer-${faq.id}`}
-                    className="w-full min-h-[56px] p-5 sm:p-6 text-left flex items-center justify-between gap-4 font-semibold text-sm sm:text-base text-[var(--midnight)] hover:text-[var(--ratwal-blue)] transition-colors focus-visible:outline"
+                    className="w-full min-h-[56px] p-5 sm:p-6 text-left flex items-center justify-between gap-4 font-semibold text-sm sm:text-base text-[var(--midnight)] hover:text-[var(--ratiwal-blue)] transition-colors focus-visible:outline"
                   >
                     <span className="font-instrument text-xl sm:text-2xl font-normal leading-snug">
                       {faq.question}
                     </span>
                     <ChevronDown
                       className={cn(
-                        "w-5 h-5 text-[var(--ratwal-blue)] flex-shrink-0 transition-transform duration-300",
+                        "w-5 h-5 text-[var(--ratiwal-blue)] flex-shrink-0 transition-transform duration-300",
                         isOpen && "rotate-180"
                       )}
                     />
@@ -86,7 +86,7 @@ export function WhyChooseFAQ() {
                         <div className="pt-2">
                           <Link
                             href={faq.relatedLink.href}
-                            className="inline-flex items-center gap-1.5 font-bold text-xs text-[var(--ratwal-blue)] hover:text-[var(--ratwal-blue-deep)] underline transition-colors"
+                            className="inline-flex items-center gap-1.5 font-bold text-xs text-[var(--ratiwal-blue)] hover:text-[var(--ratiwal-blue-deep)] underline transition-colors"
                           >
                             <span>{faq.relatedLink.label}</span>
                             <span>→</span>

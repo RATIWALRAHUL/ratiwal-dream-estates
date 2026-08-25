@@ -100,8 +100,8 @@ export function InvestmentCalculator() {
         <div className="max-w-3xl mx-auto text-center mb-12 sm:mb-16">
           <Reveal>
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[var(--advisor-ivory)] border border-[rgba(8,127,195,0.2)] mb-3">
-              <Calculator size={15} className="text-[var(--ratwal-blue)]" />
-              <span className="text-[11.5px] font-bold tracking-[0.16em] uppercase text-[var(--ratwal-blue)]">
+              <Calculator size={15} className="text-[var(--ratiwal-blue)]" />
+              <span className="text-[11.5px] font-bold tracking-[0.16em] uppercase text-[var(--ratiwal-blue)]">
                 INTERACTIVE ROI MODELING
               </span>
             </div>
@@ -111,7 +111,7 @@ export function InvestmentCalculator() {
               className="font-instrument text-[2.4rem] sm:text-[3.2rem] md:text-[3.8rem] text-[var(--midnight)] font-normal leading-[1.05] tracking-tight mb-4"
             >
               Model your projected{" "}
-              <span className="italic text-[var(--ratwal-blue)]">land appreciation.</span>
+              <span className="italic text-[var(--ratiwal-blue)]">land appreciation.</span>
             </h2>
 
             <p className="text-base sm:text-lg text-[var(--text-secondary)] leading-relaxed">
@@ -132,7 +132,7 @@ export function InvestmentCalculator() {
                 <label htmlFor="capital-slider" className="text-xs font-bold uppercase tracking-wider text-[var(--midnight)]">
                   1. Initial Investment Capital
                 </label>
-                <span className="font-instrument text-2xl sm:text-3xl text-[var(--ratwal-blue-deep)] font-normal">
+                <span className="font-instrument text-2xl sm:text-3xl text-[var(--ratiwal-blue-deep)] font-normal">
                   {formatCurrency(capital)}
                 </span>
               </div>
@@ -146,7 +146,7 @@ export function InvestmentCalculator() {
                 step={500000}
                 value={capital}
                 onChange={(e) => setCapital(Number(e.target.value))}
-                className="w-full h-2.5 bg-[var(--mist-blue)] rounded-lg appearance-none cursor-pointer accent-[var(--ratwal-blue)] mb-3"
+                className="w-full h-2.5 bg-[var(--mist-blue)] rounded-lg appearance-none cursor-pointer accent-[var(--ratiwal-blue)] mb-3"
               />
 
               {/* Quick Preset Buttons */}
@@ -158,7 +158,7 @@ export function InvestmentCalculator() {
                     onClick={() => setCapital(q.value)}
                     className={`px-3 py-1 rounded-lg text-xs font-semibold transition-all ${
                       capital === q.value
-                        ? "bg-[var(--ratwal-blue)] text-white shadow-xs"
+                        ? "bg-[var(--ratiwal-blue)] text-white shadow-xs"
                         : "bg-[var(--surface)] text-[var(--text-secondary)] hover:bg-[var(--mist-blue)] border border-[rgba(7,26,40,0.06)]"
                     }`}
                   >
@@ -174,7 +174,7 @@ export function InvestmentCalculator() {
                 <label className="text-xs font-bold uppercase tracking-wider text-[var(--midnight)]">
                   2. Investment Holding Period
                 </label>
-                <span className="font-instrument text-2xl sm:text-3xl text-[var(--ratwal-blue-deep)] font-normal">
+                <span className="font-instrument text-2xl sm:text-3xl text-[var(--ratiwal-blue-deep)] font-normal">
                   {horizon} Years
                 </span>
               </div>
@@ -187,7 +187,7 @@ export function InvestmentCalculator() {
                     onClick={() => setHorizon(years)}
                     className={`py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all ${
                       horizon === years
-                        ? "bg-[var(--ratwal-blue)] text-white shadow-sm"
+                        ? "bg-[var(--ratiwal-blue)] text-white shadow-sm"
                         : "bg-[var(--surface)] text-[var(--text-secondary)] hover:bg-[var(--mist-blue)] border border-[rgba(7,26,40,0.06)]"
                     }`}
                   >
@@ -211,12 +211,12 @@ export function InvestmentCalculator() {
                     onClick={() => setSelectedCorridorId(c.id)}
                     className={`p-3.5 rounded-xl text-left border transition-all ${
                       selectedCorridorId === c.id
-                        ? "bg-[var(--mist-blue)] border-[var(--ratwal-blue)] shadow-xs"
+                        ? "bg-[var(--mist-blue)] border-[var(--ratiwal-blue)] shadow-xs"
                         : "bg-[var(--surface)] border-[rgba(7,26,40,0.06)] hover:border-[rgba(8,127,195,0.2)]"
                     }`}
                   >
                     <div className="flex items-center justify-between mb-1">
-                      <span className="text-[11px] font-bold text-[var(--ratwal-blue)] uppercase">
+                      <span className="text-[11px] font-bold text-[var(--ratiwal-blue)] uppercase">
                         {c.cagr}% Historical CAGR
                       </span>
                     </div>
@@ -296,7 +296,7 @@ export function InvestmentCalculator() {
               <MagneticButton strength={6} className="w-full">
                 <Link
                   href={`/contact?budget=${encodeURIComponent(formatCurrency(capital))}&location=${encodeURIComponent(currentCorridor.location.split(",")[0])}`}
-                  className="inline-flex items-center justify-center gap-2 w-full py-3.5 px-6 rounded-full bg-[var(--ratwal-blue)] hover:bg-[var(--ratwal-blue-deep)] text-white font-bold text-xs sm:text-sm shadow-md transition-all"
+                  className="inline-flex items-center justify-center gap-2 w-full py-3.5 px-6 rounded-full bg-[var(--ratiwal-blue)] hover:bg-[var(--ratiwal-blue-deep)] text-white font-bold text-xs sm:text-sm shadow-md transition-all"
                 >
                   <span>Request Vetted Plots in This Budget</span>
                   <ArrowRight size={16} />

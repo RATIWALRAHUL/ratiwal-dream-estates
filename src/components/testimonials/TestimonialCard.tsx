@@ -59,7 +59,7 @@ export function TestimonialCard({ testimonial }: TestimonialCardProps) {
                   <p className="font-semibold text-[#52BDE9] mb-1">Internal Verification Standard:</p>
                   <p className="text-[#c5d8e4]">
                     {testimonial.verificationMethod ||
-                      "Verified means Ratwal Dream Estates has confirmed this review is connected to a genuine advisory interaction or transaction record."}
+                      "Verified means Ratiwal Dream Estates has confirmed this review is connected to a genuine advisory interaction or transaction record."}
                   </p>
                 </div>
               )}

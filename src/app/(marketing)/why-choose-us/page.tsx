@@ -23,9 +23,9 @@ import {
 } from "@/lib/schema";
 
 export const metadata = getMetadata({
-  title: "Why Choose Ratwal Dream Estates | Verified Property Advisory",
+  title: "Why Choose Ratiwal Dream Estates | Verified Property Advisory",
   description:
-    "Discover Ratwal Dream Estates’ verification-first approach to property discovery, documentation support, pricing transparency, and local real-estate guidance.",
+    "Discover Ratiwal Dream Estates’ verification-first approach to property discovery, documentation support, pricing transparency, and local real-estate guidance.",
   slug: "/why-choose-us",
 });
 
@@ -34,9 +34,9 @@ export default function WhyChooseUsPage() {
     "@context": "https://schema.org",
     "@graph": [
       buildWebPageSchema({
-        title: "Why Choose Ratwal Dream Estates | Verified Property Advisory",
+        title: "Why Choose Ratiwal Dream Estates | Verified Property Advisory",
         description:
-          "Discover Ratwal Dream Estates’ verification-first approach to property discovery, documentation support, pricing transparency, and local real-estate guidance.",
+          "Discover Ratiwal Dream Estates’ verification-first approach to property discovery, documentation support, pricing transparency, and local real-estate guidance.",
         url: `${siteConfig.url}/why-choose-us`,
       }),
       buildBreadcrumbSchema([

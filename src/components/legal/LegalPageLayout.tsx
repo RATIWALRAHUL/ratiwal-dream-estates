@@ -61,7 +61,7 @@ export function LegalPageLayout({ data }: LegalPageLayoutProps) {
 
           {/* Editorial Page Header */}
           <header className="max-w-4xl pb-8 sm:pb-12 border-b border-[rgba(7,26,40,0.1)]">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[var(--surface)] border border-[rgba(7,26,40,0.1)] text-[var(--ratwal-blue)] text-xs font-bold uppercase tracking-wider mb-4">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[var(--surface)] border border-[rgba(7,26,40,0.1)] text-[var(--ratiwal-blue)] text-xs font-bold uppercase tracking-wider mb-4">
               <Scale size={13} />
               <span>{data.category}</span>
             </div>
@@ -77,11 +77,11 @@ export function LegalPageLayout({ data }: LegalPageLayoutProps) {
             {/* Meta Timestamps */}
             <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-xs text-[var(--text-secondary)] font-medium">
               <div className="flex items-center gap-1.5">
-                <Calendar size={14} className="text-[var(--ratwal-blue)]" />
+                <Calendar size={14} className="text-[var(--ratiwal-blue)]" />
                 <span>Effective Date: {data.effectiveDate}</span>
               </div>
               <div className="flex items-center gap-1.5">
-                <FileCheck size={14} className="text-[var(--ratwal-blue)]" />
+                <FileCheck size={14} className="text-[var(--ratiwal-blue)]" />
                 <span>Last Updated: {data.lastUpdated}</span>
               </div>
             </div>
@@ -90,9 +90,9 @@ export function LegalPageLayout({ data }: LegalPageLayoutProps) {
             {data.noticeBanner && (
               <div className="mt-8 p-4 sm:p-5 rounded-2xl bg-white border border-[var(--cyan)]/40 shadow-xs">
                 <div className="flex items-start gap-3">
-                  <ShieldAlert className="w-5 h-5 text-[var(--ratwal-blue)] flex-shrink-0 mt-0.5" />
+                  <ShieldAlert className="w-5 h-5 text-[var(--ratiwal-blue)] flex-shrink-0 mt-0.5" />
                   <div>
-                    <span className="text-[11px] font-bold uppercase tracking-widest text-[var(--ratwal-blue)] block mb-1">
+                    <span className="text-[11px] font-bold uppercase tracking-widest text-[var(--ratiwal-blue)] block mb-1">
                       {data.noticeBanner.badge}
                     </span>
                     <p className="text-xs sm:text-[13px] text-[var(--midnight)] leading-relaxed font-medium">

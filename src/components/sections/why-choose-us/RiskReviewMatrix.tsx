@@ -25,8 +25,8 @@ export function RiskReviewMatrix() {
         <div className="max-w-3xl mb-12 sm:mb-16">
           <Reveal>
             <div className="flex items-center gap-2 mb-2">
-              <ShieldCheck size={16} className="text-[var(--ratwal-blue)]" />
-              <span className="text-xs font-bold uppercase tracking-[0.18em] text-[var(--ratwal-blue)]">
+              <ShieldCheck size={16} className="text-[var(--ratiwal-blue)]" />
+              <span className="text-xs font-bold uppercase tracking-[0.18em] text-[var(--ratiwal-blue)]">
                 {riskMatrix.eyebrow}
               </span>
             </div>
@@ -53,7 +53,7 @@ export function RiskReviewMatrix() {
                   className={cn(
                     "rounded-2xl border transition-all duration-200 overflow-hidden",
                     isExpanded
-                      ? "bg-white border-[var(--ratwal-blue)]/50 shadow-sm"
+                      ? "bg-white border-[var(--ratiwal-blue)]/50 shadow-sm"
                       : "bg-white/80 hover:bg-white border-[rgba(7,26,40,0.08)]"
                   )}
                 >
@@ -70,7 +70,7 @@ export function RiskReviewMatrix() {
                         {String(idx + 1).padStart(2, "0")}
                       </span>
 
-                      <span className="px-2.5 py-0.5 rounded-full bg-[var(--mist-blue)] text-[var(--ratwal-blue-deep)] text-[11px] font-bold uppercase tracking-wider">
+                      <span className="px-2.5 py-0.5 rounded-full bg-[var(--mist-blue)] text-[var(--ratiwal-blue-deep)] text-[11px] font-bold uppercase tracking-wider">
                         {row.categoryBadge}
                       </span>
 
@@ -80,13 +80,13 @@ export function RiskReviewMatrix() {
                     </div>
 
                     <div className="flex items-center gap-2 flex-shrink-0">
-                      <span className="text-[11px] font-bold text-[var(--ratwal-blue)] hidden sm:inline">
+                      <span className="text-[11px] font-bold text-[var(--ratiwal-blue)] hidden sm:inline">
                         {isExpanded ? "Hide Details" : "View Checklist"}
                       </span>
                       <ChevronDown
                         size={18}
                         className={cn(
-                          "text-[var(--ratwal-blue)] transition-transform duration-200",
+                          "text-[var(--ratiwal-blue)] transition-transform duration-200",
                           isExpanded && "rotate-180"
                         )}
                       />
@@ -112,7 +112,7 @@ export function RiskReviewMatrix() {
 
                         {/* Buyer Output & Diligence Items (6 cols) */}
                         <div className="md:col-span-6 space-y-2">
-                          <span className="text-[11px] font-bold uppercase tracking-wider text-[var(--ratwal-blue)] block">
+                          <span className="text-[11px] font-bold uppercase tracking-wider text-[var(--ratiwal-blue)] block">
                             Information Provided to Buyer
                           </span>
                           <p className="text-xs sm:text-sm text-[var(--text-secondary)] leading-relaxed">
@@ -148,7 +148,7 @@ export function RiskReviewMatrix() {
         <Reveal delay={300}>
           <div className="p-4 sm:p-5 rounded-2xl bg-white border border-[rgba(7,26,40,0.1)] text-xs text-[var(--text-secondary)] leading-relaxed">
             <div className="flex items-start gap-2.5">
-              <Info size={16} className="text-[var(--ratwal-blue)] flex-shrink-0 mt-0.5" />
+              <Info size={16} className="text-[var(--ratiwal-blue)] flex-shrink-0 mt-0.5" />
               <p>
                 <span className="font-bold text-[var(--midnight)]">Market Transparency Note:</span>{" "}
                 {riskMatrix.disclaimer}

@@ -24,7 +24,7 @@ export interface RiskMatrixRow {
 
 export interface ComparisonPoint {
   unstructured: string;
-  ratwalApproach: string;
+  ratiwalApproach: string;
 }
 
 export interface BuyerDeliverable {
@@ -47,8 +47,8 @@ export interface FAQItem {
 
 export const whyChooseUsData = {
   hero: {
-    index: "01 / WHY RATWAL",
-    eyebrow: "WHY RATWAL DREAM ESTATES",
+    index: "01 / WHY RATIWAL",
+    eyebrow: "WHY RATIWAL DREAM ESTATES",
     headline: "Clarity before commitment.",
     supportingCopy:
       "We help buyers and investors evaluate opportunities through structured verification, transparent information, and experienced local guidance.",
@@ -177,7 +177,7 @@ export const whyChooseUsData = {
         badge: "Asset Principal",
       },
       {
-        title: "Ratwal Information & Verification Layer",
+        title: "Ratiwal Information & Verification Layer",
         role: "Advisory & Diligence Bridge",
         desc: "Synthesizes documents, clarifies commercial terms, coordinates site access, and organizes verification dossiers.",
         badge: "Diligence Protocol",
@@ -190,7 +190,7 @@ export const whyChooseUsData = {
       },
     ],
     diligencePoints: [
-      "Ratwal coordinates available property information directly with source principals.",
+      "Ratiwal coordinates available property information directly with source principals.",
       "Pricing and commercial terms are itemized without hidden markups.",
       "Buyer technical and legal questions are routed directly to authorized representatives.",
       "Documentation queries and title chains are organized before any financial commitment.",
@@ -291,27 +291,27 @@ export const whyChooseUsData = {
   comparison: [
     {
       unstructured: "Information fragmented across unverified classifieds and multiple middlemen",
-      ratwalApproach: "Bespoke investor requirements established first with curated direct listings",
+      ratiwalApproach: "Bespoke investor requirements established first with curated direct listings",
     },
     {
       unstructured: "Inconsistent rate quotations and hidden post-booking development overheads",
-      ratwalApproach: "Transparent, itemized commercial cost sheet with all known statutory charges",
+      ratiwalApproach: "Transparent, itemized commercial cost sheet with all known statutory charges",
     },
     {
       unstructured: "Unclear land conversion, revenue status, and unverified layout sanctions",
-      ratwalApproach: "Structured 6-stage verification review with organized document dossiers",
+      ratiwalApproach: "Structured 6-stage verification review with organized document dossiers",
     },
     {
       unstructured: "High sales pressure to deposit non-refundable token deposits immediately",
-      ratwalApproach: "Document-led guidance allowing thorough independent legal review",
+      ratiwalApproach: "Document-led guidance allowing thorough independent legal review",
     },
     {
       unstructured: "Generic corridor hype without micro-market infrastructure ground reality",
-      ratwalApproach: "Objective micro-market analysis separating existing from proposed amenities",
+      ratiwalApproach: "Objective micro-market analysis separating existing from proposed amenities",
     },
     {
       unstructured: "Advisory stops once booking token is transferred to third party",
-      ratwalApproach: "Buyer support through registry coordination, demarcation, and post-sale advisory",
+      ratiwalApproach: "Buyer support through registry coordination, demarcation, and post-sale advisory",
     },
   ] as ComparisonPoint[],
 

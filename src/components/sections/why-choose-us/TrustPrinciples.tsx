@@ -11,12 +11,12 @@ export function TrustPrinciples() {
   const renderIcon = (iconName: string) => {
     switch (iconName) {
       case "shield":
-        return <ShieldCheck className="w-5 h-5 text-[var(--ratwal-blue)]" />;
+        return <ShieldCheck className="w-5 h-5 text-[var(--ratiwal-blue)]" />;
       case "message":
-        return <MessageSquareCheck className="w-5 h-5 text-[var(--ratwal-blue)]" />;
+        return <MessageSquareCheck className="w-5 h-5 text-[var(--ratiwal-blue)]" />;
       case "compass":
       default:
-        return <Compass className="w-5 h-5 text-[var(--ratwal-blue)]" />;
+        return <Compass className="w-5 h-5 text-[var(--ratiwal-blue)]" />;
     }
   };
 
@@ -30,7 +30,7 @@ export function TrustPrinciples() {
         {/* Section Heading */}
         <div className="max-w-3xl mb-12 sm:mb-16">
           <Reveal>
-            <span className="text-xs font-bold uppercase tracking-[0.18em] text-[var(--ratwal-blue)] block mb-2">
+            <span className="text-xs font-bold uppercase tracking-[0.18em] text-[var(--ratiwal-blue)] block mb-2">
               FOUNDATIONAL STANDARDS
             </span>
             <h2
@@ -46,10 +46,10 @@ export function TrustPrinciples() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12 relative">
           {principles.map((principle, idx) => (
             <Reveal key={idx} delay={idx * 150}>
-              <div className="p-6 sm:p-8 rounded-2xl bg-[var(--surface)] border border-[rgba(7,26,40,0.08)] h-full flex flex-col justify-between hover:border-[var(--ratwal-blue)]/40 hover:shadow-sm transition-all duration-300 group">
+              <div className="p-6 sm:p-8 rounded-2xl bg-[var(--surface)] border border-[rgba(7,26,40,0.08)] h-full flex flex-col justify-between hover:border-[var(--ratiwal-blue)]/40 hover:shadow-sm transition-all duration-300 group">
                 <div>
                   <div className="flex items-center justify-between gap-4 mb-6">
-                    <div className="w-11 h-11 rounded-xl bg-white text-[var(--ratwal-blue)] flex items-center justify-center shadow-xs group-hover:bg-[var(--ratwal-blue)] group-hover:text-white transition-colors duration-300">
+                    <div className="w-11 h-11 rounded-xl bg-white text-[var(--ratiwal-blue)] flex items-center justify-center shadow-xs group-hover:bg-[var(--ratiwal-blue)] group-hover:text-white transition-colors duration-300">
                       {renderIcon(principle.iconName)}
                     </div>
                     <span className="font-mono text-xs font-bold text-[var(--text-secondary)] px-2.5 py-1 rounded-full bg-white border border-[rgba(7,26,40,0.06)]">
@@ -67,7 +67,7 @@ export function TrustPrinciples() {
                 </div>
 
                 <div className="pt-6 mt-6 border-t border-[rgba(7,26,40,0.06)] flex items-center gap-2">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[var(--ratwal-blue)]" />
+                  <span className="w-1.5 h-1.5 rounded-full bg-[var(--ratiwal-blue)]" />
                   <span className="text-[11px] font-bold uppercase tracking-wider text-[var(--text-secondary)]">
                     Non-negotiable protocol
                   </span>

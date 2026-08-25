@@ -59,8 +59,8 @@ export function AboutCoreValues() {
         <div className="max-w-3xl mx-auto text-center mb-12 sm:mb-16">
           <Reveal>
             <div className="flex items-center justify-center gap-2 mb-3">
-              <span className="w-1.5 h-1.5 rounded-full bg-[var(--ratwal-blue)]" />
-              <span className="text-[12px] font-bold tracking-[0.16em] uppercase text-[var(--ratwal-blue)]">
+              <span className="w-1.5 h-1.5 rounded-full bg-[var(--ratiwal-blue)]" />
+              <span className="text-[12px] font-bold tracking-[0.16em] uppercase text-[var(--ratiwal-blue)]">
                 OUR CORE VALUES
               </span>
             </div>
@@ -70,7 +70,7 @@ export function AboutCoreValues() {
               className="font-instrument text-[2.4rem] sm:text-[3.2rem] md:text-[3.8rem] text-[var(--midnight)] font-normal leading-[1.05] tracking-tight mb-4"
             >
               The principles that govern{" "}
-              <span className="italic text-[var(--ratwal-blue)]">our counsel.</span>
+              <span className="italic text-[var(--ratiwal-blue)]">our counsel.</span>
             </h2>
 
             <p className="text-base sm:text-lg text-[var(--text-secondary)] leading-relaxed">
@@ -85,7 +85,7 @@ export function AboutCoreValues() {
             <Reveal key={idx} delay={idx * 60}>
               <div className="h-full p-6 sm:p-7 rounded-2xl bg-white border border-[rgba(7,26,40,0.08)] shadow-xs transition-all duration-300 hover:shadow-md hover:border-[rgba(8,127,195,0.3)] hover:-translate-y-1 flex flex-col justify-between">
                 <div>
-                  <div className="w-12 h-12 rounded-xl bg-[var(--cyan-soft)] text-[var(--ratwal-blue-deep)] flex items-center justify-center mb-5 shadow-xs">
+                  <div className="w-12 h-12 rounded-xl bg-[var(--cyan-soft)] text-[var(--ratiwal-blue-deep)] flex items-center justify-center mb-5 shadow-xs">
                     <val.icon size={24} strokeWidth={1.8} />
                   </div>
                   
@@ -98,7 +98,7 @@ export function AboutCoreValues() {
                   </p>
                 </div>
 
-                <div className="pt-5 mt-5 border-t border-[rgba(7,26,40,0.06)] flex items-center gap-1.5 text-xs font-bold text-[var(--ratwal-blue)]">
+                <div className="pt-5 mt-5 border-t border-[rgba(7,26,40,0.06)] flex items-center gap-1.5 text-xs font-bold text-[var(--ratiwal-blue)]">
                   <span>Ratiwal Integrity Standard</span>
                 </div>
               </div>

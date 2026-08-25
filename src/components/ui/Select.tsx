@@ -208,7 +208,7 @@ const Select = forwardRef<HTMLSelectElement, SelectProps>(
             className={cn(
               "w-full min-h-[48px] px-4 py-2.5 rounded-xl text-left text-xs sm:text-sm font-medium transition-all duration-200 flex items-center justify-between gap-2 border bg-white shadow-xs focus:outline-none",
               isOpen
-                ? "border-[var(--ratwal-blue)] ring-2 ring-[rgba(8,127,195,0.18)] shadow-sm"
+                ? "border-[var(--ratiwal-blue)] ring-2 ring-[rgba(8,127,195,0.18)] shadow-sm"
                 : error
                 ? "border-red-400 ring-1 ring-red-400/20"
                 : "border-[rgba(7,26,40,0.12)] hover:border-[rgba(8,127,195,0.4)]",
@@ -229,8 +229,8 @@ const Select = forwardRef<HTMLSelectElement, SelectProps>(
 
             <ChevronDown
               className={cn(
-                "w-4 h-4 text-[var(--ratwal-blue)] flex-shrink-0 transition-transform duration-300",
-                isOpen && "rotate-180 text-[var(--ratwal-blue-deep)]"
+                "w-4 h-4 text-[var(--ratiwal-blue)] flex-shrink-0 transition-transform duration-300",
+                isOpen && "rotate-180 text-[var(--ratiwal-blue-deep)]"
               )}
               aria-hidden="true"
             />
@@ -257,15 +257,15 @@ const Select = forwardRef<HTMLSelectElement, SelectProps>(
                     className={cn(
                       "w-full px-3.5 py-2.5 rounded-xl text-xs sm:text-sm transition-all duration-150 cursor-pointer flex items-center justify-between gap-2 select-none",
                       isSelected
-                        ? "bg-[var(--mist-blue)] text-[var(--ratwal-blue-deep)] font-bold"
+                        ? "bg-[var(--mist-blue)] text-[var(--ratiwal-blue-deep)] font-bold"
                         : isFocused
                         ? "bg-[var(--surface)] text-[var(--midnight)] font-medium"
-                        : "text-[var(--midnight)] hover:bg-[var(--surface)] hover:text-[var(--ratwal-blue)]"
+                        : "text-[var(--midnight)] hover:bg-[var(--surface)] hover:text-[var(--ratiwal-blue)]"
                     )}
                   >
                     <span className="truncate">{option.label}</span>
                     {isSelected && (
-                      <Check className="w-4 h-4 text-[var(--ratwal-blue)] flex-shrink-0" />
+                      <Check className="w-4 h-4 text-[var(--ratiwal-blue)] flex-shrink-0" />
                     )}
                   </div>
                 );
