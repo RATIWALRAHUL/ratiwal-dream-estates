@@ -241,7 +241,6 @@ const MediaAssetSchema = new Schema<IMediaAsset>(
     },
     deletedAt: {
       type: Date,
-      index: true,
     },
   },
   {

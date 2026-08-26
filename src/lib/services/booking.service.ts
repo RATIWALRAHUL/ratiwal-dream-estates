@@ -13,6 +13,7 @@ import { Deal } from "@/models/Deal";
 import { InventoryUnit } from "@/models/InventoryUnit";
 import { InventoryStatusHistory } from "@/models/InventoryStatusHistory";
 import { DealActivity } from "@/models/DealActivity";
+import { CustomerKycCase } from "@/models/CustomerKycCase";
 import { AdminSession } from "@/lib/auth/session";
 import { logAuditEvent } from "@/lib/services/audit.service";
 import { BookingSummary } from "@/types/deal";
@@ -48,6 +49,17 @@ export class BookingService {
 
     const deal = await Deal.findById(reservation.dealId);
     if (!deal) throw new Error("NOT_FOUND: Deal not found.");
+
+    // PRD 15: Validate Customer KYC status before confirming booking
+    const activeKycCase = await CustomerKycCase.findOne({
+      $or: [{ dealId: deal._id }, { reservationId: reservation._id }],
+    });
+
+    if (activeKycCase && activeKycCase.blockingBookingConfirmation && activeKycCase.status !== "COMPLETED") {
+      throw new Error(
+        `KYC_INCOMPLETE: Customer KYC Case ${activeKycCase.kycCaseNumber} is currently in status "${activeKycCase.status}" (${activeKycCase.satisfiedRequirementsCount}/${activeKycCase.totalRequirementsCount} requirements completed). Mandatory KYC must be completed or overridden prior to booking confirmation.`
+      );
+    }
 
     // Check existing confirmed booking for unit
     const existingConfirmedBooking = await Booking.findOne({
@@ -151,7 +163,7 @@ export class BookingService {
     await logAuditEvent({
       actor: session.user,
       action: "BOOKING_CONFIRMED",
-      propertyId: deal.propertyId.toString(),
+      targetPropertyId: deal.propertyId.toString(),
       reason: `Confirmed booking ${booking.bookingNumber} on unit ${unit.unitNumber}.`,
     });
 

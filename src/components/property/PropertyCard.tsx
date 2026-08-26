@@ -40,9 +40,10 @@ export function PropertyCard({ property }: PropertyCardProps) {
             src={property.images[0]}
             alt={displayName}
             fill
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+            quality={80}
+            loading="lazy"
             className="property-card-image object-cover"
-            priority={property.featured}
           />
         ) : (
           <div className="flex items-center justify-center h-full text-text-muted text-xs bg-primary-light">

@@ -83,13 +83,13 @@ export function CreateDealForm({ leads, properties, units }: CreateDealFormProps
 
       {/* Select Lead */}
       <div>
-        <label className="font-bold text-[#071a28] block mb-1">Select Buyer / Lead *</label>
+        <label className="font-semibold text-[#071a28] block mb-1">Select Buyer / Lead *</label>
         <select
           value={leadId}
           onChange={(e) => setLeadId(e.target.value)}
           required
           disabled={isPending}
-          className="w-full px-3 py-2.5 rounded-xl border border-slate-200 bg-[#fbfaf8] text-xs font-semibold text-[#071a28]"
+          className="w-full px-3.5 py-2.5 rounded-xl border border-[rgba(7,26,40,0.12)] bg-white text-xs font-semibold text-[#071a28] focus:border-[#0088cc] focus:outline-hidden"
         >
           <option value="">-- Choose lead --</option>
           {leads.map((l) => (
@@ -102,7 +102,7 @@ export function CreateDealForm({ leads, properties, units }: CreateDealFormProps
 
       {/* Select Property */}
       <div>
-        <label className="font-bold text-[#071a28] block mb-1">Select Property *</label>
+        <label className="font-semibold text-[#071a28] block mb-1">Select Property *</label>
         <select
           value={propertyId}
           onChange={(e) => {
@@ -111,7 +111,7 @@ export function CreateDealForm({ leads, properties, units }: CreateDealFormProps
           }}
           required
           disabled={isPending}
-          className="w-full px-3 py-2.5 rounded-xl border border-slate-200 bg-[#fbfaf8] text-xs font-semibold text-[#071a28]"
+          className="w-full px-3.5 py-2.5 rounded-xl border border-[rgba(7,26,40,0.12)] bg-white text-xs font-semibold text-[#071a28] focus:border-[#0088cc] focus:outline-hidden"
         >
           <option value="">-- Choose property --</option>
           {properties.map((p) => (
@@ -124,14 +124,14 @@ export function CreateDealForm({ leads, properties, units }: CreateDealFormProps
 
       {/* Optional Select Unit */}
       <div>
-        <label className="font-bold text-[#071a28] block mb-1">
-          Select Sellable Unit <span className="text-slate-400 font-normal">(Optional)</span>
+        <label className="font-semibold text-[#071a28] block mb-1">
+          Select Sellable Unit <span className="text-[#647581] font-normal">(Optional)</span>
         </label>
         <select
           value={unitId}
           onChange={(e) => setUnitId(e.target.value)}
           disabled={isPending || !propertyId}
-          className="w-full px-3 py-2.5 rounded-xl border border-slate-200 bg-[#fbfaf8] text-xs font-semibold text-[#071a28]"
+          className="w-full px-3.5 py-2.5 rounded-xl border border-[rgba(7,26,40,0.12)] bg-white text-xs font-semibold text-[#071a28] focus:border-[#0088cc] focus:outline-hidden"
         >
           <option value="">-- Assign specific unit later or general property deal --</option>
           {filteredUnits.map((u) => (
@@ -145,12 +145,12 @@ export function CreateDealForm({ leads, properties, units }: CreateDealFormProps
       {/* Priority & Source */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         <div>
-          <label className="font-bold text-[#071a28] block mb-1">Deal Priority</label>
+          <label className="font-semibold text-[#071a28] block mb-1">Deal Priority</label>
           <select
             value={priority}
             onChange={(e) => setPriority(e.target.value as DealPriority)}
             disabled={isPending}
-            className="w-full px-3 py-2.5 rounded-xl border border-slate-200 bg-[#fbfaf8] text-xs font-semibold text-[#071a28]"
+            className="w-full px-3.5 py-2.5 rounded-xl border border-[rgba(7,26,40,0.12)] bg-white text-xs font-semibold text-[#071a28] focus:border-[#0088cc] focus:outline-hidden"
           >
             <option value="LOW">Low</option>
             <option value="NORMAL">Normal</option>
@@ -160,12 +160,12 @@ export function CreateDealForm({ leads, properties, units }: CreateDealFormProps
         </div>
 
         <div>
-          <label className="font-bold text-[#071a28] block mb-1">Deal Source</label>
+          <label className="font-semibold text-[#071a28] block mb-1">Deal Source</label>
           <select
             value={source}
             onChange={(e) => setSource(e.target.value as DealSource)}
             disabled={isPending}
-            className="w-full px-3 py-2.5 rounded-xl border border-slate-200 bg-[#fbfaf8] text-xs font-semibold text-[#071a28]"
+            className="w-full px-3.5 py-2.5 rounded-xl border border-[rgba(7,26,40,0.12)] bg-white text-xs font-semibold text-[#071a28] focus:border-[#0088cc] focus:outline-hidden"
           >
             <option value="DIRECT_INQUIRY">Direct Website Inquiry</option>
             <option value="SITE_VISIT_CONVERSION">Site Visit Conversion</option>
@@ -178,42 +178,42 @@ export function CreateDealForm({ leads, properties, units }: CreateDealFormProps
 
       {/* Expected Close Date */}
       <div>
-        <label className="font-bold text-[#071a28] block mb-1">Expected Target Close Date</label>
+        <label className="font-semibold text-[#071a28] block mb-1">Expected Target Close Date</label>
         <input
           type="date"
           value={expectedCloseDate}
           onChange={(e) => setExpectedCloseDate(e.target.value)}
           disabled={isPending}
-          className="w-full px-3 py-2 rounded-xl border border-slate-200 bg-[#fbfaf8] text-xs font-semibold text-[#071a28]"
+          className="w-full px-3.5 py-2.5 rounded-xl border border-[rgba(7,26,40,0.12)] bg-white text-xs font-semibold text-[#071a28] focus:border-[#0088cc] focus:outline-hidden"
         />
       </div>
 
       {/* Internal Notes */}
       <div>
-        <label className="font-bold text-[#071a28] block mb-1">Initial Strategy & Internal Notes</label>
+        <label className="font-semibold text-[#071a28] block mb-1">Initial Strategy & Internal Notes</label>
         <textarea
           value={notes}
           onChange={(e) => setNotes(e.target.value)}
           rows={3}
           disabled={isPending}
-          className="w-full px-3 py-2 rounded-xl border border-slate-200 bg-[#fbfaf8] text-xs"
+          className="w-full px-3.5 py-2.5 rounded-xl border border-[rgba(7,26,40,0.12)] bg-white text-xs text-[#071a28] focus:border-[#0088cc] focus:outline-hidden"
           placeholder="Client preferences, payment terms discussed, timeline..."
         />
       </div>
 
-      <div className="flex justify-end gap-2.5 pt-4 border-t border-slate-100">
+      <div className="flex justify-end gap-2.5 pt-4 border-t border-[rgba(7,26,40,0.06)]">
         <button
           type="button"
           onClick={() => router.back()}
           disabled={isPending}
-          className="px-4 py-2.5 rounded-xl border border-slate-200 text-slate-600 font-bold hover:bg-slate-50"
+          className="px-4 py-2.5 rounded-xl border border-[rgba(7,26,40,0.12)] text-[#647581] font-semibold hover:bg-stone-50 transition cursor-pointer"
         >
           Cancel
         </button>
         <button
           type="submit"
           disabled={isPending}
-          className="px-6 py-2.5 rounded-xl bg-[#071a28] text-white font-bold hover:bg-slate-800 transition-colors shadow-xs"
+          className="px-6 py-2.5 rounded-xl bg-[#0088cc] hover:bg-[#0077b5] text-white font-semibold shadow-xs transition-colors cursor-pointer"
         >
           {isPending ? "Creating Deal..." : "Create Deal Workspace"}
         </button>

@@ -17,7 +17,7 @@ import { Types } from "mongoose";
 
 export interface EnqueueOutboxInput {
   eventType: NotificationEventType;
-  aggregateType: "LEAD" | "SITE_VISIT" | "PROPERTY" | "USER";
+  aggregateType: "LEAD" | "SITE_VISIT" | "PROPERTY" | "USER" | "DEAL" | "BOOKING" | "KYC" | "PAYMENT";
   aggregateId: string | Types.ObjectId;
   aggregateVersion?: number;
   recipientType: "CUSTOMER" | "ADVISOR" | "ADMIN_POOL";

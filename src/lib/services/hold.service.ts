@@ -151,7 +151,7 @@ export class HoldService {
     await logAuditEvent({
       actor: session.user,
       action: "INVENTORY_HOLD_CREATED",
-      propertyId: deal.propertyId.toString(),
+      targetPropertyId: deal.propertyId.toString(),
       reason: `Placed hold ${hold.holdNumber} on unit ${lockedUnit.unitNumber}.`,
     });
 
@@ -338,7 +338,7 @@ export class HoldService {
           toStatus: "AVAILABLE",
           reasonCode: "INVENTORY_HOLD_EXPIRED",
           sanitizedComment: `Hold ${h.holdNumber} expired automatically after deadline`,
-          source: "SYSTEM_PROCESSOR",
+          source: "RESERVATION_WORKFLOW",
           changedBy: "SYSTEM_WORKER",
           changedByName: "Hold Expiration Worker",
           changedByRole: "SUPER_ADMIN",

@@ -38,6 +38,17 @@ export function getMetadata({
       address: true,
       email: true,
     },
+    icons: {
+      icon: [
+        { url: "/images/brand/favicon.svg", type: "image/svg+xml" },
+        { url: "/favicon.ico", sizes: "any" },
+      ],
+      apple: [
+        { url: "/apple-icon", sizes: "180x180", type: "image/png" },
+        { url: "/images/brand/logo.png", sizes: "180x180", type: "image/png" },
+      ],
+      shortcut: "/images/brand/favicon.svg",
+    },
     alternates: {
       canonical: canonicalUrl,
     },

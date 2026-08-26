@@ -1,4 +1,5 @@
 import { cookies, headers } from "next/headers";
+import { cache } from "react";
 
 export type AdminRole = "ADMIN" | "EDITOR" | "SUPER_ADMIN";
 
@@ -30,13 +31,13 @@ export const DEV_ADMIN_OVERRIDE_HEADER = "x-dev-admin-session";
  * 
  * Note: If no token or valid session is present, this returns null.
  */
-export async function getAdminSession(): Promise<AdminSession | null> {
+async function getAdminSessionUncached(): Promise<AdminSession | null> {
   try {
     const cookieStore = await cookies();
     const headersList = await headers();
 
-    // 1. Check for token in secure HTTP-only cookie
-    const cookieToken = cookieStore.get(ADMIN_AUTH_COOKIE_NAME)?.value;
+    // 1. Check for token in secure HTTP-only cookies
+    const cookieToken = cookieStore.get("admin_session")?.value || cookieStore.get(ADMIN_AUTH_COOKIE_NAME)?.value;
 
     // 2. Check for token in authorization header (for API requests / integrations)
     const headerToken = headersList.get(ADMIN_AUTH_HEADER_NAME) || 
@@ -122,6 +123,11 @@ export async function getAdminSession(): Promise<AdminSession | null> {
 }
 
 /**
+ * Request-scoped memoized admin session lookup
+ */
+export const getAdminSession = cache(getAdminSessionUncached);
+
+/**
  * Creates a valid session token string for testing or authenticated responses.
  */
 export function createSessionToken(user: AdminUser, expiresInMs = 86400000): string {
@@ -132,3 +138,25 @@ export function createSessionToken(user: AdminUser, expiresInMs = 86400000): str
   const payload = Buffer.from(JSON.stringify(session), "utf-8").toString("base64url");
   return `sess_${payload}`;
 }
+
+export async function requireAdminSession(): Promise<AdminSession> {
+  const session = await getAdminSession();
+  if (!session) {
+    throw new Error("UNAUTHORIZED: Active admin session required.");
+  }
+  return session;
+}
+
+export const requireSession = requireAdminSession;
+
+export async function requireRole(allowedRoles: AdminRole[]): Promise<AdminSession> {
+  const session = await getAdminSession();
+  if (!session) {
+    throw new Error("UNAUTHORIZED: Active admin session required.");
+  }
+  if (!allowedRoles.includes(session.user.role)) {
+    throw new Error("FORBIDDEN: Insufficient permissions.");
+  }
+  return session;
+}
+

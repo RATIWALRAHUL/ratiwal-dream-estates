@@ -232,7 +232,7 @@ export function InventoryManager({ initialData, userRole }: InventoryManagerProp
         <button
           type="button"
           onClick={openAddModal}
-          className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-[#071a28] text-white text-xs font-bold hover:bg-[#0a6ba3] transition-colors shadow-xs cursor-pointer"
+          className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-[#0088cc] hover:bg-[#0077b5] text-white text-xs font-semibold transition-colors shadow-xs cursor-pointer"
         >
           <Plus className="w-4 h-4" />
           <span>Add Plot Unit</span>
@@ -317,7 +317,7 @@ export function InventoryManager({ initialData, userRole }: InventoryManagerProp
           <button
             type="button"
             onClick={() => applyFilters()}
-            className="absolute right-1.5 top-1/2 -translate-y-1/2 px-2.5 py-1 rounded-lg bg-[#071a28] text-white text-[11px] font-semibold"
+            className="absolute right-1.5 top-1/2 -translate-y-1/2 px-2.5 py-1 rounded-lg bg-[#0088cc] hover:bg-[#0077b5] text-white text-[11px] font-semibold transition cursor-pointer"
           >
             Search
           </button>
@@ -662,7 +662,7 @@ export function InventoryManager({ initialData, userRole }: InventoryManagerProp
                 <button
                   type="submit"
                   disabled={isPending}
-                  className="px-5 py-2 rounded-xl bg-[#071a28] text-white text-xs font-bold hover:bg-[#0a6ba3] transition-colors cursor-pointer"
+                  className="px-5 py-2 rounded-xl bg-[#0088cc] hover:bg-[#0077b5] text-white text-xs font-semibold transition-colors shadow-xs cursor-pointer"
                 >
                   {isPending ? "Saving..." : editModalPlot ? "Update Unit" : "Create Unit"}
                 </button>

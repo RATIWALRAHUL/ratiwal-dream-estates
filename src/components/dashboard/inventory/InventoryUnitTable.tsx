@@ -32,9 +32,9 @@ interface InventoryUnitTableProps {
   total: number;
   page: number;
   perPage: number;
-  selectedUnitIds: string[];
-  onToggleSelect: (unitId: string) => void;
-  onSelectAll: () => void;
+  selectedUnitIds?: string[];
+  onToggleSelect?: (unitId: string) => void;
+  onSelectAll?: () => void;
 }
 
 export function InventoryUnitTable({
@@ -42,12 +42,35 @@ export function InventoryUnitTable({
   total,
   page,
   perPage,
-  selectedUnitIds,
-  onToggleSelect,
-  onSelectAll,
+  selectedUnitIds: controlledSelectedUnitIds,
+  onToggleSelect: controlledOnToggleSelect,
+  onSelectAll: controlledOnSelectAll,
 }: InventoryUnitTableProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
+
+  const [internalSelectedIds, setInternalSelectedIds] = useState<string[]>([]);
+  const selectedUnitIds = controlledSelectedUnitIds ?? internalSelectedIds;
+
+  const handleToggleSelect = (unitId: string) => {
+    if (controlledOnToggleSelect) {
+      controlledOnToggleSelect(unitId);
+    } else {
+      setInternalSelectedIds((prev) =>
+        prev.includes(unitId) ? prev.filter((id) => id !== unitId) : [...prev, unitId]
+      );
+    }
+  };
+
+  const handleSelectAll = () => {
+    if (controlledOnSelectAll) {
+      controlledOnSelectAll();
+    } else {
+      setInternalSelectedIds((prev) =>
+        prev.length === units.length ? [] : units.map((u) => u._id)
+      );
+    }
+  };
 
   const allSelected = units.length > 0 && units.every((u) => selectedUnitIds.includes(u._id));
   const totalPages = Math.ceil(total / perPage);
@@ -67,7 +90,7 @@ export function InventoryUnitTable({
               <th className="py-3 px-4 w-10">
                 <button
                   type="button"
-                  onClick={onSelectAll}
+                  onClick={handleSelectAll}
                   className="text-slate-500 hover:text-[#071a28]"
                   title="Select All"
                 >
@@ -110,7 +133,7 @@ export function InventoryUnitTable({
                     <td className="py-3 px-4">
                       <button
                         type="button"
-                        onClick={() => onToggleSelect(u._id)}
+                        onClick={() => handleToggleSelect(u._id)}
                         className="text-slate-500 hover:text-[#071a28]"
                       >
                         {isSelected ? (

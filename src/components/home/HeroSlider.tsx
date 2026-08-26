@@ -165,9 +165,10 @@ export function HeroSlider() {
                   src={slide.image}
                   alt={slide.alt}
                   fill
-                  priority
+                  priority={index === 0}
+                  loading={index === 0 ? "eager" : "lazy"}
                   sizes="100vw"
-                  quality={95}
+                  quality={85}
                   className="hero-slide-image"
                 />
               </div>

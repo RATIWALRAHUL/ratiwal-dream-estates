@@ -8,7 +8,7 @@ import type {
 export interface INotificationOutbox extends Document {
   _id: Types.ObjectId;
   eventType: NotificationEventType;
-  aggregateType: "LEAD" | "SITE_VISIT" | "PROPERTY" | "USER";
+  aggregateType: "LEAD" | "SITE_VISIT" | "PROPERTY" | "USER" | "KYC" | "PAYMENT" | "BOOKING" | "DEAL";
   aggregateId: Types.ObjectId;
   aggregateVersion: number;
   recipientType: "CUSTOMER" | "ADVISOR" | "ADMIN_POOL";
@@ -47,7 +47,7 @@ const NotificationOutboxSchema = new Schema<INotificationOutbox>(
     aggregateType: {
       type: String,
       required: true,
-      enum: ["LEAD", "SITE_VISIT", "PROPERTY", "USER"],
+      enum: ["LEAD", "SITE_VISIT", "PROPERTY", "USER", "KYC", "PAYMENT", "BOOKING", "DEAL"],
     },
     aggregateId: {
       type: Schema.Types.ObjectId,

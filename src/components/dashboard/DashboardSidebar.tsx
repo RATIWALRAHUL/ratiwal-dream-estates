@@ -17,6 +17,14 @@ import {
   ExternalLink,
   LogOut,
   Lock,
+  ShieldCheck,
+  CreditCard,
+  LifeBuoy,
+  Briefcase,
+  BadgePercent,
+  CheckSquare,
+  ListTodo,
+  Globe,
 } from "lucide-react";
 import type { AdminUser } from "@/lib/auth/session";
 
@@ -33,6 +41,18 @@ export function DashboardSidebar({ user }: DashboardSidebarProps) {
       href: "/dashboard",
       icon: LayoutDashboard,
       active: pathname === "/dashboard",
+    },
+    {
+      label: "My Work",
+      href: "/dashboard/my-work",
+      icon: CheckSquare,
+      active: pathname.startsWith("/dashboard/my-work"),
+    },
+    {
+      label: "Tasks",
+      href: "/dashboard/tasks",
+      icon: ListTodo,
+      active: pathname.startsWith("/dashboard/tasks"),
     },
     {
       label: "Properties",
@@ -77,6 +97,37 @@ export function DashboardSidebar({ user }: DashboardSidebarProps) {
       active: pathname.startsWith("/dashboard/bookings"),
     },
     {
+      label: "Payments & Ledger",
+      href: "/dashboard/payments",
+      icon: CreditCard,
+      active:
+        pathname.startsWith("/dashboard/payments") ||
+        pathname.startsWith("/dashboard/payment-plans") ||
+        pathname.startsWith("/dashboard/manual-payments") ||
+        pathname.startsWith("/dashboard/receipts") ||
+        pathname.startsWith("/dashboard/refunds"),
+    },
+    {
+      label: "Customer KYC",
+      href: "/dashboard/kyc",
+      icon: ShieldCheck,
+      active: pathname.startsWith("/dashboard/kyc"),
+    },
+    {
+      label: "Channel Partners",
+      href: "/dashboard/partners",
+      icon: Briefcase,
+      active:
+        pathname.startsWith("/dashboard/partners") ||
+        pathname.startsWith("/dashboard/partner-leads"),
+    },
+    {
+      label: "Commissions",
+      href: "/dashboard/commissions",
+      icon: BadgePercent,
+      active: pathname.startsWith("/dashboard/commissions"),
+    },
+    {
       label: "Leads & Inquiries",
       href: "/dashboard/leads",
       icon: Users,
@@ -87,6 +138,12 @@ export function DashboardSidebar({ user }: DashboardSidebarProps) {
       href: "/dashboard/site-visits",
       icon: Calendar,
       active: pathname.startsWith("/dashboard/site-visits"),
+    },
+    {
+      label: "Customer Support",
+      href: "/dashboard/support",
+      icon: LifeBuoy,
+      active: pathname.startsWith("/dashboard/support"),
     },
     {
       label: "Communications",
@@ -105,6 +162,12 @@ export function DashboardSidebar({ user }: DashboardSidebarProps) {
       href: "/dashboard/legal-vault",
       icon: FileText,
       active: pathname.startsWith("/dashboard/legal-vault"),
+    },
+    {
+      label: "Content & SEO",
+      href: "/dashboard/content",
+      icon: Globe,
+      active: pathname.startsWith("/dashboard/content") || pathname.startsWith("/dashboard/seo"),
     },
     {
       label: "Team Management",

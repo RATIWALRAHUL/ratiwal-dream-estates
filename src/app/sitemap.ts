@@ -4,8 +4,9 @@ import { properties } from "@/data/properties";
 import { locations } from "@/data/locations";
 import { getAllPublishedCaseStudies } from "@/data/testimonials";
 import { getAllApprovedArticles } from "@/data/insights";
+import { CmsQueryService } from "@/lib/services/cms-query.service";
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticRoutes = [
     "",
     "/properties",
@@ -23,7 +24,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   const staticUrls = staticRoutes.map((route) => ({
     url: `${siteConfig.url}${route}`,
-    lastModified: new Date(),
+    lastModified: new Date("2026-08-15"),
     changeFrequency: "weekly" as const,
     priority: route === "" ? 1.0 : 0.8,
   }));
@@ -56,5 +57,26 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.7,
   }));
 
-  return [...staticUrls, ...propertyUrls, ...locationUrls, ...caseStudyUrls, ...insightUrls];
+  let dynamicCmsUrls: any[] = [];
+  try {
+    const cmsEntries = await CmsQueryService.getSitemapEntries();
+    dynamicCmsUrls = cmsEntries.map((entry) => ({
+      url: `${siteConfig.url}${entry.path}`,
+      lastModified: entry.lastModified,
+      changeFrequency: "weekly" as const,
+      priority: 0.7,
+    }));
+  } catch {
+    // Gracefully fallback if db not connected during static builds
+    dynamicCmsUrls = [];
+  }
+
+  return [
+    ...staticUrls,
+    ...propertyUrls,
+    ...locationUrls,
+    ...caseStudyUrls,
+    ...insightUrls,
+    ...dynamicCmsUrls,
+  ];
 }

@@ -84,7 +84,6 @@ export function LegalContactCard() {
         <div className="text-[11px] text-[var(--text-secondary)] leading-normal max-w-xl">
           <span className="font-bold text-[var(--midnight)]">Legal Professional Review Notice:</span> The policies and disclaimers on this website are established in accordance with applicable Indian real estate regulatory and electronic commerce guidelines. Final commercial agreements and statutory conveyances are executed under individual advocate supervision.
         </div>
-
         <a
           href={whatsappUrl}
           target="_blank"

@@ -21,14 +21,14 @@ const instrument = Instrument_Serif({
 const jakarta = Plus_Jakarta_Sans({
   subsets: ["latin"],
   variable: "--font-body",
-  weight: ["400", "500", "600", "700", "800"],
+  weight: ["400", "500", "600", "700"],
   display: "swap",
 });
 
 const mono = JetBrains_Mono({
   subsets: ["latin"],
   variable: "--font-mono",
-  weight: ["400", "500", "600", "700"],
+  weight: ["400", "600"],
   display: "swap",
 });
 

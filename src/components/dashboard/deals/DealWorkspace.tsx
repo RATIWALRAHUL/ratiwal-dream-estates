@@ -20,6 +20,7 @@ import {
 import { OfferBuilderModal } from "./OfferBuilderModal";
 import { HoldActionModal } from "./HoldActionModal";
 import { BookingConfirmModal } from "./BookingConfirmModal";
+import { ArrowLeft, Check, CheckCircle2, Lock, Plus, Tag, X } from "lucide-react";
 
 interface DealWorkspaceProps {
   dealData: any;
@@ -48,7 +49,7 @@ export function DealWorkspace({ dealData, userRole = "SUPER_ADMIN" }: DealWorksp
 
   // Stage change state
   const [targetStage, setTargetStage] = useState<DealStage | "">("");
-  const [lostReason, setLostReason] = useState<DealLostReason>("PRICE_TOO_HIGH");
+  const [lostReason, setLostReason] = useState<DealLostReason>("PRICE_MISMATCH");
   const [stageComment, setStageComment] = useState("");
 
   const isClosed = ["WON", "LOST", "CANCELLED", "ARCHIVED"].includes(deal.status);
@@ -130,60 +131,75 @@ export function DealWorkspace({ dealData, userRole = "SUPER_ADMIN" }: DealWorksp
 
   return (
     <div className="space-y-6">
+      {/* Back button */}
+      <div>
+        <Link
+          href="/dashboard/deals"
+          className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#647581] hover:text-[#071a28] transition"
+        >
+          <ArrowLeft className="w-4 h-4" />
+          <span>Back to Deals & Pipeline</span>
+        </Link>
+      </div>
+
       {/* Top Header Card */}
-      <div className="bg-white rounded-3xl border border-[rgba(7,26,40,0.08)] p-6 shadow-xs space-y-4">
+      <div className="bg-white rounded-3xl border border-[rgba(7,26,40,0.08)] p-6 md:p-8 shadow-[0_4px_24px_rgba(7,26,40,0.02)] space-y-5">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-          <div className="space-y-1">
+          <div className="space-y-1.5">
             <div className="flex items-center gap-2.5">
-              <span className="font-mono text-sm font-bold text-slate-500 bg-slate-100 px-2.5 py-0.5 rounded-lg">
+              <span className="font-mono text-xs font-bold text-[#0088cc] bg-[#eaf5fa] border border-[#0088cc]/20 px-2.5 py-0.5 rounded-lg">
                 {deal.dealNumber}
               </span>
-              <span className="text-xs px-2.5 py-0.5 rounded-full font-bold bg-amber-50 text-amber-900 border border-amber-200">
+              <span className="text-xs px-2.5 py-0.5 rounded-full font-semibold bg-amber-50 text-amber-900 border border-amber-200">
                 {deal.status.replace(/_/g, " ")}
               </span>
-              <span className="text-[11px] text-slate-400 font-mono">v{deal.version}</span>
+              <span className="text-[11px] text-[#647581] font-mono font-semibold">v{deal.version}</span>
             </div>
-            <h1 className="text-xl sm:text-2xl font-bold font-serif text-[#071a28]">
+            <h1 className="text-xl sm:text-2xl md:text-3xl font-bold font-serif text-[#071a28]">
               {deal.leadId?.fullName || "Prospective Client"} • {deal.propertyId?.title || "Property"}
             </h1>
           </div>
 
           {/* Action Buttons */}
-          <div className="flex flex-wrap items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2.5">
             {!isClosed && (
               <>
                 <button
                   onClick={() => setIsOfferModalOpen(true)}
                   disabled={isPending}
-                  className="px-3.5 py-2 rounded-xl bg-slate-100 text-[#071a28] font-bold text-xs hover:bg-[#c5a880] hover:text-white transition-colors"
+                  className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-white border border-[rgba(7,26,40,0.12)] text-[#071a28] font-semibold text-xs hover:bg-stone-50 transition shadow-2xs cursor-pointer"
                 >
-                  + Create Offer
+                  <Tag className="w-3.5 h-3.5 text-[#0088cc]" />
+                  <span>Create Offer</span>
                 </button>
                 {deal.unitId && !activeHold && !activeReservation && !booking && (
                   <button
                     onClick={() => setHoldModalMode("ACQUIRE")}
                     disabled={isPending}
-                    className="px-3.5 py-2 rounded-xl bg-purple-50 text-purple-900 border border-purple-200 font-bold text-xs hover:bg-purple-100 transition-colors"
+                    className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-purple-50 text-purple-900 border border-purple-200 font-semibold text-xs hover:bg-purple-100 transition shadow-2xs cursor-pointer"
                   >
-                    🔒 Place Hold
+                    <Lock className="w-3.5 h-3.5" />
+                    <span>Place Hold</span>
                   </button>
                 )}
                 {activeHold && !activeReservation && (
                   <button
                     onClick={handleConvertToReservation}
                     disabled={isPending}
-                    className="px-3.5 py-2 rounded-xl bg-indigo-50 text-indigo-900 border border-indigo-200 font-bold text-xs hover:bg-indigo-100 transition-colors"
+                    className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-blue-50 text-blue-900 border border-blue-200 font-semibold text-xs hover:bg-blue-100 transition shadow-2xs cursor-pointer"
                   >
-                    📋 Reserve Unit
+                    <CheckCircle2 className="w-3.5 h-3.5" />
+                    <span>Reserve Unit</span>
                   </button>
                 )}
                 {activeReservation && !booking && (
                   <button
                     onClick={() => setIsBookingModalOpen(true)}
                     disabled={isPending}
-                    className="px-3.5 py-2 rounded-xl bg-emerald-600 text-white font-bold text-xs hover:bg-emerald-700 transition-colors shadow-xs"
+                    className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-[#0088cc] hover:bg-[#0077b5] text-white font-semibold text-xs transition shadow-xs cursor-pointer"
                   >
-                    ✓ Confirm Booking
+                    <Check className="w-3.5 h-3.5" />
+                    <span>Confirm Booking</span>
                   </button>
                 )}
               </>
@@ -192,7 +208,7 @@ export function DealWorkspace({ dealData, userRole = "SUPER_ADMIN" }: DealWorksp
         </div>
 
         {/* Pipeline Stage Stepper */}
-        <div className="pt-3 border-t border-slate-100">
+        <div className="pt-4 border-t border-[rgba(7,26,40,0.06)]">
           <div className="flex items-center justify-between overflow-x-auto pb-2 gap-2 text-xs">
             {STAGE_STEPS.map((step, idx) => {
               const isCurrent = deal.status === step.stage;
@@ -203,20 +219,20 @@ export function DealWorkspace({ dealData, userRole = "SUPER_ADMIN" }: DealWorksp
               return (
                 <div key={step.stage} className="flex items-center gap-2 shrink-0">
                   <div
-                    className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full font-bold transition-colors ${
+                    className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-full font-semibold transition-colors ${
                       isCurrent
                         ? "bg-[#071a28] text-white shadow-xs"
                         : isPast
                         ? "bg-emerald-50 text-emerald-800 border border-emerald-200"
-                        : "bg-slate-100 text-slate-400"
+                        : "bg-[#f8f7f4] text-[#647581] border border-[rgba(7,26,40,0.06)]"
                     }`}
                   >
-                    <span className="w-4 h-4 rounded-full bg-white/20 flex items-center justify-center text-[10px]">
+                    <span className="w-4 h-4 rounded-full bg-white/20 flex items-center justify-center text-[10px] font-bold">
                       {idx + 1}
                     </span>
                     <span>{step.label}</span>
                   </div>
-                  {idx < STAGE_STEPS.length - 1 && <span className="text-slate-300">→</span>}
+                  {idx < STAGE_STEPS.length - 1 && <span className="text-stone-300">→</span>}
                 </div>
               );
             })}
@@ -235,56 +251,56 @@ export function DealWorkspace({ dealData, userRole = "SUPER_ADMIN" }: DealWorksp
         {/* Left Column (2 Cols) */}
         <div className="lg:col-span-2 space-y-6">
           {/* Customer & Unit Details */}
-          <div className="bg-white rounded-3xl border border-[rgba(7,26,40,0.08)] p-6 space-y-4">
+          <div className="bg-white rounded-3xl border border-[rgba(7,26,40,0.08)] p-6 space-y-4 shadow-2xs">
             <h3 className="text-sm font-bold font-serif text-[#071a28] uppercase tracking-wider">
               Asset & Prospect Overview
             </h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
-              <div className="p-4 rounded-2xl bg-[#fbfaf8] border border-slate-100 space-y-2">
-                <div className="text-slate-400 font-bold uppercase text-[10px]">Buyer Details</div>
+              <div className="p-4 rounded-2xl bg-[#f8f7f4] border border-[rgba(7,26,40,0.06)] space-y-2">
+                <div className="text-[#647581] font-bold uppercase text-[10px]">Buyer Details</div>
                 <div className="font-bold text-sm text-[#071a28]">{deal.leadId?.fullName || "—"}</div>
-                <div className="text-slate-600">{deal.leadId?.email || "No email"}</div>
-                <div className="text-slate-600">{deal.leadId?.displayPhone || "No phone"}</div>
+                <div className="text-[#647581]">{deal.leadId?.email || "No email"}</div>
+                <div className="text-[#647581]">{deal.leadId?.displayPhone || "No phone"}</div>
                 <div className="pt-1">
                   <Link
                     href={`/dashboard/leads/${deal.leadId?._id}`}
-                    className="text-[#c5a880] font-bold hover:underline text-[11px]"
+                    className="text-[#0088cc] font-semibold hover:underline text-[11px]"
                   >
                     View Lead Profile →
                   </Link>
                 </div>
               </div>
 
-              <div className="p-4 rounded-2xl bg-[#fbfaf8] border border-slate-100 space-y-2">
-                <div className="text-slate-400 font-bold uppercase text-[10px]">Property & Unit</div>
+              <div className="p-4 rounded-2xl bg-[#f8f7f4] border border-[rgba(7,26,40,0.06)] space-y-2">
+                <div className="text-[#647581] font-bold uppercase text-[10px]">Property & Unit</div>
                 <div className="font-bold text-sm text-[#071a28]">{deal.propertyId?.title || "—"}</div>
                 {deal.unitId ? (
                   <>
-                    <div className="font-mono font-bold text-slate-700">
+                    <div className="font-mono font-bold text-[#071a28]">
                       Unit: {deal.unitId.unitNumber} ({deal.unitId.referenceCode})
                     </div>
-                    <div className="text-slate-600">
+                    <div className="text-[#647581]">
                       Status:{" "}
-                      <span className="font-bold px-2 py-0.5 rounded bg-slate-200 text-slate-800">
+                      <span className="font-bold px-2 py-0.5 rounded-lg bg-white border border-[rgba(7,26,40,0.08)] text-[#071a28]">
                         {deal.unitId.status}
                       </span>
                     </div>
                   </>
                 ) : (
-                  <div className="text-slate-400 italic">No specific unit allocated</div>
+                  <div className="text-[#647581] italic">No specific unit allocated</div>
                 )}
               </div>
             </div>
           </div>
 
           {/* Current Offer Card */}
-          <div className="bg-white rounded-3xl border border-[rgba(7,26,40,0.08)] p-6 space-y-4">
+          <div className="bg-white rounded-3xl border border-[rgba(7,26,40,0.08)] p-6 space-y-4 shadow-2xs">
             <div className="flex justify-between items-center">
               <h3 className="text-sm font-bold font-serif text-[#071a28] uppercase tracking-wider">
                 Current Pricing Offer
               </h3>
               {currentOffer && (
-                <span className="text-xs font-mono font-bold text-slate-500">
+                <span className="text-xs font-mono font-bold text-[#0088cc]">
                   {currentOffer.offerNumber} (v{currentOffer.version})
                 </span>
               )}
@@ -292,30 +308,30 @@ export function DealWorkspace({ dealData, userRole = "SUPER_ADMIN" }: DealWorksp
 
             {currentOffer ? (
               <div className="space-y-4 text-xs">
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 p-4 rounded-2xl bg-[#fbfaf8] border border-slate-100">
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 p-4 rounded-2xl bg-[#f8f7f4] border border-[rgba(7,26,40,0.06)]">
                   <div>
-                    <div className="text-slate-400 text-[10px] uppercase font-bold">Base Price</div>
+                    <div className="text-[#647581] text-[10px] uppercase font-bold">Base Price</div>
                     <div className="font-bold text-[#071a28] text-sm mt-0.5">
                       ₹{Math.round(currentOffer.basePricePaise / 100).toLocaleString("en-IN")}
                     </div>
                   </div>
                   <div>
-                    <div className="text-slate-400 text-[10px] uppercase font-bold">Discount</div>
+                    <div className="text-[#647581] text-[10px] uppercase font-bold">Discount</div>
                     <div className="font-bold text-amber-700 text-sm mt-0.5">
                       ₹{Math.round(currentOffer.discountAmountPaise / 100).toLocaleString("en-IN")} (
                       {currentOffer.discountPercentage.toFixed(1)}%)
                     </div>
                   </div>
                   <div>
-                    <div className="text-slate-400 text-[10px] uppercase font-bold">Final Payable</div>
+                    <div className="text-[#647581] text-[10px] uppercase font-bold">Final Payable</div>
                     <div className="font-bold text-emerald-800 text-sm mt-0.5">
                       ₹{Math.round(currentOffer.finalOfferedAmountPaise / 100).toLocaleString("en-IN")}
                     </div>
                   </div>
                   <div>
-                    <div className="text-slate-400 text-[10px] uppercase font-bold">Approval</div>
+                    <div className="text-[#647581] text-[10px] uppercase font-bold">Approval</div>
                     <div className="mt-0.5">
-                      <span className="px-2 py-0.5 rounded-full font-bold text-[10px] bg-slate-100 text-slate-700">
+                      <span className="px-2.5 py-0.5 rounded-full font-semibold text-[10px] bg-white border border-[rgba(7,26,40,0.08)] text-[#071a28]">
                         {currentOffer.approvalStatus}
                       </span>
                     </div>
@@ -329,14 +345,14 @@ export function DealWorkspace({ dealData, userRole = "SUPER_ADMIN" }: DealWorksp
                       <button
                         onClick={() => handleApproveOffer(currentOffer._id.toString())}
                         disabled={isPending}
-                        className="px-3 py-1.5 rounded-xl bg-emerald-600 text-white font-bold text-xs hover:bg-emerald-700 transition-colors"
+                        className="px-3.5 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-xs transition-colors shadow-2xs cursor-pointer"
                       >
                         ✓ Approve Discount
                       </button>
                       <button
                         onClick={() => handleRejectOffer(currentOffer._id.toString())}
                         disabled={isPending}
-                        className="px-3 py-1.5 rounded-xl bg-rose-600 text-white font-bold text-xs hover:bg-rose-700 transition-colors"
+                        className="px-3.5 py-1.5 rounded-xl bg-rose-600 hover:bg-rose-700 text-white font-semibold text-xs transition-colors shadow-2xs cursor-pointer"
                       >
                         ✕ Reject Offer
                       </button>
@@ -346,7 +362,7 @@ export function DealWorkspace({ dealData, userRole = "SUPER_ADMIN" }: DealWorksp
                     <button
                       onClick={() => handleAcceptOffer(currentOffer._id.toString())}
                       disabled={isPending}
-                      className="px-3 py-1.5 rounded-xl bg-[#071a28] text-white font-bold text-xs hover:bg-slate-800 transition-colors"
+                      className="px-3.5 py-1.5 rounded-xl bg-[#0088cc] hover:bg-[#0077b5] text-white font-semibold text-xs transition-colors shadow-2xs cursor-pointer"
                     >
                       🤝 Mark Accepted by Buyer
                     </button>
@@ -354,7 +370,7 @@ export function DealWorkspace({ dealData, userRole = "SUPER_ADMIN" }: DealWorksp
                 </div>
               </div>
             ) : (
-              <div className="p-8 text-center bg-[#fbfaf8] rounded-2xl border border-dashed border-slate-200 text-slate-400 text-xs">
+              <div className="p-8 text-center bg-[#f8f7f4] rounded-2xl border border-dashed border-[rgba(7,26,40,0.12)] text-[#647581] text-xs">
                 No active offer drafted for this deal yet.
               </div>
             )}
@@ -362,12 +378,12 @@ export function DealWorkspace({ dealData, userRole = "SUPER_ADMIN" }: DealWorksp
 
           {/* Active Hold / Reservation / Booking Panels */}
           {activeHold && (
-            <div className="bg-purple-50/50 rounded-3xl border border-purple-200/80 p-6 space-y-3 text-xs">
+            <div className="bg-purple-50/70 rounded-3xl border border-purple-200 p-6 space-y-3 text-xs">
               <div className="flex justify-between items-center">
                 <h3 className="font-bold font-serif text-purple-950 uppercase text-sm">
                   Active Inventory Hold ({activeHold.holdNumber})
                 </h3>
-                <span className="font-bold text-purple-800 bg-purple-100 px-2 py-0.5 rounded-full text-[10px]">
+                <span className="font-semibold text-purple-800 bg-purple-100 px-2.5 py-0.5 rounded-full text-[10px] border border-purple-200">
                   ACTIVE
                 </span>
               </div>
@@ -381,14 +397,14 @@ export function DealWorkspace({ dealData, userRole = "SUPER_ADMIN" }: DealWorksp
                 <button
                   onClick={() => setHoldModalMode("EXTEND")}
                   disabled={isPending || activeHold.extensionCount >= 3}
-                  className="px-3 py-1 rounded-xl bg-purple-200 text-purple-950 font-bold hover:bg-purple-300"
+                  className="px-3.5 py-1.5 rounded-xl bg-purple-200 hover:bg-purple-300 text-purple-950 font-semibold transition cursor-pointer"
                 >
                   + Extend Hold
                 </button>
                 <button
                   onClick={() => setHoldModalMode("RELEASE")}
                   disabled={isPending}
-                  className="px-3 py-1 rounded-xl bg-white border border-purple-300 text-purple-900 font-bold hover:bg-purple-100"
+                  className="px-3.5 py-1.5 rounded-xl bg-white border border-purple-300 text-purple-900 font-semibold hover:bg-purple-100 transition cursor-pointer"
                 >
                   Release Hold
                 </button>
@@ -397,16 +413,16 @@ export function DealWorkspace({ dealData, userRole = "SUPER_ADMIN" }: DealWorksp
           )}
 
           {activeReservation && (
-            <div className="bg-indigo-50/50 rounded-3xl border border-indigo-200/80 p-6 space-y-3 text-xs">
+            <div className="bg-blue-50/70 rounded-3xl border border-blue-200 p-6 space-y-3 text-xs">
               <div className="flex justify-between items-center">
-                <h3 className="font-bold font-serif text-indigo-950 uppercase text-sm">
+                <h3 className="font-bold font-serif text-blue-950 uppercase text-sm">
                   Active Unit Reservation ({activeReservation.reservationNumber})
                 </h3>
-                <span className="font-bold text-indigo-800 bg-indigo-100 px-2 py-0.5 rounded-full text-[10px]">
+                <span className="font-semibold text-blue-800 bg-blue-100 px-2.5 py-0.5 rounded-full text-[10px] border border-blue-200">
                   RESERVED
                 </span>
               </div>
-              <p className="text-indigo-900 leading-relaxed">
+              <p className="text-blue-900 leading-relaxed">
                 Locked at agreed price of{" "}
                 <strong>₹{Math.round(activeReservation.finalAmountPaise / 100).toLocaleString("en-IN")}</strong>.
                 Valid until {activeReservation.validUntil ? new Date(activeReservation.validUntil).toLocaleDateString() : "—"}.
@@ -416,7 +432,7 @@ export function DealWorkspace({ dealData, userRole = "SUPER_ADMIN" }: DealWorksp
                   <button
                     onClick={() => handleCancelReservation(activeReservation._id.toString())}
                     disabled={isPending}
-                    className="px-3 py-1 rounded-xl bg-white border border-rose-300 text-rose-800 font-bold hover:bg-rose-50"
+                    className="px-3.5 py-1.5 rounded-xl bg-white border border-rose-300 text-rose-800 font-semibold hover:bg-rose-50 transition cursor-pointer"
                   >
                     Cancel Reservation
                   </button>
@@ -426,12 +442,12 @@ export function DealWorkspace({ dealData, userRole = "SUPER_ADMIN" }: DealWorksp
           )}
 
           {booking && (
-            <div className="bg-emerald-50/60 rounded-3xl border border-emerald-200 p-6 space-y-3 text-xs">
+            <div className="bg-emerald-50/70 rounded-3xl border border-emerald-200 p-6 space-y-3 text-xs">
               <div className="flex justify-between items-center">
                 <h3 className="font-bold font-serif text-emerald-950 uppercase text-sm">
                   Confirmed Booking Record ({booking.bookingNumber})
                 </h3>
-                <span className="font-bold text-emerald-800 bg-emerald-100 px-2.5 py-0.5 rounded-full text-[10px]">
+                <span className="font-semibold text-emerald-800 bg-emerald-100 px-2.5 py-0.5 rounded-full text-[10px] border border-emerald-200">
                   {booking.status}
                 </span>
               </div>
@@ -447,19 +463,19 @@ export function DealWorkspace({ dealData, userRole = "SUPER_ADMIN" }: DealWorksp
         {/* Right Column (1 Col): Stage Control & Activity Ledger */}
         <div className="space-y-6">
           {/* Stage Progression Card */}
-          <div className="bg-white rounded-3xl border border-[rgba(7,26,40,0.08)] p-6 space-y-4">
+          <div className="bg-white rounded-3xl border border-[rgba(7,26,40,0.08)] p-6 space-y-4 shadow-2xs">
             <h3 className="text-sm font-bold font-serif text-[#071a28] uppercase tracking-wider">
               Deal Progression
             </h3>
 
             <form onSubmit={handleStageChange} className="space-y-3 text-xs">
               <div>
-                <label className="font-bold text-[#071a28] block mb-1">Target Stage</label>
+                <label className="font-semibold text-[#071a28] block mb-1">Target Stage</label>
                 <select
                   value={targetStage}
                   onChange={(e) => setTargetStage(e.target.value as DealStage)}
                   disabled={isPending || isClosed}
-                  className="w-full px-3 py-2 rounded-xl border border-slate-200 bg-[#fbfaf8] text-xs font-semibold text-[#071a28]"
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-[rgba(7,26,40,0.12)] bg-white text-xs font-semibold text-[#071a28] focus:outline-hidden focus:border-[#0088cc]"
                 >
                   <option value="">-- Select next stage --</option>
                   {DEAL_STAGES.filter((s) => isValidDealTransition(deal.status, s)).map((s) => (
@@ -472,12 +488,12 @@ export function DealWorkspace({ dealData, userRole = "SUPER_ADMIN" }: DealWorksp
 
               {targetStage === "LOST" && (
                 <div>
-                  <label className="font-bold text-[#071a28] block mb-1">Lost Reason *</label>
+                  <label className="font-semibold text-[#071a28] block mb-1">Lost Reason *</label>
                   <select
                     value={lostReason}
                     onChange={(e) => setLostReason(e.target.value as DealLostReason)}
                     disabled={isPending}
-                    className="w-full px-3 py-2 rounded-xl border border-slate-200 bg-[#fbfaf8] text-xs font-semibold text-[#071a28]"
+                    className="w-full px-3.5 py-2.5 rounded-xl border border-[rgba(7,26,40,0.12)] bg-white text-xs font-semibold text-[#071a28] focus:outline-hidden focus:border-[#0088cc]"
                   >
                     {DEAL_LOST_REASONS.map((r) => (
                       <option key={r} value={r}>
@@ -490,13 +506,13 @@ export function DealWorkspace({ dealData, userRole = "SUPER_ADMIN" }: DealWorksp
 
               {targetStage && (
                 <div>
-                  <label className="font-bold text-[#071a28] block mb-1">Reason / Transition Notes</label>
+                  <label className="font-semibold text-[#071a28] block mb-1">Reason / Transition Notes</label>
                   <textarea
                     value={stageComment}
                     onChange={(e) => setStageComment(e.target.value)}
                     rows={2}
                     disabled={isPending}
-                    className="w-full px-3 py-2 rounded-xl border border-slate-200 bg-[#fbfaf8] text-xs"
+                    className="w-full px-3.5 py-2.5 rounded-xl border border-[rgba(7,26,40,0.12)] bg-white text-xs text-[#071a28] focus:outline-hidden focus:border-[#0088cc]"
                     placeholder="Provide context for this deal stage change..."
                   />
                 </div>
@@ -505,7 +521,7 @@ export function DealWorkspace({ dealData, userRole = "SUPER_ADMIN" }: DealWorksp
               <button
                 type="submit"
                 disabled={isPending || !targetStage || isClosed}
-                className="w-full py-2.5 rounded-xl bg-[#071a28] text-white font-bold text-xs hover:bg-slate-800 disabled:opacity-40 transition-colors"
+                className="w-full py-2.5 rounded-xl bg-[#0088cc] hover:bg-[#0077b5] text-white font-semibold text-xs disabled:opacity-40 transition-colors shadow-xs cursor-pointer"
               >
                 {isPending ? "Transitioning..." : "Update Deal Stage"}
               </button>
@@ -513,24 +529,24 @@ export function DealWorkspace({ dealData, userRole = "SUPER_ADMIN" }: DealWorksp
           </div>
 
           {/* Activity Ledger Timeline */}
-          <div className="bg-white rounded-3xl border border-[rgba(7,26,40,0.08)] p-6 space-y-4">
+          <div className="bg-white rounded-3xl border border-[rgba(7,26,40,0.08)] p-6 space-y-4 shadow-2xs">
             <h3 className="text-sm font-bold font-serif text-[#071a28] uppercase tracking-wider">
               Audit & Activity History
             </h3>
 
             <div className="space-y-3.5 max-h-[400px] overflow-y-auto pr-1">
               {activities.length === 0 ? (
-                <div className="text-xs text-slate-400 italic">No activity logged yet.</div>
+                <div className="text-xs text-[#647581] italic">No activity logged yet.</div>
               ) : (
                 activities.map((act: any) => (
-                  <div key={act._id} className="text-xs space-y-1 pb-3 border-b border-slate-100 last:border-0">
+                  <div key={act._id} className="text-xs space-y-1 pb-3 border-b border-[rgba(7,26,40,0.06)] last:border-0">
                     <div className="flex justify-between items-start">
                       <span className="font-bold text-[#071a28]">{act.summary}</span>
-                      <span className="text-[10px] text-slate-400 shrink-0 ml-2">
+                      <span className="text-[10px] text-[#647581] shrink-0 ml-2">
                         {new Date(act.createdAt).toLocaleDateString()}
                       </span>
                     </div>
-                    <div className="text-[11px] text-slate-500">
+                    <div className="text-[11px] text-[#647581]">
                       By {act.actorName} ({act.actorRole})
                     </div>
                   </div>

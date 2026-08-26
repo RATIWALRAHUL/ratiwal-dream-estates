@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useTransition } from "react";
+import { X } from "lucide-react";
 import { createOfferAction } from "@/lib/actions/deal.actions";
 
 interface OfferBuilderModalProps {
@@ -77,21 +78,21 @@ export function OfferBuilderModal({
   };
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4 overflow-y-auto">
+    <div className="fixed inset-0 z-50 bg-[#071a28]/60 backdrop-blur-xs flex items-center justify-center p-4 overflow-y-auto">
       <div className="bg-white rounded-3xl border border-[rgba(7,26,40,0.12)] shadow-2xl max-w-lg w-full p-6 sm:p-8 space-y-6 animate-in fade-in zoom-in-95 duration-150">
-        <div className="flex justify-between items-start border-b border-slate-100 pb-4">
+        <div className="flex justify-between items-start border-b border-[rgba(7,26,40,0.06)] pb-4">
           <div>
             <h3 className="text-lg font-bold font-serif text-[#071a28]">Create Versioned Offer</h3>
-            <p className="text-xs text-slate-500 mt-0.5">
+            <p className="text-xs text-[#647581] mt-0.5">
               Draft formal pricing proposal with automated discount validation.
             </p>
           </div>
           <button
             onClick={onClose}
             disabled={isPending}
-            className="text-slate-400 hover:text-slate-700 text-lg font-bold p-1"
+            className="text-[#647581] hover:text-[#071a28] p-1 rounded-lg transition"
           >
-            ✕
+            <X className="w-5 h-5" />
           </button>
         </div>
 
@@ -104,25 +105,25 @@ export function OfferBuilderModal({
         <form onSubmit={handleSubmit} className="space-y-4 text-xs">
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="font-bold text-[#071a28] block mb-1">Base Price (₹) *</label>
+              <label className="font-semibold text-[#071a28] block mb-1">Base Price (₹) *</label>
               <input
                 type="number"
                 value={basePriceRupees}
                 onChange={(e) => setBasePriceRupees(e.target.value)}
                 required
                 disabled={isPending}
-                className="w-full px-3 py-2 rounded-xl border border-slate-200 bg-[#fbfaf8] font-bold text-xs"
+                className="w-full px-3.5 py-2.5 rounded-xl border border-[rgba(7,26,40,0.12)] bg-white font-semibold text-xs text-[#071a28] focus:border-[#0088cc] focus:outline-hidden"
                 placeholder="e.g. 6500000"
               />
             </div>
             <div>
-              <label className="font-bold text-[#071a28] block mb-1">PLC Charges (₹)</label>
+              <label className="font-semibold text-[#071a28] block mb-1">PLC Charges (₹)</label>
               <input
                 type="number"
                 value={plcChargeRupees}
                 onChange={(e) => setPlcChargeRupees(e.target.value)}
                 disabled={isPending}
-                className="w-full px-3 py-2 rounded-xl border border-slate-200 bg-[#fbfaf8] text-xs"
+                className="w-full px-3.5 py-2.5 rounded-xl border border-[rgba(7,26,40,0.12)] bg-white text-xs text-[#071a28] focus:border-[#0088cc] focus:outline-hidden"
                 placeholder="e.g. 150000"
               />
             </div>
@@ -130,41 +131,41 @@ export function OfferBuilderModal({
 
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="font-bold text-[#071a28] block mb-1">Floor Rise (₹)</label>
+              <label className="font-semibold text-[#071a28] block mb-1">Floor Rise (₹)</label>
               <input
                 type="number"
                 value={floorRiseChargeRupees}
                 onChange={(e) => setFloorRiseChargeRupees(e.target.value)}
                 disabled={isPending}
-                className="w-full px-3 py-2 rounded-xl border border-slate-200 bg-[#fbfaf8] text-xs"
+                className="w-full px-3.5 py-2.5 rounded-xl border border-[rgba(7,26,40,0.12)] bg-white text-xs text-[#071a28] focus:border-[#0088cc] focus:outline-hidden"
                 placeholder="e.g. 50000"
               />
             </div>
             <div>
-              <label className="font-bold text-[#071a28] block mb-1">Parking / Club (₹)</label>
+              <label className="font-semibold text-[#071a28] block mb-1">Parking / Club (₹)</label>
               <input
                 type="number"
                 value={parkingChargeRupees}
                 onChange={(e) => setParkingChargeRupees(e.target.value)}
                 disabled={isPending}
-                className="w-full px-3 py-2 rounded-xl border border-slate-200 bg-[#fbfaf8] text-xs"
+                className="w-full px-3.5 py-2.5 rounded-xl border border-[rgba(7,26,40,0.12)] bg-white text-xs text-[#071a28] focus:border-[#0088cc] focus:outline-hidden"
                 placeholder="e.g. 200000"
               />
             </div>
           </div>
 
-          <div className="pt-2 border-t border-slate-100">
-            <label className="font-bold text-[#071a28] block mb-1">Special Discount Waiver (₹)</label>
+          <div className="pt-2 border-t border-[rgba(7,26,40,0.06)]">
+            <label className="font-semibold text-[#071a28] block mb-1">Special Discount Waiver (₹)</label>
             <input
               type="number"
               value={discountAmountRupees}
               onChange={(e) => setDiscountAmountRupees(e.target.value)}
               disabled={isPending}
-              className="w-full px-3 py-2 rounded-xl border border-slate-200 bg-[#fbfaf8] text-xs"
+              className="w-full px-3.5 py-2.5 rounded-xl border border-[rgba(7,26,40,0.12)] bg-white text-xs text-[#071a28] focus:border-[#0088cc] focus:outline-hidden"
               placeholder="e.g. 100000"
             />
             {discount > 0 && (
-              <p className="text-[11px] text-slate-500 mt-1">
+              <p className="text-[11px] text-[#647581] mt-1">
                 Discount: <span className="font-bold text-amber-700">{discountPercent.toFixed(1)}%</span>
                 {requiresApproval && (
                   <span className="ml-1 text-orange-600 font-semibold">
@@ -177,34 +178,34 @@ export function OfferBuilderModal({
 
           {requiresApproval && (
             <div>
-              <label className="font-bold text-[#071a28] block mb-1">Discount Reason / Justification *</label>
+              <label className="font-semibold text-[#071a28] block mb-1">Discount Reason / Justification *</label>
               <textarea
                 value={discountReason}
                 onChange={(e) => setDiscountReason(e.target.value)}
                 rows={2}
                 required
                 disabled={isPending}
-                className="w-full px-3 py-2 rounded-xl border border-slate-200 bg-[#fbfaf8] text-xs"
+                className="w-full px-3.5 py-2.5 rounded-xl border border-[rgba(7,26,40,0.12)] bg-white text-xs text-[#071a28] focus:border-[#0088cc] focus:outline-hidden"
                 placeholder="Explain commercial rationale for discount exception..."
               />
             </div>
           )}
 
           {/* Pricing Summary Box */}
-          <div className="p-3.5 rounded-2xl bg-[#071a28] text-white space-y-1.5">
-            <div className="flex justify-between text-[11px] text-slate-300">
+          <div className="p-4 rounded-2xl bg-[#071a28] text-white space-y-2">
+            <div className="flex justify-between text-[11px] text-stone-300">
               <span>Gross Total:</span>
               <span>₹{grossTotal.toLocaleString("en-IN")}</span>
             </div>
             {discount > 0 && (
-              <div className="flex justify-between text-[11px] text-amber-400">
+              <div className="flex justify-between text-[11px] text-amber-300 font-semibold">
                 <span>Discount Applied:</span>
                 <span>-₹{discount.toLocaleString("en-IN")}</span>
               </div>
             )}
-            <div className="flex justify-between text-sm font-bold pt-1 border-t border-white/10">
+            <div className="flex justify-between text-sm font-bold pt-2 border-t border-white/10">
               <span>Final Payable Offer:</span>
-              <span className="text-[#c5a880]">₹{finalPayable.toLocaleString("en-IN")}</span>
+              <span className="text-[#0088cc] font-serif text-base">₹{finalPayable.toLocaleString("en-IN")}</span>
             </div>
           </div>
 
@@ -213,14 +214,14 @@ export function OfferBuilderModal({
               type="button"
               onClick={onClose}
               disabled={isPending}
-              className="px-4 py-2 rounded-xl border border-slate-200 text-slate-600 font-bold hover:bg-slate-50"
+              className="px-4 py-2 rounded-xl border border-[rgba(7,26,40,0.12)] text-[#647581] font-semibold hover:bg-stone-50 transition cursor-pointer"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={isPending}
-              className="px-5 py-2 rounded-xl bg-[#c5a880] text-[#071a28] font-bold hover:bg-[#b59870] transition-colors"
+              className="px-5 py-2 rounded-xl bg-[#0088cc] hover:bg-[#0077b5] text-white font-semibold shadow-xs transition cursor-pointer"
             >
               {isPending ? "Generating Offer..." : requiresApproval ? "Submit for Approval" : "Issue Offer"}
             </button>

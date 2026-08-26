@@ -5,7 +5,7 @@ import type { AdminUser } from "@/lib/auth/session";
 import { logger } from "@/lib/logger";
 
 interface LogAuditEventParams {
-  actor: AdminUser;
+  actor: AdminUser | { id: string; role: "CUSTOMER" | "PARTNER" | "SYSTEM" | "SUPER_ADMIN" | "ADMIN" | "EDITOR"; email?: string; name?: string; isActive?: boolean };
   action: AuditAction;
   targetPropertyId?: string | Types.ObjectId;
   targetLegalDocumentId?: string | Types.ObjectId;
@@ -16,6 +16,32 @@ interface LogAuditEventParams {
   targetAssetId?: string | Types.ObjectId;
   targetLeadId?: string | Types.ObjectId;
   targetSiteVisitId?: string | Types.ObjectId;
+  targetKycCaseId?: string | Types.ObjectId;
+  targetPartyId?: string | Types.ObjectId;
+  targetKycDocumentId?: string | Types.ObjectId;
+  targetPrivacyRequestId?: string | Types.ObjectId;
+  targetPaymentPlanId?: string | Types.ObjectId;
+  targetPaymentId?: string | Types.ObjectId;
+  targetReceiptId?: string | Types.ObjectId;
+  targetRefundRequestId?: string | Types.ObjectId;
+  targetRefundId?: string | Types.ObjectId;
+  targetPortalAccountId?: string | Types.ObjectId;
+  targetPortalInvitationId?: string | Types.ObjectId;
+  targetSupportRequestId?: string | Types.ObjectId;
+  targetPartnerId?: string | Types.ObjectId;
+  targetLeadSubmissionId?: string | Types.ObjectId;
+  targetAttributionClaimId?: string | Types.ObjectId;
+  targetCommissionPlanId?: string | Types.ObjectId;
+  targetCommissionAccrualId?: string | Types.ObjectId;
+  targetCommissionPayoutId?: string | Types.ObjectId;
+  targetPartnerStatementId?: string | Types.ObjectId;
+  targetTaskId?: string | Types.ObjectId;
+  targetTaskTemplateId?: string | Types.ObjectId;
+  targetTaskEscalationId?: string | Types.ObjectId;
+  targetCmsEntryId?: string | Types.ObjectId;
+  targetCmsVersionId?: string | Types.ObjectId;
+  targetRedirectRuleId?: string | Types.ObjectId;
+  targetCmsTestimonialId?: string | Types.ObjectId;
   changes?: IAuditChange[];
   reason?: string;
   requestId?: string;
@@ -50,6 +76,32 @@ export async function logAuditEvent(params: LogAuditEventParams): Promise<void> 
       targetAssetId: toObjectId(params.targetAssetId),
       targetLeadId: toObjectId(params.targetLeadId),
       targetSiteVisitId: toObjectId(params.targetSiteVisitId),
+      targetKycCaseId: toObjectId(params.targetKycCaseId),
+      targetPartyId: toObjectId(params.targetPartyId),
+      targetKycDocumentId: toObjectId(params.targetKycDocumentId),
+      targetPrivacyRequestId: toObjectId(params.targetPrivacyRequestId),
+      targetPaymentPlanId: toObjectId(params.targetPaymentPlanId),
+      targetPaymentId: toObjectId(params.targetPaymentId),
+      targetReceiptId: toObjectId(params.targetReceiptId),
+      targetRefundRequestId: toObjectId(params.targetRefundRequestId),
+      targetRefundId: toObjectId(params.targetRefundId),
+      targetPortalAccountId: toObjectId(params.targetPortalAccountId),
+      targetPortalInvitationId: toObjectId(params.targetPortalInvitationId),
+      targetSupportRequestId: toObjectId(params.targetSupportRequestId),
+      targetPartnerId: toObjectId(params.targetPartnerId),
+      targetLeadSubmissionId: toObjectId(params.targetLeadSubmissionId),
+      targetAttributionClaimId: toObjectId(params.targetAttributionClaimId),
+      targetCommissionPlanId: toObjectId(params.targetCommissionPlanId),
+      targetCommissionAccrualId: toObjectId(params.targetCommissionAccrualId),
+      targetCommissionPayoutId: toObjectId(params.targetCommissionPayoutId),
+      targetPartnerStatementId: toObjectId(params.targetPartnerStatementId),
+      targetTaskId: toObjectId(params.targetTaskId),
+      targetTaskTemplateId: toObjectId(params.targetTaskTemplateId),
+      targetTaskEscalationId: toObjectId(params.targetTaskEscalationId),
+      targetCmsEntryId: toObjectId(params.targetCmsEntryId),
+      targetCmsVersionId: toObjectId(params.targetCmsVersionId),
+      targetRedirectRuleId: toObjectId(params.targetRedirectRuleId),
+      targetCmsTestimonialId: toObjectId(params.targetCmsTestimonialId),
       changes: params.changes || [],
       reason: params.reason?.trim() || undefined,
       requestId: params.requestId,

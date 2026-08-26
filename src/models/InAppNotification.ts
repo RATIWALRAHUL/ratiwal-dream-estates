@@ -7,7 +7,7 @@ export interface IInAppNotification extends Document {
   eventType: NotificationEventType;
   title: string;
   message: string;
-  entityType?: "LEAD" | "SITE_VISIT" | "PROPERTY" | "LOCATION" | "USER";
+  entityType?: "LEAD" | "SITE_VISIT" | "PROPERTY" | "LOCATION" | "USER" | "DEAL" | "BOOKING" | "KYC" | "PAYMENT";
   entityId?: string;
   deepLink?: string;
   readAt?: Date;
@@ -38,7 +38,7 @@ const InAppNotificationSchema = new Schema<IInAppNotification>(
     },
     entityType: {
       type: String,
-      enum: ["LEAD", "SITE_VISIT", "PROPERTY", "LOCATION", "USER"],
+      enum: ["LEAD", "SITE_VISIT", "PROPERTY", "LOCATION", "USER", "DEAL", "BOOKING", "KYC", "PAYMENT"],
       default: null,
     },
     entityId: {

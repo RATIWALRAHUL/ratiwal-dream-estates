@@ -22,7 +22,9 @@ export function LocationCard({ location }: LocationCardProps) {
           src={location.heroImage}
           alt={`Planned property development in ${location.name}, ${location.state}`}
           fill
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+          quality={80}
+          loading="lazy"
           className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.03]"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-[#031C2B] via-transparent to-transparent opacity-75" />

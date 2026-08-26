@@ -242,9 +242,6 @@ export default async function InventoryPage({ searchParams }: InventoryPageProps
           total={queryResult.total}
           page={queryResult.page}
           perPage={queryResult.perPage}
-          selectedUnitIds={[]}
-          onToggleSelect={() => {}}
-          onSelectAll={() => {}}
         />
       )}
     </div>

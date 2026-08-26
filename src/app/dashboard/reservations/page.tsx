@@ -1,5 +1,6 @@
 import React from "react";
 import Link from "next/link";
+import { ArrowLeft } from "lucide-react";
 import { requireAdminSession } from "@/lib/auth/guard";
 import { ReservationService } from "@/lib/services/reservation.service";
 
@@ -29,13 +30,13 @@ export default async function ReservationsPage({ searchParams }: ReservationsPag
     <div className="space-y-6 pb-12">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <div className="flex items-center gap-2">
-            <span className="text-xs font-bold text-[#c5a880] uppercase tracking-wider">
+          <div className="flex items-center gap-2 mb-1">
+            <span className="text-[11px] font-bold text-[#0088cc] uppercase tracking-wider">
               PRD 14 • Unit Reservations
             </span>
           </div>
           <h1 className="text-2xl font-bold font-serif text-[#071a28]">Reservations Register</h1>
-          <p className="text-xs text-slate-500 mt-0.5">
+          <p className="text-xs md:text-sm text-[#647581] mt-0.5">
             Structured unit reservations backed by approved pricing proposals and buyer commitments.
           </p>
         </div>
@@ -43,74 +44,75 @@ export default async function ReservationsPage({ searchParams }: ReservationsPag
         <div className="flex items-center gap-2">
           <Link
             href="/dashboard/deals"
-            className="px-4 py-2 rounded-xl bg-slate-100 text-[#071a28] font-bold text-xs hover:bg-slate-200"
+            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-white border border-[rgba(7,26,40,0.12)] text-[#071a28] font-semibold text-xs hover:bg-stone-50 transition shadow-2xs"
           >
-            ← View Deals
+            <ArrowLeft className="w-3.5 h-3.5" />
+            <span>View Deals</span>
           </Link>
         </div>
       </div>
 
       {/* Reservations Table */}
-      <div className="bg-white rounded-2xl border border-[rgba(7,26,40,0.06)] shadow-xs overflow-hidden">
+      <div className="bg-white rounded-3xl border border-[rgba(7,26,40,0.08)] shadow-2xs overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse text-xs">
             <thead>
-              <tr className="border-b border-slate-100 bg-[#fbfaf8] text-slate-500 font-bold uppercase tracking-wider">
-                <th className="py-3.5 px-4">Reservation #</th>
-                <th className="py-3.5 px-4">Unit & Property</th>
-                <th className="py-3.5 px-4">Deal / Buyer</th>
-                <th className="py-3.5 px-4">Reserved Price</th>
-                <th className="py-3.5 px-4">Status</th>
-                <th className="py-3.5 px-4">Reserved On</th>
-                <th className="py-3.5 px-4">Approved By</th>
+              <tr className="border-b border-[rgba(7,26,40,0.08)] bg-[#f8f7f4] text-[#647581] font-semibold">
+                <th className="py-3.5 px-4 text-[#071a28]">Reservation #</th>
+                <th className="py-3.5 px-4 text-[#071a28]">Unit & Property</th>
+                <th className="py-3.5 px-4 text-[#071a28]">Deal / Buyer</th>
+                <th className="py-3.5 px-4 text-[#071a28]">Reserved Price</th>
+                <th className="py-3.5 px-4 text-[#071a28]">Status</th>
+                <th className="py-3.5 px-4 text-[#071a28]">Reserved On</th>
+                <th className="py-3.5 px-4 text-[#071a28]">Approved By</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100">
+            <tbody className="divide-y divide-[rgba(7,26,40,0.06)]">
               {reservations.length === 0 ? (
                 <tr>
-                  <td colSpan={7} className="py-12 text-center text-slate-400">
+                  <td colSpan={7} className="py-12 text-center text-[#647581]">
                     No reservations found.
                   </td>
                 </tr>
               ) : (
                 reservations.map((r) => (
-                  <tr key={r._id} className="hover:bg-slate-50/70 transition-colors">
+                  <tr key={r._id} className="hover:bg-[#f8f7f4]/60 transition-colors">
                     <td className="py-3.5 px-4 font-mono font-bold text-[#071a28]">{r.reservationNumber}</td>
                     <td className="py-3.5 px-4">
                       <div className="font-bold text-[#071a28]">
                         {r.unitNumber ? `Unit ${r.unitNumber}` : "Allocated Unit"}
                       </div>
-                      <div className="text-[11px] text-slate-500">{r.propertyName}</div>
+                      <div className="text-[11px] text-[#647581]">{r.propertyName}</div>
                     </td>
                     <td className="py-3.5 px-4">
                       <Link
                         href={`/dashboard/deals/${r.dealId}`}
-                        className="font-bold text-[#071a28] hover:text-[#c5a880] transition-colors"
+                        className="font-bold text-[#071a28] hover:text-[#0088cc] transition-colors"
                       >
                         {r.dealNumber}
                       </Link>
-                      <div className="text-[11px] text-slate-500">{r.leadName}</div>
+                      <div className="text-[11px] text-[#647581]">{r.leadName}</div>
                     </td>
                     <td className="py-3.5 px-4 font-bold text-[#071a28]">
                       ₹{r.finalAmountRupees.toLocaleString("en-IN")}
                     </td>
                     <td className="py-3.5 px-4">
                       <span
-                        className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold ${
+                        className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-semibold ${
                           r.status === "ACTIVE"
-                            ? "bg-indigo-100 text-indigo-900"
+                            ? "bg-blue-50 text-blue-800 border border-blue-200"
                             : r.status === "CONVERTED_TO_BOOKING"
-                            ? "bg-emerald-100 text-emerald-900"
-                            : "bg-slate-100 text-slate-600"
+                            ? "bg-emerald-50 text-emerald-800 border border-emerald-200"
+                            : "bg-stone-100 text-stone-600 border border-stone-200"
                         }`}
                       >
-                        {r.status}
+                        {r.status.replace(/_/g, " ")}
                       </span>
                     </td>
-                    <td className="py-3.5 px-4 text-slate-600">
-                      {new Date(r.reservationDate).toLocaleDateString()}
+                    <td className="py-3.5 px-4 text-[#647581]">
+                      {new Date(r.reservationDate).toLocaleString("en-IN", { timeZone: "Asia/Kolkata", dateStyle: "short" })}
                     </td>
-                    <td className="py-3.5 px-4 text-slate-600">{r.approvedByName || r.createdByName || "Staff"}</td>
+                    <td className="py-3.5 px-4 font-medium text-[#071a28]">{r.approvedByName || r.createdByName || "Advisor"}</td>
                   </tr>
                 ))
               )}

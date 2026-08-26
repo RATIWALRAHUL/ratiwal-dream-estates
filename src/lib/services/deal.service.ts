@@ -120,9 +120,9 @@ export class DealService {
     }
 
     const dealNumber = this.generateDealNumber();
-    const advisorId = input.assignedAdvisorId || lead.assignedAdvisorId || session.user.id;
-    const advisorName = input.assignedAdvisorName || lead.assignedAdvisorName || session.user.name;
-    const advisorEmail = input.assignedAdvisorEmail || session.user.email;
+    const advisorId = input.assignedAdvisorId || lead.assignedToId || session.user.id;
+    const advisorName = input.assignedAdvisorName || lead.assignedToName || session.user.name;
+    const advisorEmail = input.assignedAdvisorEmail || lead.assignedToEmail || session.user.email;
 
     const deal = await Deal.create({
       dealNumber,

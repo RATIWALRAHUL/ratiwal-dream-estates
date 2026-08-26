@@ -162,7 +162,7 @@ export class ReservationService {
     await logAuditEvent({
       actor: session.user,
       action: "RESERVATION_CREATED",
-      propertyId: deal.propertyId.toString(),
+      targetPropertyId: deal.propertyId.toString(),
       reason: `Created reservation ${reservation.reservationNumber} on unit ${unit.unitNumber}.`,
     });
 

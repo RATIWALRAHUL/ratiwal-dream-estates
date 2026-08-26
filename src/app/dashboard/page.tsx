@@ -1,6 +1,8 @@
 import "server-only";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import { ExternalLink, Calendar, Database, Sparkles, RefreshCw } from "lucide-react";
+import { getAdminSession } from "@/lib/auth/session";
 import { getDashboardOverview } from "@/lib/services/dashboard.service";
 import { MarketPulseStrip } from "@/components/dashboard/overview/MarketPulseStrip";
 import { SummaryCards } from "@/components/dashboard/overview/SummaryCards";
@@ -12,6 +14,11 @@ import { LocationCoverageGrid } from "@/components/dashboard/overview/LocationCo
 export const dynamic = "force-dynamic";
 
 export default async function DashboardOverviewPage() {
+  const session = await getAdminSession();
+  if (!session) {
+    redirect("/dashboard/login");
+  }
+
   const overview = await getDashboardOverview();
   const currentDate = new Date().toLocaleDateString("en-IN", {
     weekday: "long",

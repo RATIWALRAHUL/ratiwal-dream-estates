@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useTransition } from "react";
+import { X } from "lucide-react";
 import { acquireHoldAction, extendHoldAction, releaseHoldAction } from "@/lib/actions/deal.actions";
 
 interface HoldActionModalProps {
@@ -81,15 +82,15 @@ export function HoldActionModal({
       : "Release the unit back to AVAILABLE inventory.";
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4">
+    <div className="fixed inset-0 z-50 bg-[#071a28]/60 backdrop-blur-xs flex items-center justify-center p-4">
       <div className="bg-white rounded-3xl border border-[rgba(7,26,40,0.12)] shadow-2xl max-w-md w-full p-6 sm:p-8 space-y-5 animate-in fade-in zoom-in-95 duration-150">
-        <div className="flex justify-between items-start border-b border-slate-100 pb-3.5">
+        <div className="flex justify-between items-start border-b border-[rgba(7,26,40,0.06)] pb-3.5">
           <div>
             <h3 className="text-base font-bold font-serif text-[#071a28]">{title}</h3>
-            <p className="text-xs text-slate-500 mt-0.5">{description}</p>
+            <p className="text-xs text-[#647581] mt-0.5">{description}</p>
           </div>
-          <button onClick={onClose} disabled={isPending} className="text-slate-400 hover:text-slate-700 font-bold p-1">
-            ✕
+          <button onClick={onClose} disabled={isPending} className="text-[#647581] hover:text-[#071a28] p-1 rounded-lg transition">
+            <X className="w-5 h-5" />
           </button>
         </div>
 
@@ -102,75 +103,66 @@ export function HoldActionModal({
         <form onSubmit={handleSubmit} className="space-y-4 text-xs">
           {mode !== "RELEASE" && (
             <div>
-              <label className="font-bold text-[#071a28] block mb-1">
-                {mode === "ACQUIRE" ? "Hold Duration" : "Extension Duration"}
+              <label className="font-semibold text-[#071a28] block mb-1">
+                {mode === "ACQUIRE" ? "Hold Duration (Hours)" : "Extension Duration (Hours)"}
               </label>
               <select
                 value={durationHours}
                 onChange={(e) => setDurationHours(parseInt(e.target.value, 10))}
                 disabled={isPending}
-                className="w-full px-3 py-2 rounded-xl border border-slate-200 bg-[#fbfaf8] text-xs font-semibold text-[#071a28]"
+                className="w-full px-3.5 py-2.5 rounded-xl border border-[rgba(7,26,40,0.12)] bg-white text-xs font-semibold text-[#071a28] focus:border-[#0088cc] focus:outline-hidden"
               >
-                {mode === "ACQUIRE" ? (
-                  <>
-                    <option value={24}>24 Hours (1 Day)</option>
-                    <option value={48}>48 Hours (2 Days)</option>
-                    <option value={72}>72 Hours (3 Days - Recommended)</option>
-                    <option value={120}>120 Hours (5 Days)</option>
-                    <option value={168}>168 Hours (7 Days)</option>
-                  </>
-                ) : (
-                  <>
-                    <option value={24}>+24 Hours (1 Day)</option>
-                    <option value={48}>+48 Hours (2 Days)</option>
-                    <option value={72}>+72 Hours (3 Days)</option>
-                  </>
-                )}
+                <option value={24}>24 Hours (1 Day)</option>
+                <option value={48}>48 Hours (2 Days)</option>
+                <option value={72}>72 Hours (Standard 3 Days)</option>
+                <option value={120}>120 Hours (5 Days Special)</option>
               </select>
             </div>
           )}
 
-          <div>
-            <label className="font-bold text-[#071a28] block mb-1">
-              {mode === "RELEASE" ? "Reason for Release *" : "Notes / Commercial Justification"}
-            </label>
-            <textarea
-              value={reason}
-              onChange={(e) => setReason(e.target.value)}
-              rows={3}
-              required={mode === "RELEASE"}
-              disabled={isPending}
-              className="w-full px-3 py-2 rounded-xl border border-slate-200 bg-[#fbfaf8] text-xs"
-              placeholder={
-                mode === "RELEASE"
-                  ? "Explain why the hold is being released before expiration..."
-                  : "e.g. Buyer token received, completing loan sanction..."
-              }
-            />
-          </div>
+          {mode !== "ACQUIRE" && (
+            <div>
+              <label className="font-semibold text-[#071a28] block mb-1">
+                Reason for {mode === "EXTEND" ? "Extension" : "Release"} *
+              </label>
+              <textarea
+                value={reason}
+                onChange={(e) => setReason(e.target.value)}
+                rows={2}
+                required
+                disabled={isPending}
+                className="w-full px-3.5 py-2.5 rounded-xl border border-[rgba(7,26,40,0.12)] bg-white text-xs text-[#071a28] focus:border-[#0088cc] focus:outline-hidden"
+                placeholder={
+                  mode === "EXTEND"
+                    ? "Explain why the buyer requested additional time..."
+                    : "Explain reason for releasing unit back to inventory..."
+                }
+              />
+            </div>
+          )}
 
           <div className="flex justify-end gap-2.5 pt-2">
             <button
               type="button"
               onClick={onClose}
               disabled={isPending}
-              className="px-4 py-2 rounded-xl border border-slate-200 text-slate-600 font-bold hover:bg-slate-50"
+              className="px-4 py-2 rounded-xl border border-[rgba(7,26,40,0.12)] text-[#647581] font-semibold hover:bg-stone-50 transition cursor-pointer"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={isPending}
-              className={`px-5 py-2 rounded-xl font-bold transition-colors ${
+              className={`px-5 py-2 rounded-xl text-white font-semibold transition shadow-xs cursor-pointer ${
                 mode === "RELEASE"
-                  ? "bg-rose-600 text-white hover:bg-rose-700"
-                  : "bg-[#071a28] text-white hover:bg-slate-800"
+                  ? "bg-rose-600 hover:bg-rose-700"
+                  : "bg-[#0088cc] hover:bg-[#0077b5]"
               }`}
             >
               {isPending
                 ? "Processing..."
                 : mode === "ACQUIRE"
-                ? "Lock Unit on Hold"
+                ? "Place Hold"
                 : mode === "EXTEND"
                 ? "Extend Hold"
                 : "Confirm Release"}
