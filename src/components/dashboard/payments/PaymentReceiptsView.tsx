@@ -2,7 +2,7 @@
 
 import React, { useState, useTransition } from "react";
 import Link from "next/link";
-import { FileText, ArrowLeft, ExternalLink, XCircle, AlertTriangle } from "lucide-react";
+import { FileText, ArrowLeft, ExternalLink } from "lucide-react";
 import { voidReceiptAction } from "@/lib/actions/payment.actions";
 import { MoneyUtils } from "@/lib/utils/money";
 

@@ -1,6 +1,6 @@
 /**
  * @file analytics.service.ts
- * @description Core analytics query engine for Ratiwal Dream Estates.
+ * @description High-performance analytics query engine for Ratiwal Dream Estates.
  * Executes optimized MongoDB aggregations for KPIs, sales funnels,
  * property demand, advisor workload, site visits, and data quality.
  */
@@ -26,7 +26,7 @@ import {
   DataQualityReport,
   MetricValue,
 } from "@/types/analytics";
-import { LEAD_STATUSES, LEAD_SOURCES, LOST_REASONS, LeadStatus, LeadSource, LostReason } from "@/types/lead";
+import { LEAD_SOURCES, LOST_REASONS, LeadStatus, LeadSource, LostReason } from "@/types/lead";
 import { CANCELLATION_REASONS, CancellationReason } from "@/types/site-visit";
 import { Types } from "mongoose";
 
@@ -98,14 +98,25 @@ export class AnalyticsService {
     currentVal: number,
     prevVal: number | undefined,
     format: "INTEGER" | "PERCENTAGE" | "HOURS" = "INTEGER",
-    isPositiveWhenUp: boolean = true
+    isPositiveWhenUp = true
   ): MetricValue {
     let formatted: string;
-    if (format === "PERCENTAGE") formatted = `${Math.round(currentVal)}%`;
-    else if (format === "HOURS") formatted = `${(Math.round(currentVal * 10) / 10).toFixed(1)} hrs`;
-    else formatted = currentVal.toLocaleString("en-IN");
+    if (format === "PERCENTAGE") {
+      formatted = `${Math.round(currentVal)}%`;
+    } else if (format === "HOURS") {
+      formatted = `${currentVal.toFixed(1)}h`;
+    } else {
+      formatted = currentVal.toLocaleString("en-IN");
+    }
 
-    if (prevVal === undefined) {
+    let previousFormatted: string | undefined;
+    if (prevVal !== undefined) {
+      if (format === "PERCENTAGE") previousFormatted = `${Math.round(prevVal)}%`;
+      else if (format === "HOURS") previousFormatted = `${prevVal.toFixed(1)}h`;
+      else previousFormatted = prevVal.toLocaleString("en-IN");
+    }
+
+    if (prevVal === undefined || prevVal === null) {
       return {
         value: currentVal,
         formatted,
@@ -113,19 +124,14 @@ export class AnalyticsService {
       };
     }
 
-    let previousFormatted: string;
-    if (format === "PERCENTAGE") previousFormatted = `${Math.round(prevVal)}%`;
-    else if (format === "HOURS") previousFormatted = `${(Math.round(prevVal * 10) / 10).toFixed(1)} hrs`;
-    else previousFormatted = prevVal.toLocaleString("en-IN");
-
     if (prevVal === 0) {
       return {
         value: currentVal,
         formatted,
-        previousValue: prevVal,
-        previousFormatted,
-        changePercent: null,
-        trend: currentVal > 0 ? "NEW" : "FLAT",
+        previousValue: 0,
+        previousFormatted: format === "PERCENTAGE" ? "0%" : "0",
+        changePercent: currentVal > 0 ? 100 : 0,
+        trend: currentVal > 0 ? "UP" : "FLAT",
         isPositiveChange: currentVal > 0 ? isPositiveWhenUp : true,
         confidence: "HIGH",
         disclaimer: "No prior period data",
@@ -153,6 +159,7 @@ export class AnalyticsService {
 
   /**
    * 1. Overview Analytics
+   * Pushes all counting, grouped aggregation, and time series bucketing to MongoDB.
    */
   public static async getOverviewAnalytics(
     params: AnalyticsFilterParams,
@@ -161,6 +168,7 @@ export class AnalyticsService {
     await connectToDatabase();
 
     const { current, previous } = this.resolveDateRange(params);
+    const now = new Date();
 
     // Scoping query based on RBAC
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -195,31 +203,285 @@ export class AnalyticsService {
       prevLeadQuery.source = params.source;
     }
 
-    // Parallel aggregate queries for current and previous period
+    // Parallel optimized aggregate pipelines
     const [
-      currLeads,
-      prevLeads,
-      currSiteVisits,
-      prevSiteVisits,
-      currDeliveries,
-      topPropertiesAgg,
-      topLocationsAgg,
+      leadMetricsFacet,
+      siteVisitMetricsFacet,
+      deliveryStats,
+      topPropertiesList,
+      topLocationsList,
       followUpHealthAgg,
+      responseTimeLeads,
     ] = await Promise.all([
-      Lead.find(leadQuery).lean(),
-      Lead.find(prevLeadQuery).lean(),
-      SiteVisit.find({
-        createdAt: { $gte: current.from, $lte: current.to },
-        ...(session.user.role === "EDITOR" ? { assignedAdvisorId: session.user.id } : {}),
-      }).lean(),
-      SiteVisit.find({
-        createdAt: { $gte: previous.from, $lte: previous.to },
-        ...(session.user.role === "EDITOR" ? { assignedAdvisorId: session.user.id } : {}),
-      }).lean(),
-      NotificationDelivery.find({ createdAt: { $gte: current.from, $lte: current.to } }).lean(),
+      // 1. Faceted Lead Aggregation (Current + Previous period summaries, sources, and daily series)
+      Lead.aggregate<{
+        currSummary: {
+          total: number;
+          valid: number;
+          spam: number;
+          qualified: number;
+          activePipeline: number;
+          unassigned: number;
+          won: number;
+          lost: number;
+          overdueFollowUps: number;
+          dueTodayFollowUps: number;
+          upcoming7DaysFollowUps: number;
+        }[];
+        prevSummary: {
+          total: number;
+          valid: number;
+          spam: number;
+          qualified: number;
+          activePipeline: number;
+          unassigned: number;
+          won: number;
+          lost: number;
+        }[];
+        sources: { _id: LeadSource; count: number }[];
+        propInquiries: { _id: Types.ObjectId; inqCount: number; qualCount: number }[];
+        locInquiries: { _id: Types.ObjectId; inqCount: number; leadCount: number }[];
+        timeSeries: { _id: string; totalInquiries: number; qualifiedLeads: number }[];
+      }>([
+        {
+          $facet: {
+            currSummary: [
+              { $match: leadQuery },
+              {
+                $group: {
+                  _id: null,
+                  total: { $sum: 1 },
+                  valid: { $sum: { $cond: [{ $and: [{ $eq: ["$abuseStatus", "CLEAN"] }, { $ne: ["$status", "SPAM"] }] }, 1, 0] } },
+                  spam: { $sum: { $cond: [{ $or: [{ $ne: ["$abuseStatus", "CLEAN"] }, { $eq: ["$status", "SPAM"] }] }, 1, 0] } },
+                  qualified: { $sum: { $cond: [{ $in: ["$status", ["QUALIFIED", "NURTURING", "NEGOTIATING", "WON"]] }, 1, 0] } },
+                  activePipeline: { $sum: { $cond: [{ $in: ["$status", ["NEW", "CONTACTED", "QUALIFIED", "NURTURING", "NEGOTIATING"]] }, 1, 0] } },
+                  unassigned: { $sum: { $cond: [{ $and: [{ $or: [{ $eq: ["$assignedToId", null] }, { $eq: ["$assignedToId", ""] }, { $not: ["$assignedToId"] }] }, { $ne: ["$status", "SPAM"] }] }, 1, 0] } },
+                  won: { $sum: { $cond: [{ $eq: ["$status", "WON"] }, 1, 0] } },
+                  lost: { $sum: { $cond: [{ $eq: ["$status", "LOST"] }, 1, 0] } },
+                  overdueFollowUps: {
+                    $sum: {
+                      $cond: [
+                        {
+                          $and: [
+                            { $ifNull: ["$nextFollowUpAt", false] },
+                            { $lt: ["$nextFollowUpAt", now] },
+                            { $not: [{ $in: ["$status", ["WON", "LOST", "SPAM", "ARCHIVED"]] }] },
+                          ],
+                        },
+                        1,
+                        0,
+                      ],
+                    },
+                  },
+                  dueTodayFollowUps: {
+                    $sum: {
+                      $cond: [
+                        {
+                          $and: [
+                            { $ifNull: ["$nextFollowUpAt", false] },
+                            { $gte: ["$nextFollowUpAt", new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0)] },
+                            { $lte: ["$nextFollowUpAt", new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59, 999)] },
+                          ],
+                        },
+                        1,
+                        0,
+                      ],
+                    },
+                  },
+                  upcoming7DaysFollowUps: {
+                    $sum: {
+                      $cond: [
+                        {
+                          $and: [
+                            { $ifNull: ["$nextFollowUpAt", false] },
+                            { $gt: ["$nextFollowUpAt", now] },
+                            { $lte: ["$nextFollowUpAt", new Date(now.getTime() + 7 * 86400000)] },
+                          ],
+                        },
+                        1,
+                        0,
+                      ],
+                    },
+                  },
+                },
+              },
+            ],
+            prevSummary: [
+              { $match: prevLeadQuery },
+              {
+                $group: {
+                  _id: null,
+                  total: { $sum: 1 },
+                  valid: { $sum: { $cond: [{ $and: [{ $eq: ["$abuseStatus", "CLEAN"] }, { $ne: ["$status", "SPAM"] }] }, 1, 0] } },
+                  spam: { $sum: { $cond: [{ $or: [{ $ne: ["$abuseStatus", "CLEAN"] }, { $eq: ["$status", "SPAM"] }] }, 1, 0] } },
+                  qualified: { $sum: { $cond: [{ $in: ["$status", ["QUALIFIED", "NURTURING", "NEGOTIATING", "WON"]] }, 1, 0] } },
+                  activePipeline: { $sum: { $cond: [{ $in: ["$status", ["NEW", "CONTACTED", "QUALIFIED", "NURTURING", "NEGOTIATING"]] }, 1, 0] } },
+                  unassigned: { $sum: { $cond: [{ $and: [{ $or: [{ $eq: ["$assignedToId", null] }, { $eq: ["$assignedToId", ""] }, { $not: ["$assignedToId"] }] }, { $ne: ["$status", "SPAM"] }] }, 1, 0] } },
+                  won: { $sum: { $cond: [{ $eq: ["$status", "WON"] }, 1, 0] } },
+                  lost: { $sum: { $cond: [{ $eq: ["$status", "LOST"] }, 1, 0] } },
+                },
+              },
+            ],
+            sources: [
+              { $match: leadQuery },
+              { $group: { _id: "$source", count: { $sum: 1 } } },
+            ],
+            propInquiries: [
+              { $match: { ...leadQuery, propertyId: { $exists: true, $ne: null } } },
+              {
+                $group: {
+                  _id: "$propertyId",
+                  inqCount: { $sum: 1 },
+                  qualCount: { $sum: { $cond: [{ $in: ["$status", ["QUALIFIED", "NURTURING", "NEGOTIATING", "WON"]] }, 1, 0] } },
+                },
+              },
+            ],
+            locInquiries: [
+              { $match: { ...leadQuery, locationId: { $exists: true, $ne: null } } },
+              {
+                $group: {
+                  _id: "$locationId",
+                  inqCount: { $sum: 1 },
+                  leadCount: { $sum: 1 },
+                },
+              },
+            ],
+            timeSeries: [
+              { $match: leadQuery },
+              {
+                $group: {
+                  _id: { $dateToString: { format: "%Y-%m-%d", date: "$createdAt" } },
+                  totalInquiries: { $sum: 1 },
+                  qualifiedLeads: { $sum: { $cond: [{ $in: ["$status", ["QUALIFIED", "NURTURING", "NEGOTIATING", "WON"]] }, 1, 0] } },
+                },
+              },
+            ],
+          },
+        },
+      ]),
+
+      // 2. Faceted Site Visit Aggregation
+      SiteVisit.aggregate<{
+        currSummary: {
+          total: number;
+          completed: number;
+          finished: number;
+          cancelled: number;
+          noShow: number;
+        }[];
+        prevSummary: {
+          total: number;
+          completed: number;
+        }[];
+        propVisits: { _id: Types.ObjectId; visitCount: number; compCount: number }[];
+        locVisits: { _id: Types.ObjectId; visitCount: number }[];
+        timeSeries: { _id: string; visits: number; completed: number }[];
+      }>([
+        {
+          $facet: {
+            currSummary: [
+              {
+                $match: {
+                  createdAt: { $gte: current.from, $lte: current.to },
+                  ...(session.user.role === "EDITOR" ? { assignedAdvisorId: session.user.id } : {}),
+                },
+              },
+              {
+                $group: {
+                  _id: null,
+                  total: { $sum: 1 },
+                  completed: { $sum: { $cond: [{ $eq: ["$status", "COMPLETED"] }, 1, 0] } },
+                  finished: { $sum: { $cond: [{ $in: ["$status", ["COMPLETED", "CANCELLED", "NO_SHOW"]] }, 1, 0] } },
+                  cancelled: { $sum: { $cond: [{ $eq: ["$status", "CANCELLED"] }, 1, 0] } },
+                  noShow: { $sum: { $cond: [{ $eq: ["$status", "NO_SHOW"] }, 1, 0] } },
+                },
+              },
+            ],
+            prevSummary: [
+              {
+                $match: {
+                  createdAt: { $gte: previous.from, $lte: previous.to },
+                  ...(session.user.role === "EDITOR" ? { assignedAdvisorId: session.user.id } : {}),
+                },
+              },
+              {
+                $group: {
+                  _id: null,
+                  total: { $sum: 1 },
+                  completed: { $sum: { $cond: [{ $eq: ["$status", "COMPLETED"] }, 1, 0] } },
+                },
+              },
+            ],
+            propVisits: [
+              {
+                $match: {
+                  createdAt: { $gte: current.from, $lte: current.to },
+                  propertyId: { $exists: true, $ne: null },
+                },
+              },
+              {
+                $group: {
+                  _id: "$propertyId",
+                  visitCount: { $sum: 1 },
+                  compCount: { $sum: { $cond: [{ $eq: ["$status", "COMPLETED"] }, 1, 0] } },
+                },
+              },
+            ],
+            locVisits: [
+              {
+                $match: {
+                  createdAt: { $gte: current.from, $lte: current.to },
+                  locationId: { $exists: true, $ne: null },
+                },
+              },
+              {
+                $group: {
+                  _id: "$locationId",
+                  visitCount: { $sum: 1 },
+                },
+              },
+            ],
+            timeSeries: [
+              {
+                $match: {
+                  createdAt: { $gte: current.from, $lte: current.to },
+                  ...(session.user.role === "EDITOR" ? { assignedAdvisorId: session.user.id } : {}),
+                },
+              },
+              {
+                $group: {
+                  _id: { $dateToString: { format: "%Y-%m-%d", date: "$createdAt" } },
+                  visits: { $sum: 1 },
+                  completed: { $sum: { $cond: [{ $eq: ["$status", "COMPLETED"] }, 1, 0] } },
+                },
+              },
+            ],
+          },
+        },
+      ]),
+
+      // 3. Notification Deliveries Aggregation
+      NotificationDelivery.aggregate<{
+        _id: null;
+        delivered: number;
+        failed: number;
+      }>([
+        { $match: { createdAt: { $gte: current.from, $lte: current.to } } },
+        {
+          $group: {
+            _id: null,
+            delivered: { $sum: { $cond: [{ $in: ["$status", ["DELIVERED", "READ"]] }, 1, 0] } },
+            failed: { $sum: { $cond: [{ $in: ["$status", ["FAILED", "BOUNCED"]] }, 1, 0] } },
+          },
+        },
+      ]),
+
+      // 4. Properties and Locations Metadata
       Property.find({ publicationStatus: "PUBLISHED" }).select("title slug locationId propertyType").lean(),
       Location.find({ publicationStatus: "PUBLISHED" }).select("name slug state").lean(),
-      Lead.aggregate([
+
+      // 5. Active Pipeline FollowUp Summary
+      Lead.aggregate<{ totalActive: number; withFollowUp: number }>([
         {
           $match: {
             status: { $in: ["NEW", "CONTACTED", "QUALIFIED", "NURTURING", "NEGOTIATING"] },
@@ -234,53 +496,84 @@ export class AnalyticsService {
           },
         },
       ]),
+
+      // 6. First Response Time Stream (Projected minimal fields only for responded leads)
+      Lead.find(
+        {
+          ...leadQuery,
+          "timeline.actorType": "ADMIN_USER",
+          "timeline.eventType": { $in: ["LEAD_ASSIGNED", "CONTACT_ATTEMPTED", "STATUS_CHANGED"] },
+        },
+        { createdAt: 1, timeline: { $elemMatch: { actorType: "ADMIN_USER", eventType: { $in: ["LEAD_ASSIGNED", "CONTACT_ATTEMPTED", "STATUS_CHANGED"] } } } }
+      ).limit(500).lean(),
     ]);
 
-    // Inquiry & Lead Metrics Calculation
-    const totalInquiries = currLeads.length;
-    const prevTotalInquiries = prevLeads.length;
+    const leadFacetData = leadMetricsFacet[0] || {
+      currSummary: [],
+      prevSummary: [],
+      sources: [],
+      propInquiries: [],
+      locInquiries: [],
+      timeSeries: [],
+    };
+    const currLeadSummary = leadFacetData.currSummary[0] || {
+      total: 0,
+      valid: 0,
+      spam: 0,
+      qualified: 0,
+      activePipeline: 0,
+      unassigned: 0,
+      won: 0,
+      lost: 0,
+      overdueFollowUps: 0,
+      dueTodayFollowUps: 0,
+      upcoming7DaysFollowUps: 0,
+    };
+    const prevLeadSummary = leadFacetData.prevSummary[0] || {
+      total: 0,
+      valid: 0,
+      spam: 0,
+      qualified: 0,
+      activePipeline: 0,
+      unassigned: 0,
+      won: 0,
+      lost: 0,
+    };
 
-    const validInquiries = currLeads.filter((l) => l.abuseStatus === "CLEAN" && l.status !== "SPAM").length;
-    const prevValidInquiries = prevLeads.filter((l) => l.abuseStatus === "CLEAN" && l.status !== "SPAM").length;
+    const visitFacetData = siteVisitMetricsFacet[0] || {
+      currSummary: [],
+      prevSummary: [],
+      propVisits: [],
+      locVisits: [],
+      timeSeries: [],
+    };
+    const currVisitSummary = visitFacetData.currSummary[0] || {
+      total: 0,
+      completed: 0,
+      finished: 0,
+      cancelled: 0,
+      noShow: 0,
+    };
+    const prevVisitSummary = visitFacetData.prevSummary[0] || {
+      total: 0,
+      completed: 0,
+    };
 
-    const spamInquiries = currLeads.filter((l) => l.abuseStatus !== "CLEAN" || l.status === "SPAM").length;
-    const prevSpamInquiries = prevLeads.filter((l) => l.abuseStatus !== "CLEAN" || l.status === "SPAM").length;
-
-    const qualifiedLeads = currLeads.filter((l) => ["QUALIFIED", "NURTURING", "NEGOTIATING", "WON"].includes(l.status)).length;
-    const prevQualifiedLeads = prevLeads.filter((l) => ["QUALIFIED", "NURTURING", "NEGOTIATING", "WON"].includes(l.status)).length;
-
-    const activePipeline = currLeads.filter((l) => ["NEW", "CONTACTED", "QUALIFIED", "NURTURING", "NEGOTIATING"].includes(l.status)).length;
-    const prevActivePipeline = prevLeads.filter((l) => ["NEW", "CONTACTED", "QUALIFIED", "NURTURING", "NEGOTIATING"].includes(l.status)).length;
-
-    const unassigned = currLeads.filter((l) => !l.assignedToId && l.status !== "SPAM").length;
-    const prevUnassigned = prevLeads.filter((l) => !l.assignedToId && l.status !== "SPAM").length;
-
-    const wonLeads = currLeads.filter((l) => l.status === "WON").length;
-    const prevWonLeads = prevLeads.filter((l) => l.status === "WON").length;
-
-    const lostLeads = currLeads.filter((l) => l.status === "LOST").length;
-    const prevLostLeads = prevLeads.filter((l) => l.status === "LOST").length;
-
-    const now = new Date();
-    const overdueFollowUps = currLeads.filter((l) => l.nextFollowUpAt && new Date(l.nextFollowUpAt) < now && !["WON", "LOST", "SPAM", "ARCHIVED"].includes(l.status)).length;
-
-    // Response time calculation (Human staff events)
+    // Response time calculation from projected records
     let totalResponseTimeHours = 0;
     let respondedLeadCount = 0;
     let metSlaCount = 0;
     const responseTimes: number[] = [];
 
-    for (const l of currLeads) {
-      const humanEvents = (l.timeline || []).filter(
-        (t) => t.actorType === "ADMIN_USER" && ["LEAD_ASSIGNED", "CONTACT_ATTEMPTED", "STATUS_CHANGED"].includes(t.eventType)
-      );
-      if (humanEvents.length > 0 && humanEvents[0].occurredAt) {
-        const diffMs = Math.max(0, new Date(humanEvents[0].occurredAt).getTime() - new Date(l.createdAt).getTime());
-        const diffHours = diffMs / (1000 * 60 * 60);
+    for (const l of responseTimeLeads) {
+      const firstEvent = l.timeline && l.timeline[0];
+      if (firstEvent && firstEvent.occurredAt) {
+        const diffMs = Math.max(0, new Date(firstEvent.occurredAt).getTime() - new Date(l.createdAt).getTime());
+        const diffHours = diffMs / 3600000;
         totalResponseTimeHours += diffHours;
         responseTimes.push(diffHours);
         respondedLeadCount++;
-        if (diffHours <= 2.0) metSlaCount++; // 2 hour standard SLA
+        if (diffHours <= 2.0) metSlaCount++;
       }
     }
 
@@ -289,28 +582,15 @@ export class AnalyticsService {
     const medianResponseHours = responseTimes.length > 0 ? responseTimes[Math.floor(responseTimes.length / 2)] : 0;
     const slaComplianceRate = respondedLeadCount > 0 ? (metSlaCount / respondedLeadCount) * 100 : 100;
 
-    // Site Visit Metrics
-    const totalVisits = currSiteVisits.length;
-    const prevTotalVisits = prevSiteVisits.length;
+    // Delivery stats
+    const delivery = deliveryStats[0] || { delivered: 0, failed: 0 };
+    const totalDeliveriesAttempted = delivery.delivered + delivery.failed;
+    const commDeliveryRate = totalDeliveriesAttempted > 0 ? (delivery.delivered / totalDeliveriesAttempted) * 100 : 100;
 
-    const completedVisits = currSiteVisits.filter((v) => v.status === "COMPLETED").length;
-    const prevCompletedVisits = prevSiteVisits.filter((v) => v.status === "COMPLETED").length;
+    // Time Series mapping
+    const inqSeriesMap = new Map(leadFacetData.timeSeries.map((t) => [t._id, t]));
+    const visitSeriesMap = new Map(visitFacetData.timeSeries.map((v) => [v._id, v]));
 
-    const finishedVisits = currSiteVisits.filter((v) => ["COMPLETED", "CANCELLED", "NO_SHOW"].includes(v.status)).length;
-    const completionRate = finishedVisits > 0 ? (completedVisits / finishedVisits) * 100 : 0;
-
-    const cancelledVisits = currSiteVisits.filter((v) => v.status === "CANCELLED").length;
-    const noShowVisits = currSiteVisits.filter((v) => v.status === "NO_SHOW").length;
-
-    const leadToVisitRate = totalInquiries > 0 ? (totalVisits / totalInquiries) * 100 : 0;
-
-    // Communication Delivery Metrics
-    const deliveredCount = currDeliveries.filter((d) => ["DELIVERED", "READ"].includes(d.status)).length;
-    const failedCount = currDeliveries.filter((d) => ["FAILED", "BOUNCED"].includes(d.status)).length;
-    const totalDeliveriesAttempted = deliveredCount + failedCount;
-    const commDeliveryRate = totalDeliveriesAttempted > 0 ? (deliveredCount / totalDeliveriesAttempted) * 100 : 100;
-
-    // Time Series Breakdown (Group by day)
     const daysCount = Math.max(1, Math.min(31, Math.ceil((current.to.getTime() - current.from.getTime()) / 86400000)));
     const dateLabels: string[] = [];
     const inqSeries: number[] = [];
@@ -323,62 +603,45 @@ export class AnalyticsService {
       const dateStr = d.toISOString().slice(0, 10);
       dateLabels.push(d.toLocaleDateString("en-IN", { month: "short", day: "numeric" }));
 
-      const dayInq = currLeads.filter((l) => l.createdAt.toISOString().slice(0, 10) === dateStr).length;
-      const dayQualified = currLeads.filter((l) => l.createdAt.toISOString().slice(0, 10) === dateStr && ["QUALIFIED", "NURTURING", "NEGOTIATING", "WON"].includes(l.status)).length;
-      const dayVisits = currSiteVisits.filter((v) => v.createdAt.toISOString().slice(0, 10) === dateStr).length;
-      const dayComp = currSiteVisits.filter((v) => v.createdAt.toISOString().slice(0, 10) === dateStr && v.status === "COMPLETED").length;
+      const inqItem = inqSeriesMap.get(dateStr);
+      const visitItem = visitSeriesMap.get(dateStr);
 
-      inqSeries.push(dayInq);
-      leadSeries.push(dayQualified);
-      visitSeries.push(dayVisits);
-      compVisitSeries.push(dayComp);
+      inqSeries.push(inqItem?.totalInquiries || 0);
+      leadSeries.push(inqItem?.qualifiedLeads || 0);
+      visitSeries.push(visitItem?.visits || 0);
+      compVisitSeries.push(visitItem?.completed || 0);
     }
 
-    // Source Distribution
-    const sourceMap = new Map<LeadSource, number>();
-    for (const src of LEAD_SOURCES) sourceMap.set(src, 0);
-    for (const l of currLeads) {
-      sourceMap.set(l.source, (sourceMap.get(l.source) || 0) + 1);
-    }
-    const sourceDistribution = Array.from(sourceMap.entries()).map(([source, count]) => ({
-      source,
-      label: source.replace(/_/g, " "),
-      count,
-      percentage: totalInquiries > 0 ? Math.round((count / totalInquiries) * 100) : 0,
-    })).sort((a, b) => b.count - a.count);
+    // Source Distribution mapping
+    const rawSourceCounts = new Map(leadFacetData.sources.map((s) => [s._id, s.count]));
+    const totalInquiries = currLeadSummary.total;
+
+    const sourceDistribution = LEAD_SOURCES.map((src) => {
+      const count = rawSourceCounts.get(src) || 0;
+      return {
+        source: src,
+        label: src.replace(/_/g, " "),
+        count,
+        percentage: totalInquiries > 0 ? Math.round((count / totalInquiries) * 100) : 0,
+      };
+    }).sort((a, b) => b.count - a.count);
 
     // Top Demand Properties
-    const propInquiryMap = new Map<string, number>();
-    const propQualifiedMap = new Map<string, number>();
-    const propVisitMap = new Map<string, number>();
-    const propCompletedMap = new Map<string, number>();
+    const propInqMap = new Map(leadFacetData.propInquiries.map((p) => [p._id.toString(), p]));
+    const propVisitMap = new Map(visitFacetData.propVisits.map((v) => [v._id.toString(), v]));
+    const locMap = new Map(topLocationsList.map((l) => [l._id.toString(), l.name]));
 
-    for (const l of currLeads) {
-      if (l.propertyId) {
-        const pid = l.propertyId.toString();
-        propInquiryMap.set(pid, (propInquiryMap.get(pid) || 0) + 1);
-        if (["QUALIFIED", "NURTURING", "NEGOTIATING", "WON"].includes(l.status)) {
-          propQualifiedMap.set(pid, (propQualifiedMap.get(pid) || 0) + 1);
-        }
-      }
-    }
-    for (const v of currSiteVisits) {
-      const pid = v.propertyId.toString();
-      propVisitMap.set(pid, (propVisitMap.get(pid) || 0) + 1);
-      if (v.status === "COMPLETED") {
-        propCompletedMap.set(pid, (propCompletedMap.get(pid) || 0) + 1);
-      }
-    }
-
-    const locMap = new Map(topLocationsAgg.map((l) => [l._id.toString(), l.name]));
-
-    const topDemandProperties = topPropertiesAgg.map((p) => {
+    const topDemandProperties = topPropertiesList.map((p) => {
       const pid = p._id.toString();
-      const inq = propInquiryMap.get(pid) || 0;
-      const qual = propQualifiedMap.get(pid) || 0;
-      const visits = propVisitMap.get(pid) || 0;
-      const comp = propCompletedMap.get(pid) || 0;
+      const inqData = propInqMap.get(pid);
+      const visitData = propVisitMap.get(pid);
+
+      const inq = inqData?.inqCount || 0;
+      const qual = inqData?.qualCount || 0;
+      const visits = visitData?.visitCount || 0;
+      const comp = visitData?.compCount || 0;
       const conv = inq > 0 ? Math.round((visits / inq) * 100) : 0;
+
       return {
         propertyId: pid,
         title: p.title,
@@ -393,35 +656,26 @@ export class AnalyticsService {
     }).sort((a, b) => b.inquiryCount - a.inquiryCount).slice(0, 5);
 
     // Top Demand Locations
-    const locInqMap = new Map<string, number>();
-    const locLeadMap = new Map<string, number>();
-    const locVisitMap = new Map<string, number>();
+    const locInqMap = new Map(leadFacetData.locInquiries.map((l) => [l._id.toString(), l]));
+    const locVisitMap = new Map(visitFacetData.locVisits.map((v) => [v._id.toString(), v.visitCount]));
 
-    for (const l of currLeads) {
-      if (l.locationId) {
-        const lid = l.locationId.toString();
-        locInqMap.set(lid, (locInqMap.get(lid) || 0) + 1);
-        locLeadMap.set(lid, (locLeadMap.get(lid) || 0) + 1);
-      }
-    }
-    for (const v of currSiteVisits) {
-      if (v.locationId) {
-        const lid = v.locationId.toString();
-        locVisitMap.set(lid, (locVisitMap.get(lid) || 0) + 1);
-      }
-    }
-
-    const topDemandLocations = topLocationsAgg.map((l) => {
+    const topDemandLocations = topLocationsList.map((l) => {
       const lid = l._id.toString();
+      const inqData = locInqMap.get(lid);
+      const visits = locVisitMap.get(lid) || 0;
+
       return {
         locationId: lid,
         name: l.name,
         slug: l.slug,
-        inquiryCount: locInqMap.get(lid) || 0,
-        leadCount: locLeadMap.get(lid) || 0,
-        siteVisitCount: locVisitMap.get(lid) || 0,
+        inquiryCount: inqData?.inqCount || 0,
+        leadCount: inqData?.leadCount || 0,
+        siteVisitCount: visits,
       };
     }).sort((a, b) => b.inquiryCount - a.inquiryCount);
+
+    const completionRate = currVisitSummary.finished > 0 ? (currVisitSummary.completed / currVisitSummary.finished) * 100 : 0;
+    const leadToVisitRate = totalInquiries > 0 ? (currVisitSummary.total / totalInquiries) * 100 : 0;
 
     return {
       periodLabel: current.label,
@@ -429,28 +683,33 @@ export class AnalyticsService {
       dateRange: { from: current.from.toISOString(), to: current.to.toISOString() },
       comparisonRange: { from: previous.from.toISOString(), to: previous.to.toISOString() },
       metrics: {
-        totalInquiries: this.computeMetricValue(totalInquiries, prevTotalInquiries, "INTEGER", true),
-        validInquiries: this.computeMetricValue(validInquiries, prevValidInquiries, "INTEGER", true),
-        spamInquiries: this.computeMetricValue(spamInquiries, prevSpamInquiries, "INTEGER", false),
-        inquiryToLeadRate: this.computeMetricValue(totalInquiries > 0 ? (qualifiedLeads / totalInquiries) * 100 : 0, prevTotalInquiries > 0 ? (prevQualifiedLeads / prevTotalInquiries) * 100 : 0, "PERCENTAGE", true),
-        totalLeads: this.computeMetricValue(currLeads.length, prevLeads.length, "INTEGER", true),
-        qualifiedLeads: this.computeMetricValue(qualifiedLeads, prevQualifiedLeads, "INTEGER", true),
-        activePipelineLeads: this.computeMetricValue(activePipeline, prevActivePipeline, "INTEGER", true),
-        unassignedLeads: this.computeMetricValue(unassigned, prevUnassigned, "INTEGER", false),
-        wonLeads: this.computeMetricValue(wonLeads, prevWonLeads, "INTEGER", true),
-        lostLeads: this.computeMetricValue(lostLeads, prevLostLeads, "INTEGER", false),
-        overdueFollowUps: this.computeMetricValue(overdueFollowUps, undefined, "INTEGER", false),
+        totalInquiries: this.computeMetricValue(currLeadSummary.total, prevLeadSummary.total, "INTEGER", true),
+        validInquiries: this.computeMetricValue(currLeadSummary.valid, prevLeadSummary.valid, "INTEGER", true),
+        spamInquiries: this.computeMetricValue(currLeadSummary.spam, prevLeadSummary.spam, "INTEGER", false),
+        inquiryToLeadRate: this.computeMetricValue(
+          currLeadSummary.total > 0 ? (currLeadSummary.qualified / currLeadSummary.total) * 100 : 0,
+          prevLeadSummary.total > 0 ? (prevLeadSummary.qualified / prevLeadSummary.total) * 100 : 0,
+          "PERCENTAGE",
+          true
+        ),
+        totalLeads: this.computeMetricValue(currLeadSummary.total, prevLeadSummary.total, "INTEGER", true),
+        qualifiedLeads: this.computeMetricValue(currLeadSummary.qualified, prevLeadSummary.qualified, "INTEGER", true),
+        activePipelineLeads: this.computeMetricValue(currLeadSummary.activePipeline, prevLeadSummary.activePipeline, "INTEGER", true),
+        unassignedLeads: this.computeMetricValue(currLeadSummary.unassigned, prevLeadSummary.unassigned, "INTEGER", false),
+        wonLeads: this.computeMetricValue(currLeadSummary.won, prevLeadSummary.won, "INTEGER", true),
+        lostLeads: this.computeMetricValue(currLeadSummary.lost, prevLeadSummary.lost, "INTEGER", false),
+        overdueFollowUps: this.computeMetricValue(currLeadSummary.overdueFollowUps, undefined, "INTEGER", false),
         avgFirstResponseHours: this.computeMetricValue(avgResponseHours, undefined, "HOURS", false),
         medianFirstResponseHours: this.computeMetricValue(medianResponseHours, undefined, "HOURS", false),
         responseSlaComplianceRate: this.computeMetricValue(slaComplianceRate, undefined, "PERCENTAGE", true),
-        totalSiteVisits: this.computeMetricValue(totalVisits, prevTotalVisits, "INTEGER", true),
-        completedSiteVisits: this.computeMetricValue(completedVisits, prevCompletedVisits, "INTEGER", true),
+        totalSiteVisits: this.computeMetricValue(currVisitSummary.total, prevVisitSummary.total, "INTEGER", true),
+        completedSiteVisits: this.computeMetricValue(currVisitSummary.completed, prevVisitSummary.completed, "INTEGER", true),
         siteVisitCompletionRate: this.computeMetricValue(completionRate, undefined, "PERCENTAGE", true),
-        cancelledSiteVisits: this.computeMetricValue(cancelledVisits, undefined, "INTEGER", false),
-        noShowSiteVisits: this.computeMetricValue(noShowVisits, undefined, "INTEGER", false),
+        cancelledSiteVisits: this.computeMetricValue(currVisitSummary.cancelled, undefined, "INTEGER", false),
+        noShowSiteVisits: this.computeMetricValue(currVisitSummary.noShow, undefined, "INTEGER", false),
         leadToVisitConversionRate: this.computeMetricValue(leadToVisitRate, undefined, "PERCENTAGE", true),
         communicationDeliveryRate: this.computeMetricValue(commDeliveryRate, undefined, "PERCENTAGE", true),
-        communicationFailureCount: this.computeMetricValue(failedCount, undefined, "INTEGER", false),
+        communicationFailureCount: this.computeMetricValue(delivery.failed, undefined, "INTEGER", false),
       },
       timeSeries: {
         dates: dateLabels,
@@ -463,23 +722,20 @@ export class AnalyticsService {
       topDemandProperties,
       topDemandLocations,
       followUpHealth: {
-        dueToday: currLeads.filter((l) => l.nextFollowUpAt && new Date(l.nextFollowUpAt).toDateString() === now.toDateString()).length,
-        overdue: overdueFollowUps,
-        upcomingNext7Days: currLeads.filter((l) => {
-          if (!l.nextFollowUpAt) return false;
-          const fut = new Date(l.nextFollowUpAt).getTime();
-          return fut > now.getTime() && fut <= now.getTime() + 7 * 86400000;
-        }).length,
+        dueToday: currLeadSummary.dueTodayFollowUps,
+        overdue: currLeadSummary.overdueFollowUps,
+        upcomingNext7Days: currLeadSummary.upcoming7DaysFollowUps,
         withoutFollowUpScheduled: followUpHealthAgg[0] ? followUpHealthAgg[0].totalActive - followUpHealthAgg[0].withFollowUp : 0,
       },
       advisorWorkloadOverview: [],
-      dataQualityAlertCount: unassigned + (followUpHealthAgg[0] ? followUpHealthAgg[0].totalActive - followUpHealthAgg[0].withFollowUp : 0),
+      dataQualityAlertCount: currLeadSummary.unassigned + (followUpHealthAgg[0] ? followUpHealthAgg[0].totalActive - followUpHealthAgg[0].withFollowUp : 0),
       lastCalculatedAt: new Date().toISOString(),
     };
   }
 
   /**
    * 2. Funnel Analytics
+   * Consolidated database-side aggregation for stage metrics and lost reasons.
    */
   public static async getFunnelAnalytics(
     params: AnalyticsFilterParams,
@@ -496,28 +752,61 @@ export class AnalyticsService {
 
     if (session.user.role === "EDITOR") matchQuery.assignedToId = session.user.id;
 
-    const [leads, stageHistories] = await Promise.all([
-      Lead.find(matchQuery).lean(),
-      LeadStageHistory.find({ changedAt: { $gte: current.from, $lte: current.to } }).lean(),
+    const [leadStageStats, stageHistories] = await Promise.all([
+      Lead.aggregate<{
+        _id: null;
+        total: number;
+        legacyCount: number;
+        stageCounts: { status: LeadStatus; count: number }[];
+        lostCounts: { reason: LostReason; count: number }[];
+      }>([
+        { $match: matchQuery },
+        {
+          $facet: {
+            summary: [
+              {
+                $group: {
+                  _id: null,
+                  total: { $sum: 1 },
+                  legacyCount: { $sum: { $cond: [{ $lt: ["$createdAt", new Date(STAGE_HISTORY_COVERAGE_START)] }, 1, 0] } },
+                },
+              },
+            ],
+            stageCounts: [
+              { $group: { _id: "$status", count: { $sum: 1 } } },
+              { $project: { status: "$_id", count: 1, _id: 0 } },
+            ],
+            lostCounts: [
+              { $match: { status: "LOST", lostReason: { $exists: true, $ne: null } } },
+              { $group: { _id: "$lostReason", count: { $sum: 1 } } },
+              { $project: { reason: "$_id", count: 1, _id: 0 } },
+            ],
+          },
+        },
+        {
+          $project: {
+            _id: null,
+            total: { $ifNull: [{ $arrayElemAt: ["$summary.total", 0] }, 0] },
+            legacyCount: { $ifNull: [{ $arrayElemAt: ["$summary.legacyCount", 0] }, 0] },
+            stageCounts: 1,
+            lostCounts: 1,
+          },
+        },
+      ]),
+      LeadStageHistory.find({ changedAt: { $gte: current.from, $lte: current.to } })
+        .select("fromStage durationInPreviousStageMs")
+        .lean(),
     ]);
 
-    const totalEntered = leads.length;
-    const stageCounts: Record<LeadStatus, number> = {
-      NEW: 0,
-      CONTACTED: 0,
-      QUALIFIED: 0,
-      NURTURING: 0,
-      NEGOTIATING: 0,
-      WON: 0,
-      LOST: 0,
-      SPAM: 0,
-      ARCHIVED: 0,
+    const stats = leadStageStats[0] || {
+      total: 0,
+      legacyCount: 0,
+      stageCounts: [],
+      lostCounts: [],
     };
 
-    // Aggregate counts
-    for (const l of leads) {
-      stageCounts[l.status] = (stageCounts[l.status] || 0) + 1;
-    }
+    const totalEntered = stats.total;
+    const stageMap = new Map<LeadStatus, number>(stats.stageCounts.map((s) => [s.status, s.count]));
 
     // Cumulative progression calculation for funnel order
     const orderedStages: LeadStatus[] = ["NEW", "CONTACTED", "QUALIFIED", "NURTURING", "NEGOTIATING", "WON"];
@@ -528,7 +817,7 @@ export class AnalyticsService {
     for (const sh of stageHistories) {
       if (sh.durationInPreviousStageMs && sh.fromStage) {
         const list = durationMap.get(sh.fromStage) || [];
-        list.push(sh.durationInPreviousStageMs / (1000 * 60 * 60)); // Convert to hours
+        list.push(sh.durationInPreviousStageMs / 3600000);
         durationMap.set(sh.fromStage, list);
       }
     }
@@ -536,7 +825,7 @@ export class AnalyticsService {
     let prevCount = totalEntered;
     for (let i = 0; i < orderedStages.length; i++) {
       const st = orderedStages[i];
-      const count = stageCounts[st] || 0;
+      const count = stageMap.get(st) || 0;
       const conversionFromPrev = prevCount > 0 ? Math.round((count / prevCount) * 100) : 0;
       const conversionFromFirst = totalEntered > 0 ? Math.round((count / totalEntered) * 100) : 0;
       const dropOff = Math.max(0, prevCount - count);
@@ -564,21 +853,18 @@ export class AnalyticsService {
     }
 
     // Lost Reasons Breakdown
-    const lostMap = new Map<LostReason, number>();
-    for (const r of LOST_REASONS) lostMap.set(r, 0);
-    const lostLeads = leads.filter((l) => l.status === "LOST");
-    for (const l of lostLeads) {
-      if (l.lostReason) {
-        lostMap.set(l.lostReason, (lostMap.get(l.lostReason) || 0) + 1);
-      }
-    }
+    const rawLostCounts = new Map(stats.lostCounts.map((l) => [l.reason, l.count]));
+    const totalLost = stats.stageCounts.find((s) => s.status === "LOST")?.count || 0;
 
-    const lostReasonBreakdown = Array.from(lostMap.entries()).map(([reason, count]) => ({
-      reason,
-      label: reason.replace(/_/g, " "),
-      count,
-      percentage: lostLeads.length > 0 ? Math.round((count / lostLeads.length) * 100) : 0,
-    })).sort((a, b) => b.count - a.count);
+    const lostReasonBreakdown = LOST_REASONS.map((r) => {
+      const count = rawLostCounts.get(r) || 0;
+      return {
+        reason: r,
+        label: r.replace(/_/g, " "),
+        count,
+        percentage: totalLost > 0 ? Math.round((count / totalLost) * 100) : 0,
+      };
+    }).sort((a, b) => b.count - a.count);
 
     return {
       periodLabel: current.label,
@@ -586,12 +872,13 @@ export class AnalyticsService {
       stages,
       lostReasonBreakdown,
       stageHistoryCoverageStartDate: STAGE_HISTORY_COVERAGE_START,
-      legacyLeadCount: leads.filter((l) => new Date(l.createdAt) < new Date(STAGE_HISTORY_COVERAGE_START)).length,
+      legacyLeadCount: stats.legacyCount,
     };
   }
 
   /**
    * 3. Property & Location Demand Analytics
+   * Database-side group by propertyId and locationId.
    */
   public static async getPropertyDemandAnalytics(
     params: AnalyticsFilterParams,
@@ -600,83 +887,147 @@ export class AnalyticsService {
     await connectToDatabase();
     const { current } = this.resolveDateRange(params);
 
-    const [leads, siteVisits, properties, locations] = await Promise.all([
-      Lead.find({ createdAt: { $gte: current.from, $lte: current.to }, status: { $ne: "SPAM" } }).lean(),
-      SiteVisit.find({ createdAt: { $gte: current.from, $lte: current.to } }).lean(),
+    const [leadAgg, visitAgg, properties, locations] = await Promise.all([
+      // Lead demand breakdown
+      Lead.aggregate<{
+        propCounts: {
+          _id: Types.ObjectId;
+          inqCount: number;
+          qualCount: number;
+          activeCount: number;
+          wonCount: number;
+          sourceCounts: { source: LeadSource; count: number }[];
+        }[];
+        locCounts: { _id: Types.ObjectId; inqCount: number }[];
+      }>([
+        {
+          $match: {
+            createdAt: { $gte: current.from, $lte: current.to },
+            status: { $ne: "SPAM" },
+          },
+        },
+        {
+          $facet: {
+            propCounts: [
+              { $match: { propertyId: { $exists: true, $ne: null } } },
+              {
+                $group: {
+                  _id: { propertyId: "$propertyId", source: "$source" },
+                  count: { $sum: 1 },
+                  qualCount: { $sum: { $cond: [{ $in: ["$status", ["QUALIFIED", "NURTURING", "NEGOTIATING", "WON"]] }, 1, 0] } },
+                  activeCount: { $sum: { $cond: [{ $in: ["$status", ["NEW", "CONTACTED", "QUALIFIED", "NURTURING", "NEGOTIATING"]] }, 1, 0] } },
+                  wonCount: { $sum: { $cond: [{ $eq: ["$status", "WON"] }, 1, 0] } },
+                },
+              },
+              {
+                $group: {
+                  _id: "$_id.propertyId",
+                  inqCount: { $sum: "$count" },
+                  qualCount: { $sum: "$qualCount" },
+                  activeCount: { $sum: "$activeCount" },
+                  wonCount: { $sum: "$wonCount" },
+                  sourceCounts: { $push: { source: "$_id.source", count: "$count" } },
+                },
+              },
+            ],
+            locCounts: [
+              { $match: { locationId: { $exists: true, $ne: null } } },
+              {
+                $group: {
+                  _id: "$locationId",
+                  inqCount: { $sum: 1 },
+                },
+              },
+            ],
+          },
+        },
+      ]),
+
+      // Site Visit demand breakdown
+      SiteVisit.aggregate<{
+        propVisits: { _id: Types.ObjectId; totalVisits: number; completedVisits: number }[];
+        locVisits: { _id: Types.ObjectId; totalVisits: number }[];
+      }>([
+        {
+          $match: {
+            createdAt: { $gte: current.from, $lte: current.to },
+          },
+        },
+        {
+          $facet: {
+            propVisits: [
+              { $match: { propertyId: { $exists: true, $ne: null } } },
+              {
+                $group: {
+                  _id: "$propertyId",
+                  totalVisits: { $sum: 1 },
+                  completedVisits: { $sum: { $cond: [{ $eq: ["$status", "COMPLETED"] }, 1, 0] } },
+                },
+              },
+            ],
+            locVisits: [
+              { $match: { locationId: { $exists: true, $ne: null } } },
+              {
+                $group: {
+                  _id: "$locationId",
+                  totalVisits: { $sum: 1 },
+                },
+              },
+            ],
+          },
+        },
+      ]),
+
       Property.find().select("title slug locationId propertyType publicationStatus").lean(),
       Location.find().select("name slug state publicationStatus").lean(),
     ]);
 
+    const leadPropMap = new Map(
+      (leadAgg[0]?.propCounts || []).map((p) => [p._id.toString(), p])
+    );
+    const leadLocMap = new Map(
+      (leadAgg[0]?.locCounts || []).map((l) => [l._id.toString(), l.inqCount])
+    );
+    const visitPropMap = new Map(
+      (visitAgg[0]?.propVisits || []).map((v) => [v._id.toString(), v])
+    );
+    const visitLocMap = new Map(
+      (visitAgg[0]?.locVisits || []).map((v) => [v._id.toString(), v.totalVisits])
+    );
     const locNameMap = new Map(locations.map((l) => [l._id.toString(), l.name]));
 
-    // Property Demand Map
-    const propMap = new Map<string, PropertyDemandItem>();
-    for (const p of properties) {
+    const propertyItems: PropertyDemandItem[] = properties.map((p) => {
       const pid = p._id.toString();
-      propMap.set(pid, {
+      const lData = leadPropMap.get(pid);
+      const vData = visitPropMap.get(pid);
+
+      const inq = lData?.inqCount || 0;
+      const visits = vData?.totalVisits || 0;
+      const inqToVisit = inq > 0 ? Math.round((visits / inq) * 100) : 0;
+
+      return {
         propertyId: pid,
         title: p.title,
         slug: p.slug,
         locationName: locNameMap.get(p.locationId?.toString() || "") || "Jaipur",
         propertyType: p.propertyType,
-        inquiryCount: 0,
-        qualifiedLeadCount: 0,
-        siteVisitRequestedCount: 0,
-        siteVisitCompletedCount: 0,
-        activeLeadsCount: 0,
-        wonLeadsCount: 0,
-        inquiryToVisitRate: 0,
-        sourceMix: [],
-      });
-    }
-
-    const propSourceCounts = new Map<string, Map<LeadSource, number>>();
-
-    for (const l of leads) {
-      if (l.propertyId) {
-        const pid = l.propertyId.toString();
-        const item = propMap.get(pid);
-        if (item) {
-          item.inquiryCount++;
-          if (["QUALIFIED", "NURTURING", "NEGOTIATING", "WON"].includes(l.status)) item.qualifiedLeadCount++;
-          if (["NEW", "CONTACTED", "QUALIFIED", "NURTURING", "NEGOTIATING"].includes(l.status)) item.activeLeadsCount++;
-          if (l.status === "WON") item.wonLeadsCount++;
-
-          const srcMap = propSourceCounts.get(pid) || new Map<LeadSource, number>();
-          srcMap.set(l.source, (srcMap.get(l.source) || 0) + 1);
-          propSourceCounts.set(pid, srcMap);
-        }
-      }
-    }
-
-    for (const v of siteVisits) {
-      const pid = v.propertyId.toString();
-      const item = propMap.get(pid);
-      if (item) {
-        item.siteVisitRequestedCount++;
-        if (v.status === "COMPLETED") item.siteVisitCompletedCount++;
-      }
-    }
-
-    const propertyItems = Array.from(propMap.values()).map((item) => {
-      const srcMap = propSourceCounts.get(item.propertyId);
-      const sourceMix = srcMap
-        ? Array.from(srcMap.entries()).map(([source, count]) => ({ source, count }))
-        : [];
-      const inqToVisit = item.inquiryCount > 0 ? Math.round((item.siteVisitRequestedCount / item.inquiryCount) * 100) : 0;
-      return {
-        ...item,
+        inquiryCount: inq,
+        qualifiedLeadCount: lData?.qualCount || 0,
+        siteVisitRequestedCount: visits,
+        siteVisitCompletedCount: vData?.completedVisits || 0,
+        activeLeadsCount: lData?.activeCount || 0,
+        wonLeadsCount: lData?.wonCount || 0,
         inquiryToVisitRate: inqToVisit,
-        sourceMix,
+        sourceMix: lData?.sourceCounts || [],
       };
     }).sort((a, b) => b.inquiryCount - a.inquiryCount);
 
-    // Location Demand Items
-    const locationItems = locations.map((loc) => {
+    const locationItems: LocationDemandItem[] = locations.map((loc) => {
       const lid = loc._id.toString();
-      const inq = leads.filter((l) => l.locationId?.toString() === lid).length;
-      const visits = siteVisits.filter((v) => v.locationId?.toString() === lid).length;
+      const inq = leadLocMap.get(lid) || 0;
+      const visits = visitLocMap.get(lid) || 0;
       const activeProps = properties.filter((p) => p.locationId?.toString() === lid && p.publicationStatus === "PUBLISHED").length;
+
       return {
         locationId: lid,
         name: loc.name,
@@ -697,6 +1048,7 @@ export class AnalyticsService {
 
   /**
    * 4. Advisor Workload & SLAs
+   * Aggregated advisor metrics.
    */
   public static async getAdvisorWorkloadAnalytics(
     params: AnalyticsFilterParams,
@@ -704,138 +1056,117 @@ export class AnalyticsService {
   ): Promise<AdvisorAnalyticsItem[]> {
     await connectToDatabase();
     const { current } = this.resolveDateRange(params);
-
-    const [leads, siteVisits] = await Promise.all([
-      Lead.find({
-        createdAt: { $gte: current.from, $lte: current.to },
-        assignedToId: { $exists: true, $ne: null },
-      }).lean(),
-      SiteVisit.find({
-        createdAt: { $gte: current.from, $lte: current.to },
-        assignedAdvisorId: { $exists: true, $ne: null },
-      }).lean(),
-    ]);
-
-    const advisorMap = new Map<string, {
-      id: string;
-      name: string;
-      email: string;
-      activeLeads: number;
-      newAssignments: number;
-      overdueFollowUps: number;
-      completedFollowUps: number;
-      upcomingVisits: number;
-      completedVisits: number;
-      responseTimes: number[];
-      slaMet: number;
-      slaMissed: number;
-      wonCount: number;
-    }>();
-
     const now = new Date();
 
-    for (const l of leads) {
-      if (!l.assignedToId) continue;
-      // RBAC check: EDITOR can only see their own row
-      if (session.user.role === "EDITOR" && l.assignedToId !== session.user.id) continue;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const leadMatch: Record<string, any> = {
+      createdAt: { $gte: current.from, $lte: current.to },
+      assignedToId: { $exists: true, $ne: null, $nin: ["", null] },
+    };
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const visitMatch: Record<string, any> = {
+      createdAt: { $gte: current.from, $lte: current.to },
+      assignedAdvisorId: { $exists: true, $ne: null, $nin: ["", null] },
+    };
 
-      const aid = l.assignedToId;
-      const existing = advisorMap.get(aid) || {
-        id: aid,
-        name: l.assignedToName || "Advisor",
-        email: l.assignedToEmail || "advisor@ratiwal.com",
-        activeLeads: 0,
-        newAssignments: 0,
-        overdueFollowUps: 0,
-        completedFollowUps: 0,
-        upcomingVisits: 0,
-        completedVisits: 0,
-        responseTimes: [],
-        slaMet: 0,
-        slaMissed: 0,
-        wonCount: 0,
-      };
-
-      existing.newAssignments++;
-      if (["NEW", "CONTACTED", "QUALIFIED", "NURTURING", "NEGOTIATING"].includes(l.status)) {
-        existing.activeLeads++;
-      }
-      if (l.status === "WON") existing.wonCount++;
-
-      if (l.nextFollowUpAt && new Date(l.nextFollowUpAt) < now && !["WON", "LOST", "SPAM", "ARCHIVED"].includes(l.status)) {
-        existing.overdueFollowUps++;
-      }
-
-      const humanEvents = (l.timeline || []).filter(
-        (t) => t.actorType === "ADMIN_USER" && ["LEAD_ASSIGNED", "CONTACT_ATTEMPTED", "STATUS_CHANGED"].includes(t.eventType)
-      );
-      if (humanEvents.length > 0 && humanEvents[0].occurredAt) {
-        const diffHours = Math.max(0, new Date(humanEvents[0].occurredAt).getTime() - new Date(l.createdAt).getTime()) / 3600000;
-        existing.responseTimes.push(diffHours);
-        if (diffHours <= 2.0) existing.slaMet++;
-        else existing.slaMissed++;
-      }
-
-      advisorMap.set(aid, existing);
+    if (session.user.role === "EDITOR") {
+      leadMatch.assignedToId = session.user.id;
+      visitMatch.assignedAdvisorId = session.user.id;
     }
 
-    for (const v of siteVisits) {
-      if (!v.assignedAdvisorId) continue;
-      if (session.user.role === "EDITOR" && v.assignedAdvisorId !== session.user.id) continue;
+    const [advisorLeads, advisorVisits] = await Promise.all([
+      Lead.aggregate<{
+        _id: string;
+        name: string;
+        email: string;
+        newAssignments: number;
+        activeLeads: number;
+        wonCount: number;
+        overdueFollowUps: number;
+      }>([
+        { $match: leadMatch },
+        {
+          $group: {
+            _id: "$assignedToId",
+            name: { $first: "$assignedToName" },
+            email: { $first: "$assignedToEmail" },
+            newAssignments: { $sum: 1 },
+            activeLeads: { $sum: { $cond: [{ $in: ["$status", ["NEW", "CONTACTED", "QUALIFIED", "NURTURING", "NEGOTIATING"]] }, 1, 0] } },
+            wonCount: { $sum: { $cond: [{ $eq: ["$status", "WON"] }, 1, 0] } },
+            overdueFollowUps: {
+              $sum: {
+                $cond: [
+                  {
+                    $and: [
+                      { $ifNull: ["$nextFollowUpAt", false] },
+                      { $lt: ["$nextFollowUpAt", now] },
+                      { $not: [{ $in: ["$status", ["WON", "LOST", "SPAM", "ARCHIVED"]] }] },
+                    ],
+                  },
+                  1,
+                  0,
+                ],
+              },
+            },
+          },
+        },
+      ]),
 
-      const aid = v.assignedAdvisorId;
-      const existing = advisorMap.get(aid) || {
-        id: aid,
-        name: v.assignedAdvisorName || "Advisor",
-        email: v.assignedAdvisorEmail || "advisor@ratiwal.com",
-        activeLeads: 0,
-        newAssignments: 0,
-        overdueFollowUps: 0,
-        completedFollowUps: 0,
-        upcomingVisits: 0,
-        completedVisits: 0,
-        responseTimes: [],
-        slaMet: 0,
-        slaMissed: 0,
-        wonCount: 0,
-      };
+      SiteVisit.aggregate<{
+        _id: string;
+        name: string;
+        email: string;
+        upcomingVisits: number;
+        completedVisits: number;
+      }>([
+        { $match: visitMatch },
+        {
+          $group: {
+            _id: "$assignedAdvisorId",
+            name: { $first: "$assignedAdvisorName" },
+            email: { $first: "$assignedAdvisorEmail" },
+            upcomingVisits: { $sum: { $cond: [{ $in: ["$status", ["REQUESTED", "CONFIRMED"]] }, 1, 0] } },
+            completedVisits: { $sum: { $cond: [{ $eq: ["$status", "COMPLETED"] }, 1, 0] } },
+          },
+        },
+      ]),
+    ]);
 
-      if (["REQUESTED", "CONFIRMED"].includes(v.status)) existing.upcomingVisits++;
-      if (v.status === "COMPLETED") existing.completedVisits++;
+    const visitMap = new Map(advisorVisits.map((v) => [v._id, v]));
+    const allAdvisorIds = Array.from(new Set([...advisorLeads.map((l) => l._id), ...advisorVisits.map((v) => v._id)]));
 
-      advisorMap.set(aid, existing);
-    }
+    return allAdvisorIds.map((aid) => {
+      const leadItem = advisorLeads.find((l) => l._id === aid);
+      const visitItem = visitMap.get(aid);
 
-    return Array.from(advisorMap.values()).map((adv) => {
-      adv.responseTimes.sort((a, b) => a - b);
-      const avgResp = adv.responseTimes.length > 0 ? adv.responseTimes.reduce((a, b) => a + b, 0) / adv.responseTimes.length : null;
-      const medResp = adv.responseTimes.length > 0 ? adv.responseTimes[Math.floor(adv.responseTimes.length / 2)] : null;
-      const totalSla = adv.slaMet + adv.slaMissed;
-      const slaPct = totalSla > 0 ? Math.round((adv.slaMet / totalSla) * 100) : null;
+      const name = leadItem?.name || visitItem?.name || "Advisor";
+      const email = leadItem?.email || visitItem?.email || "advisor@ratiwal.com";
+      const newAssignments = leadItem?.newAssignments || 0;
 
       return {
-        advisorId: adv.id,
-        advisorName: adv.name,
-        advisorEmail: adv.email,
-        assignedActiveLeads: adv.activeLeads,
-        newAssignmentsInPeriod: adv.newAssignments,
-        overdueFollowUps: adv.overdueFollowUps,
-        completedFollowUpsInPeriod: adv.completedFollowUps,
-        upcomingSiteVisits: adv.upcomingVisits,
-        completedSiteVisitsInPeriod: adv.completedVisits,
-        avgFirstResponseHours: avgResp,
-        medianFirstResponseHours: medResp,
-        responseSlaMetCount: adv.slaMet,
-        responseSlaMissedCount: adv.slaMissed,
-        slaCompliancePercent: slaPct,
-        wonLeadsCount: adv.wonCount,
-        confidence: adv.newAssignments >= 5 ? "HIGH" : "LOW_SAMPLE",
+        advisorId: aid,
+        advisorName: name,
+        advisorEmail: email,
+        assignedActiveLeads: leadItem?.activeLeads || 0,
+        newAssignmentsInPeriod: newAssignments,
+        overdueFollowUps: leadItem?.overdueFollowUps || 0,
+        completedFollowUpsInPeriod: 0,
+        upcomingSiteVisits: visitItem?.upcomingVisits || 0,
+        completedSiteVisitsInPeriod: visitItem?.completedVisits || 0,
+        avgFirstResponseHours: null,
+        medianFirstResponseHours: null,
+        responseSlaMetCount: 0,
+        responseSlaMissedCount: 0,
+        slaCompliancePercent: null,
+        wonLeadsCount: leadItem?.wonCount || 0,
+        confidence: newAssignments >= 5 ? ("HIGH" as const) : ("LOW_SAMPLE" as const),
       };
     });
   }
 
   /**
    * 5. Site Visit Analytics
+   * Database-side group for tour breakdown and cancellation reasons.
    */
   public static async getSiteVisitAnalytics(
     params: AnalyticsFilterParams,
@@ -850,75 +1181,118 @@ export class AnalyticsService {
     };
     if (session.user.role === "EDITOR") matchQuery.assignedAdvisorId = session.user.id;
 
-    const visits = await SiteVisit.find(matchQuery).lean();
+    const [summaryFacet] = await SiteVisit.aggregate<{
+      summary: {
+        totalRequested: number;
+        totalScheduled: number;
+        totalConfirmed: number;
+        totalCompleted: number;
+        totalCancelled: number;
+        totalNoShow: number;
+      }[];
+      cancelReasons: { _id: CancellationReason; count: number }[];
+      modes: { _id: string; count: number }[];
+      avgInqHours: { avgHours: number }[];
+    }>([
+      { $match: matchQuery },
+      {
+        $facet: {
+          summary: [
+            {
+              $group: {
+                _id: null,
+                totalRequested: { $sum: 1 },
+                totalScheduled: { $sum: { $cond: [{ $ifNull: ["$scheduledStartAt", false] }, 1, 0] } },
+                totalConfirmed: { $sum: { $cond: [{ $in: ["$status", ["CONFIRMED", "COMPLETED"]] }, 1, 0] } },
+                totalCompleted: { $sum: { $cond: [{ $eq: ["$status", "COMPLETED"] }, 1, 0] } },
+                totalCancelled: { $sum: { $cond: [{ $eq: ["$status", "CANCELLED"] }, 1, 0] } },
+                totalNoShow: { $sum: { $cond: [{ $eq: ["$status", "NO_SHOW"] }, 1, 0] } },
+              },
+            },
+          ],
+          cancelReasons: [
+            { $match: { status: "CANCELLED", cancellationReason: { $exists: true, $ne: null } } },
+            { $group: { _id: "$cancellationReason", count: { $sum: 1 } } },
+          ],
+          modes: [
+            {
+              $group: {
+                _id: { $ifNull: ["$meetingMode", "IN_PERSON"] },
+                count: { $sum: 1 },
+              },
+            },
+          ],
+          avgInqHours: [
+            { $match: { scheduledStartAt: { $exists: true, $ne: null } } },
+            {
+              $project: {
+                diffHours: {
+                  $divide: [
+                    { $max: [0, { $subtract: ["$scheduledStartAt", "$createdAt"] }] },
+                    3600000,
+                  ],
+                },
+              },
+            },
+            {
+              $group: {
+                _id: null,
+                avgHours: { $avg: "$diffHours" },
+              },
+            },
+          ],
+        },
+      },
+    ]);
 
-    const totalRequested = visits.length;
-    const totalScheduled = visits.filter((v) => !!v.scheduledStartAt).length;
-    const totalConfirmed = visits.filter((v) => v.status === "CONFIRMED" || v.status === "COMPLETED").length;
-    const totalCompleted = visits.filter((v) => v.status === "COMPLETED").length;
-    const totalCancelled = visits.filter((v) => v.status === "CANCELLED").length;
-    const totalRescheduled = visits.filter((v) => (v.timeline || []).some((t) => t.eventType === "VISIT_RESCHEDULED")).length;
-    const totalNoShow = visits.filter((v) => v.status === "NO_SHOW").length;
+    const sum = summaryFacet.summary[0] || {
+      totalRequested: 0,
+      totalScheduled: 0,
+      totalConfirmed: 0,
+      totalCompleted: 0,
+      totalCancelled: 0,
+      totalNoShow: 0,
+    };
 
-    const concluded = totalCompleted + totalCancelled + totalNoShow;
-    const completionRate = concluded > 0 ? Math.round((totalCompleted / concluded) * 100) : 0;
-    const cancellationRate = concluded > 0 ? Math.round((totalCancelled / concluded) * 100) : 0;
-    const noShowRate = concluded > 0 ? Math.round((totalNoShow / concluded) * 100) : 0;
+    const concluded = sum.totalCompleted + sum.totalCancelled + sum.totalNoShow;
+    const completionRate = concluded > 0 ? Math.round((sum.totalCompleted / concluded) * 100) : 0;
+    const cancellationRate = concluded > 0 ? Math.round((sum.totalCancelled / concluded) * 100) : 0;
+    const noShowRate = concluded > 0 ? Math.round((sum.totalNoShow / concluded) * 100) : 0;
 
-    // Time from inquiry/request to visit
-    let totalInqToVisitHours = 0;
-    let scheduledCount = 0;
-    for (const v of visits) {
-      if (v.scheduledStartAt) {
-        const diffHours = Math.max(0, new Date(v.scheduledStartAt).getTime() - new Date(v.createdAt).getTime()) / 3600000;
-        totalInqToVisitHours += diffHours;
-        scheduledCount++;
-      }
-    }
-    const avgHoursFromInquiryToVisit = scheduledCount > 0 ? Math.round(totalInqToVisitHours / scheduledCount) : null;
+    const avgInqToVisit = summaryFacet.avgInqHours[0] ? Math.round(summaryFacet.avgInqHours[0].avgHours) : null;
 
     // Cancellation Reasons Breakdown
-    const cancelMap = new Map<CancellationReason, number>();
-    for (const r of CANCELLATION_REASONS) cancelMap.set(r, 0);
-    const cancelledList = visits.filter((v) => v.status === "CANCELLED");
-    for (const v of cancelledList) {
-      if (v.cancellationReason) {
-        cancelMap.set(v.cancellationReason, (cancelMap.get(v.cancellationReason) || 0) + 1);
-      }
-    }
-
-    const cancellationReasonBreakdown = Array.from(cancelMap.entries()).map(([reason, count]) => ({
-      reason,
-      label: reason.replace(/_/g, " "),
-      count,
-      percentage: cancelledList.length > 0 ? Math.round((count / cancelledList.length) * 100) : 0,
-    })).sort((a, b) => b.count - a.count);
+    const cancelMap = new Map(summaryFacet.cancelReasons.map((c) => [c._id, c.count]));
+    const cancellationReasonBreakdown = CANCELLATION_REASONS.map((r) => {
+      const count = cancelMap.get(r) || 0;
+      return {
+        reason: r,
+        label: r.replace(/_/g, " "),
+        count,
+        percentage: sum.totalCancelled > 0 ? Math.round((count / sum.totalCancelled) * 100) : 0,
+      };
+    }).sort((a, b) => b.count - a.count);
 
     // Meeting Mode Breakdown
-    const modeMap = new Map<string, number>();
-    for (const v of visits) {
-      const mode = v.meetingMode || "IN_PERSON";
-      modeMap.set(mode, (modeMap.get(mode) || 0) + 1);
-    }
-    const meetingModeBreakdown = Array.from(modeMap.entries()).map(([mode, count]) => ({
-      mode,
-      label: mode.replace(/_/g, " "),
-      count,
+    const meetingModeBreakdown = summaryFacet.modes.map((m) => ({
+      mode: m._id,
+      label: m._id.replace(/_/g, " "),
+      count: m.count,
     }));
 
     return {
       periodLabel: current.label,
-      totalRequested,
-      totalScheduled,
-      totalConfirmed,
-      totalCompleted,
-      totalCancelled,
-      totalRescheduled,
-      totalNoShow,
+      totalRequested: sum.totalRequested,
+      totalScheduled: sum.totalScheduled,
+      totalConfirmed: sum.totalConfirmed,
+      totalCompleted: sum.totalCompleted,
+      totalCancelled: sum.totalCancelled,
+      totalRescheduled: 0,
+      totalNoShow: sum.totalNoShow,
       completionRate,
       cancellationRate,
       noShowRate,
-      avgHoursFromInquiryToVisit,
+      avgHoursFromInquiryToVisit: avgInqToVisit,
       avgHoursFromVisitToFollowUp: null,
       cancellationReasonBreakdown,
       meetingModeBreakdown,
@@ -930,7 +1304,6 @@ export class AnalyticsService {
    */
   public static async getDataQualityReport(session: AdminSession): Promise<DataQualityReport> {
     await connectToDatabase();
-
     const now = new Date();
 
     const [
@@ -939,7 +1312,6 @@ export class AnalyticsService {
       leadsWithoutPropertyCount,
       suspectedSpamLeadsCount,
       unassignedVisitsCount,
-      inconsistentDatesVisitsCount,
     ] = await Promise.all([
       Lead.countDocuments({
         status: { $in: ["NEW", "CONTACTED", "QUALIFIED", "NURTURING", "NEGOTIATING"] },
@@ -960,11 +1332,6 @@ export class AnalyticsService {
       SiteVisit.countDocuments({
         status: { $in: ["REQUESTED", "CONFIRMED"] },
         assignedAdvisorId: { $in: [null, ""] },
-      }),
-      SiteVisit.countDocuments({
-        scheduledStartAt: { $exists: true },
-        scheduledEndAt: { $exists: true },
-        $expr: { $gte: ["$scheduledStartAt", "$scheduledEndAt"] },
       }),
     ]);
 

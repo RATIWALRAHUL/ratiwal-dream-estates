@@ -6,7 +6,7 @@ import { TeamMember } from "@/models/TeamMember";
 import { Role } from "@/models/Role";
 import { PermissionService } from "@/lib/services/permission.service";
 import { MemberPermissionsEditor } from "./MemberPermissionsEditor";
-import { ArrowLeft, KeyRound } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 
 interface MemberPermissionsPageProps {
   params: Promise<{

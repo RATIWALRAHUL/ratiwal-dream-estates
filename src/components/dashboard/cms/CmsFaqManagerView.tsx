@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { saveFaqAction } from "@/lib/actions/cms.actions";
-import { ArrowLeft, Plus, HelpCircle, CheckCircle2 } from "lucide-react";
+import { ArrowLeft, Plus } from "lucide-react";
 
 interface FaqItem {
   _id: string;

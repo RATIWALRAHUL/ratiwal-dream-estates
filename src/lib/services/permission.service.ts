@@ -1,6 +1,6 @@
 import "server-only";
 import { connectToDatabase } from "@/lib/db/mongoose";
-import { Role, IRole } from "@/models/Role";
+import { Role } from "@/models/Role";
 import { TeamMember } from "@/models/TeamMember";
 import { AdminUser } from "@/lib/auth/session";
 import {
@@ -11,6 +11,51 @@ import {
   validatePermissionDependencies,
 } from "@/types/settings-team";
 import { logger } from "@/lib/logger";
+
+import { cache } from "react";
+
+// Request-scoped memoized DB query for role permissions
+const getPermissionsForRoleMemoized = cache(async (roleKey: string): Promise<string[]> => {
+  await connectToDatabase();
+
+  // 1. If Super Admin, return everything
+  if (roleKey === "SUPER_ADMIN") {
+    return Object.keys(PERMISSION_CATALOGUE);
+  }
+
+  // 2. Check Role model
+  const role = await Role.findOne({ roleKey, isActive: true }).lean();
+  if (role) {
+    return role.permissionKeys;
+  }
+
+  // 3. Fallback to hardcoded system definitions
+  if (SYSTEM_ROLE_KEYS.includes(roleKey as SystemRoleKey)) {
+    return SYSTEM_ROLE_DEFINITIONS[roleKey as SystemRoleKey].permissions;
+  }
+
+  return [];
+});
+
+// Request-scoped memoized lookup for effective user permissions set
+const getEffectiveUserPermissionsMemoized = cache(async (email: string, role: string, isActive: boolean): Promise<Set<string>> => {
+  if (!isActive) return new Set();
+  if (role === "SUPER_ADMIN") return new Set(Object.keys(PERMISSION_CATALOGUE));
+
+  await connectToDatabase();
+  const member = await TeamMember.findOne({ email: email.toLowerCase(), status: "ACTIVE" }).lean();
+  const effectiveRoleKey = member?.roleKey || role;
+  const rolePerms = await getPermissionsForRoleMemoized(effectiveRoleKey);
+  const permSet = new Set<string>(rolePerms);
+
+  if (member?.customPermissionOverrides && Array.isArray(member.customPermissionOverrides)) {
+    for (const override of member.customPermissionOverrides) {
+      permSet.add(override);
+    }
+  }
+
+  return permSet;
+});
 
 export class PermissionService {
   /**
@@ -41,47 +86,28 @@ export class PermissionService {
   }
 
   /**
-   * Get all effective permissions for a given role key
+   * Get all effective permissions for a given role key (request-scoped cached)
    */
   static async getPermissionsForRole(roleKey: string): Promise<string[]> {
-    await connectToDatabase();
-
-    // 1. If Super Admin, return everything
-    if (roleKey === "SUPER_ADMIN") {
-      return Object.keys(PERMISSION_CATALOGUE);
-    }
-
-    // 2. Check Role model
-    const role = await Role.findOne({ roleKey, isActive: true }).lean();
-    if (role) {
-      return role.permissionKeys;
-    }
-
-    // 3. Fallback to hardcoded system definitions
-    if (SYSTEM_ROLE_KEYS.includes(roleKey as SystemRoleKey)) {
-      return SYSTEM_ROLE_DEFINITIONS[roleKey as SystemRoleKey].permissions;
-    }
-
-    return [];
+    return getPermissionsForRoleMemoized(roleKey);
   }
 
   /**
-   * Check if an active user has a specific permission
+   * Get all effective permissions for an active user as a Set (request-scoped cached)
+   */
+  static async getEffectiveUserPermissions(user: AdminUser): Promise<Set<string>> {
+    return getEffectiveUserPermissionsMemoized(user.email, user.role, user.isActive);
+  }
+
+  /**
+   * Check if an active user has a specific permission (fast Set lookup from request cache)
    */
   static async userHasPermission(user: AdminUser, permissionKey: string): Promise<boolean> {
     if (!user.isActive) return false;
     if (user.role === "SUPER_ADMIN") return true;
 
-    // Check DB member custom overrides if exists
-    await connectToDatabase();
-    const member = await TeamMember.findOne({ email: user.email.toLowerCase(), status: "ACTIVE" }).lean();
-    if (member?.customPermissionOverrides && member.customPermissionOverrides.includes(permissionKey)) {
-      return true;
-    }
-
-    const effectiveRoleKey = member?.roleKey || user.role;
-    const permissions = await this.getPermissionsForRole(effectiveRoleKey);
-    return permissions.includes(permissionKey);
+    const userPerms = await this.getEffectiveUserPermissions(user);
+    return userPerms.has(permissionKey);
   }
 
   /**

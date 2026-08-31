@@ -3,7 +3,7 @@
 import React, { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { Calendar, Clock, MapPin, ArrowLeft, ArrowRight, AlertCircle, CheckCircle2 } from "lucide-react";
+import { ArrowLeft, ArrowRight, AlertCircle } from "lucide-react";
 import { requestSiteVisitFromPortalAction } from "@/lib/actions/portal.actions";
 
 interface PortalSiteVisitFormProps {

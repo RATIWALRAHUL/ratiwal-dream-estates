@@ -30,7 +30,9 @@
     "seed:superadmin": "tsx --conditions=react-server scripts/seed-superadmin.ts",
     "db:indexes": "tsx --conditions=react-server src/lib/db/indexes.ts",
     "audit:orphans": "tsx --conditions=react-server scripts/audit-orphans.ts",
-    "audit:orphans:fix": "tsx --conditions=react-server scripts/audit-orphans.ts --fix"
+    "audit:orphans:fix": "tsx --conditions=react-server scripts/audit-orphans.ts --fix",
+    "test:perf": "tsx --conditions=react-server scripts/verify-phase2-performance.ts",
+    "test:equiv": "tsx --conditions=react-server scripts/test-backend-equivalence.ts"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.7.1",

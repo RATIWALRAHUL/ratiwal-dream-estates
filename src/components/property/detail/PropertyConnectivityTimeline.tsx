@@ -1,4 +1,4 @@
-import { Navigation, Clock, MapPin, Milestone, TrendingUp } from "lucide-react";
+import { Navigation, Clock, MapPin, TrendingUp } from "lucide-react";
 import { Property } from "@/types/property";
 
 interface PropertyConnectivityTimelineProps {

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { X, Send, Copy, Check, Shield, AlertCircle } from "lucide-react";
+import { X, Send, Copy, Check, AlertCircle } from "lucide-react";
 import { createTeamInvitationAction } from "@/lib/actions/team.actions";
 import { SYSTEM_ROLE_KEYS, DATA_SCOPES, DataScope } from "@/types/settings-team";
 

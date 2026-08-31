@@ -3,7 +3,7 @@
 import { useState, useTransition } from "react";
 import { DocumentStatus, PERMITTED_LEGAL_STATUS_TRANSITIONS } from "@/types/legal-vault";
 import { transitionLegalDocumentStatusAction } from "@/lib/actions/legal-vault.actions";
-import { X, Loader2, ShieldCheck, AlertCircle } from "lucide-react";
+import { X, Loader2, AlertCircle } from "lucide-react";
 
 interface LegalReviewModalProps {
   documentId: string;

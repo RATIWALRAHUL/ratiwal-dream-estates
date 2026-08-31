@@ -1,4 +1,4 @@
-import { ArrowUpRight, ArrowDownRight, Minus, AlertCircle } from "lucide-react";
+import { ArrowUpRight, ArrowDownRight, Minus } from "lucide-react";
 import { MetricValue } from "@/types/analytics";
 
 interface AnalyticsKpiCardProps {

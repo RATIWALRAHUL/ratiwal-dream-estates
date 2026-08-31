@@ -4,7 +4,7 @@ import { Loader2 } from "lucide-react";
 import { changeLeadStatusAction, changeLeadPriorityAction } from "@/lib/actions/lead.actions";
 import { LeadStatusBadge } from "./LeadStatusBadge";
 import { LeadPriorityBadge } from "./LeadPriorityBadge";
-import { LEAD_STATUSES, LEAD_PRIORITIES, VALID_STATUS_TRANSITIONS, LOST_REASONS, type LeadStatus, type LeadPriority, type LostReason } from "@/types/lead";
+import { LEAD_PRIORITIES, VALID_STATUS_TRANSITIONS, LOST_REASONS, type LeadStatus, type LeadPriority, type LostReason } from "@/types/lead";
 
 interface LeadStatusPanelProps {
   leadId: string;

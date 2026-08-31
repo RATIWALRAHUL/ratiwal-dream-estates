@@ -5,7 +5,7 @@ import { getAdminSession } from "@/lib/auth/session";
 import { redirect } from "next/navigation";
 import { AnalyticsService } from "@/lib/services/analytics.service";
 import { AnalyticsDateRangeFilter } from "@/components/dashboard/analytics/AnalyticsDateRangeFilter";
-import { ArrowLeft, Users, Clock, AlertTriangle, CheckCircle2 } from "lucide-react";
+import { ArrowLeft, Users } from "lucide-react";
 import { AnalyticsFilterParams, AnalyticsDatePreset } from "@/types/analytics";
 
 export const metadata: Metadata = {

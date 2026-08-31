@@ -1,5 +1,5 @@
 import { IntegrationStatusSummary } from "@/types/settings-team";
-import { CheckCircle2, AlertCircle, Clock, Database, Mail, Image, MessageSquare, MapPin } from "lucide-react";
+import { Clock, Database, Mail, Image, MessageSquare, MapPin } from "lucide-react";
 
 interface IntegrationStatusCardsProps {
   statuses: IntegrationStatusSummary[];

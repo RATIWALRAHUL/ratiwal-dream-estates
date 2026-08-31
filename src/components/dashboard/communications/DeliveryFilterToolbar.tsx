@@ -2,7 +2,7 @@
 
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import { useCallback, useTransition } from "react";
-import { Search, RotateCcw, Filter } from "lucide-react";
+import { RotateCcw, Filter } from "lucide-react";
 import { NOTIFICATION_CHANNELS, DELIVERY_STATUSES, NOTIFICATION_EVENT_TYPES } from "@/types/communication";
 
 export function DeliveryFilterToolbar() {

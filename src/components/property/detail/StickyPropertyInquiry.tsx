@@ -1,6 +1,6 @@
 "use client";
 
-import { MessageCircle, Calendar, Send, ShieldCheck, CheckCircle2, PhoneCall, Sparkles } from "lucide-react";
+import { MessageCircle, Calendar, Send, ShieldCheck, CheckCircle2, Sparkles } from "lucide-react";
 import { Property, PlotOption } from "@/types/property";
 import { generateWhatsAppUrl } from "@/lib/whatsapp";
 

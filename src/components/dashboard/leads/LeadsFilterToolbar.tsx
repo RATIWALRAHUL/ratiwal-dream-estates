@@ -1,5 +1,6 @@
 "use client";
-import { useCallback } from "react";
+
+import { useCallback, useState, useEffect, useRef, useTransition } from "react";
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import { Search, X, SlidersHorizontal } from "lucide-react";
 import { LEAD_STATUSES, LEAD_PRIORITIES, LEAD_SOURCES } from "@/types/lead";
@@ -30,6 +31,15 @@ export function LeadsFilterToolbar() {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  const [isPending, startTransition] = useTransition();
+
+  const currentSearch = searchParams.get("search") ?? "";
+  const [searchValue, setSearchValue] = useState(currentSearch);
+  const isInitialMount = useRef(true);
+
+  useEffect(() => {
+    setSearchValue(currentSearch);
+  }, [currentSearch]);
 
   const setParam = useCallback(
     (key: string, value: string) => {
@@ -40,13 +50,34 @@ export function LeadsFilterToolbar() {
         params.delete(key);
       }
       params.delete("page"); // reset pagination on filter change
-      router.push(`${pathname}?${params.toString()}`);
+      startTransition(() => {
+        router.push(`${pathname}?${params.toString()}`);
+      });
     },
     [router, pathname, searchParams]
   );
 
+  // Debounce search input
+  useEffect(() => {
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+      return;
+    }
+
+    const timer = setTimeout(() => {
+      if (searchValue !== currentSearch) {
+        setParam("search", searchValue);
+      }
+    }, 350);
+
+    return () => clearTimeout(timer);
+  }, [searchValue]);
+
   const clearAll = () => {
-    router.push(pathname);
+    setSearchValue("");
+    startTransition(() => {
+      router.push(pathname);
+    });
   };
 
   const hasActiveFilters =
@@ -81,8 +112,8 @@ export function LeadsFilterToolbar() {
           <input
             type="search"
             placeholder="Name, phone, reference…"
-            defaultValue={searchParams.get("search") ?? ""}
-            onChange={(e) => setParam("search", e.target.value)}
+            value={searchValue}
+            onChange={(e) => setSearchValue(e.target.value)}
             className="w-full pl-9 pr-3 py-2 text-xs rounded-xl border border-[rgba(7,26,40,0.12)] bg-[#f8f7f4] text-[#071a28] placeholder:text-[#647581] focus:outline-none focus:ring-2 focus:ring-[#087fc3]/30"
             aria-label="Search leads"
           />

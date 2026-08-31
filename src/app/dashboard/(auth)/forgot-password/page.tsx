@@ -2,7 +2,7 @@
 
 import React, { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
-import { Mail, Phone, ArrowLeft, KeyRound } from "lucide-react";
+import { Mail, Phone, KeyRound } from "lucide-react";
 import { AuthFormContainer } from "@/components/dashboard/auth/AuthFormContainer";
 import { AuthInput } from "@/components/dashboard/auth/AuthInput";
 import { PhoneInput } from "@/components/dashboard/auth/PhoneInput";

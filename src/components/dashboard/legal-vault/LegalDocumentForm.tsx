@@ -14,7 +14,7 @@ import {
   createLegalDocumentAction,
   addLegalDocumentVersionAction,
 } from "@/lib/actions/legal-vault.actions";
-import { Loader2, Save, ArrowLeft, Upload, FileText, Lock } from "lucide-react";
+import { Loader2, Save, ArrowLeft, Upload, FileText } from "lucide-react";
 import Link from "next/link";
 
 interface LegalDocumentFormProps {

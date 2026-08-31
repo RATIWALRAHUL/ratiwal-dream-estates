@@ -2,7 +2,7 @@ import crypto from "crypto";
 import { connectToDatabase } from "@/lib/db/mongoose";
 import { AdminAuthAccount, IAdminAuthAccount } from "@/models/AdminAuthAccount";
 import { AdminAuthSession, IAdminAuthSession } from "@/models/AdminAuthSession";
-import { AdminPasswordResetRequest, IAdminPasswordResetRequest } from "@/models/AdminPasswordResetRequest";
+import { AdminPasswordResetRequest } from "@/models/AdminPasswordResetRequest";
 import { TeamMember } from "@/models/TeamMember";
 import { AdminUser, createSessionToken } from "@/lib/auth/session";
 import { AdminAuthSessionDTO, PasswordRequirementCheck } from "@/types/dashboard-auth";

@@ -2,7 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
-import { FileText, Download, ExternalLink, ShieldCheck, CheckCircle2 } from "lucide-react";
+import { FileText, ExternalLink } from "lucide-react";
 import { MoneyUtils } from "@/lib/utils/money";
 
 interface PortalReceiptsViewProps {

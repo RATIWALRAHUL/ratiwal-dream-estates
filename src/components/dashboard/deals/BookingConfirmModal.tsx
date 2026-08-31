@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useTransition } from "react";
-import { X, Check } from "lucide-react";
+import { X } from "lucide-react";
 import { confirmBookingAction } from "@/lib/actions/deal.actions";
 
 interface BookingConfirmModalProps {

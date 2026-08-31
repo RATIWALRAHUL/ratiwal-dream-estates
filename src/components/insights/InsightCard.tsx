@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowRight, Clock, User, Calendar, ShieldCheck } from "lucide-react";
+import { ArrowRight, Clock, User, Calendar } from "lucide-react";
 import { InsightArticle } from "@/types/insight";
 
 interface InsightCardProps {

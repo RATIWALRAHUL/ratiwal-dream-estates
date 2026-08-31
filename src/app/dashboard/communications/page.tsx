@@ -4,7 +4,7 @@ import { getAdminSession } from "@/lib/auth/session";
 import { redirect } from "next/navigation";
 import { CommunicationService } from "@/lib/services/communication.service";
 import { CommunicationsMetrics } from "@/components/dashboard/communications/CommunicationsMetrics";
-import { ListFilter, FileCode2, ShieldAlert, ExternalLink, Send } from "lucide-react";
+import { ListFilter, FileCode2, ShieldAlert } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Communications Hub | Ratiwal Dream Estates Dashboard",

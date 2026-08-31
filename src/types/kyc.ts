@@ -6,8 +6,6 @@
  * and submission session contracts for PRD 15: Customer KYC & Verification.
  */
 
-import { Types } from "mongoose";
-
 // ─── 1. Customer Party & Applicant Types ─────────────────────────────────────
 
 export const CUSTOMER_PARTY_TYPES = [

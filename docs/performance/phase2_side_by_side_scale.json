@@ -1,0 +1,114 @@
+{
+  "generatedAt": "2026-08-31T09:02:40.537Z",
+  "datasetScale": {
+    "locations": 500,
+    "properties": 10000,
+    "leads": 50000,
+    "sitevisits": 25000,
+    "notifications": 50000,
+    "kyc": 10000,
+    "payments": 25000
+  },
+  "comparisons": {
+    "Dashboard Overview": {
+      "legacy": {
+        "min": 126.6,
+        "p50": 133.1,
+        "p90": 141.19,
+        "p95": 141.34,
+        "p99": 148.56,
+        "max": 148.56,
+        "mean": 134.07,
+        "stddev": 4.94,
+        "rps": 7.5
+      },
+      "optimized": {
+        "min": 67.74,
+        "p50": 72.68,
+        "p90": 76.45,
+        "p95": 77.13,
+        "p99": 79.32,
+        "max": 79.32,
+        "mean": 72.99,
+        "stddev": 2.65,
+        "rps": 13.7
+      },
+      "speedup": "1.8x"
+    },
+    "Locations List with Plots": {
+      "legacy": {
+        "min": 41.5,
+        "p50": 103.34,
+        "p90": 142.06,
+        "p95": 154.53,
+        "p99": 161.01,
+        "max": 161.01,
+        "mean": 101.02,
+        "stddev": 36.87,
+        "rps": 9.9
+      },
+      "optimized": {
+        "min": 30.88,
+        "p50": 33.78,
+        "p90": 36.82,
+        "p95": 37.02,
+        "p99": 41.21,
+        "max": 41.21,
+        "mean": 34.21,
+        "stddev": 2.2,
+        "rps": 29.2
+      },
+      "speedup": "3.1x"
+    },
+    "Analytics Overview Aggregation": {
+      "legacy": {
+        "min": 264.87,
+        "p50": 270.84,
+        "p90": 277.55,
+        "p95": 280.24,
+        "p99": 281.56,
+        "max": 281.56,
+        "mean": 271.89,
+        "stddev": 3.93,
+        "rps": 3.7
+      },
+      "optimized": {
+        "min": 551.18,
+        "p50": 570.74,
+        "p90": 625.32,
+        "p95": 631.29,
+        "p99": 671.48,
+        "max": 671.48,
+        "mean": 579.47,
+        "stddev": 27.44,
+        "rps": 1.7
+      },
+      "speedup": "0.5x"
+    },
+    "Property Search Query": {
+      "legacy": {
+        "min": 29.88,
+        "p50": 32.1,
+        "p90": 37.63,
+        "p95": 38.1,
+        "p99": 42.06,
+        "max": 42.06,
+        "mean": 33.27,
+        "stddev": 2.91,
+        "rps": 30.1
+      },
+      "optimized": {
+        "min": 30.1,
+        "p50": 32.12,
+        "p90": 33.52,
+        "p95": 35.18,
+        "p99": 36.81,
+        "max": 36.81,
+        "mean": 32.21,
+        "stddev": 1.42,
+        "rps": 31.1
+      },
+      "speedup": "1.0x"
+    }
+  }
+}

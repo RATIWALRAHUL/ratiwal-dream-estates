@@ -6,7 +6,7 @@ import { redirect } from "next/navigation";
 import { AnalyticsService } from "@/lib/services/analytics.service";
 import { AnalyticsDateRangeFilter } from "@/components/dashboard/analytics/AnalyticsDateRangeFilter";
 import { DemandDistributionChart } from "@/components/dashboard/analytics/DemandDistributionChart";
-import { ArrowLeft, Calendar, CheckCircle2, XCircle, Clock, Users } from "lucide-react";
+import { ArrowLeft, Calendar, CheckCircle2, XCircle, Clock } from "lucide-react";
 import { AnalyticsFilterParams, AnalyticsDatePreset } from "@/types/analytics";
 
 export const metadata: Metadata = {

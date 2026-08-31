@@ -5,8 +5,8 @@
  */
 
 import { connectToDatabase } from "@/lib/db/mongoose";
-import { NotificationOutbox, INotificationOutbox } from "@/models/NotificationOutbox";
-import { NotificationDelivery, INotificationDelivery } from "@/models/NotificationDelivery";
+import { NotificationOutbox } from "@/models/NotificationOutbox";
+import { NotificationDelivery } from "@/models/NotificationDelivery";
 import { NotificationTemplate } from "@/models/NotificationTemplate";
 import { CommunicationConsent } from "@/models/CommunicationConsent";
 import { WebhookReceipt } from "@/models/WebhookReceipt";
@@ -16,7 +16,6 @@ import {
   NotificationTemplateItem,
   COMMUNICATION_EVENT_DEFINITIONS,
 } from "@/types/communication";
-import { Types } from "mongoose";
 
 export interface DeliveryFilters {
   channel?: string;

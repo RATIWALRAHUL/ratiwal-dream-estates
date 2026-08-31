@@ -12,7 +12,7 @@ import { CommunicationOutboxService } from "@/lib/services/communication-outbox.
 import { MoneyUtils } from "@/lib/utils/money";
 import { logAuditEvent } from "@/lib/services/audit.service";
 import { AdminSession } from "@/lib/auth/session";
-import { PaymentMethod, ManualPaymentStatus } from "@/types/payment";
+import { PaymentMethod } from "@/types/payment";
 
 export interface SubmitManualPaymentInput {
   bookingId: string;

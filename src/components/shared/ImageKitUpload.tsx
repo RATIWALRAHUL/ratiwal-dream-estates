@@ -2,7 +2,7 @@
 
 import { useState, useRef } from "react";
 import Image from "next/image";
-import { UploadCloud, CheckCircle2, AlertCircle, Loader2, X, Image as ImageIcon, FileText } from "lucide-react";
+import { UploadCloud, CheckCircle2, AlertCircle, Loader2, X, Image as FileText } from "lucide-react";
 
 interface ImageKitUploadProps {
   onSuccess: (result: {

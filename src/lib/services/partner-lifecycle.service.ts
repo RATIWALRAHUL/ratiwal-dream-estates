@@ -6,8 +6,7 @@ import { ChannelPartner, IChannelPartner } from "@/models/ChannelPartner";
 import { PartnerReraRegistration } from "@/models/PartnerReraRegistration";
 import { PartnerTaxProfile } from "@/models/PartnerTaxProfile";
 import { PartnerPayoutProfile } from "@/models/PartnerPayoutProfile";
-import { PartnerAgreement } from "@/models/PartnerAgreement";
-import { CommissionPlan } from "@/models/CommissionPlan";
+
 import { PartnerStatus, isValidPartnerStatusTransition } from "@/types/partner";
 import { CommunicationOutboxService } from "@/lib/services/communication-outbox.service";
 import { logAuditEvent } from "@/lib/services/audit.service";
@@ -130,7 +129,7 @@ export class PartnerLifecycleService {
       throw new Error("NOT_FOUND: Channel partner not found.");
     }
 
-    let rera = await PartnerReraRegistration.findOne({ partnerId: partner._id });
+    const rera = await PartnerReraRegistration.findOne({ partnerId: partner._id });
     if (!rera) {
       throw new Error("NOT_FOUND: No RERA registration submitted for this partner.");
     }

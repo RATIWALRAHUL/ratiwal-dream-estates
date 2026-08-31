@@ -6,7 +6,7 @@
 
 import { LeadSource, LeadStatus, LostReason } from "@/types/lead";
 import { SiteVisitStatus, CancellationReason } from "@/types/site-visit";
-import { NotificationChannel, DeliveryStatus } from "@/types/communication";
+import { NotificationChannel } from "@/types/communication";
 
 // ─── Preset Date Ranges ───────────────────────────────────────────────────────
 

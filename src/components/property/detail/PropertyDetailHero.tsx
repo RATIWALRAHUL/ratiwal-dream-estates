@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { MapPin, ShieldCheck, CheckCircle2, Calendar, Share2 } from "lucide-react";
+import { MapPin, ShieldCheck } from "lucide-react";
 import { Property } from "@/types/property";
 
 interface PropertyDetailHeroProps {

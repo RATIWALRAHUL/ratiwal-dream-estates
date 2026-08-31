@@ -3,7 +3,7 @@
 import { useState, useTransition } from "react";
 import { UnitStatus, PERMITTED_STATUS_TRANSITIONS } from "@/types/inventory";
 import { transitionUnitStatusAction } from "@/lib/actions/inventory-unit.actions";
-import { X, Loader2, ShieldCheck, AlertCircle } from "lucide-react";
+import { X, Loader2, AlertCircle } from "lucide-react";
 
 interface UnitStatusModalProps {
   unitId: string;

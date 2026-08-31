@@ -4,7 +4,7 @@ import { getAdminSession } from "@/lib/auth/session";
 import { redirect } from "next/navigation";
 import { CommunicationService } from "@/lib/services/communication.service";
 import { DeadLetterTable } from "@/components/dashboard/communications/DeadLetterTable";
-import { ArrowLeft, ShieldAlert } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Dead-Letter Recovery | Ratiwal Dream Estates Dashboard",

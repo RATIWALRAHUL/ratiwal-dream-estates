@@ -1,5 +1,5 @@
 import { PERMISSION_CATALOGUE, SYSTEM_MODULES, PermissionDefinition } from "@/types/settings-team";
-import { Shield, AlertTriangle } from "lucide-react";
+import { AlertTriangle } from "lucide-react";
 
 interface PermissionMatrixProps {
   selectedKeys?: string[];

@@ -2,7 +2,7 @@
 
 import React, { useState, useTransition } from "react";
 import Link from "next/link";
-import { LifeBuoy, ArrowLeft, Send, Clock, User, ShieldCheck, CheckCircle2 } from "lucide-react";
+import { ArrowLeft, Send, User, ShieldCheck } from "lucide-react";
 import { addSupportMessageAction } from "@/lib/actions/portal.actions";
 
 interface PortalSupportDetailViewProps {

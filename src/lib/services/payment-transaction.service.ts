@@ -2,7 +2,7 @@ import "server-only";
 import crypto from "crypto";
 import { Types } from "mongoose";
 import { connectToDatabase } from "@/lib/db/mongoose";
-import { PaymentTransaction, IPaymentTransaction } from "@/models/PaymentTransaction";
+import { PaymentTransaction } from "@/models/PaymentTransaction";
 import { PaymentPlan } from "@/models/PaymentPlan";
 import { PaymentInstallment } from "@/models/PaymentInstallment";
 import { Booking } from "@/models/Booking";

@@ -3,7 +3,7 @@
 import React, { useState, useTransition, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
-import { Mail, Phone, Lock, ShieldCheck, ArrowRight } from "lucide-react";
+import { Mail, Phone } from "lucide-react";
 import { AuthFormContainer } from "@/components/dashboard/auth/AuthFormContainer";
 import { AuthInput } from "@/components/dashboard/auth/AuthInput";
 import { PasswordInput } from "@/components/dashboard/auth/PasswordInput";

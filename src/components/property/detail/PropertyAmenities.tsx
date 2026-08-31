@@ -1,4 +1,4 @@
-import { CheckCircle2, Zap, Shield, Trees, Road, Layers } from "lucide-react";
+import { Zap, Shield, Trees, Road, Layers } from "lucide-react";
 import { PropertyAmenity } from "@/types/property";
 
 interface PropertyAmenitiesProps {

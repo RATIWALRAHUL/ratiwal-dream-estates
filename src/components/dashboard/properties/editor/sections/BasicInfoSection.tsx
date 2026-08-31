@@ -1,6 +1,5 @@
 "use client";
 
-import { Info, Sparkles } from "lucide-react";
 import type { PropertyType, ListingStatus, SourceType } from "@/types/database";
 
 interface BasicInfoSectionProps {

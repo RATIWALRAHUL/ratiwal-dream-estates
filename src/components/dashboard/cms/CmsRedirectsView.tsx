@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { createRedirectAction, deleteRedirectAction } from "@/lib/actions/cms.actions";
-import { ArrowLeft, Plus, Trash2, Shield, Globe, ExternalLink } from "lucide-react";
+import { ArrowLeft, Plus, Trash2 } from "lucide-react";
 
 interface RedirectItem {
   _id: string;

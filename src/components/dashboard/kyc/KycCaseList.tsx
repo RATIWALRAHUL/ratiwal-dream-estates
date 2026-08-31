@@ -14,7 +14,7 @@ import {
   ChevronLeft,
   ChevronRight,
 } from "lucide-react";
-import { KycCaseStatus, KYC_CASE_STATUSES } from "@/types/kyc";
+import { KYC_CASE_STATUSES } from "@/types/kyc";
 
 interface KycCaseListProps {
   initialCases: any[];

@@ -10,7 +10,7 @@ import { connectToDatabase } from "@/lib/db/mongoose";
 import { InventoryUnit } from "@/models/InventoryUnit";
 import { InventoryImportJob, IRowValidationError, ImportMode } from "@/models/InventoryImportJob";
 import { InventoryService } from "@/lib/services/inventory.service";
-import { Property } from "@/models/Property";
+
 import { AdminSession } from "@/lib/auth/session";
 import { logAuditEvent } from "@/lib/services/audit.service";
 import {

@@ -258,6 +258,8 @@ const SiteVisitSchema = new Schema<ISiteVisit>(
 
 // ─── Compound Indexes (PRD 8 §35) ───────────────────────────────────────────
 SiteVisitSchema.index({ leadId: 1, createdAt: -1 });
+SiteVisitSchema.index({ createdAt: -1, status: 1 });
+SiteVisitSchema.index({ assignedAdvisorId: 1, createdAt: -1 });
 SiteVisitSchema.index({ assignedAdvisorId: 1, scheduledStartAt: 1, status: 1 });
 SiteVisitSchema.index({ propertyId: 1, scheduledStartAt: 1, status: 1 });
 SiteVisitSchema.index({ locationId: 1, scheduledStartAt: 1 });

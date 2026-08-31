@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { MapPin, Navigation, Phone, Mail, Clock, ShieldCheck, Compass, ExternalLink } from "lucide-react";
+import { MapPin, Navigation, Phone, Mail, Clock, Compass, ExternalLink } from "lucide-react";
 import { Reveal } from "@/components/home/Reveal";
 import { siteConfig } from "@/config/site";
 

@@ -1,0 +1,68 @@
+{
+  "generatedAt": "2026-08-31T09:02:40.542Z",
+  "dryRun": {
+    "dryRun": true,
+    "totalPlanned": 8,
+    "created": [],
+    "alreadyExisting": [
+      "properties.{\"publicationStatus\":1,\"updatedAt\":-1}",
+      "properties.{\"verificationStatus\":1,\"lastVerifiedAt\":-1}",
+      "properties.{\"title\":\"text\",\"locality\":\"text\",\"slug\":\"text\"}",
+      "leads.{\"createdAt\":-1,\"status\":1}",
+      "leads.{\"assignedToId\":1,\"createdAt\":-1}",
+      "sitevisits.{\"createdAt\":-1,\"status\":1}",
+      "sitevisits.{\"assignedAdvisorId\":1,\"createdAt\":-1}",
+      "locations.{\"publicationStatus\":1,\"sortOrder\":1,\"name\":1}"
+    ],
+    "errors": []
+  },
+  "idempotency": {
+    "dryRun": false,
+    "totalPlanned": 8,
+    "created": [],
+    "alreadyExisting": [
+      "properties.{\"publicationStatus\":1,\"updatedAt\":-1}",
+      "properties.{\"verificationStatus\":1,\"lastVerifiedAt\":-1}",
+      "properties.{\"title\":\"text\",\"locality\":\"text\",\"slug\":\"text\"}",
+      "leads.{\"createdAt\":-1,\"status\":1}",
+      "leads.{\"assignedToId\":1,\"createdAt\":-1}",
+      "sitevisits.{\"createdAt\":-1,\"status\":1}",
+      "sitevisits.{\"assignedAdvisorId\":1,\"createdAt\":-1}",
+      "locations.{\"publicationStatus\":1,\"sortOrder\":1,\"name\":1}"
+    ],
+    "errors": []
+  },
+  "rollback": {
+    "dryRun": false,
+    "totalPlanned": 8,
+    "dropped": [
+      "Dropped properties.publicationStatus_1_updatedAt_-1",
+      "Dropped properties.verificationStatus_1_lastVerifiedAt_-1",
+      "Dropped properties.property_text_search_idx",
+      "Dropped leads.createdAt_-1_status_1",
+      "Dropped leads.assignedToId_1_createdAt_-1",
+      "Dropped sitevisits.createdAt_-1_status_1",
+      "Dropped sitevisits.assignedAdvisorId_1_createdAt_-1",
+      "Dropped locations.publicationStatus_1_sortOrder_1_name_1"
+    ],
+    "skippedNotPresent": [],
+    "errors": []
+  },
+  "reapply": {
+    "dryRun": false,
+    "totalPlanned": 8,
+    "created": [
+      "Created properties.{\"publicationStatus\":1,\"updatedAt\":-1}",
+      "Created properties.{\"verificationStatus\":1,\"lastVerifiedAt\":-1}",
+      "Created properties.{\"title\":\"text\",\"locality\":\"text\",\"slug\":\"text\"}",
+      "Created leads.{\"assignedToId\":1,\"createdAt\":-1}",
+      "Created sitevisits.{\"createdAt\":-1,\"status\":1}",
+      "Created sitevisits.{\"assignedAdvisorId\":1,\"createdAt\":-1}",
+      "Created locations.{\"publicationStatus\":1,\"sortOrder\":1,\"name\":1}"
+    ],
+    "alreadyExisting": [
+      "leads.{\"createdAt\":-1,\"status\":1}"
+    ],
+    "errors": []
+  }
+}

@@ -316,6 +316,8 @@ const LeadSchema = new Schema<ILead>(
 
 // ─── Compound Indexes (from PRD §32) ─────────────────────────────────────────
 LeadSchema.index({ status: 1, createdAt: -1 });
+LeadSchema.index({ createdAt: -1, status: 1 });
+LeadSchema.index({ assignedToId: 1, createdAt: -1 });
 LeadSchema.index({ assignedToId: 1, status: 1, nextFollowUpAt: 1 });
 LeadSchema.index({ normalizedPhone: 1, createdAt: -1 });
 LeadSchema.index({ normalizedEmail: 1, createdAt: -1 });

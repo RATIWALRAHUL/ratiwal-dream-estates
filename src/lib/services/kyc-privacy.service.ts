@@ -4,7 +4,7 @@ import { connectToDatabase } from "@/lib/db/mongoose";
 import { DataProcessingRecord, IDataProcessingRecord } from "@/models/DataProcessingRecord";
 import { PrivacyRequest, IPrivacyRequest } from "@/models/PrivacyRequest";
 import { CustomerParty } from "@/models/CustomerParty";
-import { CustomerKycCase } from "@/models/CustomerKycCase";
+
 import { logAuditEvent } from "@/lib/services/audit.service";
 import { AdminSession } from "@/lib/auth/session";
 import {

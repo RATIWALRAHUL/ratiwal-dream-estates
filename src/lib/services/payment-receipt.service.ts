@@ -2,10 +2,9 @@ import "server-only";
 import { Types } from "mongoose";
 import { connectToDatabase } from "@/lib/db/mongoose";
 import { PaymentReceipt, IPaymentReceipt } from "@/models/PaymentReceipt";
-import { PaymentTransaction, IPaymentTransaction } from "@/models/PaymentTransaction";
+import { PaymentTransaction } from "@/models/PaymentTransaction";
 import { PaymentAllocation } from "@/models/PaymentAllocation";
-import { PaymentInstallment } from "@/models/PaymentInstallment";
-import { Booking } from "@/models/Booking";
+
 import { MoneyUtils } from "@/lib/utils/money";
 import { logAuditEvent } from "@/lib/services/audit.service";
 import { AdminSession } from "@/lib/auth/session";

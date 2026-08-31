@@ -4,7 +4,7 @@ import { getAdminSession } from "@/lib/auth/session";
 import { redirect } from "next/navigation";
 import { LegalVaultService } from "@/lib/services/legal-vault.service";
 import { LegalDocumentTable } from "@/components/dashboard/legal-vault/LegalDocumentTable";
-import { ArrowLeft, ShieldCheck } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Legal Review Queue | Ratiwal Dream Estates Dashboard",

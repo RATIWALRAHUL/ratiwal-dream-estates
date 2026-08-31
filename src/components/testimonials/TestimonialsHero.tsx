@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowRight, Quote, ShieldCheck, CheckCircle2, MessageCircle } from "lucide-react";
+import { ArrowRight, Quote, MessageCircle } from "lucide-react";
 import { generateWhatsAppUrl } from "@/lib/whatsapp";
 
 export function TestimonialsHero() {

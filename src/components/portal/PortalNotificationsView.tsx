@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { Bell, CheckCircle2, Clock, ShieldCheck, CreditCard, Calendar, LifeBuoy, ArrowRight } from "lucide-react";
+import { Bell } from "lucide-react";
 
 export function PortalNotificationsView() {
   const [notifications] = useState([

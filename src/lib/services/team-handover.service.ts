@@ -1,15 +1,13 @@
 import "server-only";
-import { Types } from "mongoose";
+
 import { connectToDatabase } from "@/lib/db/mongoose";
-import { TeamMember, ITeamMember } from "@/models/TeamMember";
+import { TeamMember } from "@/models/TeamMember";
 import { TeamHandoverJob, ITeamHandoverJob } from "@/models/TeamHandoverJob";
 import { Lead } from "@/models/Lead";
 import { SiteVisit } from "@/models/SiteVisit";
 import { LegalDocument } from "@/models/LegalDocument";
 import { AdminSession } from "@/lib/auth/session";
 import { logAuditEvent } from "@/lib/services/audit.service";
-import { TeamService } from "./team.service";
-import { logger } from "@/lib/logger";
 
 export interface MemberActiveWorkSummary {
   memberId: string;

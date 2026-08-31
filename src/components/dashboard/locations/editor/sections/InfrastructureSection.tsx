@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Building, Plus, Trash2, Edit2, Save, X, ExternalLink, Calendar, ShieldCheck } from "lucide-react";
+import { Building, Plus, Trash2, Edit2, Save, X, ExternalLink } from "lucide-react";
 import type { IInfrastructureMilestone } from "@/types/database";
 
 interface InfrastructureSectionProps {

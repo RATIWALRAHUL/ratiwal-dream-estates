@@ -1,4 +1,4 @@
-import { BarChart3, ShieldCheck, Tag, Layers, CheckCircle2 } from "lucide-react";
+import { BarChart3, ShieldCheck, CheckCircle2 } from "lucide-react";
 import { VerifiedMarketData } from "@/types/location";
 
 interface MarketSnapshotProps {

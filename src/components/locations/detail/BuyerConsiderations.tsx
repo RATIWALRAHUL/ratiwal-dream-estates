@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ShieldCheck, AlertCircle, ArrowRight, FileCheck, CheckCircle2 } from "lucide-react";
+import { ShieldCheck, AlertCircle } from "lucide-react";
 import { BuyerConsideration } from "@/types/location";
 
 interface BuyerConsiderationsProps {

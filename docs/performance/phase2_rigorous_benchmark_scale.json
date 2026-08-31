@@ -1,0 +1,304 @@
+{
+  "generatedAt": "2026-08-31T09:02:40.530Z",
+  "datasetScale": {
+    "locations": 500,
+    "properties": 10000,
+    "leads": 50000,
+    "sitevisits": 25000,
+    "notifications": 50000,
+    "kyc": 10000,
+    "payments": 25000
+  },
+  "warmBenchmark100Runs": {
+    "Dashboard Overview Metrics (getDashboardOverview)": {
+      "min": 68.3,
+      "p50": 73.04,
+      "p90": 81.47,
+      "p95": 93.64,
+      "p99": 258.74,
+      "max": 258.74,
+      "mean": 76.72,
+      "stddev": 19.42,
+      "rps": 13
+    },
+    "Dashboard Properties List (getDashboardProperties - page 1, 20 items)": {
+      "min": 64.09,
+      "p50": 78.33,
+      "p90": 100.87,
+      "p95": 119.74,
+      "p99": 161.49,
+      "max": 161.49,
+      "mean": 81.5,
+      "stddev": 16.47,
+      "rps": 12.3
+    },
+    "Dashboard Locations List (getDashboardLocations - page 1, 10 items)": {
+      "min": 29.16,
+      "p50": 36.03,
+      "p90": 63.98,
+      "p95": 168.8,
+      "p99": 249.83,
+      "max": 249.83,
+      "mean": 48.71,
+      "stddev": 40.98,
+      "rps": 20.5
+    },
+    "Analytics Overview Pipeline (getOverviewAnalytics - 30d SuperAdmin)": {
+      "min": 549.59,
+      "p50": 592.33,
+      "p90": 695.85,
+      "p95": 819.29,
+      "p99": 912.94,
+      "max": 912.94,
+      "mean": 613.57,
+      "stddev": 69.69,
+      "rps": 1.6
+    },
+    "Property Text Search (Indexed text query: 'Royal Enclave')": {
+      "min": 27.57,
+      "p50": 30.27,
+      "p90": 33.8,
+      "p95": 35.27,
+      "p99": 48.62,
+      "max": 48.62,
+      "mean": 30.92,
+      "stddev": 2.78,
+      "rps": 32.3
+    }
+  },
+  "coldBenchmark10Runs": {
+    "Dashboard Overview Metrics (getDashboardOverview)": {
+      "min": 73.4,
+      "p50": 76.76,
+      "p90": 369.87,
+      "p95": 369.87,
+      "p99": 369.87,
+      "max": 369.87,
+      "mean": 121.18,
+      "stddev": 94.85,
+      "rps": 8.3
+    },
+    "Dashboard Properties List (getDashboardProperties - page 1, 20 items)": {
+      "min": 68.42,
+      "p50": 76.28,
+      "p90": 208.08,
+      "p95": 208.08,
+      "p99": 208.08,
+      "max": 208.08,
+      "mean": 93.99,
+      "stddev": 42.84,
+      "rps": 10.6
+    },
+    "Dashboard Locations List (getDashboardLocations - page 1, 10 items)": {
+      "min": 33.85,
+      "p50": 36.63,
+      "p90": 52.31,
+      "p95": 52.31,
+      "p99": 52.31,
+      "max": 52.31,
+      "mean": 39.88,
+      "stddev": 5.99,
+      "rps": 25.1
+    },
+    "Analytics Overview Pipeline (getOverviewAnalytics - 30d SuperAdmin)": {
+      "min": 562.31,
+      "p50": 621.58,
+      "p90": 10583.7,
+      "p95": 10583.7,
+      "p99": 10583.7,
+      "max": 10583.7,
+      "mean": 1621.24,
+      "stddev": 2987.96,
+      "rps": 0.6
+    },
+    "Property Text Search (Indexed text query: 'Royal Enclave')": {
+      "min": 27.93,
+      "p50": 29.02,
+      "p90": 53.51,
+      "p95": 53.51,
+      "p99": 53.51,
+      "max": 53.51,
+      "mean": 31.53,
+      "stddev": 7.39,
+      "rps": 31.7
+    }
+  },
+  "concurrencyLoadBenchmark": {
+    "Dashboard Overview Metrics (getDashboardOverview)": {
+      "1": {
+        "min": 65.68,
+        "p50": 78.64,
+        "p90": 90.52,
+        "p95": 92.65,
+        "p99": 99.79,
+        "max": 99.79,
+        "mean": 78.73,
+        "stddev": 7.72,
+        "rps": 12.7
+      },
+      "5": {
+        "min": 103.17,
+        "p50": 131.71,
+        "p90": 251.03,
+        "p95": 253.25,
+        "p99": 526.16,
+        "max": 526.16,
+        "mean": 174.69,
+        "stddev": 84.09,
+        "rps": 5.7
+      },
+      "20": {
+        "min": 947.37,
+        "p50": 1063.19,
+        "p90": 1761.26,
+        "p95": 1767.16,
+        "p99": 1780.11,
+        "max": 1780.11,
+        "mean": 1206.76,
+        "stddev": 312.54,
+        "rps": 0.8
+      }
+    },
+    "Dashboard Properties List (getDashboardProperties - page 1, 20 items)": {
+      "1": {
+        "min": 64.79,
+        "p50": 68.25,
+        "p90": 83.08,
+        "p95": 99.05,
+        "p99": 100.18,
+        "max": 100.18,
+        "mean": 71.53,
+        "stddev": 8.76,
+        "rps": 14
+      },
+      "5": {
+        "min": 66.92,
+        "p50": 85.64,
+        "p90": 112.28,
+        "p95": 114.62,
+        "p99": 121.02,
+        "max": 121.02,
+        "mean": 89.56,
+        "stddev": 15.14,
+        "rps": 11.2
+      },
+      "20": {
+        "min": 114.29,
+        "p50": 321.77,
+        "p90": 832.92,
+        "p95": 927.45,
+        "p99": 1001.17,
+        "max": 1001.17,
+        "mean": 415.25,
+        "stddev": 277.57,
+        "rps": 2.4
+      }
+    },
+    "Dashboard Locations List (getDashboardLocations - page 1, 10 items)": {
+      "1": {
+        "min": 34.07,
+        "p50": 36.86,
+        "p90": 41.33,
+        "p95": 336.12,
+        "p99": 376.7,
+        "max": 376.7,
+        "mean": 58.11,
+        "stddev": 79.93,
+        "rps": 17.2
+      },
+      "5": {
+        "min": 34.87,
+        "p50": 48.24,
+        "p90": 572.22,
+        "p95": 578.42,
+        "p99": 600.35,
+        "max": 600.35,
+        "mean": 137.03,
+        "stddev": 197.75,
+        "rps": 7.3
+      },
+      "20": {
+        "min": 39.78,
+        "p50": 142.49,
+        "p90": 975.51,
+        "p95": 978.22,
+        "p99": 993.37,
+        "max": 993.37,
+        "mean": 468.17,
+        "stddev": 420.33,
+        "rps": 2.1
+      }
+    },
+    "Analytics Overview Pipeline (getOverviewAnalytics - 30d SuperAdmin)": {
+      "1": {
+        "min": 577.76,
+        "p50": 613.94,
+        "p90": 672.78,
+        "p95": 697.43,
+        "p99": 1208.67,
+        "max": 1208.67,
+        "mean": 632.47,
+        "stddev": 110.58,
+        "rps": 1.6
+      },
+      "5": {
+        "min": 766.75,
+        "p50": 915.7,
+        "p90": 1090.61,
+        "p95": 1137.7,
+        "p99": 1492.89,
+        "max": 1492.89,
+        "mean": 942.8,
+        "stddev": 140.8,
+        "rps": 1.1
+      },
+      "20": {
+        "min": 2297.17,
+        "p50": 3236.56,
+        "p90": 4122.7,
+        "p95": 4496.27,
+        "p99": 4795.39,
+        "max": 4795.39,
+        "mean": 3275.12,
+        "stddev": 564.57,
+        "rps": 0.3
+      }
+    },
+    "Property Text Search (Indexed text query: 'Royal Enclave')": {
+      "1": {
+        "min": 26.46,
+        "p50": 28.57,
+        "p90": 32.18,
+        "p95": 34.13,
+        "p99": 36.56,
+        "max": 36.56,
+        "mean": 29.14,
+        "stddev": 2.1,
+        "rps": 34.3
+      },
+      "5": {
+        "min": 27.15,
+        "p50": 31.45,
+        "p90": 57.58,
+        "p95": 58.33,
+        "p99": 63.93,
+        "max": 63.93,
+        "mean": 34.6,
+        "stddev": 9.83,
+        "rps": 28.9
+      },
+      "20": {
+        "min": 28.78,
+        "p50": 39.02,
+        "p90": 63.34,
+        "p95": 147.57,
+        "p99": 149.12,
+        "max": 149.12,
+        "mean": 50.5,
+        "stddev": 31.82,
+        "rps": 19.8
+      }
+    }
+  },
+  "overallPass": true
+}

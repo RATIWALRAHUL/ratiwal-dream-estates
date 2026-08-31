@@ -2,7 +2,7 @@
 
 import { useState, useTransition } from "react";
 import Link from "next/link";
-import { Download, Table, RefreshCw, Loader2 } from "lucide-react";
+import { Download, Table, Loader2 } from "lucide-react";
 import { ReportType, ReportColumnDefinition, REPORT_TYPES } from "@/types/analytics";
 import { executeReportAction } from "@/lib/actions/analytics.actions";
 

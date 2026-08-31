@@ -1,7 +1,7 @@
 import "server-only";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { ExternalLink, Calendar, Database, Sparkles, RefreshCw } from "lucide-react";
+
 import { getAdminSession } from "@/lib/auth/session";
 import { getDashboardOverview } from "@/lib/services/dashboard.service";
 import { MarketPulseStrip } from "@/components/dashboard/overview/MarketPulseStrip";

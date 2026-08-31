@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { Types } from "mongoose";
+
 import { getAdminSession } from "@/lib/auth/session";
 import { connectToDatabase } from "@/lib/db/mongoose";
 import { LegalDocument } from "@/models/LegalDocument";

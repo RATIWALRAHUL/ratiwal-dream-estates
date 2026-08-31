@@ -2,7 +2,7 @@
 
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import { useCallback, useTransition } from "react";
-import { Calendar, Filter, RotateCcw } from "lucide-react";
+import { Calendar } from "lucide-react";
 import { ANALYTICS_DATE_PRESETS, AnalyticsDatePreset } from "@/types/analytics";
 
 const PRESET_LABELS: Record<AnalyticsDatePreset, string> = {

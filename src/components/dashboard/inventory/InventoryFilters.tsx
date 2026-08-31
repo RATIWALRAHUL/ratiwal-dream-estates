@@ -2,7 +2,7 @@
 
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import { useCallback, useTransition } from "react";
-import { Search, Filter, RotateCcw, Building2 } from "lucide-react";
+import { Search, RotateCcw } from "lucide-react";
 import {
   UNIT_CATEGORIES,
   UNIT_STATUSES,

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowRight, ShieldCheck, CheckCircle2, MapPin, Compass } from "lucide-react";
+import { ArrowRight, ShieldCheck, MapPin, Compass } from "lucide-react";
 import { CaseStudy } from "@/types/testimonial";
 
 interface FeaturedClientStoryProps {

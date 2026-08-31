@@ -11,8 +11,7 @@ import { EmailProvider } from "../providers/email.provider";
 import { WhatsAppProvider } from "../providers/whatsapp.provider";
 import { ConsentService } from "./consent.service";
 import { TemplateRegistry } from "../templates/registry";
-import { FailureCategory, NotificationChannel } from "@/types/communication";
-import { Types } from "mongoose";
+import { NotificationChannel } from "@/types/communication";
 
 export interface BatchProcessingResult {
   processed: number;

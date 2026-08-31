@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { X, MessageSquare, Phone, ArrowRight, ShieldCheck } from "lucide-react";
+import { X, MessageSquare, ArrowRight, ShieldCheck } from "lucide-react";
 import { siteConfig } from "@/config/site";
 import { navigationConfig } from "@/config/navigation";
 import { generateWhatsAppUrl } from "@/lib/whatsapp";

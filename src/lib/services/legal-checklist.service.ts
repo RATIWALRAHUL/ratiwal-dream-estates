@@ -1,7 +1,7 @@
 import "server-only";
 import { Types } from "mongoose";
 import { connectToDatabase } from "@/lib/db/mongoose";
-import { LegalChecklistTemplate, ILegalChecklistTemplate } from "@/models/LegalChecklistTemplate";
+import { LegalChecklistTemplate } from "@/models/LegalChecklistTemplate";
 import { PropertyLegalChecklist, IPropertyLegalChecklist, IPropertyChecklistItem } from "@/models/PropertyLegalChecklist";
 import { LegalDocument } from "@/models/LegalDocument";
 import { Property } from "@/models/Property";

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowRight, BookOpen, FileCheck2, Compass, ShieldCheck } from "lucide-react";
+import { ArrowRight, BookOpen, FileCheck2 } from "lucide-react";
 import { InsightArticle } from "@/types/insight";
 
 interface InsightsHeroProps {

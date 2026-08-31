@@ -2,7 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
-import { LifeBuoy, Plus, MessageSquare, Clock, ArrowRight, CheckCircle2 } from "lucide-react";
+import { LifeBuoy, Plus, Clock, ArrowRight } from "lucide-react";
 
 interface PortalSupportViewProps {
   requests: any[];

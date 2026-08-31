@@ -1,6 +1,5 @@
 "use client";
 
-import { ShieldCheck, AlertTriangle } from "lucide-react";
 import type { VerificationStatus } from "@/types/database";
 
 export type ReraStatus = "REGISTERED" | "APPLIED" | "EXEMPTED" | "NOT_APPLICABLE" | "VERIFIED" | "PENDING_VERIFICATION";

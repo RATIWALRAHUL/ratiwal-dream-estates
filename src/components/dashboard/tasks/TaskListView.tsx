@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { TaskListItemDTO, TaskStatus, TaskPriority, TaskType, TASK_TYPES, TASK_STATUSES, TASK_PRIORITIES } from "@/types/task";
+import { TaskListItemDTO, TaskStatus, TASK_STATUSES, TASK_PRIORITIES } from "@/types/task";
 import { bulkUpdateTasksAction } from "@/lib/actions/task.actions";
 import { TaskFormModal } from "./TaskFormModal";
 import {

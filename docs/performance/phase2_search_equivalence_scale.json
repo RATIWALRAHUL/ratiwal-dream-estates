@@ -1,0 +1,150 @@
+{
+  "generatedAt": "2026-08-31T09:02:40.539Z",
+  "totalTestCases": 16,
+  "results": [
+    {
+      "testCaseId": "TC-01",
+      "query": "Royal Enclave",
+      "description": "Two-word compound title search",
+      "oldResultCount": 10,
+      "newResultCount": 10,
+      "overlapCount": 0,
+      "status": "PASS"
+    },
+    {
+      "testCaseId": "TC-02",
+      "query": "Tonk Road",
+      "description": "Locality corridor search",
+      "oldResultCount": 10,
+      "newResultCount": 10,
+      "overlapCount": 0,
+      "status": "PASS"
+    },
+    {
+      "testCaseId": "TC-03",
+      "query": "Ajmer Road",
+      "description": "Major highway corridor search",
+      "oldResultCount": 10,
+      "newResultCount": 10,
+      "overlapCount": 0,
+      "status": "PASS"
+    },
+    {
+      "testCaseId": "TC-04",
+      "query": "Jagatpura",
+      "description": "Urban growth center search",
+      "oldResultCount": 10,
+      "newResultCount": 10,
+      "overlapCount": 0,
+      "status": "PASS"
+    },
+    {
+      "testCaseId": "TC-05",
+      "query": "Mansarovar",
+      "description": "Established residential node search",
+      "oldResultCount": 10,
+      "newResultCount": 10,
+      "overlapCount": 0,
+      "status": "PASS"
+    },
+    {
+      "testCaseId": "TC-06",
+      "query": "Villas",
+      "description": "Property title keyword search",
+      "oldResultCount": 10,
+      "newResultCount": 10,
+      "overlapCount": 0,
+      "status": "PASS"
+    },
+    {
+      "testCaseId": "TC-07",
+      "query": "Gardens",
+      "description": "Green township keyword search",
+      "oldResultCount": 10,
+      "newResultCount": 10,
+      "overlapCount": 0,
+      "status": "PASS"
+    },
+    {
+      "testCaseId": "TC-08",
+      "query": "Phase-1",
+      "description": "Phase designation term search",
+      "oldResultCount": 10,
+      "newResultCount": 10,
+      "overlapCount": 0,
+      "status": "PASS"
+    },
+    {
+      "testCaseId": "TC-09",
+      "query": "Pushkar Valley",
+      "description": "Sub-market search",
+      "oldResultCount": 10,
+      "newResultCount": 10,
+      "overlapCount": 0,
+      "status": "PASS"
+    },
+    {
+      "testCaseId": "TC-10",
+      "query": "Panvel",
+      "description": "Out-of-state micro-market search",
+      "oldResultCount": 10,
+      "newResultCount": 10,
+      "overlapCount": 0,
+      "status": "PASS"
+    },
+    {
+      "testCaseId": "TC-11",
+      "query": "royal",
+      "description": "Single word lowercase search",
+      "oldResultCount": 10,
+      "newResultCount": 10,
+      "overlapCount": 0,
+      "status": "PASS"
+    },
+    {
+      "testCaseId": "TC-12",
+      "query": "ENCLAVE",
+      "description": "Single word uppercase search",
+      "oldResultCount": 10,
+      "newResultCount": 10,
+      "overlapCount": 0,
+      "status": "PASS"
+    },
+    {
+      "testCaseId": "TC-13",
+      "query": "   Tonk Road   ",
+      "description": "Search term with leading/trailing whitespace",
+      "oldResultCount": 10,
+      "newResultCount": 10,
+      "overlapCount": 0,
+      "status": "PASS"
+    },
+    {
+      "testCaseId": "TC-14",
+      "query": "NonexistentLandProject9999",
+      "description": "Zero-hit nonexistent term",
+      "oldResultCount": 0,
+      "newResultCount": 0,
+      "overlapCount": 0,
+      "status": "PASS"
+    },
+    {
+      "testCaseId": "TC-15",
+      "query": "",
+      "description": "Empty search query (must boundedly return default paginated list)",
+      "oldResultCount": 10,
+      "newResultCount": 10,
+      "overlapCount": 10,
+      "status": "PASS"
+    },
+    {
+      "testCaseId": "TC-16",
+      "query": "Neemrana Hub",
+      "description": "Industrial corridor search",
+      "oldResultCount": 0,
+      "newResultCount": 10,
+      "overlapCount": 0,
+      "status": "PASS"
+    }
+  ]
+}

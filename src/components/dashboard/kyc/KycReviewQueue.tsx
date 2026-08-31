@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { Clock, Eye, FileText, CheckCircle2, AlertTriangle, ArrowLeft } from "lucide-react";
+import { Eye, CheckCircle2, ArrowLeft } from "lucide-react";
 
 interface KycReviewQueueProps {
   pendingDocuments: any[];

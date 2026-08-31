@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+
 import { getAdminSession } from "@/lib/auth/session";
 import { getImageKitAuthParams } from "@/lib/imagekit/client";
 import { successResponse, errorResponse } from "@/lib/api/response";

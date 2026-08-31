@@ -1,6 +1,5 @@
 import "server-only";
 
-import { Types } from "mongoose";
 import { connectToDatabase } from "@/lib/db/mongoose";
 import { PartnerSession } from "@/types/partner";
 import { PartnerGuard } from "@/lib/auth/partner-guard";
@@ -13,10 +12,9 @@ import { PartnerAgreement } from "@/models/PartnerAgreement";
 import { PartnerPropertyAccess } from "@/models/PartnerPropertyAccess";
 import { PartnerLeadSubmission } from "@/models/PartnerLeadSubmission";
 import { CommissionAccrual } from "@/models/CommissionAccrual";
-import { CommissionPayout } from "@/models/CommissionPayout";
+
 import { PartnerStatement } from "@/models/PartnerStatement";
-import { PartnerInvoice } from "@/models/PartnerInvoice";
-import { Property } from "@/models/Property";
+
 import { MoneyUtils } from "@/lib/utils/money";
 
 export class PartnerQueryService {

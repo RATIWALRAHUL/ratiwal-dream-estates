@@ -2,7 +2,7 @@
 
 import React, { useTransition } from "react";
 import Link from "next/link";
-import { Calendar, Plus, Clock, MapPin, CheckCircle2, XCircle, AlertCircle } from "lucide-react";
+import { Calendar, Plus, Clock } from "lucide-react";
 import { cancelSiteVisitFromPortalAction } from "@/lib/actions/portal.actions";
 
 interface PortalSiteVisitsViewProps {

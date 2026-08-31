@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { ChevronDown, HelpCircle, ShieldCheck } from "lucide-react";
+import { ChevronDown, HelpCircle } from "lucide-react";
 import { Reveal } from "@/components/home/Reveal";
 
 export function ContactFAQ() {

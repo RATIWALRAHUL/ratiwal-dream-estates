@@ -2,11 +2,11 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { getAdminSession } from "@/lib/auth/session";
 import { redirect } from "next/navigation";
-import { ReportExportService, REPORT_COLUMN_CATALOG } from "@/lib/services/report-export.service";
+import { ReportExportService } from "@/lib/services/report-export.service";
 import { AnalyticsService } from "@/lib/services/analytics.service";
 import { ReportTable } from "@/components/dashboard/reports/ReportTable";
 import { DataQualityPanel } from "@/components/dashboard/analytics/DataQualityPanel";
-import { FileText, ArrowLeft } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import { ReportType } from "@/types/analytics";
 
 export const metadata: Metadata = {

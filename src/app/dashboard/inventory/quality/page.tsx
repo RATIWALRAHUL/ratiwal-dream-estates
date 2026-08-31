@@ -3,7 +3,7 @@ import Link from "next/link";
 import { getAdminSession } from "@/lib/auth/session";
 import { redirect } from "next/navigation";
 import { InventoryService } from "@/lib/services/inventory.service";
-import { ArrowLeft, ShieldAlert, CheckCircle2, AlertTriangle, Info } from "lucide-react";
+import { ArrowLeft, CheckCircle2, AlertTriangle } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Inventory Data Quality & Reconciliation | Ratiwal Dream Estates Dashboard",

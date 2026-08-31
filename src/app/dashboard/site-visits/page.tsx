@@ -8,7 +8,7 @@ import { SiteVisitMetrics } from "@/components/dashboard/site-visits/SiteVisitMe
 import { SiteVisitFilterToolbar } from "@/components/dashboard/site-visits/SiteVisitFilterToolbar";
 import { SiteVisitTable } from "@/components/dashboard/site-visits/SiteVisitTable";
 import { SiteVisitCardList } from "@/components/dashboard/site-visits/SiteVisitCardList";
-import { Calendar, Clock, Plus } from "lucide-react";
+import { Calendar, Clock } from "lucide-react";
 import type { SiteVisitStatus, SiteVisitPriority, MeetingMode, VisitSource } from "@/types/site-visit";
 
 export const metadata: Metadata = {

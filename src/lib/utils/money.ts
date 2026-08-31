@@ -174,7 +174,7 @@ export class MoneyUtils {
       remainders.push({ index: i, remainder: share - floor });
     }
 
-    let unassignedUnits = totalPaise - allocatedSum;
+    const unassignedUnits = totalPaise - allocatedSum;
 
     // Sort descending by largest remainder
     remainders.sort((a, b) => b.remainder - a.remainder);

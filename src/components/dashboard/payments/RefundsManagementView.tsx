@@ -2,7 +2,7 @@
 
 import React, { useState, useTransition } from "react";
 import Link from "next/link";
-import { RotateCcw, ArrowLeft, CheckCircle2, AlertTriangle, Plus, Send } from "lucide-react";
+import { RotateCcw, ArrowLeft, Plus, Send } from "lucide-react";
 import {
   approveAndExecuteRefundAction,
   createRefundRequestAction,

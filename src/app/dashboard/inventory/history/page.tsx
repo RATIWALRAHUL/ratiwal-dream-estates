@@ -6,7 +6,7 @@ import { connectToDatabase } from "@/lib/db/mongoose";
 import { InventoryStatusHistory } from "@/models/InventoryStatusHistory";
 import { InventoryUnit } from "@/models/InventoryUnit";
 import { Property } from "@/models/Property";
-import { ArrowLeft, History, Clock } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Inventory Transition Audit Log | Ratiwal Dream Estates Dashboard",

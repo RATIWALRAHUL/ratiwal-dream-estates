@@ -1,6 +1,6 @@
 import Link from "next/link";
-import { Compass, ShieldCheck, MapPin, Building2, ArrowRight } from "lucide-react";
-import { Location, MicroMarket } from "@/types/location";
+import { Compass, ShieldCheck, MapPin, ArrowRight } from "lucide-react";
+import { Location } from "@/types/location";
 import { getPropertiesForLocation } from "@/data/locations";
 
 interface MicroMarketSectionProps {

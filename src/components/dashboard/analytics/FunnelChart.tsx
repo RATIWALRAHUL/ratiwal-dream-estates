@@ -1,5 +1,5 @@
 import { FunnelStageMetric } from "@/types/analytics";
-import { ArrowRight, Clock, ArrowDown } from "lucide-react";
+import { ArrowRight, Clock } from "lucide-react";
 
 interface FunnelChartProps {
   stages: FunnelStageMetric[];

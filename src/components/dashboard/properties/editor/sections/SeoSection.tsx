@@ -1,7 +1,5 @@
 "use client";
 
-import { Globe } from "lucide-react";
-
 interface SeoSectionProps {
   seo: {
     metaTitle?: string;

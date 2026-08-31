@@ -7,7 +7,7 @@ import { TeamInvitation } from "@/models/TeamInvitation";
 import { TeamService } from "@/lib/services/team.service";
 import { TeamMemberTable } from "@/components/dashboard/team/TeamMemberTable";
 import { TeamInviteButton } from "./TeamInviteButton";
-import { Users, UserCheck, Mail, ShieldAlert, Clock, UserPlus } from "lucide-react";
+import { Users, UserCheck, Mail, ShieldAlert } from "lucide-react";
 import { MemberStatus } from "@/types/settings-team";
 
 interface TeamPageProps {

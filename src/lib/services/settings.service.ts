@@ -1,7 +1,7 @@
 import "server-only";
 import { connectToDatabase } from "@/lib/db/mongoose";
 import { OrganizationSettings, IOrganizationSettings } from "@/models/OrganizationSettings";
-import { SettingsChange, ISettingsChange } from "@/models/SettingsChange";
+import { SettingsChange } from "@/models/SettingsChange";
 import { AdminSession } from "@/lib/auth/session";
 import { logAuditEvent } from "@/lib/services/audit.service";
 import { PermissionService } from "./permission.service";

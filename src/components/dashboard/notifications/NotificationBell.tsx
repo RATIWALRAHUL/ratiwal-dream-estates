@@ -30,21 +30,71 @@ export function NotificationBell() {
   const [isLoading, setIsLoading] = useState(false);
   const [isPending, startTransition] = useTransition();
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const isMountedRef = useRef(true);
+  const inFlightRef = useRef(false);
 
   const fetchNotifications = async () => {
+    if (inFlightRef.current || !isMountedRef.current) return;
+    // Do not execute network poll if browser tab is hidden/inactive
+    if (typeof document !== "undefined" && document.hidden) return;
+
+    inFlightRef.current = true;
     try {
       const data = await getInAppNotificationsAction();
-      setUnreadCount(data.unreadCount);
-      setNotifications(data.notifications);
+      if (isMountedRef.current) {
+        setUnreadCount(data.unreadCount);
+        setNotifications(data.notifications);
+      }
     } catch {
       // safe fallback
+    } finally {
+      inFlightRef.current = false;
     }
   };
 
   useEffect(() => {
+    isMountedRef.current = true;
+    let intervalId: NodeJS.Timeout | null = null;
+
+    const startPolling = () => {
+      if (!intervalId) {
+        intervalId = setInterval(fetchNotifications, 45000);
+      }
+    };
+
+    const stopPolling = () => {
+      if (intervalId) {
+        clearInterval(intervalId);
+        intervalId = null;
+      }
+    };
+
+    const handleVisibilityChange = () => {
+      if (typeof document === "undefined") return;
+      if (document.hidden) {
+        stopPolling();
+      } else {
+        // Tab restored to focus: immediately refresh and restart polling
+        fetchNotifications();
+        startPolling();
+      }
+    };
+
+    // Initial fetch on mount
     fetchNotifications();
-    const interval = setInterval(fetchNotifications, 45000); // 45s safe polling
-    return () => clearInterval(interval);
+    startPolling();
+
+    if (typeof document !== "undefined") {
+      document.addEventListener("visibilitychange", handleVisibilityChange);
+    }
+
+    return () => {
+      isMountedRef.current = false;
+      stopPolling();
+      if (typeof document !== "undefined") {
+        document.removeEventListener("visibilitychange", handleVisibilityChange);
+      }
+    };
   }, []);
 
   // Handle outside click to close dropdown

@@ -3,14 +3,12 @@
 import { revalidatePath } from "next/cache";
 import { requireSession } from "@/lib/auth/session";
 import { connectToDatabase } from "@/lib/db/mongoose";
-import { CmsEntry } from "@/models/CmsEntry";
+
 import { RedirectRule } from "@/models/RedirectRule";
 import { CmsTestimonial } from "@/models/CmsTestimonial";
 import { CmsFaqItem } from "@/models/CmsFaqItem";
-import { CmsPublishingService, SaveCmsDraftInput } from "@/lib/services/cms-publishing.service";
+import { CmsPublishingService } from "@/lib/services/cms-publishing.service";
 import { CmsPreviewService } from "@/lib/services/cms-preview.service";
-import { CmsSlugService } from "@/lib/services/cms-slug.service";
-import { logAuditEvent } from "@/lib/services/audit.service";
 
 export interface ActionResult<T = any> {
   success: boolean;

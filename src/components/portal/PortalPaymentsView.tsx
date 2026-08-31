@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { CreditCard, ArrowRight, ShieldCheck, Clock, CheckCircle2, FileText, RefreshCw, AlertCircle } from "lucide-react";
+import { ArrowRight, FileText, RefreshCw } from "lucide-react";
 import { MoneyUtils } from "@/lib/utils/money";
 
 interface PortalPaymentsViewProps {

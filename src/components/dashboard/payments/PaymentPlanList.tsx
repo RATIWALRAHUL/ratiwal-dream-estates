@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useTransition } from "react";
+import React, { useTransition } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import {
@@ -13,7 +13,7 @@ import {
   ChevronRight,
 } from "lucide-react";
 import { MoneyUtils } from "@/lib/utils/money";
-import { PaymentPlanStatus, PAYMENT_PLAN_STATUSES } from "@/types/payment";
+import { PAYMENT_PLAN_STATUSES } from "@/types/payment";
 
 interface PaymentPlanListProps {
   initialPlans: any[];

@@ -1,9 +1,9 @@
 import "server-only";
 import Link from "next/link";
-import { ArrowLeft, ShieldCheck, MapPin, Eye, Building, CheckCircle2, AlertTriangle, Layers, ExternalLink } from "lucide-react";
+import { ArrowLeft, ShieldCheck, MapPin, Eye, Building, CheckCircle2, Layers } from "lucide-react";
 import { requireAdminSession } from "@/lib/auth/guard";
 import { getPropertyForPreview } from "@/lib/services/property-editor.service";
-import { formatPaiseToRupeeString, paiseToRupees } from "@/lib/utils/currency";
+import { formatPaiseToRupeeString } from "@/lib/utils/currency";
 import { sqFtToSqYards } from "@/lib/utils/area";
 
 export const dynamic = "force-dynamic";

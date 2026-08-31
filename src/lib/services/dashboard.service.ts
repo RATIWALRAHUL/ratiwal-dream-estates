@@ -247,8 +247,10 @@ export async function getDashboardOverview(): Promise<DashboardOverviewData> {
       )
       .lean(),
 
-    // 6. Location coverage with property and plot counts
+    // 6. Location coverage with property and plot counts (optimized: early sort and limit before foreign lookup)
     Location.aggregate([
+      { $sort: { sortOrder: 1, name: 1 } },
+      { $limit: 8 },
       {
         $lookup: {
           from: "properties",
@@ -285,8 +287,6 @@ export async function getDashboardOverview(): Promise<DashboardOverviewData> {
           },
         },
       },
-      { $sort: { sortOrder: 1, name: 1 } },
-      { $limit: 8 },
     ]),
   ]);
 
@@ -624,6 +624,9 @@ export async function getDashboardLocations(
     Location.countDocuments(matchQuery),
     Location.aggregate([
       { $match: matchQuery },
+      { $sort: { sortOrder: 1, name: 1 } },
+      { $skip: skip },
+      { $limit: pageSize },
       {
         $lookup: {
           from: "properties",
@@ -668,23 +671,40 @@ export async function getDashboardLocations(
           },
         },
       },
-      { $sort: { sortOrder: 1, name: 1 } },
-      { $skip: skip },
-      { $limit: pageSize },
     ]),
     Promise.all([
-      Location.countDocuments(),
-      Location.countDocuments({ publicationStatus: "PUBLISHED" }),
+      Location.aggregate<{
+        totalLocations: { count: number }[];
+        activeMarkets: { count: number }[];
+        states: { _id: string }[];
+      }>([
+        {
+          $facet: {
+            totalLocations: [{ $count: "count" }],
+            activeMarkets: [
+              { $match: { publicationStatus: "PUBLISHED" } },
+              { $count: "count" },
+            ],
+            states: [{ $group: { _id: "$state" } }],
+          },
+        },
+      ]),
       Property.countDocuments({ publicationStatus: { $ne: "ARCHIVED" } }),
       PlotOption.countDocuments({ status: "AVAILABLE" }),
-      Location.distinct("state"),
-    ]).then(([totalLocs, activeMkt, totalProps, availPlots, states]) => ({
-      totalLocations: totalLocs,
-      activeMarkets: activeMkt,
-      totalProperties: totalProps,
-      totalAvailablePlots: availPlots,
-      verifiedStates: states.length,
-    })),
+    ]).then(([locFacet, totalProps, availPlots]) => {
+      const facetResult = locFacet[0] || {
+        totalLocations: [],
+        activeMarkets: [],
+        states: [],
+      };
+      return {
+        totalLocations: facetResult.totalLocations[0]?.count || 0,
+        activeMarkets: facetResult.activeMarkets[0]?.count || 0,
+        totalProperties: totalProps,
+        totalAvailablePlots: availPlots,
+        verifiedStates: facetResult.states.length,
+      };
+    }),
   ]);
 
   const items: DashboardLocationItem[] = results.map((loc) => ({

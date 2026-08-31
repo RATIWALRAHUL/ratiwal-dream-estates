@@ -5,7 +5,7 @@ import { redirect } from "next/navigation";
 import { connectToDatabase } from "@/lib/db/mongoose";
 import { LegalDocumentAccessLog } from "@/models/LegalDocumentAccessLog";
 import { LegalDocument } from "@/models/LegalDocument";
-import { ArrowLeft, History } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Document Access Audit Log | Ratiwal Dream Estates Dashboard",

@@ -7,7 +7,7 @@ import { LegalVaultService } from "@/lib/services/legal-vault.service";
 import { LegalChecklistService } from "@/lib/services/legal-checklist.service";
 import { LegalDocumentTable } from "@/components/dashboard/legal-vault/LegalDocumentTable";
 import { PropertyChecklistCard } from "@/components/dashboard/legal-vault/PropertyChecklistCard";
-import { ArrowLeft, Plus, ShieldCheck } from "lucide-react";
+import { ArrowLeft, Plus } from "lucide-react";
 
 interface PropertyLegalVaultPageProps {
   params: Promise<{ propertyId: string }>;

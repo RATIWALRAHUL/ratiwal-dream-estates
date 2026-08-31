@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { Map, Download, Maximize2, ShieldCheck, X } from "lucide-react";
+import { Map, Download, Maximize2, X } from "lucide-react";
 import { MasterplanInfo } from "@/types/property";
 
 interface PropertyMasterplanProps {

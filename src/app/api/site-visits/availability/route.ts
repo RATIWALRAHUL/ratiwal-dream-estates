@@ -1,7 +1,7 @@
 import "server-only";
 import { NextRequest, NextResponse } from "next/server";
 import { generateAvailableSlots } from "@/lib/services/site-visit-scheduling.service";
-import { checkRateLimit, RATE_LIMITS } from "@/lib/rate-limit";
+import { checkRateLimit } from "@/lib/rate-limit";
 import { Types } from "mongoose";
 
 function getClientIp(req: NextRequest): string {

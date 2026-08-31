@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Building2, Save, Check, AlertCircle } from "lucide-react";
+import { Save, Check, AlertCircle } from "lucide-react";
 import { updateGeneralSettingsAction } from "@/lib/actions/settings.actions";
 
 interface GeneralSettingsFormProps {

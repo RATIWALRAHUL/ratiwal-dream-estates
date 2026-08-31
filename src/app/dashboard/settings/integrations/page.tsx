@@ -3,7 +3,7 @@ import { getAdminSession } from "@/lib/auth/session";
 import { SettingsService } from "@/lib/services/settings.service";
 import { SettingsSectionNav } from "@/components/dashboard/settings/SettingsSectionNav";
 import { IntegrationStatusCards } from "@/components/dashboard/settings/IntegrationStatusCards";
-import { ShieldCheck, Lock } from "lucide-react";
+import { Lock } from "lucide-react";
 
 export const metadata = {
   title: "Integrations Health | Ratiwal Dream Estates",

@@ -5,9 +5,7 @@ import { CustomerKycCase, ICustomerKycCase } from "@/models/CustomerKycCase";
 import { CustomerParty } from "@/models/CustomerParty";
 import { KycApplicant, IKycApplicant } from "@/models/KycApplicant";
 import { KycDocument } from "@/models/KycDocument";
-import { Deal } from "@/models/Deal";
-import { Reservation } from "@/models/Reservation";
-import { Booking } from "@/models/Booking";
+
 import { Property } from "@/models/Property";
 import { KycPartyService } from "./kyc-party.service";
 import { KycTemplateService } from "./kyc-template.service";
@@ -91,7 +89,7 @@ export class KycCaseService {
     if (!property) throw new Error("NOT_FOUND: Referenced property does not exist.");
 
     // 2. Resolve or create CustomerParty
-    let party = await CustomerParty.create({
+    const party = await CustomerParty.create({
       partyReference: KycPartyService.generatePartyReference(),
       partyType,
       displayName: input.primaryApplicant.fullName,

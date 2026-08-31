@@ -18,7 +18,6 @@ import { DealActivity } from "@/models/DealActivity";
 import { AdminSession } from "@/lib/auth/session";
 import { logAuditEvent } from "@/lib/services/audit.service";
 import { ReservationSummary } from "@/types/deal";
-import { logger } from "@/lib/logger";
 
 export interface CreateReservationInput {
   dealId: string;

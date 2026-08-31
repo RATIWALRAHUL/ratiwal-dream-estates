@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { MapPin, Navigation, ArrowRight, Layers, CheckCircle2 } from "lucide-react";
+import { Navigation, ArrowRight, Layers, CheckCircle2 } from "lucide-react";
 import { Location } from "@/types/location";
 import { getLocationSummaryStats } from "@/data/locations";
 

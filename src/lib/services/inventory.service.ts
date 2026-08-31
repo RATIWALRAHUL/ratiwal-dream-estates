@@ -11,8 +11,7 @@ import { InventoryUnit, IInventoryUnit } from "@/models/InventoryUnit";
 import { InventoryStatusHistory } from "@/models/InventoryStatusHistory";
 import { InventoryPriceHistory, IPricingSnapshot } from "@/models/InventoryPriceHistory";
 import { Property } from "@/models/Property";
-import { Lead } from "@/models/Lead";
-import { SiteVisit } from "@/models/SiteVisit";
+
 import { AdminSession } from "@/lib/auth/session";
 import { logAuditEvent } from "@/lib/services/audit.service";
 import {

@@ -1,4 +1,4 @@
-import { Navigation, Clock, MapPin, Car } from "lucide-react";
+import { Navigation, Clock, Car } from "lucide-react";
 import { ConnectivityItem } from "@/types/location";
 
 interface ConnectivityGridProps {

@@ -1,4 +1,4 @@
-import { CheckCircle2, ArrowRight, Grid, CornerUpRight, Compass } from "lucide-react";
+import { Grid, Compass } from "lucide-react";
 import { PlotOption } from "@/types/property";
 
 interface PlotOptionsTableProps {

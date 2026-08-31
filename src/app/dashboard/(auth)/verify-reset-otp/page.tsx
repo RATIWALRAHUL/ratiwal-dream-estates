@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useTransition, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
-import { ShieldCheck, RotateCcw, ArrowLeft, KeyRound } from "lucide-react";
+import { ShieldCheck, RotateCcw } from "lucide-react";
 import { AuthFormContainer } from "@/components/dashboard/auth/AuthFormContainer";
 import { OtpInput } from "@/components/dashboard/auth/OtpInput";
 import { AuthAlert } from "@/components/dashboard/auth/AuthAlert";

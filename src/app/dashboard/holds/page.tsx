@@ -1,6 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import { ArrowLeft, Clock, ShieldCheck } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import { requireAdminSession } from "@/lib/auth/guard";
 import { HoldService } from "@/lib/services/hold.service";
 

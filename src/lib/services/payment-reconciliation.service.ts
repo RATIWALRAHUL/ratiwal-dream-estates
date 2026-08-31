@@ -2,8 +2,7 @@ import "server-only";
 import { connectToDatabase } from "@/lib/db/mongoose";
 import { PaymentTransaction } from "@/models/PaymentTransaction";
 import { PaymentReceipt } from "@/models/PaymentReceipt";
-import { PaymentPlan } from "@/models/PaymentPlan";
-import { PaymentInstallment } from "@/models/PaymentInstallment";
+
 import { ManualPaymentSubmission } from "@/models/ManualPaymentSubmission";
 import { RefundRequest } from "@/models/RefundRequest";
 import { logAuditEvent } from "@/lib/services/audit.service";

@@ -2,7 +2,7 @@ import "server-only";
 import { connectToDatabase } from "@/lib/db/mongoose";
 import { CustomerKycCase } from "@/models/CustomerKycCase";
 import { KycDocument } from "@/models/KycDocument";
-import { KycDocumentVersion } from "@/models/KycDocumentVersion";
+
 import { Booking } from "@/models/Booking";
 import { KycSubmissionSession } from "@/models/KycSubmissionSession";
 import { logAuditEvent } from "@/lib/services/audit.service";

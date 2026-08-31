@@ -1,4 +1,4 @@
-import { Download, FileText, CheckCircle2, ShieldAlert } from "lucide-react";
+import { Download, FileText } from "lucide-react";
 import { DownloadableResource } from "@/types/insight";
 
 interface ResourceCardProps {

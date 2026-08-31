@@ -11,12 +11,11 @@ import { PrivacyRequest } from "@/models/PrivacyRequest";
 import { RefundRequest } from "@/models/RefundRequest";
 import { PaymentTransaction } from "@/models/PaymentTransaction";
 import { PortalSupportService } from "@/lib/services/portal-support.service";
-import { logAuditEvent } from "@/lib/services/audit.service";
+
 import { CommunicationOutboxService } from "@/lib/services/communication-outbox.service";
 import { MoneyUtils } from "@/lib/utils/money";
 import { RefundReasonCode } from "@/types/payment";
 import { PrivacyRequestType } from "@/types/kyc";
-import { SupportCategory, SupportPriority } from "@/types/portal";
 
 /**
  * Customer requests a site visit

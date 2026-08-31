@@ -1,5 +1,4 @@
 import { LegalPageData } from "@/types/legal";
-import { siteConfig } from "@/config/site";
 
 export const disclaimerData: LegalPageData = {
   slug: "/disclaimer",

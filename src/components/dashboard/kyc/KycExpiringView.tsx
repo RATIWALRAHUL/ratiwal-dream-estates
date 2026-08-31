@@ -2,7 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
-import { AlertTriangle, Clock, Calendar, ArrowLeft, Eye } from "lucide-react";
+import { Calendar, ArrowLeft, Eye } from "lucide-react";
 
 interface KycExpiringViewProps {
   expiringDocs: any[];

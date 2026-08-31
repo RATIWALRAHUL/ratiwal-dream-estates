@@ -4,9 +4,7 @@ import { connectToDatabase } from "@/lib/db/mongoose";
 import { PortalGuard } from "@/lib/auth/portal-guard";
 import { CustomerSession, CustomerProfileDTO } from "@/types/portal";
 import { Booking } from "@/models/Booking";
-import { CustomerParty } from "@/models/CustomerParty";
-import { Property } from "@/models/Property";
-import { InventoryUnit } from "@/models/InventoryUnit";
+
 import { CustomerKycCase } from "@/models/CustomerKycCase";
 import { KycApplicant } from "@/models/KycApplicant";
 import { KycDocument } from "@/models/KycDocument";

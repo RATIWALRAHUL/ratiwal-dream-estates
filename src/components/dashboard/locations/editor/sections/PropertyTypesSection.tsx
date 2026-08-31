@@ -1,6 +1,6 @@
 "use client";
 
-import { Home, Building2, Trees, Landmark } from "lucide-react";
+import { Landmark } from "lucide-react";
 import type { PropertyType } from "@/types/database";
 import { PropertyTypeEnum } from "@/types/database";
 

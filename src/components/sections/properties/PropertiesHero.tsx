@@ -3,7 +3,7 @@
 import React from "react";
 import { Breadcrumbs } from "@/components/shared/Breadcrumbs";
 import { Reveal } from "@/components/home/Reveal";
-import { ShieldCheck, MapPin, Sparkles, FileCheck2, Scale, Layers } from "lucide-react";
+import { ShieldCheck, MapPin, Sparkles, FileCheck2, Scale } from "lucide-react";
 
 export function PropertiesHero() {
   const breadcrumbItems = [{ label: "Properties Portfolio", href: "/properties" }];

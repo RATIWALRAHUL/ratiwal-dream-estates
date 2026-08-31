@@ -2,7 +2,7 @@
 
 import React, { useState, useTransition, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { ShieldCheck, Smartphone, Key, ArrowRight } from "lucide-react";
+import { ShieldCheck, Smartphone, Key } from "lucide-react";
 import { AuthFormContainer } from "@/components/dashboard/auth/AuthFormContainer";
 import { OtpInput } from "@/components/dashboard/auth/OtpInput";
 import { AuthInput } from "@/components/dashboard/auth/AuthInput";

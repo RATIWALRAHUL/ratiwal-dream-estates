@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { AlertCircle, Eye, Clock } from "lucide-react";
+import { AlertCircle, Eye } from "lucide-react";
 import { LeadStatusBadge } from "./LeadStatusBadge";
 import { LeadPriorityBadge } from "./LeadPriorityBadge";
 import type { LeadListItem } from "@/lib/services/lead.service";

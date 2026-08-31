@@ -5,7 +5,7 @@
  */
 
 import { connectToDatabase } from "@/lib/db/mongoose";
-import { NotificationOutbox, INotificationOutbox } from "@/models/NotificationOutbox";
+import { NotificationOutbox } from "@/models/NotificationOutbox";
 import { InAppNotification } from "@/models/InAppNotification";
 import {
   NotificationEventType,

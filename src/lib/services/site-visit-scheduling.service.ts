@@ -1,6 +1,6 @@
 import "server-only";
 import { connectToDatabase } from "@/lib/db/mongoose";
-import { AdvisorAvailability, IAdvisorAvailability } from "@/models/AdvisorAvailability";
+import { AdvisorAvailability } from "@/models/AdvisorAvailability";
 import { AdvisorSlotLock } from "@/models/AdvisorSlotLock";
 import { SiteVisit } from "@/models/SiteVisit";
 import { Property } from "@/models/Property";

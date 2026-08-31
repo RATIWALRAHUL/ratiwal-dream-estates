@@ -19,7 +19,7 @@ import {
   createInventoryUnitAction,
   updateInventoryUnitAction,
 } from "@/lib/actions/inventory-unit.actions";
-import { Loader2, Save, ArrowLeft, Building2 } from "lucide-react";
+import { Loader2, Save, ArrowLeft } from "lucide-react";
 import Link from "next/link";
 
 interface UnitFormProps {

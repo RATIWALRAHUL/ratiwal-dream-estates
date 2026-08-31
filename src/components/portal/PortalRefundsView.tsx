@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useTransition } from "react";
-import { RefreshCw, Plus, AlertCircle, CheckCircle2, Clock } from "lucide-react";
+import { RefreshCw, Plus, AlertCircle, CheckCircle2 } from "lucide-react";
 import { submitRefundRequestFromPortalAction } from "@/lib/actions/portal.actions";
 import { MoneyUtils } from "@/lib/utils/money";
 import { RefundReasonCode } from "@/types/payment";

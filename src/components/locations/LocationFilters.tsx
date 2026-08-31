@@ -2,7 +2,7 @@
 
 import { useTransition } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { Filter, RotateCcw } from "lucide-react";
+import { RotateCcw } from "lucide-react";
 
 interface LocationFiltersProps {
   activeState: string;

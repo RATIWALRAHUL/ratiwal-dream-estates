@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { RefreshCw, Ban, Copy, Check, AlertCircle } from "lucide-react";
+import { RefreshCw, Ban, Copy, Check } from "lucide-react";
 import { resendTeamInvitationAction, revokeTeamInvitationAction } from "@/lib/actions/team.actions";
 
 interface InvitationActionsProps {

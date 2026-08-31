@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { ShieldCheck, FileCheck, UploadCloud, AlertTriangle, CheckCircle2, Clock, Lock } from "lucide-react";
+import { ShieldCheck, FileCheck } from "lucide-react";
 
 interface PortalKycViewProps {
   data: any;

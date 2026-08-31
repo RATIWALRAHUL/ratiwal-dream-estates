@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowLeft, Phone, Mail, Building, MapPin, Video, Users, ShieldCheck, Calendar } from "lucide-react";
+import { ArrowLeft, Phone, Mail, MapPin, Video, Users } from "lucide-react";
 import { SiteVisitStatusBadge } from "./SiteVisitStatusBadge";
 import { SiteVisitPriorityBadge } from "./SiteVisitPriorityBadge";
 import { SiteVisitAssignmentPanel } from "./SiteVisitAssignmentPanel";

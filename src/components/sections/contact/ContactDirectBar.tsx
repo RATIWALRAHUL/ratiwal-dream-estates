@@ -1,8 +1,8 @@
 "use client";
 
 import React from "react";
-import { Phone, MessageSquare, ShieldCheck, Clock, ArrowRight } from "lucide-react";
-import { Reveal } from "@/components/home/Reveal";
+import { Phone, MessageSquare, Clock } from "lucide-react";
+
 import { MagneticButton } from "@/components/home/MagneticButton";
 import { generateWhatsAppUrl } from "@/lib/whatsapp";
 import { siteConfig } from "@/config/site";

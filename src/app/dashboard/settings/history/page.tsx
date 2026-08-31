@@ -4,7 +4,7 @@ import { connectToDatabase } from "@/lib/db/mongoose";
 import { SettingsChange } from "@/models/SettingsChange";
 import { SettingsSectionNav } from "@/components/dashboard/settings/SettingsSectionNav";
 import { SettingsRollbackButton } from "./SettingsRollbackButton";
-import { History, RotateCcw, User } from "lucide-react";
+import { RotateCcw } from "lucide-react";
 
 export const metadata = {
   title: "Settings Change History | Ratiwal Dream Estates",

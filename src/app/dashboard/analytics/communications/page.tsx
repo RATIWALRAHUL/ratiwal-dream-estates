@@ -4,7 +4,7 @@ import { getAdminSession } from "@/lib/auth/session";
 import { redirect } from "next/navigation";
 import { CommunicationService } from "@/lib/services/communication.service";
 import { CommunicationsMetrics } from "@/components/dashboard/communications/CommunicationsMetrics";
-import { ArrowLeft, ExternalLink, ShieldCheck } from "lucide-react";
+import { ArrowLeft, ExternalLink } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Communication Delivery Health | Ratiwal Dream Estates Dashboard",

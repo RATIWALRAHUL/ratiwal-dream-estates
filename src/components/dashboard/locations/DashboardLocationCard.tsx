@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowUpRight, MapPin, Building2, CheckCircle2, Layers, Sparkles, Filter } from "lucide-react";
+import { MapPin, Building2, CheckCircle2, Layers, Sparkles, Filter } from "lucide-react";
 import { LocationActionMenu } from "./LocationActionMenu";
 import type { DashboardLocationItem } from "@/lib/services/dashboard.service";
 

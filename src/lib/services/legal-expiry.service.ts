@@ -1,9 +1,9 @@
 import "server-only";
-import { Types } from "mongoose";
+
 import { connectToDatabase } from "@/lib/db/mongoose";
 import { LegalDocument } from "@/models/LegalDocument";
 import { LegalDocumentReview } from "@/models/LegalDocumentReview";
-import { PropertyLegalChecklist } from "@/models/PropertyLegalChecklist";
+
 import { LegalChecklistService } from "./legal-checklist.service";
 import { logger } from "@/lib/logger";
 

@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useTransition } from "react";
-import { LifeBuoy, Send, Clock, User, CheckCircle2, AlertCircle, MessageSquare } from "lucide-react";
+import { Send } from "lucide-react";
 import { staffReplySupportAction } from "@/lib/actions/portal-management.actions";
 
 interface StaffSupportDeskViewProps {

@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Quote, Star, ShieldCheck, MapPin, ArrowRight, Info } from "lucide-react";
+import { Quote, Star, ShieldCheck, MapPin, Info } from "lucide-react";
 import { Testimonial } from "@/types/testimonial";
 
 interface TestimonialCardProps {

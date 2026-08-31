@@ -5,7 +5,7 @@ import { connectToDatabase } from "@/lib/db/mongoose";
 import { TeamInvitation } from "@/models/TeamInvitation";
 import { InvitationActions } from "./InvitationActions";
 import { TeamInviteButton } from "../TeamInviteButton";
-import { ArrowLeft, Mail, Clock, Shield } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 
 export const metadata = {
   title: "Team Invitations | Ratiwal Dream Estates",

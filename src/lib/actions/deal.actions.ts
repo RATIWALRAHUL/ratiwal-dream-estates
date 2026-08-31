@@ -9,7 +9,7 @@ import { ReservationService, CreateReservationInput } from "@/lib/services/reser
 import { BookingService, ConfirmBookingInput } from "@/lib/services/booking.service";
 import { DealReconciliationService } from "@/lib/services/deal-reconciliation.service";
 import { DealStage, DealLostReason } from "@/types/deal";
-import { IBookingRequirements } from "@/models/Booking";
+
 import { logger } from "@/lib/logger";
 
 function safeRevalidate(path: string) {

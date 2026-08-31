@@ -1,5 +1,5 @@
 import "server-only";
-import { Types } from "mongoose";
+
 import { connectToDatabase } from "@/lib/db/mongoose";
 import { KycSubmissionSession, IKycSubmissionSession } from "@/models/KycSubmissionSession";
 import { CustomerKycCase } from "@/models/CustomerKycCase";

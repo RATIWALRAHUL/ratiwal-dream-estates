@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { MessageCircle, ArrowRight, ShieldCheck, Compass, FileSearch } from "lucide-react";
+import { MessageCircle, ArrowRight, ShieldCheck, Compass } from "lucide-react";
 import { generateWhatsAppUrl } from "@/lib/whatsapp";
 
 export function InsightFinalCTA() {

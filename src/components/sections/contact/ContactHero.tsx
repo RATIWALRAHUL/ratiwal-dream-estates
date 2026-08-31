@@ -5,7 +5,7 @@ import Link from "next/link";
 import { Breadcrumbs } from "@/components/shared/Breadcrumbs";
 import { Reveal } from "@/components/home/Reveal";
 import { siteConfig } from "@/config/site";
-import { Phone, MessageSquare, MapPin, Clock, ShieldCheck, Sparkles, CheckCircle2 } from "lucide-react";
+import { Phone, MessageSquare, MapPin } from "lucide-react";
 import { generateWhatsAppUrl } from "@/lib/whatsapp";
 
 export function ContactHero() {

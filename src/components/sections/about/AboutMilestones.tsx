@@ -3,7 +3,7 @@
 import React from "react";
 import { CountUp } from "@/components/home/CountUp";
 import { Reveal } from "@/components/home/Reveal";
-import { ShieldCheck, Award, Users, Building, TrendingUp } from "lucide-react";
+import { ShieldCheck, Award, Users, Building } from "lucide-react";
 
 export function AboutMilestones() {
   const stats = [

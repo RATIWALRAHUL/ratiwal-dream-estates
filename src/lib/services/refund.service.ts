@@ -4,7 +4,7 @@ import { Types } from "mongoose";
 import { connectToDatabase } from "@/lib/db/mongoose";
 import { RefundRequest, IRefundRequest } from "@/models/RefundRequest";
 import { PaymentRefund, IPaymentRefund } from "@/models/PaymentRefund";
-import { PaymentTransaction, IPaymentTransaction } from "@/models/PaymentTransaction";
+import { PaymentTransaction } from "@/models/PaymentTransaction";
 import { PaymentProviderFactory } from "@/lib/payments/factory";
 import { PaymentAllocationService } from "@/lib/services/payment-allocation.service";
 import { CommunicationOutboxService } from "@/lib/services/communication-outbox.service";

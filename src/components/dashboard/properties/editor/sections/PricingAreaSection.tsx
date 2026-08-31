@@ -1,7 +1,7 @@
 "use client";
 
 import { rupeesToPaise, paiseToRupees, formatPaiseToRupeeString } from "@/lib/utils/currency";
-import { sqFtToSqYards, sqYardsToSqFt } from "@/lib/utils/area";
+import { sqFtToSqYards } from "@/lib/utils/area";
 import type { PriceVisibility } from "@/types/database";
 
 export type PricingType = "FIXED" | "STARTING_FROM" | "PRICE_RANGE" | "ON_REQUEST";

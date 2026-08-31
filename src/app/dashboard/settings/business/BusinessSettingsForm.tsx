@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Sliders, Save, Check, AlertCircle, Calendar, Shield, Users } from "lucide-react";
+import { Save, Check, AlertCircle, Calendar, Shield, Users } from "lucide-react";
 import { updateBusinessSettingsAction } from "@/lib/actions/settings.actions";
 
 interface BusinessSettingsFormProps {

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Plus, Trash2, ArrowUp, ArrowDown, MapPin, Clock } from "lucide-react";
+import { Plus, Trash2, ArrowUp, ArrowDown } from "lucide-react";
 
 export type TransportMode = "DRIVE" | "METRO" | "AIRPORT" | "TRAIN" | "WALK" | "HIGHWAY";
 export type MilestoneStatus = "OPERATIONAL" | "UNDER_CONSTRUCTION" | "APPROVED" | "PROPOSED";

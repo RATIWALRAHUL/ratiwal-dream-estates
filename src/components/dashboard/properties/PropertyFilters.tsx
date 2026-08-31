@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
-import { useState, useTransition } from "react";
+import { useState, useTransition, useEffect, useRef } from "react";
 import { Search, X, Filter, Plus } from "lucide-react";
 
 interface PropertyFiltersProps {
@@ -24,6 +24,12 @@ export function PropertyFilters({ locations }: PropertyFiltersProps) {
   const sortBy = searchParams.get("sortBy") || "updated";
 
   const [search, setSearch] = useState(currentSearchParam);
+  const isInitialMount = useRef(true);
+
+  // Sync state if URL changes externally
+  useEffect(() => {
+    setSearch(currentSearchParam);
+  }, [currentSearchParam]);
 
   const applyFilters = (overrides: Record<string, string> = {}) => {
     const params = new URLSearchParams(searchParams.toString());
@@ -63,6 +69,22 @@ export function PropertyFilters({ locations }: PropertyFiltersProps) {
       router.push(`${pathname}?${params.toString()}`);
     });
   };
+
+  // Debounced auto-search
+  useEffect(() => {
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+      return;
+    }
+
+    const timer = setTimeout(() => {
+      if (search !== currentSearchParam) {
+        applyFilters({ search });
+      }
+    }, 350);
+
+    return () => clearTimeout(timer);
+  }, [search]);
 
   const handleClear = () => {
     setSearch("");

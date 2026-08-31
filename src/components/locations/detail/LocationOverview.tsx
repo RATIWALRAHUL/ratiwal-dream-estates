@@ -1,4 +1,4 @@
-import { Compass, ShieldCheck, MapPin, Building2, CheckCircle2 } from "lucide-react";
+import { Compass } from "lucide-react";
 import { Location } from "@/types/location";
 
 interface LocationOverviewProps {

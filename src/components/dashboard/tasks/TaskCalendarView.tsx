@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { ChevronLeft, ChevronRight, Calendar as CalendarIcon, ArrowLeft } from "lucide-react";
+import { ChevronLeft, ChevronRight, Calendar as ArrowLeft } from "lucide-react";
 
 interface CalendarTask {
   id: string;

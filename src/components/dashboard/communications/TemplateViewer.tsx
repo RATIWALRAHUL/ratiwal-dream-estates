@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Mail, MessageSquare, Code2, Eye, CheckCircle2, ShieldCheck } from "lucide-react";
+import { Mail, MessageSquare, Code2, Eye, ShieldCheck } from "lucide-react";
 import { NotificationTemplateItem } from "@/types/communication";
 
 interface TemplateViewerProps {

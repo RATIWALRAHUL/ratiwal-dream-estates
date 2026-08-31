@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { ArrowRight, SlidersHorizontal, Check, X, ShieldCheck, ExternalLink } from "lucide-react";
+import { SlidersHorizontal, ExternalLink } from "lucide-react";
 import { Location } from "@/types/location";
 import { getLocationSummaryStats } from "@/data/locations";
 

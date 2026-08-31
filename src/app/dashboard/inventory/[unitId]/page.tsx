@@ -18,7 +18,6 @@ import {
   Compass,
   CheckCircle2,
 } from "lucide-react";
-import { paiseToRupees } from "@/lib/utils/currency";
 
 export const metadata: Metadata = {
   title: "Unit Details & History | Ratiwal Dream Estates Dashboard",

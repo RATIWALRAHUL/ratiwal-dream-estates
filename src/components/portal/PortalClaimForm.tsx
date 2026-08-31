@@ -3,7 +3,7 @@
 import React, { useState, useTransition, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
-import { ShieldCheck, Lock, Mail, User, Phone, AlertCircle, ArrowRight, CheckCircle2 } from "lucide-react";
+import { ShieldCheck, Lock, User, Phone, AlertCircle, ArrowRight, CheckCircle2 } from "lucide-react";
 import { claimInvitationAction } from "@/lib/actions/portal-auth.actions";
 
 export function PortalClaimForm() {

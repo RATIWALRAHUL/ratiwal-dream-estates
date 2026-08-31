@@ -7,7 +7,6 @@ import { KycDocumentVersion, IKycDocumentVersion } from "@/models/KycDocumentVer
 import { CustomerKycCase } from "@/models/CustomerKycCase";
 import { logAuditEvent } from "@/lib/services/audit.service";
 import { AdminSession } from "@/lib/auth/session";
-import { ALLOWED_DOCUMENT_MIMES, ALLOWED_IMAGE_MIMES } from "@/lib/storage/policy";
 
 export interface IngestDocumentInput {
   documentId: string;

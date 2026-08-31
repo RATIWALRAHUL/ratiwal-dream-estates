@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Shield, Plus, Save, AlertCircle, Check } from "lucide-react";
+import { Save, AlertCircle } from "lucide-react";
 import { createCustomRoleAction } from "@/lib/actions/settings.actions";
 import { PermissionMatrix } from "@/components/dashboard/settings/PermissionMatrix";
 import { DATA_SCOPES, DataScope, validatePermissionDependencies } from "@/types/settings-team";

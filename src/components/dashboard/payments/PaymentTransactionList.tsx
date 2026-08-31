@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { ArrowLeft, CreditCard, CheckCircle2, Clock, AlertTriangle, RotateCcw } from "lucide-react";
+import { ArrowLeft, CreditCard } from "lucide-react";
 import { MoneyUtils } from "@/lib/utils/money";
 
 interface PaymentTransactionListProps {

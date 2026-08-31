@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Globe2, Save, Check, AlertCircle } from "lucide-react";
+import { Save, Check, AlertCircle } from "lucide-react";
 import { updateRegionalSettingsAction } from "@/lib/actions/settings.actions";
 
 interface RegionalSettingsFormProps {

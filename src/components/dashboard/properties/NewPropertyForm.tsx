@@ -3,10 +3,10 @@
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { ArrowLeft, Building, Sparkles, AlertTriangle, CheckCircle2 } from "lucide-react";
+import { ArrowLeft, Sparkles, AlertTriangle } from "lucide-react";
 import { createPropertyDraftAction } from "@/lib/actions/property.actions";
 import { normalizeSlug } from "@/lib/utils/slug";
-import type { PropertyType, ListingStatus } from "@/types/database";
+import type { ListingStatus } from "@/types/database";
 
 interface NewPropertyFormProps {
   locations: { id: string; name: string; city: string; state: string }[];

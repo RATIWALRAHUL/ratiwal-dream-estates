@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowRight, Compass, ShieldCheck, MapPin, Building2 } from "lucide-react";
+import { ArrowRight, Compass, ShieldCheck, MapPin } from "lucide-react";
 import { Location } from "@/types/location";
 
 interface MicroMarketPreviewProps {

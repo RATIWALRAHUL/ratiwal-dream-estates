@@ -1,11 +1,10 @@
 import "server-only";
 
-import { Types } from "mongoose";
 import { connectToDatabase } from "@/lib/db/mongoose";
 import { OperationalTask } from "@/models/OperationalTask";
 import { TaskActivity } from "@/models/TaskActivity";
 import { TaskComment } from "@/models/TaskComment";
-import { MyWorkMetrics, TaskListItemDTO, TaskStatus, TaskPriority, TaskType } from "@/types/task";
+import { MyWorkMetrics, TaskListItemDTO } from "@/types/task";
 
 export class TaskQueryService {
   /**

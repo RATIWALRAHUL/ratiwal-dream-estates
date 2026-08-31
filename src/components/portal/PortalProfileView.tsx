@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useTransition } from "react";
-import { User, Shield, Mail, Phone, Lock, CheckCircle2, AlertCircle, Save, Edit3 } from "lucide-react";
+import { User, Shield, CheckCircle2, AlertCircle, Save, Edit3 } from "lucide-react";
 import { updateCustomerPreferencesAction, submitProfileCorrectionAction } from "@/lib/actions/portal-auth.actions";
 import { CustomerProfileDTO } from "@/types/portal";
 

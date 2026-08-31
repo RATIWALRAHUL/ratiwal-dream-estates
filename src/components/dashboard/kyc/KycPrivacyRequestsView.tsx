@@ -2,7 +2,7 @@
 
 import React, { useState, useTransition } from "react";
 import Link from "next/link";
-import { UserCheck, ShieldAlert, CheckCircle2, Clock, ArrowLeft, Send } from "lucide-react";
+import { CheckCircle2, ArrowLeft, Send } from "lucide-react";
 import { updatePrivacyRequestAction } from "@/lib/actions/kyc.actions";
 import { PrivacyRequestStatus } from "@/types/kyc";
 

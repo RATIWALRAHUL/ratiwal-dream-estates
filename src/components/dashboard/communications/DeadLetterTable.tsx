@@ -2,7 +2,7 @@
 
 import { useState, useTransition } from "react";
 import Link from "next/link";
-import { RotateCw, CheckCircle2, ShieldAlert, Loader2 } from "lucide-react";
+import { RotateCw, CheckCircle2, Loader2 } from "lucide-react";
 import { retryDeadLetterAction } from "@/lib/actions/communication.actions";
 
 interface DeadLetterItem {

@@ -7,7 +7,7 @@ import { TeamMember } from "@/models/TeamMember";
 import { PermissionService } from "@/lib/services/permission.service";
 import { SettingsSectionNav } from "@/components/dashboard/settings/SettingsSectionNav";
 import { PermissionMatrix } from "@/components/dashboard/settings/PermissionMatrix";
-import { Shield, KeyRound, Plus, Lock, Users, Sparkles } from "lucide-react";
+import { Plus, Lock, Users, Sparkles } from "lucide-react";
 
 export const metadata = {
   title: "Roles & Permissions | Ratiwal Dream Estates",

@@ -4,7 +4,7 @@ import React, { useState, useMemo } from "react";
 import { Property } from "@/types/property";
 import { PropertyCard } from "@/components/property/PropertyCard";
 import { EmptyState } from "@/components/shared/EmptyState";
-import { Search, MapPin, SlidersHorizontal, RotateCcw, Building2, Check, Sparkles } from "lucide-react";
+import { Search, MapPin, RotateCcw, Building2 } from "lucide-react";
 
 interface PropertiesFilterSectionProps {
   properties: Property[];

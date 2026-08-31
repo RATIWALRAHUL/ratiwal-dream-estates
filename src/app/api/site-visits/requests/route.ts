@@ -4,7 +4,7 @@ import { connectToDatabase } from "@/lib/db/mongoose";
 import { SiteVisit } from "@/models/SiteVisit";
 import { Lead } from "@/models/Lead";
 import { Property } from "@/models/Property";
-import { Location } from "@/models/Location";
+
 import { publicSiteVisitRequestSchema } from "@/lib/validations/site-visit-request";
 import { normalizePhone, normalizeEmail } from "@/lib/utils/phone";
 import { generateSiteVisitReferenceNumber, generateReferenceNumber } from "@/lib/utils/reference";

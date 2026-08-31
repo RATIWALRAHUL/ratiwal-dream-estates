@@ -8,7 +8,6 @@ import { LegalDocumentVersion } from "@/models/LegalDocumentVersion";
 import { LegalDocumentAccessLog } from "@/models/LegalDocumentAccessLog";
 import { AdminSession } from "@/lib/auth/session";
 import { logAuditEvent } from "@/lib/services/audit.service";
-import { logger } from "@/lib/logger";
 
 export interface CreateShareParams {
   legalDocumentId: string;

@@ -1,4 +1,4 @@
-import { Download, FileText } from "lucide-react";
+import { Download } from "lucide-react";
 import { DownloadableResource } from "@/types/insight";
 
 interface DownloadCalloutProps {

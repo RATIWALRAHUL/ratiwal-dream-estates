@@ -1,4 +1,3 @@
-import { Types } from "mongoose";
 
 export const PORTAL_ACCESS_ROLES = [
   "PRIMARY_CUSTOMER",

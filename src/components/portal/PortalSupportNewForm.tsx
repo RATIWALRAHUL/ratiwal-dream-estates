@@ -3,7 +3,7 @@
 import React, { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { LifeBuoy, ArrowLeft, ArrowRight, AlertCircle } from "lucide-react";
+import { ArrowLeft, ArrowRight, AlertCircle } from "lucide-react";
 import { createSupportRequestAction } from "@/lib/actions/portal.actions";
 import { SupportCategory, SupportPriority } from "@/types/portal";
 

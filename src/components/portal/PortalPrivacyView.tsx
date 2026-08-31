@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useTransition } from "react";
-import { ShieldCheck, Lock, FileText, CheckCircle2, AlertCircle, Send } from "lucide-react";
+import { ShieldCheck, FileText, CheckCircle2, AlertCircle, Send } from "lucide-react";
 import { submitPrivacyRequestFromPortalAction } from "@/lib/actions/portal.actions";
 
 export function PortalPrivacyView() {

@@ -17,7 +17,6 @@ import { CustomerKycCase } from "@/models/CustomerKycCase";
 import { AdminSession } from "@/lib/auth/session";
 import { logAuditEvent } from "@/lib/services/audit.service";
 import { BookingSummary } from "@/types/deal";
-import { logger } from "@/lib/logger";
 
 export interface ConfirmBookingInput {
   reservationId: string;

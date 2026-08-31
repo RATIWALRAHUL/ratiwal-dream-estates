@@ -26,7 +26,7 @@ import {
   removePlotOptionAction,
 } from "@/lib/actions/inventory.actions";
 import { rupeesToPaise, paiseToRupees, formatPaiseToRupeeString } from "@/lib/utils/currency";
-import { sqFtToSqYards, sqYardsToSqFt } from "@/lib/utils/area";
+import { sqFtToSqYards } from "@/lib/utils/area";
 import type { PlotStatus } from "@/types/database";
 
 export type FacingDirection = "NORTH" | "SOUTH" | "EAST" | "WEST" | "NORTH_EAST" | "NORTH_WEST" | "SOUTH_EAST" | "SOUTH_WEST";

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { ShieldAlert, UserCheck, ArrowRightLeft, Shield } from "lucide-react";
+import { ShieldAlert, UserCheck, ArrowRightLeft } from "lucide-react";
 import { suspendTeamMemberAction, reactivateTeamMemberAction } from "@/lib/actions/team.actions";
 import { TeamHandoverModal } from "@/components/dashboard/team/TeamHandoverModal";
 

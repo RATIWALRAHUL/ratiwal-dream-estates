@@ -20,7 +20,7 @@ import {
 import { OfferBuilderModal } from "./OfferBuilderModal";
 import { HoldActionModal } from "./HoldActionModal";
 import { BookingConfirmModal } from "./BookingConfirmModal";
-import { ArrowLeft, Check, CheckCircle2, Lock, Plus, Tag, X } from "lucide-react";
+import { ArrowLeft, Check, CheckCircle2, Lock, Tag } from "lucide-react";
 
 interface DealWorkspaceProps {
   dealData: any;

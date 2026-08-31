@@ -9,12 +9,10 @@ import { Types } from "mongoose";
 import { connectToDatabase } from "@/lib/db/mongoose";
 import { DealOffer, IDealOffer } from "@/models/DealOffer";
 import { Deal } from "@/models/Deal";
-import { InventoryUnit } from "@/models/InventoryUnit";
+
 import { DealActivity } from "@/models/DealActivity";
 import { AdminSession } from "@/lib/auth/session";
 import { logAuditEvent } from "@/lib/services/audit.service";
-import { OfferStatus, DealOfferSummary } from "@/types/deal";
-import { logger } from "@/lib/logger";
 
 export interface CreateOfferInput {
   dealId: string;

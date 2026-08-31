@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { ExternalLink, Building2, ArrowRight, Edit3, Layers, CheckCircle2, Clock } from "lucide-react";
+import { ExternalLink, Building2, ArrowRight, Edit3, Layers } from "lucide-react";
 import type { DashboardOverviewData } from "@/lib/services/dashboard.service";
 
 interface RecentPropertiesTableProps {

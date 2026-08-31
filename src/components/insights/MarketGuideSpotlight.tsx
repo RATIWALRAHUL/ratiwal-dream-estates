@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowRight, MapPin, Building2, Compass, ShieldCheck } from "lucide-react";
+import { ArrowRight, MapPin, Building2, ShieldCheck } from "lucide-react";
 import { locations } from "@/data/locations";
 
 export function MarketGuideSpotlight() {

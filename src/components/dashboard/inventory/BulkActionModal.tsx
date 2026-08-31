@@ -3,7 +3,7 @@
 import { useState, useTransition } from "react";
 import { UnitStatus, UnitVisibility, UNIT_STATUSES, UNIT_VISIBILITIES } from "@/types/inventory";
 import { bulkUpdateUnitsAction } from "@/lib/actions/inventory-unit.actions";
-import { X, Loader2, AlertTriangle, CheckCircle2 } from "lucide-react";
+import { X, Loader2 } from "lucide-react";
 
 interface BulkActionModalProps {
   selectedUnitIds: string[];

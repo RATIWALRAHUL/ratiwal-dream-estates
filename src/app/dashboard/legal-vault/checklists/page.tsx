@@ -6,7 +6,7 @@ import { connectToDatabase } from "@/lib/db/mongoose";
 import { Property } from "@/models/Property";
 import { LegalChecklistService } from "@/lib/services/legal-checklist.service";
 import { PropertyChecklistCard } from "@/components/dashboard/legal-vault/PropertyChecklistCard";
-import { ArrowLeft, CheckSquare } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Property Legal Checklists | Ratiwal Dream Estates Dashboard",

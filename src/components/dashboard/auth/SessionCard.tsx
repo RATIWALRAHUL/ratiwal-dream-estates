@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Laptop, Smartphone, Tablet, Globe, Clock, MapPin, Trash2, ShieldCheck } from "lucide-react";
+import { Laptop, Smartphone, Tablet, Clock, MapPin, Trash2, ShieldCheck } from "lucide-react";
 import { AdminAuthSessionDTO } from "@/types/dashboard-auth";
 
 interface SessionCardProps {

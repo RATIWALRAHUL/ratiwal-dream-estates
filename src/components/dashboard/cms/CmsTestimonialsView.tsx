@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { saveTestimonialAction } from "@/lib/actions/cms.actions";
-import { ArrowLeft, Plus, Star, ShieldCheck, CheckCircle2 } from "lucide-react";
+import { ArrowLeft, Plus, Star, ShieldCheck } from "lucide-react";
 
 interface TestimonialItem {
   _id: string;

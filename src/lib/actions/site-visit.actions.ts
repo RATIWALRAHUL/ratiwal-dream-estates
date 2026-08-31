@@ -16,7 +16,7 @@ import { Property } from "@/models/Property";
 import { requireAdminSession } from "@/lib/auth/guard";
 import { logAuditEvent } from "@/lib/services/audit.service";
 import { logger } from "@/lib/logger";
-import { checkRateLimit, RATE_LIMITS } from "@/lib/rate-limit";
+
 import { generateSiteVisitReferenceNumber } from "@/lib/utils/reference";
 import { acquireSlotLocks, releaseSlotLocks } from "@/lib/services/site-visit-scheduling.service";
 import { OutboxService } from "@/lib/communications/services/outbox.service";

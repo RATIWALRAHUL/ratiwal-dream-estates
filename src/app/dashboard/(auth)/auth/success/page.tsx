@@ -2,7 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
-import { CheckCircle2, ShieldCheck, ArrowRight, Lock } from "lucide-react";
+import { CheckCircle2, ArrowRight, Lock } from "lucide-react";
 import { AuthFormContainer } from "@/components/dashboard/auth/AuthFormContainer";
 
 export default function ResetSuccessPage() {

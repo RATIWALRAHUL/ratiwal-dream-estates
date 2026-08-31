@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { Shield, ShieldAlert, Laptop, ArrowLeft, RefreshCw, Trash2, CheckCircle2 } from "lucide-react";
+import { Shield, ArrowLeft, RefreshCw, Trash2, CheckCircle2 } from "lucide-react";
 import { AdminAuthSessionDTO } from "@/types/dashboard-auth";
 import {
   getAdminSessionsAction,

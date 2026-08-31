@@ -2,10 +2,10 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Shield, Check, AlertCircle, Save } from "lucide-react";
+import { Check, AlertCircle, Save } from "lucide-react";
 import { updateTeamMemberAction } from "@/lib/actions/team.actions";
 import { PermissionMatrix } from "@/components/dashboard/settings/PermissionMatrix";
-import { SYSTEM_ROLE_KEYS, DATA_SCOPES, DataScope } from "@/types/settings-team";
+import { DATA_SCOPES, DataScope } from "@/types/settings-team";
 
 interface MemberPermissionsEditorProps {
   member: any;

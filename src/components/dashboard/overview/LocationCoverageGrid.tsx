@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { MapPin, ArrowRight, CheckCircle2, ArrowUpRight } from "lucide-react";
+import { MapPin, ArrowRight, ArrowUpRight } from "lucide-react";
 import type { DashboardOverviewData } from "@/lib/services/dashboard.service";
 
 interface LocationCoverageGridProps {

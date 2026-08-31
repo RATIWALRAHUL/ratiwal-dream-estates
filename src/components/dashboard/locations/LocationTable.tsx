@@ -3,7 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
-import { ExternalLink, MapPin, ChevronLeft, ChevronRight, Sparkles, Filter } from "lucide-react";
+import { MapPin, ChevronLeft, ChevronRight, Sparkles } from "lucide-react";
 import { LocationActionMenu } from "./LocationActionMenu";
 import type { PaginatedLocationsResult } from "@/lib/services/dashboard.service";
 

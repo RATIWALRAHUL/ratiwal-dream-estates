@@ -2,8 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
-import { Building, ArrowRight, ShieldCheck, CreditCard, Clock, CheckCircle2 } from "lucide-react";
-import { MoneyUtils } from "@/lib/utils/money";
+import { Building, ArrowRight, CreditCard, Clock } from "lucide-react";
 
 interface PortalBookingsListViewProps {
   bookings: any[];

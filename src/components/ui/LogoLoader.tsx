@@ -4,6 +4,8 @@ import React from "react";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 
+export type LogoLoaderVariant = "page" | "section" | "button" | "overlay";
+
 export interface LogoLoaderProps {
   /**
    * Layout variant
@@ -12,7 +14,11 @@ export interface LogoLoaderProps {
    * - button: Miniature button indicator
    * - overlay: Full relative/fixed backdrop overlay
    */
-  variant?: "page" | "section" | "button" | "overlay";
+  variant?: LogoLoaderVariant;
+  /**
+   * Loader size scaling
+   */
+  size?: "sm" | "md" | "lg";
   /**
    * Theme mode
    * - dark: For navy/dark backgrounds
@@ -21,9 +27,10 @@ export interface LogoLoaderProps {
    */
   theme?: "dark" | "light" | "auto";
   /**
-   * Custom accessible loading text
+   * Custom accessible loading text / label
    */
   text?: string;
+  label?: string;
   /**
    * Additional custom CSS classes
    */
@@ -36,76 +43,83 @@ export interface LogoLoaderProps {
 
 export function LogoLoader({
   variant = "page",
+  size = "md",
   theme = "auto",
-  text = "Loading experience...",
+  text,
+  label,
   className,
   showProgressBar = true,
 }: LogoLoaderProps) {
-  // Miniature button loader
+  const displayText = label || text || (variant === "button" ? "Processing..." : "Loading experience...");
+
+  // 1. Miniature button loader
   if (variant === "button") {
+    const dotSize = size === "sm" ? "h-2 w-2" : size === "lg" ? "h-3 w-3" : "h-2.5 w-2.5";
     return (
       <span
         role="status"
         aria-live="polite"
-        aria-label={text}
-        className={cn("inline-flex items-center justify-center gap-1.5 shrink-0", className)}
+        aria-label={displayText}
+        className={cn("inline-flex items-center justify-center gap-1.5 shrink-0 select-none", className)}
       >
-        <span className="relative flex h-3.5 w-3.5 items-center justify-center">
-          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#087fc3] opacity-60" />
-          <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#087fc3]" />
+        <span className={cn("relative flex items-center justify-center", dotSize)}>
+          <span className={cn("motion-reduce:hidden animate-ping absolute inline-flex h-full w-full rounded-full bg-[#087fc3] opacity-60")} />
+          <span className={cn("relative inline-flex rounded-full bg-[#087fc3]", dotSize)} />
         </span>
-        <span className="sr-only">{text}</span>
+        <span className="sr-only">{displayText}</span>
       </span>
     );
   }
 
-  // Section / widget loader
+  // 2. Section / widget loader
   if (variant === "section") {
+    const logoHeight = size === "sm" ? "h-5" : size === "lg" ? "h-9" : "h-7";
     return (
       <div
         role="status"
         aria-live="polite"
-        aria-label={text}
+        aria-label={displayText}
         className={cn(
           "flex flex-col items-center justify-center p-8 rounded-2xl bg-slate-50/60 border border-[rgba(7,26,40,0.06)] min-h-[180px]",
           className
         )}
       >
         <div className="relative flex items-center justify-center mb-3">
-          <div className="absolute inset-0 bg-[#087fc3]/10 rounded-full blur-md animate-pulse" />
+          <div className="absolute inset-0 bg-[#087fc3]/10 rounded-full blur-md motion-reduce:hidden animate-pulse" />
           <Image
             src="/images/brand/ratiwal-logo.svg"
             alt="Ratiwal Dream Estates"
-            width={120}
-            height={40}
+            width={140}
+            height={48}
             priority
-            className="h-7 w-auto object-contain relative z-10 animate-pulse transition-transform duration-700"
+            className={cn("w-auto object-contain relative z-10 motion-reduce:animate-none animate-pulse transition-transform duration-700", logoHeight)}
           />
         </div>
-        {text && (
+        {displayText && (
           <span className="text-[11px] font-mono tracking-wider uppercase text-[#647581] font-medium">
-            {text}
+            {displayText}
           </span>
         )}
         {showProgressBar && (
           <div className="w-24 h-0.5 bg-slate-200 rounded-full overflow-hidden mt-3">
-            <div className="h-full bg-[#087fc3] rounded-full animate-[shimmer_1.5s_infinite_ease-in-out] w-1/2" />
+            <div className="h-full bg-[#087fc3] rounded-full motion-reduce:w-full animate-[shimmer_1.5s_infinite_ease-in-out] w-1/2" />
           </div>
         )}
       </div>
     );
   }
 
-  // Full page / overlay loader
+  // 3. Full page / overlay loader
   const isDark = theme === "dark";
   const logoSrc = isDark ? "/images/brand/ratiwal-logo-white.svg" : "/images/brand/ratiwal-logo.svg";
+  const pageLogoHeight = size === "sm" ? "h-8" : size === "lg" ? "h-14 sm:h-16" : "h-10 sm:h-12";
 
   return (
     <div
       role="status"
       aria-live="polite"
       aria-busy="true"
-      aria-label={text}
+      aria-label={displayText}
       className={cn(
         variant === "overlay"
           ? "absolute inset-0 z-50 flex flex-col items-center justify-center backdrop-blur-md"
@@ -119,7 +133,7 @@ export function LogoLoader({
         <div className="relative mb-6 flex items-center justify-center">
           <div
             className={cn(
-              "absolute -inset-4 rounded-full blur-xl opacity-40 animate-pulse",
+              "absolute -inset-4 rounded-full blur-xl opacity-40 motion-reduce:hidden animate-pulse",
               isDark ? "bg-[#087fc3]/40" : "bg-[#0088cc]/20"
             )}
           />
@@ -127,10 +141,10 @@ export function LogoLoader({
             <Image
               src={logoSrc}
               alt="Ratiwal Dream Estates"
-              width={180}
-              height={60}
+              width={200}
+              height={70}
               priority
-              className="h-10 sm:h-12 w-auto object-contain drop-shadow-sm"
+              className={cn("w-auto object-contain drop-shadow-sm", pageLogoHeight)}
             />
           </div>
         </div>
@@ -142,7 +156,7 @@ export function LogoLoader({
             isDark ? "text-[#52bde9]" : "text-[#087fc3]"
           )}
         >
-          {text}
+          {displayText}
         </p>
 
         {/* Precision Progress Indicator */}
@@ -155,7 +169,7 @@ export function LogoLoader({
           >
             <div
               className={cn(
-                "absolute top-0 bottom-0 rounded-full animate-[progress_1.8s_ease-in-out_infinite]",
+                "absolute top-0 bottom-0 rounded-full motion-reduce:w-full animate-[progress_1.8s_ease-in-out_infinite]",
                 isDark ? "bg-gradient-to-r from-[#087fc3] to-[#52bde9]" : "bg-gradient-to-r from-[#0088cc] to-[#087fc3]"
               )}
               style={{ width: "40%" }}

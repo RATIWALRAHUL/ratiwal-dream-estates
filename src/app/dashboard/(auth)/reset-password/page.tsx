@@ -2,7 +2,7 @@
 
 import React, { useState, useTransition, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { Lock, ShieldCheck } from "lucide-react";
+import { ShieldCheck } from "lucide-react";
 import { AuthFormContainer } from "@/components/dashboard/auth/AuthFormContainer";
 import { PasswordInput } from "@/components/dashboard/auth/PasswordInput";
 import { PasswordStrength } from "@/components/dashboard/auth/PasswordStrength";

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { AlertTriangle, Archive, RotateCcw, RefreshCw, X } from "lucide-react";
+import { AlertTriangle, RotateCcw, RefreshCw } from "lucide-react";
 
 interface ReturnToDraftModalProps {
   isOpen: boolean;

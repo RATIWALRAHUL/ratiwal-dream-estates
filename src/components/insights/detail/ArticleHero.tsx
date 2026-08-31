@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { Clock, User, Calendar, ShieldCheck, CheckCircle2 } from "lucide-react";
+import { Clock, ShieldCheck, CheckCircle2 } from "lucide-react";
 import { InsightArticle } from "@/types/insight";
 
 interface ArticleHeroProps {

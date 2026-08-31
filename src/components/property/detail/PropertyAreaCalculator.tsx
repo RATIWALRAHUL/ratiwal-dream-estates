@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useEffect, useId } from "react";
-import { Calculator, RotateCcw, Scale, Check, ArrowRight } from "lucide-react";
+import { useState, useId } from "react";
+import { Calculator, RotateCcw, Scale } from "lucide-react";
 import { PlotOption } from "@/types/property";
 
 interface PropertyAreaCalculatorProps {

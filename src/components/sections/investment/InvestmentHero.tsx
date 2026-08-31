@@ -3,7 +3,7 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, TrendingUp, ShieldCheck, PieChart, Sparkles, Award, Compass, Calculator } from "lucide-react";
+import { ArrowRight, TrendingUp, ShieldCheck, Sparkles, Award, Compass, Calculator } from "lucide-react";
 import { Breadcrumbs } from "@/components/shared/Breadcrumbs";
 import { Reveal } from "@/components/home/Reveal";
 import { MagneticButton } from "@/components/home/MagneticButton";

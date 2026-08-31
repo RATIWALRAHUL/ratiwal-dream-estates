@@ -3,10 +3,10 @@ import crypto from "crypto";
 import { Types } from "mongoose";
 import { connectToDatabase } from "@/lib/db/mongoose";
 import { CustomerPortalInvitation, ICustomerPortalInvitation } from "@/models/CustomerPortalInvitation";
-import { CustomerPortalAccount, ICustomerPortalAccount } from "@/models/CustomerPortalAccount";
+import { CustomerPortalAccount } from "@/models/CustomerPortalAccount";
 import { CustomerPortalAccess } from "@/models/CustomerPortalAccess";
 import { CustomerParty } from "@/models/CustomerParty";
-import { Booking } from "@/models/Booking";
+
 import { logAuditEvent } from "@/lib/services/audit.service";
 import { CommunicationOutboxService } from "@/lib/services/communication-outbox.service";
 import { hashCustomerPassword, createCustomerSessionToken } from "@/lib/auth/customer-session";

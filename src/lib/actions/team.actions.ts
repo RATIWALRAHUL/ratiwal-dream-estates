@@ -1,8 +1,8 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { requireAdminSession, requirePermission } from "@/lib/auth/guard";
-import { TeamService, CreateMemberInput, UpdateMemberInput } from "@/lib/services/team.service";
+import { requirePermission } from "@/lib/auth/guard";
+import { TeamService, UpdateMemberInput } from "@/lib/services/team.service";
 import { TeamInvitationService, CreateInvitationInput } from "@/lib/services/team-invitation.service";
 import { TeamHandoverService } from "@/lib/services/team-handover.service";
 

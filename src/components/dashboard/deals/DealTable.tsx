@@ -2,7 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
-import { Plus, Briefcase, ChevronRight, ArrowRight } from "lucide-react";
+import { Plus, Briefcase, ChevronRight } from "lucide-react";
 import { DealSummary, DealStage } from "@/types/deal";
 
 interface DealTableProps {

@@ -2,7 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
-import { Settings, Shield, ArrowLeft, CreditCard, Lock, CheckCircle2 } from "lucide-react";
+import { ArrowLeft, Lock, CheckCircle2 } from "lucide-react";
 
 export function PaymentSettingsView() {
   return (

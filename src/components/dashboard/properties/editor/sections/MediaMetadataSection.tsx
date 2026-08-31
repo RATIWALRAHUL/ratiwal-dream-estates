@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { Plus, Trash2, ArrowUp, ArrowDown, Star, Image as ImageIcon, Sparkles } from "lucide-react";
+import { Plus, Trash2, ArrowUp, ArrowDown, Star, Image as ImageIcon } from "lucide-react";
 import { ImageKitUpload } from "@/components/shared/ImageKitUpload";
 
 interface MediaItem {
@@ -38,7 +38,7 @@ export function MediaMetadataSection({
     width?: number;
     height?: number;
   }) => {
-    let updatedList = [...media];
+    const updatedList = [...media];
     const isFirst = updatedList.length === 0;
 
     const item: MediaItem = {
@@ -80,7 +80,7 @@ export function MediaMetadataSection({
 
   const removeMedia = (idx: number) => {
     const removingPrimary = media[idx]?.isPrimary;
-    let filtered = media.filter((_, i) => i !== idx);
+    const filtered = media.filter((_, i) => i !== idx);
     // If removed primary and others remain, set first as primary
     if (removingPrimary && filtered.length > 0) {
       filtered[0].isPrimary = true;

@@ -272,6 +272,7 @@ LocationSchema.pre("validate", function () {
 
 // Indexes
 LocationSchema.index({ publicationStatus: 1, featured: 1, sortOrder: 1 });
+LocationSchema.index({ publicationStatus: 1, sortOrder: 1, name: 1 });
 LocationSchema.index({ state: 1, city: 1 });
 LocationSchema.index({ "coordinates.geoJson": "2dsphere" }, { sparse: true });
 

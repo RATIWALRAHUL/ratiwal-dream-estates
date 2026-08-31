@@ -1,4 +1,3 @@
-import { LeadSource } from "@/types/lead";
 
 interface DemandDistributionProps {
   items: {

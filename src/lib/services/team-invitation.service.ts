@@ -4,12 +4,11 @@ import { Types } from "mongoose";
 import { connectToDatabase } from "@/lib/db/mongoose";
 import { TeamInvitation, ITeamInvitation } from "@/models/TeamInvitation";
 import { TeamMember, ITeamMember } from "@/models/TeamMember";
-import { AdminSession, AdminUser } from "@/lib/auth/session";
+import { AdminSession } from "@/lib/auth/session";
 import { logAuditEvent } from "@/lib/services/audit.service";
 import { PermissionService } from "./permission.service";
 import { TeamService } from "./team.service";
 import { DataScope } from "@/types/settings-team";
-import { logger } from "@/lib/logger";
 
 export interface CreateInvitationInput {
   email: string;

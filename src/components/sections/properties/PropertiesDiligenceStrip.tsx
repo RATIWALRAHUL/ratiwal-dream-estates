@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { FileText, ShieldCheck, MapPin, Scale, Layers, CheckCircle2 } from "lucide-react";
+import { FileText, ShieldCheck, Scale, Layers, CheckCircle2 } from "lucide-react";
 import { Reveal } from "@/components/home/Reveal";
 
 export function PropertiesDiligenceStrip() {

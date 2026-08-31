@@ -3,7 +3,7 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, Phone, MessageSquare, Award, CheckCircle2, ShieldCheck, Sparkles } from "lucide-react";
+import { Phone, MessageSquare, ShieldCheck, Sparkles } from "lucide-react";
 import { Reveal } from "@/components/home/Reveal";
 import { MagneticButton } from "@/components/home/MagneticButton";
 import { generateWhatsAppUrl } from "@/lib/whatsapp";

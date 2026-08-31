@@ -1,6 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import { Plus, LayoutGrid, List, Briefcase } from "lucide-react";
+import { Plus, LayoutGrid, List } from "lucide-react";
 import { requireAdminSession } from "@/lib/auth/guard";
 import { DealService } from "@/lib/services/deal.service";
 import { DealTable } from "@/components/dashboard/deals/DealTable";

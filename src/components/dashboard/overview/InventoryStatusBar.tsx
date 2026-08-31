@@ -1,5 +1,5 @@
 import type { DashboardOverviewData } from "@/lib/services/dashboard.service";
-import { Layers, PieChart } from "lucide-react";
+import { PieChart } from "lucide-react";
 
 interface InventoryStatusBarProps {
   inventory: DashboardOverviewData["inventoryBreakdown"];

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { FileCheck, ShieldCheck, Scale, ExternalLink, Clock, AlertCircle } from "lucide-react";
+import { FileCheck, ShieldCheck, Scale, ExternalLink } from "lucide-react";
 import { PropertyDocumentItem } from "@/types/property";
 
 interface PropertyDocumentStatusProps {

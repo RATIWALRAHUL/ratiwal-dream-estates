@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { ShieldCheck, Save, Check, AlertCircle } from "lucide-react";
+import { Save, Check, AlertCircle } from "lucide-react";
 import { updateSecuritySettingsAction } from "@/lib/actions/settings.actions";
 
 interface SecuritySettingsFormProps {

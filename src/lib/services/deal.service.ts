@@ -28,7 +28,6 @@ import {
   DealPipelineSummary,
   isValidDealTransition,
 } from "@/types/deal";
-import { logger } from "@/lib/logger";
 
 export interface CreateDealInput {
   leadId: string;

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Plus, Trash2, ArrowUp, ArrowDown, Sparkles } from "lucide-react";
+import { Plus, Trash2, ArrowUp, ArrowDown } from "lucide-react";
 
 interface DescriptionsSectionProps {
   highlights: string[];

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Sparkles, TrendingUp, ShieldCheck, ArrowRight, Plus } from "lucide-react";
+import { ArrowRight, Plus } from "lucide-react";
 
 interface MarketPulseStripProps {
   metrics: {

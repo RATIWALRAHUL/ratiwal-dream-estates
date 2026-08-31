@@ -1,4 +1,4 @@
-import { Download, FileText, CheckCircle2, ShieldCheck } from "lucide-react";
+import { Download, FileText } from "lucide-react";
 import { BrochureInfo } from "@/types/property";
 
 interface PropertyBrochureDownloadsProps {

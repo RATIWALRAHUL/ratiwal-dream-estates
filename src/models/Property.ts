@@ -296,11 +296,18 @@ PropertySchema.pre("validate", function () {
 
 // Compound query indexes
 PropertySchema.index({ publicationStatus: 1, listingStatus: 1, publishedAt: -1 });
+PropertySchema.index({ publicationStatus: 1, updatedAt: -1 });
 PropertySchema.index({ locationId: 1, publicationStatus: 1, listingStatus: 1 });
 PropertySchema.index({ propertyType: 1, publicationStatus: 1 });
 PropertySchema.index({ featured: 1, sortOrder: 1 });
 PropertySchema.index({ lastVerifiedAt: -1 });
+PropertySchema.index({ verificationStatus: 1, lastVerifiedAt: -1 });
+PropertySchema.index(
+  { title: "text", locality: "text", slug: "text" },
+  { weights: { title: 10, locality: 5, slug: 2 }, name: "property_text_search_idx" }
+);
 
 export const Property: Model<IProperty> =
   (mongoose.models.Property as Model<IProperty>) ||
   mongoose.model<IProperty>("Property", PropertySchema);
+

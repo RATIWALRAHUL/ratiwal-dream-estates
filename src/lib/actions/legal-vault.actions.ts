@@ -8,8 +8,8 @@ import {
   AddDocumentVersionInput,
   TransitionReviewInput,
 } from "@/lib/services/legal-vault.service";
-import { LegalShareService, CreateShareParams } from "@/lib/services/legal-share.service";
-import { LegalChecklistService } from "@/lib/services/legal-checklist.service";
+import { LegalShareService } from "@/lib/services/legal-share.service";
+
 import { LegalExpiryService } from "@/lib/services/legal-expiry.service";
 import {
   DocumentCategory,

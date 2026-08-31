@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { TrendingUp, Plus, Trash2, ShieldCheck, Lock, ExternalLink, Save, X, AlertCircle } from "lucide-react";
+import { TrendingUp, Plus, Trash2, ShieldCheck, Lock, Save, X } from "lucide-react";
 import type { IMarketObservation } from "@/types/database";
 
 interface MarketIntelligenceSectionProps {

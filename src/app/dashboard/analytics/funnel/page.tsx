@@ -7,7 +7,7 @@ import { AnalyticsService } from "@/lib/services/analytics.service";
 import { AnalyticsDateRangeFilter } from "@/components/dashboard/analytics/AnalyticsDateRangeFilter";
 import { FunnelChart } from "@/components/dashboard/analytics/FunnelChart";
 import { DemandDistributionChart } from "@/components/dashboard/analytics/DemandDistributionChart";
-import { ArrowLeft, Clock, ShieldAlert } from "lucide-react";
+import { ArrowLeft, Clock } from "lucide-react";
 import { AnalyticsFilterParams, AnalyticsDatePreset } from "@/types/analytics";
 
 export const metadata: Metadata = {

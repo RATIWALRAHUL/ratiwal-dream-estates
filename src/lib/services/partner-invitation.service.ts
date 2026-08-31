@@ -1,13 +1,12 @@
 import "server-only";
 
 import { createHash, randomBytes } from "crypto";
-import { Types } from "mongoose";
+
 import { connectToDatabase } from "@/lib/db/mongoose";
 import { ChannelPartner } from "@/models/ChannelPartner";
 import { PartnerAccount } from "@/models/PartnerAccount";
 import { PartnerInvitation, IPartnerInvitation } from "@/models/PartnerInvitation";
-import { PartnerAgreement } from "@/models/PartnerAgreement";
-import { PartnerType } from "@/types/partner";
+
 import { hashPartnerPassword, createPartnerSessionToken } from "@/lib/auth/partner-session";
 import { CommunicationOutboxService } from "@/lib/services/communication-outbox.service";
 import { logAuditEvent } from "@/lib/services/audit.service";

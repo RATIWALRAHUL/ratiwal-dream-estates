@@ -1,0 +1,102 @@
+{
+  "generatedAt": "2026-08-31T09:02:40.541Z",
+  "indexesTested": 8,
+  "results": [
+    {
+      "collection": "properties",
+      "indexName": "publicationStatus_1_updatedAt_-1",
+      "stage": "IXSCAN",
+      "indexUsed": "publicationStatus_1_updatedAt_-1",
+      "totalDocsExamined": 10,
+      "totalKeysExamined": 10,
+      "nReturned": 10,
+      "executionTimeMillis": 0,
+      "isIndexScan": true,
+      "status": "PASS"
+    },
+    {
+      "collection": "properties",
+      "indexName": "verificationStatus_1_lastVerifiedAt_-1",
+      "stage": "IXSCAN",
+      "indexUsed": "verificationStatus_1_lastVerifiedAt_-1",
+      "totalDocsExamined": 10,
+      "totalKeysExamined": 10,
+      "nReturned": 10,
+      "executionTimeMillis": 0,
+      "isIndexScan": true,
+      "status": "PASS"
+    },
+    {
+      "collection": "properties",
+      "indexName": "property_text_search_idx",
+      "stage": "TEXT_MATCH",
+      "indexUsed": "property_text_search_idx",
+      "totalDocsExamined": 1240,
+      "totalKeysExamined": 1240,
+      "nReturned": 1240,
+      "executionTimeMillis": 6,
+      "isIndexScan": true,
+      "status": "PASS"
+    },
+    {
+      "collection": "leads",
+      "indexName": "createdAt_-1_status_1",
+      "stage": "IXSCAN",
+      "indexUsed": "status_1_createdAt_-1",
+      "totalDocsExamined": 10,
+      "totalKeysExamined": 10,
+      "nReturned": 10,
+      "executionTimeMillis": 0,
+      "isIndexScan": true,
+      "status": "PASS"
+    },
+    {
+      "collection": "leads",
+      "indexName": "assignedToId_1_createdAt_-1",
+      "stage": "IXSCAN",
+      "indexUsed": "assignedToId_1_createdAt_-1",
+      "totalDocsExamined": 10,
+      "totalKeysExamined": 10,
+      "nReturned": 10,
+      "executionTimeMillis": 0,
+      "isIndexScan": true,
+      "status": "PASS"
+    },
+    {
+      "collection": "sitevisits",
+      "indexName": "createdAt_-1_status_1",
+      "stage": "IXSCAN",
+      "indexUsed": "status_1",
+      "totalDocsExamined": 0,
+      "totalKeysExamined": 0,
+      "nReturned": 0,
+      "executionTimeMillis": 0,
+      "isIndexScan": true,
+      "status": "PASS"
+    },
+    {
+      "collection": "sitevisits",
+      "indexName": "assignedAdvisorId_1_createdAt_-1",
+      "stage": "IXSCAN",
+      "indexUsed": "assignedAdvisorId_1_createdAt_-1",
+      "totalDocsExamined": 10,
+      "totalKeysExamined": 10,
+      "nReturned": 10,
+      "executionTimeMillis": 1,
+      "isIndexScan": true,
+      "status": "PASS"
+    },
+    {
+      "collection": "locations",
+      "indexName": "publicationStatus_1_sortOrder_1_name_1",
+      "stage": "IXSCAN",
+      "indexUsed": "publicationStatus_1_sortOrder_1_name_1",
+      "totalDocsExamined": 10,
+      "totalKeysExamined": 10,
+      "nReturned": 10,
+      "executionTimeMillis": 0,
+      "isIndexScan": true,
+      "status": "PASS"
+    }
+  ]
+}

@@ -2,11 +2,11 @@ import "server-only";
 import { connectToDatabase } from "@/lib/db/mongoose";
 import { CustomerKycCase } from "@/models/CustomerKycCase";
 import { KycDocument } from "@/models/KycDocument";
-import { KycDocumentVersion } from "@/models/KycDocumentVersion";
-import { KycRetentionPolicy, IKycRetentionPolicy } from "@/models/KycRetentionPolicy";
+
+import { KycRetentionPolicy } from "@/models/KycRetentionPolicy";
 import { logAuditEvent } from "@/lib/services/audit.service";
 import { AdminSession } from "@/lib/auth/session";
-import { RetentionCategory, RETENTION_CATEGORIES } from "@/types/kyc";
+import { RetentionCategory } from "@/types/kyc";
 
 export interface RetentionPolicyDef {
   category: RetentionCategory;

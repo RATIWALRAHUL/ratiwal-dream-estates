@@ -1,5 +1,5 @@
 import "server-only";
-import { notFound } from "next/navigation";
+
 import { KycSubmissionService } from "@/lib/services/kyc-submission.service";
 import { PublicKycSubmissionPortal } from "@/components/kyc/PublicKycSubmissionPortal";
 

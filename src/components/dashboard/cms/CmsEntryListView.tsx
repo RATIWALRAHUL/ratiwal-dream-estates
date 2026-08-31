@@ -2,8 +2,8 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { CmsEntryListItemDTO, CmsContentType, CmsPublishingStatus, CMS_CONTENT_TYPES, CMS_PUBLISHING_STATUSES } from "@/types/cms";
-import { Plus, Search, Filter, Globe, ArrowLeft, ChevronRight, Eye } from "lucide-react";
+import { CmsEntryListItemDTO, CMS_PUBLISHING_STATUSES } from "@/types/cms";
+import { Plus, Search, ArrowLeft } from "lucide-react";
 
 interface CmsEntryListViewProps {
   initialEntries: CmsEntryListItemDTO[];

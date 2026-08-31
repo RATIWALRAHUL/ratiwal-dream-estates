@@ -2,7 +2,7 @@
 
 import { useState, useTransition } from "react";
 import { createLegalDocumentShareAction } from "@/lib/actions/legal-vault.actions";
-import { X, Loader2, Share2, Copy, Check, Lock, AlertCircle } from "lucide-react";
+import { X, Loader2, Copy, Check, AlertCircle } from "lucide-react";
 
 interface LegalShareModalProps {
   documentId: string;

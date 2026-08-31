@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { Image as ImageIcon, Sparkles, Trash2 } from "lucide-react";
+import { Image as ImageIcon, Trash2 } from "lucide-react";
 import { ImageKitUpload } from "@/components/shared/ImageKitUpload";
 
 interface HeroMediaSectionProps {

@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import {
@@ -14,7 +13,7 @@ import {
   Eye,
   Lock,
 } from "lucide-react";
-import { MemberStatus, DataScope } from "@/types/settings-team";
+import { MemberStatus } from "@/types/settings-team";
 
 const STATUS_BADGES: Record<MemberStatus, { bg: string; text: string; border: string }> = {
   ACTIVE: { bg: "bg-emerald-50", text: "text-emerald-700", border: "border-emerald-200" },

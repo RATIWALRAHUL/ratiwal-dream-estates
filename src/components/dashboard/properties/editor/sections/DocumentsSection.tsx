@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Plus, Trash2, FileText, Lock, ShieldCheck, Eye, UploadCloud } from "lucide-react";
+import { Plus, Trash2, FileText, ShieldCheck } from "lucide-react";
 import type { DocumentType, DocumentVisibility, VerificationStatus } from "@/types/database";
 import { ImageKitUpload } from "@/components/shared/ImageKitUpload";
 

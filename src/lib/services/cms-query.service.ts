@@ -4,9 +4,8 @@ import { connectToDatabase } from "@/lib/db/mongoose";
 import { CmsEntry } from "@/models/CmsEntry";
 import { CmsEntryVersion } from "@/models/CmsEntryVersion";
 import { RedirectRule } from "@/models/RedirectRule";
-import { CmsTestimonial } from "@/models/CmsTestimonial";
-import { CmsFaqItem } from "@/models/CmsFaqItem";
-import { CmsOverviewMetrics, CmsEntryListItemDTO, CmsContentType, CmsPublishingStatus } from "@/types/cms";
+
+import { CmsOverviewMetrics, CmsEntryListItemDTO } from "@/types/cms";
 
 export class CmsQueryService {
   /**

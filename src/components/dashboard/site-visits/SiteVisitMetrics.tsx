@@ -1,4 +1,4 @@
-import { Calendar, Clock, CheckCircle2, UserX, AlertCircle, Sparkles } from "lucide-react";
+import { Calendar, Clock, CheckCircle2, UserX, Sparkles } from "lucide-react";
 import type { SiteVisitMetrics as MetricsType } from "@/lib/services/site-visit.service";
 
 interface SiteVisitMetricsProps {

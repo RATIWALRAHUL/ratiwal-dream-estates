@@ -1,8 +1,8 @@
 "use client";
 
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
-import { useState, useTransition } from "react";
-import { Search, X, Filter, LayoutGrid, TableProperties, Sparkles } from "lucide-react";
+import { useState, useTransition, useEffect, useRef } from "react";
+import { Search, X, Filter, LayoutGrid, TableProperties } from "lucide-react";
 
 export function LocationFilters() {
   const router = useRouter();
@@ -17,6 +17,12 @@ export function LocationFilters() {
   const viewMode = searchParams.get("view") || "grid";
 
   const [search, setSearch] = useState(currentSearchParam);
+  const isInitialMount = useRef(true);
+
+  // Sync if URL query changes externally
+  useEffect(() => {
+    setSearch(currentSearchParam);
+  }, [currentSearchParam]);
 
   const applyFilters = (overrides: Record<string, string> = {}) => {
     const params = new URLSearchParams(searchParams.toString());
@@ -48,6 +54,22 @@ export function LocationFilters() {
       router.push(`${pathname}?${params.toString()}`);
     });
   };
+
+  // Debounced auto-search
+  useEffect(() => {
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+      return;
+    }
+
+    const timer = setTimeout(() => {
+      if (search !== currentSearchParam) {
+        applyFilters({ search });
+      }
+    }, 350);
+
+    return () => clearTimeout(timer);
+  }, [search]);
 
   const handleClear = () => {
     setSearch("");

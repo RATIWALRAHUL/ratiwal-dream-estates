@@ -2,7 +2,7 @@ import { redirect } from "next/navigation";
 import { getPartnerSession } from "@/lib/auth/partner-session";
 import { PartnerGuard } from "@/lib/auth/partner-guard";
 import { PartnerPropertyAccess } from "@/models/PartnerPropertyAccess";
-import { Property } from "@/models/Property";
+
 import { connectToDatabase } from "@/lib/db/mongoose";
 import { PartnerLeadForm } from "@/components/partner/PartnerLeadForm";
 import Link from "next/link";

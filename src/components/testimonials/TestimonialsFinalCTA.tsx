@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { MessageCircle, ArrowRight, ShieldCheck, Compass, PhoneCall } from "lucide-react";
+import { MessageCircle, ArrowRight, ShieldCheck, Compass } from "lucide-react";
 import { generateWhatsAppUrl } from "@/lib/whatsapp";
 
 export function TestimonialsFinalCTA() {
