@@ -30,9 +30,9 @@ export function PropertiesHero() {
         {/* Hero Title & Subheading */}
         <div className="max-w-4xl mx-auto text-center mb-10 sm:mb-12">
           <Reveal>
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[var(--advisor-ivory)] border border-[rgba(8,127,195,0.2)] shadow-xs mb-4">
-              <Sparkles size={15} className="text-[var(--ratiwal-blue)]" />
-              <span className="text-[11.5px] sm:text-[12.5px] font-bold tracking-[0.16em] uppercase text-[var(--ratiwal-blue)] font-body">
+            <div className="inline-flex items-center justify-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1.5 rounded-full bg-[var(--advisor-ivory)] border border-[rgba(8,127,195,0.2)] shadow-xs mb-4 max-w-full">
+              <Sparkles size={14} className="text-[var(--ratiwal-blue)] flex-shrink-0" />
+              <span className="text-[10px] xs:text-[11px] sm:text-[12.5px] font-bold tracking-[0.06em] xs:tracking-[0.1em] sm:tracking-[0.16em] uppercase text-[var(--ratiwal-blue)] font-body whitespace-nowrap leading-none">
                 VERIFIED PLOTTED ASSETS &amp; LAND HOLDINGS
               </span>
             </div>

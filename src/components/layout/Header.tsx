@@ -105,16 +105,34 @@ export default function Header() {
             </Link>
           </div>
 
-          {/* Mobile Navigation Trigger Button */}
-          <button
-            onClick={() => setIsOpen(!isOpen)}
-            className="lg:hidden nav-toggle flex items-center justify-center my-auto shrink-0 focus-visible:outline"
-            aria-expanded={isOpen}
-            aria-controls="mobile-navigation"
-            aria-label="Toggle navigation menu"
-          >
-            {isOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-          </button>
+          {/* Mobile Quick Action & Navigation Trigger */}
+          <div className="flex lg:hidden items-center gap-2 sm:gap-2.5 my-auto shrink-0">
+            <a
+              href={whatsappUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={cn(
+                "inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[12px] font-bold tracking-tight transition-all duration-300 active:scale-95",
+                showDarkTheme
+                  ? "bg-gradient-to-r from-[#0784C8] to-[#0284c7] text-white shadow-[0_2px_10px_rgba(7,132,200,0.3)] hover:brightness-105"
+                  : "bg-white/95 hover:bg-white text-[#071a28] shadow-[0_2px_10px_rgba(0,0,0,0.18)]"
+              )}
+              aria-label="Enquire on WhatsApp (opens in a new tab)"
+            >
+              <MessageCircle className="h-3.5 w-3.5 text-[#25D366] fill-[#25D366]/20" />
+              <span>Enquire</span>
+            </a>
+
+            <button
+              onClick={() => setIsOpen(!isOpen)}
+              className="nav-toggle flex items-center justify-center shrink-0 focus-visible:outline"
+              aria-expanded={isOpen}
+              aria-controls="mobile-navigation"
+              aria-label="Toggle navigation menu"
+            >
+              {isOpen ? <X className="h-4.5 w-4.5" /> : <Menu className="h-4.5 w-4.5" />}
+            </button>
+          </div>
         </div>
       </header>
 

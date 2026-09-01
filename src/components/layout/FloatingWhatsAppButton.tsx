@@ -20,13 +20,14 @@ export default function FloatingWhatsAppButton() {
       target="_blank"
       rel="noopener noreferrer"
       className={cn(
-        "fixed bottom-6 right-6 z-40 flex items-center justify-center h-14 w-14 rounded-full",
-        "bg-[#25D366] text-white shadow-lg hover:bg-[#128C7E] hover:scale-110",
+        "fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-40 flex items-center justify-center",
+        "h-12 w-12 sm:h-14 sm:w-14 rounded-full",
+        "bg-[#25D366] text-white shadow-lg hover:bg-[#128C7E] hover:scale-105 active:scale-95",
         "transition-all duration-300 focus-visible:outline"
       )}
       aria-label="Enquire on WhatsApp (opens in a new tab)"
     >
-      <MessageCircle className="h-7 w-7" />
+      <MessageCircle className="h-6 w-6 sm:h-7 sm:w-7" />
     </a>
   );
 }

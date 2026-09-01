@@ -63,7 +63,7 @@ export default function HomePage() {
           <div className="client-heading">
             <p className="eyebrow">Client stories</p>
             <h2 id="testimonials-title">Trusted through<br className="hidden sm:inline"/> every step.</h2>
-            <Link href="/testimonials" className="text-link mt-3 inline-flex items-center gap-1.5 text-xs font-bold text-[#0784C8] hover:underline">
+            <Link href="/testimonials" className="text-link mt-2.5 mb-5 sm:mb-0 inline-flex items-center gap-1.5 text-xs font-bold text-[#0784C8] hover:underline">
               <span>Read all client stories</span>
               <ArrowRight size={15} />
             </Link>

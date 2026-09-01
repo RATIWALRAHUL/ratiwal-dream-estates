@@ -293,12 +293,12 @@ export function PropertyAdvisorSection() {
               href={whatsapp}
               target="_blank"
               rel="noopener noreferrer"
-              className="group inline-flex items-center justify-center gap-2.5 bg-[var(--advisor-midnight)] hover:bg-[var(--advisor-blue)] active:scale-[0.985] text-[var(--advisor-ivory)] px-6 sm:px-7 h-[46px] sm:h-[50px] rounded-[6px] text-[14px] sm:text-[14.5px] font-semibold tracking-normal transition-all duration-300 shadow-[0_4px_14px_rgba(6,30,46,0.12)] hover:shadow-[0_6px_20px_rgba(8,127,195,0.28)]"
+              className="group inline-flex items-center justify-center gap-2.5 bg-[var(--advisor-midnight)] hover:bg-[var(--advisor-blue)] active:scale-[0.985] text-[var(--advisor-ivory)] px-5 sm:px-7 min-h-[48px] sm:h-[50px] py-2.5 sm:py-0 rounded-lg sm:rounded-[8px] text-[13.5px] xs:text-[14px] sm:text-[14.5px] font-semibold tracking-normal whitespace-nowrap transition-all duration-300 shadow-[0_4px_14px_rgba(6,30,46,0.12)] hover:shadow-[0_6px_20px_rgba(8,127,195,0.28)]"
             >
               <span>Schedule a private consultation</span>
               <ArrowRight
                 size={16}
-                className="transition-transform duration-300 group-hover:translate-x-1"
+                className="flex-shrink-0 transition-transform duration-300 group-hover:translate-x-1"
                 aria-hidden="true"
               />
             </a>
@@ -306,7 +306,7 @@ export function PropertyAdvisorSection() {
             {/* Secondary CTA Link */}
             <Link
               href="/about"
-              className="group inline-flex items-center justify-center sm:justify-start gap-2 text-[var(--advisor-midnight)] hover:text-[var(--advisor-blue)] text-[14px] sm:text-[14.5px] font-semibold py-1.5 transition-colors duration-300 relative self-center"
+              className="group inline-flex items-center justify-center sm:justify-start gap-2 text-[var(--advisor-midnight)] hover:text-[var(--advisor-blue)] text-[13.5px] sm:text-[14.5px] font-semibold py-1.5 transition-colors duration-300 relative self-center sm:self-auto"
             >
               <span className="relative pb-0.5 border-b-[1.5px] border-[var(--advisor-cyan)] group-hover:border-[var(--advisor-blue)] transition-colors duration-300">
                 Meet the advisory team

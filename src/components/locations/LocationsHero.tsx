@@ -40,9 +40,9 @@ export function LocationsHero({ locations }: LocationsHeroProps) {
         {/* Hero Title & Subheading */}
         <div className="max-w-4xl mx-auto text-center mb-10 sm:mb-12">
           <Reveal>
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[var(--advisor-ivory)] border border-[rgba(8,127,195,0.2)] shadow-xs mb-4">
-              <Compass size={15} className="text-[var(--ratiwal-blue)]" />
-              <span className="text-[11.5px] sm:text-[12.5px] font-bold tracking-[0.16em] uppercase text-[var(--ratiwal-blue)] font-body">
+            <div className="inline-flex items-center justify-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1.5 rounded-full bg-[var(--advisor-ivory)] border border-[rgba(8,127,195,0.2)] shadow-xs mb-4 max-w-full">
+              <Compass size={14} className="text-[var(--ratiwal-blue)] flex-shrink-0" />
+              <span className="text-[10px] xs:text-[11px] sm:text-[12.5px] font-bold tracking-[0.06em] xs:tracking-[0.1em] sm:tracking-[0.16em] uppercase text-[var(--ratiwal-blue)] font-body whitespace-nowrap leading-none">
                 VERIFIED REGIONAL CORRIDORS &amp; MICRO-MARKETS
               </span>
             </div>
@@ -66,20 +66,20 @@ export function LocationsHero({ locations }: LocationsHeroProps) {
 
           {/* Market Summary Badges */}
           <Reveal delay={200}>
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-3xl mx-auto mt-8">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-3.5 max-w-3xl mx-auto mt-8">
               {marketBadges.map((b, idx) => (
                 <div
                   key={idx}
-                  className="p-3 rounded-xl bg-white border border-[rgba(7,26,40,0.08)] shadow-xs text-left flex items-center gap-2.5"
+                  className="p-3.5 sm:p-4 rounded-xl sm:rounded-2xl bg-white border border-[rgba(7,26,40,0.08)] shadow-[0_2px_12px_rgba(7,26,40,0.04)] text-left flex flex-col justify-between transition-all duration-300 hover:border-[rgba(7,132,200,0.3)] hover:shadow-md"
                 >
-                  <div className="w-8 h-8 rounded-lg bg-[var(--cyan-soft)] text-[var(--ratiwal-blue)] flex items-center justify-center flex-shrink-0">
+                  <div className="w-8 h-8 rounded-lg bg-[var(--cyan-soft)] text-[var(--ratiwal-blue)] flex items-center justify-center flex-shrink-0 mb-2.5">
                     <b.icon size={16} />
                   </div>
                   <div>
-                    <span className="text-xs font-bold text-[var(--midnight)] block leading-tight">
+                    <span className="text-xs sm:text-[13px] font-bold text-[var(--midnight)] block leading-snug">
                       {b.label}
                     </span>
-                    <span className="text-[11px] text-[var(--text-secondary)]">
+                    <span className="text-[11px] text-[var(--text-secondary)] block mt-0.5 leading-normal">
                       {b.desc}
                     </span>
                   </div>
