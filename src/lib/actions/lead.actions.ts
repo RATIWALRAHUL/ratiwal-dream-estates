@@ -733,3 +733,71 @@ export async function anonymizeLeadAction(
     return { success: false, code: "DATABASE_ERROR", message: "Failed to anonymize lead." };
   }
 }
+
+/**
+ * Update lead investment requirements (Preferred location, budget, property category, timeline, purpose)
+ */
+export async function updateLeadRequirementsAction(
+  leadId: string,
+  data: {
+    preferredLocation?: string;
+    propertyTypeInterest?: string;
+    budgetRange?: string;
+    budgetMinimumPaise?: number;
+    budgetMaximumPaise?: number;
+    purchaseTimeline?: string;
+    investmentPurpose?: string;
+  },
+  expectedVersion: number
+): Promise<ActionResult> {
+  try {
+    const session = await requireAdminSession();
+    await connectToDatabase();
+
+    const lead = await requireLead(leadId, session.user.role, session.user.id);
+    if (!lead) return { success: false, code: "NOT_FOUND", message: "Lead not found or access denied." };
+    if (lead.__v !== expectedVersion) {
+      return { success: false, code: "CONFLICT", message: "Lead was updated by another user. Please refresh and try again." };
+    }
+    if (lead.archivedAt) return { success: false, code: "ALREADY_ARCHIVED", message: "Archived leads cannot be modified." };
+
+    if (data.preferredLocation !== undefined) lead.preferredLocation = data.preferredLocation.trim() || undefined;
+    if (data.propertyTypeInterest !== undefined) lead.propertyTypeInterest = data.propertyTypeInterest.trim() || undefined;
+    if (data.budgetRange !== undefined) lead.budgetRange = data.budgetRange.trim() || undefined;
+    if (data.budgetMinimumPaise !== undefined) lead.budgetMinimumPaise = data.budgetMinimumPaise;
+    if (data.budgetMaximumPaise !== undefined) lead.budgetMaximumPaise = data.budgetMaximumPaise;
+    if (data.purchaseTimeline !== undefined) lead.purchaseTimeline = (data.purchaseTimeline as any) || undefined;
+    if (data.investmentPurpose !== undefined) lead.investmentPurpose = (data.investmentPurpose as any) || undefined;
+
+    const now = new Date();
+    lead.timeline.push({
+      eventType: "LEAD_REQUIREMENTS_UPDATED",
+      actorType: "ADMIN_USER",
+      actorId: session.user.id,
+      actorEmail: session.user.email,
+      actorName: session.user.name,
+      summary: `Advisory requirements updated: ${[
+        data.preferredLocation ? `Location: ${data.preferredLocation}` : null,
+        data.propertyTypeInterest ? `Type: ${data.propertyTypeInterest}` : null,
+        data.budgetRange ? `Budget: ${data.budgetRange}` : null,
+      ].filter(Boolean).join(", ") || "Details refreshed"}`,
+      occurredAt: now,
+    });
+
+    await lead.save();
+
+    await logAuditEvent({
+      actor: session.user,
+      action: "LEAD_STATUS_CHANGED" as any,
+      targetLeadId: lead._id,
+      reason: "Updated investment requirements and budget parameters",
+    });
+
+    revalidateLeads(leadId);
+    return { success: true, message: "Lead requirements updated successfully." };
+  } catch (error) {
+    logger.error("[Lead] updateLeadRequirementsAction failed", { error: error instanceof Error ? error.message : "Unknown" });
+    return { success: false, code: "DATABASE_ERROR", message: "Failed to update lead requirements." };
+  }
+}
+

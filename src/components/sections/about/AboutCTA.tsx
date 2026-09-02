@@ -45,21 +45,25 @@ export function AboutCTA() {
           </Reveal>
 
           <Reveal delay={150}>
-            <div className="flex flex-wrap items-center justify-center gap-4 mb-10">
-              <MagneticButton strength={6}>
-                <Link href="/contact" className="button-primary shadow-glow">
-                  Book 1-on-1 Consultation <ArrowRight size={17} />
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 mb-10 max-w-md sm:max-w-none mx-auto w-full">
+              <MagneticButton strength={6} className="w-full sm:w-auto flex justify-center">
+                <Link
+                  href="/contact"
+                  className="button-primary shadow-glow w-full sm:w-auto justify-center whitespace-nowrap text-xs sm:text-sm px-6 py-3.5 min-h-[48px] sm:min-h-[52px]"
+                >
+                  <span>Book 1-on-1 Consultation</span>
+                  <ArrowRight size={17} className="flex-shrink-0" />
                 </Link>
               </MagneticButton>
-              <MagneticButton strength={6}>
+              <MagneticButton strength={6} className="w-full sm:w-auto flex justify-center">
                 <a
                   href={whatsappUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#25d366] hover:bg-[#20ba59] text-white font-bold text-sm shadow-md transition-all hover:scale-105"
+                  className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-full bg-[#25d366] hover:bg-[#20ba59] text-white font-bold text-xs sm:text-sm shadow-md transition-all hover:scale-[1.02] w-full sm:w-auto whitespace-nowrap min-h-[48px] sm:min-h-[52px]"
                 >
-                  <MessageSquare size={17} />
-                  WhatsApp an Advisor
+                  <MessageSquare size={17} className="flex-shrink-0" />
+                  <span>WhatsApp an Advisor</span>
                 </a>
               </MagneticButton>
             </div>

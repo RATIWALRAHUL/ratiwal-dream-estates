@@ -77,56 +77,104 @@ export function LeadContactLog({ leadId, attempts }: LeadContactLogProps) {
   const sorted = [...attempts].sort((a, b) => new Date(b.occurredAt).getTime() - new Date(a.occurredAt).getTime());
 
   return (
-    <div className="bg-white rounded-2xl border border-[rgba(7,26,40,0.08)] shadow-xs p-5 space-y-4">
-      <div className="flex items-center justify-between">
-        <h3 className="text-[10px] font-mono uppercase tracking-widest text-[#647581] font-bold">Contact Log</h3>
+    <div className="bg-white rounded-3xl border border-[rgba(7,26,40,0.08)] shadow-xs p-6 space-y-5">
+      <div className="flex items-center justify-between pb-3.5 border-b border-[rgba(7,26,40,0.06)]">
+        <div className="flex items-center gap-2">
+          <div className="w-7 h-7 rounded-lg bg-blue-500/10 text-[#087fc3] flex items-center justify-center">
+            <Phone className="w-4 h-4" />
+          </div>
+          <h3 className="text-xs font-mono uppercase tracking-widest text-[#071a28] font-bold">
+            Advisory Contact &amp; Outreach Log
+          </h3>
+        </div>
         <button
           onClick={() => setShowForm(!showForm)}
-          className="inline-flex items-center gap-1 text-xs font-bold text-[#087fc3] hover:underline"
+          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-[#087fc3] hover:text-white text-xs font-bold text-[#071a28] transition-all"
         >
           <PlusCircle className="w-3.5 h-3.5" />
-          Log Contact
+          <span>Log Interaction</span>
         </button>
       </div>
 
       {showForm && (
-        <form onSubmit={handleSubmit} className="p-4 rounded-xl bg-[#f8f7f4] border border-[rgba(7,26,40,0.06)] space-y-3">
-          <div className="grid grid-cols-2 gap-2">
+        <form onSubmit={handleSubmit} className="p-5 rounded-2xl bg-[#faf9f6] border border-[rgba(7,26,40,0.1)] space-y-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
-              <label className="block text-[10px] font-mono uppercase tracking-wide text-[#647581] mb-1">Type</label>
-              <select value={type} onChange={(e) => setType(e.target.value as ContactAttemptType)}
-                className="w-full px-2.5 py-2 text-xs rounded-lg border border-[rgba(7,26,40,0.12)] bg-white text-[#071a28] focus:outline-none focus:ring-2 focus:ring-[#087fc3]/30">
-                {CONTACT_ATTEMPT_TYPES.map(t => <option key={t} value={t}>{TYPE_LABEL[t] ?? t}</option>)}
+              <label className="block text-[10px] font-mono uppercase tracking-wide text-[#647581] mb-1 font-bold">
+                Channel / Mode
+              </label>
+              <select
+                value={type}
+                onChange={(e) => setType(e.target.value as ContactAttemptType)}
+                className="w-full px-3 py-2 text-xs rounded-xl border border-[rgba(7,26,40,0.12)] bg-white text-[#071a28] focus:outline-none focus:ring-2 focus:ring-[#087fc3]/30 shadow-2xs"
+              >
+                {CONTACT_ATTEMPT_TYPES.map((t) => (
+                  <option key={t} value={t}>
+                    {TYPE_LABEL[t] ?? t}
+                  </option>
+                ))}
               </select>
             </div>
             <div>
-              <label className="block text-[10px] font-mono uppercase tracking-wide text-[#647581] mb-1">Outcome</label>
-              <select value={outcome} onChange={(e) => setOutcome(e.target.value as ContactAttemptOutcome)}
-                className="w-full px-2.5 py-2 text-xs rounded-lg border border-[rgba(7,26,40,0.12)] bg-white text-[#071a28] focus:outline-none focus:ring-2 focus:ring-[#087fc3]/30">
-                {CONTACT_ATTEMPT_OUTCOMES.map(o => <option key={o} value={o}>{OUTCOME_LABEL[o] ?? o}</option>)}
+              <label className="block text-[10px] font-mono uppercase tracking-wide text-[#647581] mb-1 font-bold">
+                Call / Contact Outcome
+              </label>
+              <select
+                value={outcome}
+                onChange={(e) => setOutcome(e.target.value as ContactAttemptOutcome)}
+                className="w-full px-3 py-2 text-xs rounded-xl border border-[rgba(7,26,40,0.12)] bg-white text-[#071a28] focus:outline-none focus:ring-2 focus:ring-[#087fc3]/30 shadow-2xs"
+              >
+                {CONTACT_ATTEMPT_OUTCOMES.map((o) => (
+                  <option key={o} value={o}>
+                    {OUTCOME_LABEL[o] ?? o}
+                  </option>
+                ))}
               </select>
             </div>
           </div>
+
           <div>
-            <label className="block text-[10px] font-mono uppercase tracking-wide text-[#647581] mb-1">Note (optional)</label>
-            <input type="text" value={note} onChange={(e) => setNote(e.target.value)} maxLength={500}
-              placeholder="Brief notes…"
-              className="w-full px-2.5 py-2 text-xs rounded-lg border border-[rgba(7,26,40,0.12)] bg-white text-[#071a28] focus:outline-none focus:ring-2 focus:ring-[#087fc3]/30" />
+            <label className="block text-[10px] font-mono uppercase tracking-wide text-[#647581] mb-1 font-bold">
+              Call Takeaways / Discussion Summary
+            </label>
+            <input
+              type="text"
+              value={note}
+              onChange={(e) => setNote(e.target.value)}
+              maxLength={500}
+              placeholder="e.g. Discussed 200 sq.yd plots in Jaipur Greens, client requesting master layout..."
+              className="w-full px-3.5 py-2.5 text-xs rounded-xl border border-[rgba(7,26,40,0.12)] bg-white text-[#071a28] placeholder:text-[#8c9ba5] focus:outline-none focus:ring-2 focus:ring-[#087fc3]/30 shadow-2xs"
+            />
           </div>
+
           <div>
-            <label className="block text-[10px] font-mono uppercase tracking-wide text-[#647581] mb-1">Next Follow-up (optional)</label>
-            <input type="datetime-local" value={nextFollowUp} onChange={(e) => setNextFollowUp(e.target.value)}
-              className="w-full px-2.5 py-2 text-xs rounded-lg border border-[rgba(7,26,40,0.12)] bg-white text-[#071a28] focus:outline-none focus:ring-2 focus:ring-[#087fc3]/30" />
+            <label className="block text-[10px] font-mono uppercase tracking-wide text-[#647581] mb-1 font-bold">
+              Schedule Next Follow-Up (Optional)
+            </label>
+            <input
+              type="datetime-local"
+              value={nextFollowUp}
+              onChange={(e) => setNextFollowUp(e.target.value)}
+              className="w-full px-3.5 py-2 text-xs rounded-xl border border-[rgba(7,26,40,0.12)] bg-white text-[#071a28] focus:outline-none focus:ring-2 focus:ring-[#087fc3]/30 shadow-2xs"
+            />
           </div>
-          {error && <p className="text-xs text-rose-600">{error}</p>}
-          <div className="flex gap-2">
-            <button type="submit" disabled={isPending}
-              className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-[#071a28] text-white text-xs font-bold hover:bg-[#0d2c42] disabled:opacity-50 transition-colors">
-              {isPending ? <Loader2 className="w-3 h-3 animate-spin" /> : null}
-              Save
+
+          {error && <p className="text-xs text-rose-600 font-medium">{error}</p>}
+
+          <div className="flex gap-2 pt-1">
+            <button
+              type="submit"
+              disabled={isPending}
+              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-[#071a28] text-white text-xs font-bold hover:bg-[#087fc3] disabled:opacity-50 transition-all shadow-sm"
+            >
+              {isPending ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : null}
+              Save Interaction
             </button>
-            <button type="button" onClick={() => setShowForm(false)}
-              className="px-3.5 py-2 rounded-xl text-xs font-bold text-[#647581] border border-[rgba(7,26,40,0.12)] hover:bg-slate-50 transition-colors">
+            <button
+              type="button"
+              onClick={() => setShowForm(false)}
+              className="px-4 py-2 rounded-xl text-xs font-bold text-[#647581] border border-[rgba(7,26,40,0.12)] hover:bg-white transition-colors"
+            >
               Cancel
             </button>
           </div>
@@ -134,22 +182,41 @@ export function LeadContactLog({ leadId, attempts }: LeadContactLogProps) {
       )}
 
       {sorted.length === 0 ? (
-        <p className="text-xs text-[#647581] italic">No contact attempts recorded yet.</p>
+        <div className="p-6 rounded-2xl bg-[#f8f7f4] border border-[rgba(7,26,40,0.06)] text-center">
+          <Phone className="w-6 h-6 mx-auto mb-2 text-slate-300" />
+          <p className="text-xs font-semibold text-[#071a28]">No outreach attempts logged</p>
+          <p className="text-[11px] text-[#647581] mt-0.5">
+            Click &quot;Log Interaction&quot; above to record calls, WhatsApp chats, or in-person meetings.
+          </p>
+        </div>
       ) : (
-        <div className="space-y-2">
+        <div className="space-y-3">
           {sorted.map((attempt) => {
             const Icon = TYPE_ICONS[attempt.type] ?? Phone;
             return (
-              <div key={attempt.id} className="flex items-start gap-3 p-3 rounded-xl bg-[#f8f7f4] border border-[rgba(7,26,40,0.06)]">
-                <div className="w-7 h-7 rounded-lg bg-[#087fc3]/10 flex items-center justify-center shrink-0 mt-0.5">
-                  <Icon className="w-3.5 h-3.5 text-[#087fc3]" />
+              <div
+                key={attempt.id}
+                className="flex items-start gap-3.5 p-4 rounded-2xl bg-[#f8f7f4] border border-[rgba(7,26,40,0.06)] hover:border-[#087fc3]/30 transition-colors"
+              >
+                <div className="w-8 h-8 rounded-xl bg-white border border-[rgba(7,26,40,0.08)] shadow-2xs flex items-center justify-center shrink-0 mt-0.5">
+                  <Icon className="w-4 h-4 text-[#087fc3]" />
                 </div>
-                <div className="min-w-0">
-                  <p className="text-xs font-semibold text-[#071a28]">
-                    {TYPE_LABEL[attempt.type] ?? attempt.type} — {OUTCOME_LABEL[attempt.outcome] ?? attempt.outcome}
+                <div className="min-w-0 flex-1">
+                  <div className="flex items-center justify-between">
+                    <p className="text-xs font-bold text-[#071a28]">
+                      {TYPE_LABEL[attempt.type] ?? attempt.type} ·{" "}
+                      <span className="text-[#087fc3]">{OUTCOME_LABEL[attempt.outcome] ?? attempt.outcome}</span>
+                    </p>
+                    <span className="text-[10px] font-mono text-[#647581]">
+                      {formatDateTime(attempt.occurredAt)}
+                    </span>
+                  </div>
+                  {attempt.note && (
+                    <p className="text-xs text-[#536574] mt-1 leading-relaxed">{attempt.note}</p>
+                  )}
+                  <p className="text-[10px] text-[#8c9ba5] mt-1.5 font-mono">
+                    Logged by {attempt.actorName}
                   </p>
-                  {attempt.note && <p className="text-xs text-[#647581] mt-0.5">{attempt.note}</p>}
-                  <p className="text-[10px] text-[#647581] mt-1 font-mono">{attempt.actorName} · {formatDateTime(attempt.occurredAt)}</p>
                 </div>
               </div>
             );

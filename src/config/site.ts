@@ -1,7 +1,13 @@
 export const siteConfig = {
   name: "Ratiwal Dream Estates",
   tagline: "Lifelong Property Consultancy, Built on Trust & Transparency.",
-  url: process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000",
+  url:
+    (process.env.NEXT_PUBLIC_SITE_URL && !process.env.NEXT_PUBLIC_SITE_URL.includes("localhost")
+      ? process.env.NEXT_PUBLIC_SITE_URL
+      : process.env.SITE_URL && !process.env.SITE_URL.includes("localhost")
+      ? process.env.SITE_URL
+      : "https://ratiwaldreamestates.com"
+    ).replace(/\/$/, ""),
   contact: {
     phone: process.env.NEXT_PUBLIC_BUSINESS_PHONE || "+91-9929533436",
     whatsapp: process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "+91-9929533436",

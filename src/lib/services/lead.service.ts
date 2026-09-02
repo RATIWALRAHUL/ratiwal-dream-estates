@@ -71,9 +71,11 @@ export interface LeadDetail {
   propertyTitle?: string;
   locationId?: string;
   locationName?: string;
+  preferredLocation?: string;
   propertyTypeInterest?: string;
   budgetMinimumPaise?: number;
   budgetMaximumPaise?: number;
+  budgetRange?: string;
   areaMinimumSqFt?: number;
   areaMaximumSqFt?: number;
   purchaseTimeline?: string;
@@ -349,10 +351,12 @@ export async function getLeadById(
     propertyId: lead.propertyId?.toString(),
     propertyTitle: property ? (property as { title: string }).title : undefined,
     locationId: lead.locationId?.toString(),
-    locationName: location ? (location as { name: string }).name : undefined,
+    locationName: location ? (location as { name: string }).name : (lead.preferredLocation || undefined),
+    preferredLocation: lead.preferredLocation,
     propertyTypeInterest: lead.propertyTypeInterest,
     budgetMinimumPaise: lead.budgetMinimumPaise,
     budgetMaximumPaise: lead.budgetMaximumPaise,
+    budgetRange: lead.budgetRange,
     areaMinimumSqFt: lead.areaMinimumSqFt,
     areaMaximumSqFt: lead.areaMaximumSqFt,
     purchaseTimeline: lead.purchaseTimeline,

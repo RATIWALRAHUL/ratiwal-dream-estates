@@ -28,6 +28,7 @@ export function NotificationBell() {
   const [notifications, setNotifications] = useState<InAppNotificationItem[]>([]);
   const [filter, setFilter] = useState<"all" | "unread">("all");
   const [isLoading, setIsLoading] = useState(false);
+  const [hasLoadedOnce, setHasLoadedOnce] = useState(false);
   const [isPending, startTransition] = useTransition();
   const dropdownRef = useRef<HTMLDivElement>(null);
   const isMountedRef = useRef(true);
@@ -44,11 +45,15 @@ export function NotificationBell() {
       if (isMountedRef.current) {
         setUnreadCount(data.unreadCount);
         setNotifications(data.notifications);
+        setHasLoadedOnce(true);
       }
     } catch {
       // safe fallback
     } finally {
       inFlightRef.current = false;
+      if (isMountedRef.current) {
+        setIsLoading(false);
+      }
     }
   };
 
@@ -114,38 +119,46 @@ export function NotificationBell() {
     const nextState = !isOpen;
     setIsOpen(nextState);
     if (nextState) {
-      setIsLoading(true);
-      fetchNotifications().finally(() => setIsLoading(false));
+      if (!hasLoadedOnce && notifications.length === 0) {
+        setIsLoading(true);
+      }
+      fetchNotifications();
     }
   };
 
   const handleMarkRead = (id: string) => {
+    // Instant optimistic UI update
+    setNotifications((prev) =>
+      prev.map((n) => (n.id === id ? { ...n, readAt: new Date().toISOString() } : n))
+    );
+    setUnreadCount((c) => Math.max(0, c - 1));
+
     startTransition(async () => {
       await markInAppNotificationReadAction(id);
-      setNotifications((prev) =>
-        prev.map((n) => (n.id === id ? { ...n, readAt: new Date().toISOString() } : n))
-      );
-      setUnreadCount((c) => Math.max(0, c - 1));
     });
   };
 
   const handleMarkAllRead = () => {
+    // Instant optimistic UI update
+    setNotifications((prev) =>
+      prev.map((n) => ({ ...n, readAt: n.readAt || new Date().toISOString() }))
+    );
+    setUnreadCount(0);
+
     startTransition(async () => {
       await markAllInAppNotificationsReadAction();
-      setNotifications((prev) =>
-        prev.map((n) => ({ ...n, readAt: new Date().toISOString() }))
-      );
-      setUnreadCount(0);
     });
   };
 
   const handleArchive = (id: string) => {
+    const item = notifications.find((n) => n.id === id);
+    setNotifications((prev) => prev.filter((n) => n.id !== id));
+    if (item && !item.readAt) {
+      setUnreadCount((c) => Math.max(0, c - 1));
+    }
+
     startTransition(async () => {
       await archiveInAppNotificationAction(id);
-      setNotifications((prev) => prev.filter((n) => n.id !== id));
-      if (!notifications.find((n) => n.id === id)?.readAt) {
-        setUnreadCount((c) => Math.max(0, c - 1));
-      }
     });
   };
 
@@ -236,7 +249,7 @@ export function NotificationBell() {
 
           {/* List Content */}
           <div className="max-h-80 overflow-y-auto divide-y divide-[rgba(7,26,40,0.04)] bg-white">
-            {isLoading ? (
+            {isLoading && notifications.length === 0 ? (
               <div className="p-6 text-center text-xs text-[#647581] flex items-center justify-center gap-2">
                 <Loader2 className="w-4 h-4 animate-spin text-[#087fc3]" />
                 <span>Loading activity log…</span>

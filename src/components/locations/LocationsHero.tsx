@@ -26,7 +26,7 @@ export function LocationsHero({ locations }: LocationsHeroProps) {
   ];
 
   return (
-    <section className="relative pt-6 pb-10 sm:pb-14 overflow-hidden" aria-labelledby="locations-hero-heading">
+    <section className="relative pt-20 sm:pt-22 md:pt-24 pb-10 sm:pb-14 overflow-hidden" aria-labelledby="locations-hero-heading">
       {/* Subtle Background Radial Glow */}
       <div className="absolute inset-0 pointer-events-none -z-10 overflow-hidden">
         <div className="absolute -top-[10%] left-1/2 -translate-x-1/2 w-[1000px] h-[400px] bg-[radial-gradient(ellipse_at_center,rgba(66,183,232,0.12),transparent_70%)] blur-3xl" />

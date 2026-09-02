@@ -10,7 +10,7 @@ interface InsightsHeroProps {
 export function InsightsHero({ featuredArticle }: InsightsHeroProps) {
   return (
     <section
-      className="relative overflow-hidden bg-gradient-to-b from-[#031C2B] via-[#072435] to-[#082B3B] text-white pt-28 pb-16 md:pt-36 md:pb-24 border-b border-[rgba(255,255,255,0.08)]"
+      className="relative overflow-hidden bg-gradient-to-b from-[#031C2B] via-[#072435] to-[#082B3B] text-white pt-20 sm:pt-24 md:pt-24 pb-14 sm:pb-20 border-b border-[rgba(255,255,255,0.08)]"
       aria-labelledby="insights-hero-heading"
     >
       {/* Blueprint grid background */}

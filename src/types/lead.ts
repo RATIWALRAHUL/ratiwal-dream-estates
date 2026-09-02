@@ -79,6 +79,7 @@ export const TIMELINE_EVENT_TYPES = [
   "LEAD_ARCHIVED",
   "LEAD_ANONYMIZED",
   "DUPLICATE_DETECTED",
+  "LEAD_REQUIREMENTS_UPDATED",
 ] as const;
 export type TimelineEventType = (typeof TIMELINE_EVENT_TYPES)[number];
 

@@ -19,7 +19,7 @@ export function InvestmentHero() {
   ];
 
   return (
-    <section className="relative pt-6 pb-14 sm:pb-20 overflow-hidden" aria-labelledby="investment-hero-title">
+    <section className="relative pt-20 sm:pt-22 md:pt-24 pb-14 sm:pb-20 overflow-hidden" aria-labelledby="investment-hero-title">
       {/* Background Glow */}
       <div className="absolute inset-0 pointer-events-none -z-10 overflow-hidden">
         <div className="absolute -top-[10%] left-1/2 -translate-x-1/2 w-[1100px] h-[500px] bg-[radial-gradient(ellipse_at_center,rgba(66,183,232,0.14),transparent_70%)] blur-3xl" />
@@ -27,16 +27,16 @@ export function InvestmentHero() {
       </div>
 
       <div className="max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="mb-6 sm:mb-8">
+        <div className="mb-3 sm:mb-6">
           <Breadcrumbs items={breadcrumbItems} />
         </div>
 
         {/* Hero Copy */}
-        <div className="max-w-4xl mx-auto text-center mb-12 sm:mb-16">
+        <div className="max-w-4xl mx-auto text-center mb-8 sm:mb-14">
           <Reveal>
-            <div className="inline-flex items-center justify-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1.5 rounded-full bg-[var(--advisor-ivory)] border border-[rgba(8,127,195,0.2)] shadow-xs mb-4 max-w-full">
-              <Sparkles size={14} className="text-[var(--ratiwal-blue)] flex-shrink-0" />
-              <span className="text-[10px] xs:text-[11px] sm:text-[12.5px] font-bold tracking-[0.06em] xs:tracking-[0.1em] sm:tracking-[0.16em] uppercase text-[var(--ratiwal-blue)] font-body whitespace-nowrap leading-none">
+            <div className="inline-flex items-center justify-center gap-1.5 px-3 py-1 sm:px-4 sm:py-1.5 rounded-full bg-[var(--advisor-ivory)] border border-[rgba(8,127,195,0.2)] shadow-xs mb-3 sm:mb-4 max-w-full">
+              <Sparkles size={13} className="text-[var(--ratiwal-blue)] flex-shrink-0" />
+              <span className="text-[9.5px] xs:text-[10.5px] sm:text-[12px] font-bold tracking-[0.06em] xs:tracking-[0.08em] sm:tracking-[0.14em] uppercase text-[var(--ratiwal-blue)] font-body whitespace-nowrap leading-none">
                 STRATEGIC LAND ALLOCATION &amp; WEALTH PRESERVATION
               </span>
             </div>
@@ -45,7 +45,7 @@ export function InvestmentHero() {
           <Reveal delay={100}>
             <h1
               id="investment-hero-title"
-              className="font-instrument text-[2.75rem] sm:text-[3.6rem] md:text-[4.4rem] lg:text-[4.9rem] text-[var(--midnight)] font-normal leading-[1.02] tracking-tight mb-5 sm:mb-6"
+              className="font-instrument text-[1.95rem] xs:text-[2.35rem] sm:text-[3.2rem] md:text-[4rem] lg:text-[4.6rem] text-[var(--midnight)] font-normal leading-[1.1] sm:leading-[1.03] tracking-tight mb-3 sm:mb-5"
             >
               Transforming strategic land into{" "}
               <span className="italic text-[var(--ratiwal-blue)]">generational wealth.</span>
@@ -53,7 +53,7 @@ export function InvestmentHero() {
           </Reveal>
 
           <Reveal delay={150}>
-            <p className="text-base sm:text-lg md:text-xl text-[var(--text-secondary)] leading-relaxed max-w-2xl mx-auto font-medium mb-8 sm:mb-10">
+            <p className="text-xs xs:text-sm sm:text-base md:text-lg text-[var(--text-secondary)] leading-relaxed max-w-2xl mx-auto font-normal sm:font-medium mb-6 sm:mb-8 px-1 sm:px-0">
               A disciplined, data-backed approach to acquiring verified, high-appreciation land parcels in Rajasthan and Maharashtra’s highest-velocity growth corridors.
             </p>
           </Reveal>

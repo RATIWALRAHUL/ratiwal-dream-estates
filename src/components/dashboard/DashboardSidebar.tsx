@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -27,6 +28,10 @@ import {
   Globe,
 } from "lucide-react";
 import type { AdminUser } from "@/lib/auth/session";
+import {
+  getDashboardSidebarBadgesAction,
+  DashboardSidebarBadgeCounts,
+} from "@/lib/actions/dashboard-badges.actions";
 
 interface DashboardSidebarProps {
   user: AdminUser;
@@ -34,6 +39,60 @@ interface DashboardSidebarProps {
 
 export function DashboardSidebar({ user }: DashboardSidebarProps) {
   const pathname = usePathname();
+  const [badgeCounts, setBadgeCounts] = useState<DashboardSidebarBadgeCounts>({
+    leads: 0,
+    siteVisits: 0,
+    support: 0,
+    kyc: 0,
+    tasks: 0,
+    partners: 0,
+  });
+
+  const isMountedRef = useRef(true);
+
+  const refreshBadges = async () => {
+    if (!isMountedRef.current) return;
+    if (typeof document !== "undefined" && document.hidden) return;
+
+    try {
+      const counts = await getDashboardSidebarBadgesAction();
+      if (isMountedRef.current) {
+        setBadgeCounts(counts);
+      }
+    } catch {
+      // Safe fallback
+    }
+  };
+
+  useEffect(() => {
+    isMountedRef.current = true;
+    refreshBadges();
+
+    const interval = setInterval(refreshBadges, 30000);
+
+    const handleVisibility = () => {
+      if (typeof document !== "undefined" && !document.hidden) {
+        refreshBadges();
+      }
+    };
+
+    if (typeof document !== "undefined") {
+      document.addEventListener("visibilitychange", handleVisibility);
+    }
+
+    return () => {
+      isMountedRef.current = false;
+      clearInterval(interval);
+      if (typeof document !== "undefined") {
+        document.removeEventListener("visibilitychange", handleVisibility);
+      }
+    };
+  }, []);
+
+  // Re-check when route changes
+  useEffect(() => {
+    refreshBadges();
+  }, [pathname]);
 
   const coreNavItems = [
     {
@@ -41,60 +100,70 @@ export function DashboardSidebar({ user }: DashboardSidebarProps) {
       href: "/dashboard",
       icon: LayoutDashboard,
       active: pathname === "/dashboard",
+      badgeCount: 0,
     },
     {
       label: "My Work",
       href: "/dashboard/my-work",
       icon: CheckSquare,
       active: pathname.startsWith("/dashboard/my-work"),
+      badgeCount: 0,
     },
     {
       label: "Tasks",
       href: "/dashboard/tasks",
       icon: ListTodo,
       active: pathname.startsWith("/dashboard/tasks"),
+      badgeCount: badgeCounts.tasks,
     },
     {
       label: "Properties",
       href: "/dashboard/properties",
       icon: Building2,
       active: pathname.startsWith("/dashboard/properties"),
+      badgeCount: 0,
     },
     {
       label: "Locations",
       href: "/dashboard/locations",
       icon: MapPin,
       active: pathname.startsWith("/dashboard/locations"),
+      badgeCount: 0,
     },
     {
       label: "Inventory",
       href: "/dashboard/inventory",
       icon: Layers,
       active: pathname.startsWith("/dashboard/inventory"),
+      badgeCount: 0,
     },
     {
       label: "Deals & Pipeline",
       href: "/dashboard/deals",
       icon: LayoutDashboard,
       active: pathname.startsWith("/dashboard/deals"),
+      badgeCount: 0,
     },
     {
       label: "Holds",
       href: "/dashboard/holds",
       icon: Lock,
       active: pathname.startsWith("/dashboard/holds"),
+      badgeCount: 0,
     },
     {
       label: "Reservations",
       href: "/dashboard/reservations",
       icon: FileText,
       active: pathname.startsWith("/dashboard/reservations"),
+      badgeCount: 0,
     },
     {
       label: "Bookings",
       href: "/dashboard/bookings",
       icon: Building2,
       active: pathname.startsWith("/dashboard/bookings"),
+      badgeCount: 0,
     },
     {
       label: "Payments & Ledger",
@@ -106,12 +175,14 @@ export function DashboardSidebar({ user }: DashboardSidebarProps) {
         pathname.startsWith("/dashboard/manual-payments") ||
         pathname.startsWith("/dashboard/receipts") ||
         pathname.startsWith("/dashboard/refunds"),
+      badgeCount: 0,
     },
     {
       label: "Customer KYC",
       href: "/dashboard/kyc",
       icon: ShieldCheck,
       active: pathname.startsWith("/dashboard/kyc"),
+      badgeCount: badgeCounts.kyc,
     },
     {
       label: "Channel Partners",
@@ -120,66 +191,77 @@ export function DashboardSidebar({ user }: DashboardSidebarProps) {
       active:
         pathname.startsWith("/dashboard/partners") ||
         pathname.startsWith("/dashboard/partner-leads"),
+      badgeCount: badgeCounts.partners,
     },
     {
       label: "Commissions",
       href: "/dashboard/commissions",
       icon: BadgePercent,
       active: pathname.startsWith("/dashboard/commissions"),
+      badgeCount: 0,
     },
     {
       label: "Leads & Inquiries",
       href: "/dashboard/leads",
       icon: Users,
       active: pathname.startsWith("/dashboard/leads"),
+      badgeCount: badgeCounts.leads,
     },
     {
       label: "Site Visits",
       href: "/dashboard/site-visits",
       icon: Calendar,
       active: pathname.startsWith("/dashboard/site-visits"),
+      badgeCount: badgeCounts.siteVisits,
     },
     {
       label: "Customer Support",
       href: "/dashboard/support",
       icon: LifeBuoy,
       active: pathname.startsWith("/dashboard/support"),
+      badgeCount: badgeCounts.support,
     },
     {
       label: "Communications",
       href: "/dashboard/communications",
       icon: MessageSquare,
       active: pathname.startsWith("/dashboard/communications"),
+      badgeCount: 0,
     },
     {
       label: "Analytics & Reports",
       href: "/dashboard/analytics",
       icon: BarChart3,
       active: pathname.startsWith("/dashboard/analytics") || pathname.startsWith("/dashboard/reports"),
+      badgeCount: 0,
     },
     {
       label: "Legal Vault",
       href: "/dashboard/legal-vault",
       icon: FileText,
       active: pathname.startsWith("/dashboard/legal-vault"),
+      badgeCount: 0,
     },
     {
       label: "Content & SEO",
       href: "/dashboard/content",
       icon: Globe,
       active: pathname.startsWith("/dashboard/content") || pathname.startsWith("/dashboard/seo"),
+      badgeCount: 0,
     },
     {
       label: "Team Management",
       href: "/dashboard/team",
       icon: Users,
       active: pathname.startsWith("/dashboard/team"),
+      badgeCount: 0,
     },
     {
       label: "System Settings",
       href: "/dashboard/settings",
       icon: Settings,
       active: pathname.startsWith("/dashboard/settings"),
+      badgeCount: 0,
     },
   ];
 
@@ -211,6 +293,8 @@ export function DashboardSidebar({ user }: DashboardSidebarProps) {
 
             {coreNavItems.map((item) => {
               const Icon = item.icon;
+              const hasBadge = Boolean(item.badgeCount && item.badgeCount > 0);
+
               return (
                 <Link
                   key={item.label}
@@ -221,14 +305,27 @@ export function DashboardSidebar({ user }: DashboardSidebarProps) {
                       : "text-[#cbd5e1] hover:bg-[#0d2c42] hover:text-white"
                   }`}
                 >
-                  <div className="flex items-center gap-3">
-                    <Icon className={`w-4 h-4 ${item.active ? "text-white" : "text-[#42b7e8] group-hover:text-white transition-colors"}`} />
-                    <span>{item.label}</span>
+                  <div className="flex items-center gap-3 min-w-0 pr-2">
+                    <Icon className={`w-4 h-4 shrink-0 ${item.active ? "text-white" : "text-[#42b7e8] group-hover:text-white transition-colors"}`} />
+                    <span className="truncate">{item.label}</span>
                   </div>
 
-                  {item.active && (
-                    <span className="w-1.5 h-1.5 rounded-full bg-white shadow-[0_0_6px_#ffffff]" />
-                  )}
+                  {hasBadge ? (
+                    <div className="flex items-center gap-1.5 shrink-0">
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#24D17F] shadow-[0_0_8px_#24D17F] animate-pulse" />
+                      <span
+                        className={`px-1.5 py-0.5 rounded-full text-[10px] font-mono font-bold leading-none ${
+                          item.active
+                            ? "bg-white/20 text-white"
+                            : "bg-[#24D17F]/20 text-[#24D17F]"
+                        }`}
+                      >
+                        {item.badgeCount! > 99 ? "99+" : item.badgeCount}
+                      </span>
+                    </div>
+                  ) : item.active ? (
+                    <span className="w-1.5 h-1.5 rounded-full bg-white shadow-[0_0_6px_#ffffff] shrink-0" />
+                  ) : null}
                 </Link>
               );
             })}

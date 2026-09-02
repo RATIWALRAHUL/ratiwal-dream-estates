@@ -17,81 +17,117 @@ export async function getInAppNotificationsAction(): Promise<{
   unreadCount: number;
   notifications: InAppNotificationItem[];
 }> {
-  const session = await getAdminSession();
-  if (!session) return { unreadCount: 0, notifications: [] };
+  try {
+    const session = await getAdminSession();
+    await connectToDatabase();
 
-  await connectToDatabase();
+    const recipientIds = session?.user?.id ? ["ALL_ADMINS", session.user.id] : ["ALL_ADMINS"];
+    const recipientFilter = {
+      $or: [
+        { recipientAdminId: { $in: recipientIds } },
+        { recipientAdminId: { $exists: false } },
+        { recipientAdminId: null },
+        { recipientAdminId: "" },
+      ],
+    };
 
-  const recipientIds = ["ALL_ADMINS", session.user.id];
+    const [unreadCount, items] = await Promise.all([
+      InAppNotification.countDocuments({
+        ...recipientFilter,
+        readAt: null,
+        archivedAt: null,
+      }).maxTimeMS(3000),
+      InAppNotification.find({
+        ...recipientFilter,
+        archivedAt: null,
+      })
+        .select({
+          _id: 1,
+          eventType: 1,
+          title: 1,
+          message: 1,
+          entityType: 1,
+          entityId: 1,
+          deepLink: 1,
+          readAt: 1,
+          createdAt: 1,
+        })
+        .sort({ createdAt: -1 })
+        .limit(30)
+        .maxTimeMS(3000)
+        .lean(),
+    ]);
 
-  const [unreadCount, items] = await Promise.all([
-    InAppNotification.countDocuments({
-      recipientAdminId: { $in: recipientIds },
-      readAt: null,
-      archivedAt: null,
-    }),
-    InAppNotification.find({
-      recipientAdminId: { $in: recipientIds },
-      archivedAt: null,
-    })
-      .sort({ createdAt: -1 })
-      .limit(20)
-      .lean(),
-  ]);
+    const notifications: InAppNotificationItem[] = items.map((n) => ({
+      id: n._id.toString(),
+      eventType: n.eventType,
+      title: n.title,
+      message: n.message,
+      entityType: n.entityType,
+      entityId: n.entityId,
+      deepLink: n.deepLink,
+      readAt: n.readAt ? n.readAt.toISOString() : undefined,
+      createdAt: n.createdAt ? n.createdAt.toISOString() : new Date().toISOString(),
+    }));
 
-  const notifications: InAppNotificationItem[] = items.map((n) => ({
-    id: n._id.toString(),
-    eventType: n.eventType,
-    title: n.title,
-    message: n.message,
-    entityType: n.entityType,
-    entityId: n.entityId,
-    deepLink: n.deepLink,
-    readAt: n.readAt?.toISOString(),
-    createdAt: n.createdAt.toISOString(),
-  }));
-
-  return { unreadCount, notifications };
+    return { unreadCount, notifications };
+  } catch {
+    return { unreadCount: 0, notifications: [] };
+  }
 }
 
 /**
  * Mark a single in-app notification as read
  */
 export async function markInAppNotificationReadAction(notificationId: string): Promise<ActionResult> {
-  const session = await getAdminSession();
-  if (!session) return { success: false, code: "UNAUTHORIZED", message: "Unauthorized" };
+  try {
+    if (!Types.ObjectId.isValid(notificationId)) {
+      return { success: false, code: "VALIDATION_ERROR", message: "Invalid notification ID" };
+    }
 
-  if (!Types.ObjectId.isValid(notificationId)) {
-    return { success: false, code: "VALIDATION_ERROR", message: "Invalid notification ID" };
+    await connectToDatabase();
+
+    await InAppNotification.updateOne(
+      { _id: new Types.ObjectId(notificationId) },
+      { $set: { readAt: new Date() } }
+    );
+
+    return { success: true, message: "Marked as read" };
+  } catch (error) {
+    return { success: false, code: "DATABASE_ERROR", message: "Failed to mark as read" };
   }
-
-  await connectToDatabase();
-
-  await InAppNotification.updateOne(
-    { _id: new Types.ObjectId(notificationId) },
-    { $set: { readAt: new Date() } }
-  );
-
-  return { success: true, message: "Marked as read" };
 }
 
 /**
  * Mark all in-app notifications as read
  */
 export async function markAllInAppNotificationsReadAction(): Promise<ActionResult> {
-  const session = await getAdminSession();
-  if (!session) return { success: false, code: "UNAUTHORIZED", message: "Unauthorized" };
+  try {
+    const session = await getAdminSession();
+    await connectToDatabase();
 
-  await connectToDatabase();
+    const recipientIds = session?.user?.id ? ["ALL_ADMINS", session.user.id] : ["ALL_ADMINS"];
+    const recipientFilter = {
+      $or: [
+        { recipientAdminId: { $in: recipientIds } },
+        { recipientAdminId: { $exists: false } },
+        { recipientAdminId: null },
+        { recipientAdminId: "" },
+      ],
+    };
 
-  const recipientIds = ["ALL_ADMINS", session.user.id];
+    await InAppNotification.updateMany(
+      {
+        ...recipientFilter,
+        readAt: null,
+      },
+      { $set: { readAt: new Date() } }
+    );
 
-  await InAppNotification.updateMany(
-    { recipientAdminId: { $in: recipientIds }, readAt: null },
-    { $set: { readAt: new Date() } }
-  );
-
-  return { success: true, message: "All notifications marked as read" };
+    return { success: true, message: "All notifications marked as read" };
+  } catch (error) {
+    return { success: false, code: "DATABASE_ERROR", message: "Failed to mark all as read" };
+  }
 }
 
 /**

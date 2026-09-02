@@ -50,8 +50,8 @@ export function PropertyDetailPageClient({
   };
 
   return (
-    <div className="pt-28 pb-16 md:pt-36 bg-[#FFFDF8]">
-      <div className="max-w-[1240px] w-[calc(100%-48px)] mx-auto">
+    <div className="pt-20 sm:pt-22 md:pt-24 pb-20 sm:pb-24 bg-[#FFFDF8]">
+      <div className="max-w-[1240px] w-[calc(100%-32px)] sm:w-[calc(100%-48px)] mx-auto">
         {/* 1. Property Hero */}
         <PropertyDetailHero
           property={property}
@@ -65,7 +65,7 @@ export function PropertyDetailPageClient({
         />
 
         {/* 3. Main Content Two-Column Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
           {/* Main Left Reading & Interactive Column (8 cols) */}
           <main className="lg:col-span-8 min-w-0">
             {/* Quick Property Facts */}
@@ -125,7 +125,7 @@ export function PropertyDetailPageClient({
           </main>
 
           {/* Sticky Inquiry Side Panel (4 cols on desktop) */}
-          <aside className="hidden lg:block lg:col-span-4">
+          <aside className="hidden lg:block lg:col-span-4 sticky top-24 self-start">
             <StickyPropertyInquiry
               property={property}
               selectedOption={selectedOption}

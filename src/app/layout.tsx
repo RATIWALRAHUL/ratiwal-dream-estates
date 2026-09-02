@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Fraunces, Plus_Jakarta_Sans, Instrument_Serif, JetBrains_Mono } from "next/font/google";
 import { getMetadata } from "@/lib/seo";
+import { JsonLd, getRealEstateAgentSchema, getWebSiteSchema } from "@/components/seo/JsonLd";
 import "./globals.css";
 
 const fraunces = Fraunces({
@@ -39,11 +40,21 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const orgSchema = getRealEstateAgentSchema();
+  const websiteSchema = getWebSiteSchema();
+
   return (
     <html
       lang="en"
       className={`${fraunces.variable} ${instrument.variable} ${jakarta.variable} ${mono.variable} h-full scroll-smooth`}
     >
+      <head>
+        <link rel="icon" type="image/png" href="/images/brand/logo.png" />
+        <link rel="icon" type="image/png" href="/favicon.png" />
+        <link rel="shortcut icon" href="/favicon.ico" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/images/brand/logo.png" />
+        <JsonLd data={[orgSchema, websiteSchema]} />
+      </head>
       <body className="min-h-full bg-white text-text-main flex flex-col font-body antialiased selection:bg-[#087fc3] selection:text-white">
         {children}
       </body>

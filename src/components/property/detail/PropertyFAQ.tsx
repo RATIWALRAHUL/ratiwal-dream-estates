@@ -41,33 +41,33 @@ export function PropertyFAQ({ property }: PropertyFAQProps) {
   };
 
   return (
-    <section aria-labelledby="property-faq-heading" className="mb-12">
-      <div className="p-7 sm:p-8 rounded-3xl bg-white border border-[rgba(7,26,40,0.08)] shadow-[0_4px_24px_rgba(7,26,40,0.04)]">
-        <div className="max-w-[720px] mb-6">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[rgba(7,132,200,0.08)] border border-[rgba(7,132,200,0.2)] text-[#0784C8] text-xs font-bold uppercase tracking-wider mb-2">
+    <section aria-labelledby="property-faq-heading" className="mb-8 sm:mb-12">
+      <div className="p-4 sm:p-7 sm:p-8 rounded-2xl sm:rounded-3xl bg-white border border-[rgba(7,26,40,0.08)] shadow-[0_4px_24px_rgba(7,26,40,0.04)]">
+        <div className="max-w-[720px] mb-5 sm:mb-6">
+          <div className="inline-flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1 rounded-full bg-[rgba(7,132,200,0.08)] border border-[rgba(7,132,200,0.2)] text-[#0784C8] text-[10.5px] sm:text-xs font-semibold uppercase tracking-wider mb-2">
             <HelpCircle className="w-3.5 h-3.5" aria-hidden="true" />
             <span>Buyer Due Diligence FAQs</span>
           </div>
           <h2
             id="property-faq-heading"
-            className="font-heading text-2xl sm:text-3xl text-[#031C2B] font-normal leading-tight tracking-tight mb-2"
+            className="font-instrument text-xl sm:text-2xl sm:text-3xl text-[#031C2B] font-normal leading-tight tracking-tight mb-1.5 sm:mb-2"
           >
             Frequently asked questions.
           </h2>
         </div>
 
-        <div className="space-y-3">
+        <div className="space-y-2.5 sm:space-y-3">
           {faqs.map((faq, idx) => {
             const isOpen = openIndex === idx;
             return (
               <div
                 key={idx}
-                className="rounded-2xl border border-[rgba(7,26,40,0.08)] bg-[#F5F1E9] overflow-hidden transition-colors"
+                className="rounded-xl sm:rounded-2xl border border-[rgba(7,26,40,0.08)] bg-[#F5F1E9] overflow-hidden transition-colors"
               >
                 <button
                   type="button"
                   onClick={() => toggle(idx)}
-                  className="w-full p-5 text-left flex items-center justify-between gap-4 font-heading text-sm sm:text-base font-bold text-[#031C2B] hover:text-[#0784C8] transition-colors focus-visible:outline"
+                  className="w-full p-3.5 sm:p-5 text-left flex items-center justify-between gap-3 sm:gap-4 font-heading text-xs sm:text-sm md:text-base font-bold text-[#031C2B] hover:text-[#0784C8] transition-colors focus-visible:outline"
                   aria-expanded={isOpen}
                 >
                   <span>{faq.q}</span>

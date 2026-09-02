@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/Input";
 import { Select } from "@/components/ui/Select";
 import { Textarea } from "@/components/ui/Textarea";
 import { Button } from "@/components/ui/Button";
+import { AlertCircle, CheckCircle2, MapPin } from "lucide-react";
 
 interface SiteVisitFormProps {
   propertyId: string;
@@ -30,13 +31,13 @@ export function SiteVisitForm({
 }: SiteVisitFormProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
+  const [serverErrors, setServerErrors] = useState<Record<string, string[]>>({});
   const [confirmedRef, setConfirmedRef] = useState<string | null>(null);
 
   const {
     register,
     handleSubmit,
     reset,
-    formState: { errors },
   } = useForm<FormValues>({
     defaultValues: {
       numberOfVisitors: 1,
@@ -47,17 +48,39 @@ export function SiteVisitForm({
     },
   });
 
+  const clearFieldError = (fieldName: string) => {
+    if (serverErrors[fieldName]) {
+      setServerErrors((prev) => {
+        const next = { ...prev };
+        delete next[fieldName];
+        return next;
+      });
+    }
+  };
+
   const onSubmit = async (values: FormValues) => {
     setIsSubmitting(true);
     setSubmitError(null);
+    setServerErrors({});
+
     try {
-      const preferredStartAt = new Date(`${values.preferredDate}T11:00:00+05:30`).toISOString();
+      const preferredStartAt = values.preferredDate
+        ? new Date(`${values.preferredDate}T11:00:00+05:30`).toISOString()
+        : "";
+
+      const currentPath = typeof window !== "undefined" ? window.location.pathname : "";
+      const inferredSource = propertyId && propertyId !== "general-consultation"
+        ? "PUBLIC_PROPERTY_PAGE"
+        : currentPath.includes("contact")
+        ? "CONTACT_PAGE"
+        : "PUBLIC_PROPERTY_PAGE";
 
       const response = await fetch("/api/site-visits/requests", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           fullName: values.name,
+          name: values.name,
           phone: values.phone,
           email: values.email || undefined,
           propertyId,
@@ -65,13 +88,19 @@ export function SiteVisitForm({
           visitorCount: Number(values.numberOfVisitors) || 1,
           message: values.message,
           consentGranted: true,
+          source: inferredSource,
+          landingPath: currentPath || undefined,
           _honeypot: values.honeypot,
         }),
       });
 
       const data = await response.json();
+
       if (!response.ok || !data.success) {
-        throw new Error(data.error || "Form submission failed");
+        if (data.fields && typeof data.fields === "object") {
+          setServerErrors(data.fields);
+        }
+        throw new Error(data.error || "Booking request failed. Please check the fields below.");
       }
 
       setConfirmedRef(data.referenceNumber || "RDE-SV-RECEIVED");
@@ -80,7 +109,10 @@ export function SiteVisitForm({
         setTimeout(onSuccess, 2000);
       }
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : "An unexpected error occurred. Please try again.";
+      const errorMessage =
+        err instanceof Error
+          ? err.message
+          : "An unexpected error occurred. Please try again.";
       setSubmitError(errorMessage);
     } finally {
       setIsSubmitting(false);
@@ -89,12 +121,15 @@ export function SiteVisitForm({
 
   if (confirmedRef) {
     return (
-      <div className="p-6 bg-emerald-50 border border-emerald-200 rounded-2xl text-center space-y-2">
-        <h4 className="font-serif font-bold text-lg text-emerald-800">
+      <div className="p-6 bg-[rgba(36,209,127,0.1)] border border-[rgba(36,209,127,0.3)] rounded-2xl text-center space-y-2">
+        <div className="w-10 h-10 rounded-full bg-[#24D17F]/20 text-[#10854d] flex items-center justify-center mx-auto">
+          <CheckCircle2 className="w-6 h-6" />
+        </div>
+        <h4 className="font-heading font-semibold text-lg text-[#071A28]">
           Tour Request Recorded #{confirmedRef}
         </h4>
-        <p className="text-xs text-[#647581]">
-          Your request is recorded. Our team will verify dates and contact you to coordinate logistics for {propertyName}.
+        <p className="text-xs text-[#536574]">
+          Your tour request is recorded and a confirmation email has been sent to your inbox. Our advisory team will connect with you to finalize visit timings for {propertyName}.
         </p>
         <p className="text-[10px] text-[#647581] italic">
           * Preferred times are subject to advisor and property confirmation.
@@ -105,12 +140,6 @@ export function SiteVisitForm({
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 text-left">
-      {submitError && (
-        <div className="p-4 bg-rose-50 border border-rose-200 rounded-xl text-xs text-rose-800" role="alert">
-          {submitError}
-        </div>
-      )}
-
       {/* Honeypot hidden input field */}
       <div className="hidden">
         <input
@@ -121,34 +150,53 @@ export function SiteVisitForm({
         />
       </div>
 
-      <div className="p-3 bg-gray-50 border border-border-color rounded-xl text-xs text-[#647581] mb-2">
-        Tour Location: <strong className="text-[#071a28]">{propertyName}</strong>
+      <div className="p-3 bg-slate-50/80 border border-slate-200/70 rounded-xl text-xs text-[#536574] mb-2 flex items-center gap-2">
+        <MapPin className="w-3.5 h-3.5 text-[#0784C8] flex-shrink-0" />
+        <span>
+          Tour Location: <strong className="text-[#071A28] font-semibold">{propertyName}</strong>
+        </span>
       </div>
 
-      <Input
-        label="Full Name"
-        placeholder="e.g. Ramesh Chandra"
-        required
-        error={errors.name?.message}
-        {...register("name", { required: "Name is required" })}
-      />
+      <div>
+        <Input
+          label="Full Name"
+          placeholder="e.g. Ramesh Chandra"
+          required
+          error={serverErrors.name?.[0] || serverErrors.fullName?.[0]}
+          {...register("name", {
+            onChange: () => {
+              clearFieldError("name");
+              clearFieldError("fullName");
+            },
+          })}
+        />
+      </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <Input
-          label="Phone Number"
-          type="tel"
-          placeholder="e.g. +91 98765 43210"
-          required
-          error={errors.phone?.message}
-          {...register("phone", { required: "Phone is required" })}
-        />
-        <Input
-          label="Email Address"
-          type="email"
-          placeholder="e.g. name@domain.com"
-          error={errors.email?.message}
-          {...register("email")}
-        />
+        <div>
+          <Input
+            label="Phone Number"
+            type="tel"
+            placeholder="e.g. +91 98765 43210"
+            required
+            error={serverErrors.phone?.[0]}
+            {...register("phone", {
+              onChange: () => clearFieldError("phone"),
+            })}
+          />
+        </div>
+        <div>
+          <Input
+            label="Email Address"
+            type="email"
+            placeholder="e.g. name@domain.com"
+            required
+            error={serverErrors.email?.[0]}
+            {...register("email", {
+              onChange: () => clearFieldError("email"),
+            })}
+          />
+        </div>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
@@ -156,40 +204,57 @@ export function SiteVisitForm({
           <Input
             label="Preferred Date"
             type="date"
-            required
             min={new Date().toISOString().split("T")[0]}
-            error={errors.preferredDate?.message}
-            {...register("preferredDate", { required: "Date is required" })}
+            error={serverErrors.preferredDate?.[0] || serverErrors.preferredStartAt?.[0]}
+            {...register("preferredDate", {
+              onChange: () => {
+                clearFieldError("preferredDate");
+                clearFieldError("preferredStartAt");
+              },
+            })}
           />
         </div>
-        <Select
-          label="Preferred Time Slot"
-          required
-          options={[
-            { value: "10:00 AM", label: "Morning (10:00 AM)" },
-            { value: "12:00 PM", label: "Noon (12:00 PM)" },
-            { value: "03:00 PM", label: "Afternoon (03:00 PM)" },
-            { value: "05:00 PM", label: "Evening (05:00 PM)" },
-          ]}
-          {...register("preferredTime")}
+        <div>
+          <Select
+            label="Preferred Time Slot"
+            options={[
+              { value: "10:00 AM", label: "Morning (10:00 AM)" },
+              { value: "12:00 PM", label: "Noon (12:00 PM)" },
+              { value: "03:00 PM", label: "Afternoon (03:00 PM)" },
+              { value: "05:00 PM", label: "Evening (05:00 PM)" },
+            ]}
+            {...register("preferredTime")}
+          />
+        </div>
+      </div>
+
+      <div>
+        <Input
+          label="Number of Visitors"
+          type="number"
+          min={1}
+          max={20}
+          error={serverErrors.numberOfVisitors?.[0] || serverErrors.visitorCount?.[0]}
+          {...register("numberOfVisitors", {
+            valueAsNumber: true,
+            onChange: () => {
+              clearFieldError("numberOfVisitors");
+              clearFieldError("visitorCount");
+            },
+          })}
         />
       </div>
 
-      <Input
-        label="Number of Visitors"
-        type="number"
-        min={1}
-        max={20}
-        required
-        error={errors.numberOfVisitors?.message}
-        {...register("numberOfVisitors", { valueAsNumber: true })}
-      />
-
-      <Textarea
-        label="Special Instructions (Optional)"
-        placeholder="Details on travel direction, specific plots, or consultation topics..."
-        {...register("message")}
-      />
+      <div>
+        <Textarea
+          label="Special Instructions (Optional)"
+          placeholder="Details on travel direction, specific plots, or consultation topics..."
+          error={serverErrors.message?.[0]}
+          {...register("message", {
+            onChange: () => clearFieldError("message"),
+          })}
+        />
+      </div>
 
       <Button type="submit" isLoading={isSubmitting} className="w-full">
         Schedule Tour

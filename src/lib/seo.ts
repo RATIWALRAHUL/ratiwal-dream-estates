@@ -40,14 +40,15 @@ export function getMetadata({
     },
     icons: {
       icon: [
-        { url: "/images/brand/favicon.svg", type: "image/svg+xml" },
-        { url: "/favicon.ico", sizes: "any" },
+        { url: "/images/brand/logo.png", type: "image/png" },
+        { url: "/favicon.png", type: "image/png" },
+        { url: "/favicon.ico" },
       ],
       apple: [
-        { url: "/apple-icon", sizes: "180x180", type: "image/png" },
         { url: "/images/brand/logo.png", sizes: "180x180", type: "image/png" },
+        { url: "/apple-icon.png", sizes: "180x180", type: "image/png" },
       ],
-      shortcut: "/images/brand/favicon.svg",
+      shortcut: "/images/brand/logo.png",
     },
     alternates: {
       canonical: canonicalUrl,

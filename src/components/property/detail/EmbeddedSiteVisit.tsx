@@ -11,6 +11,7 @@ import {
   Loader2,
   Users,
   Building,
+  AlertCircle,
 } from "lucide-react";
 import { Property } from "@/types/property";
 
@@ -47,7 +48,18 @@ export function EmbeddedSiteVisit({ property }: EmbeddedSiteVisitProps) {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
+  const [serverErrors, setServerErrors] = useState<Record<string, string[]>>({});
   const [confirmedRef, setConfirmedRef] = useState<string | null>(null);
+
+  const clearFieldError = (fieldName: string) => {
+    if (serverErrors[fieldName]) {
+      setServerErrors((prev) => {
+        const next = { ...prev };
+        delete next[fieldName];
+        return next;
+      });
+    }
+  };
 
   const formStartedAt = useState(() => new Date().toISOString())[0];
 
@@ -128,16 +140,20 @@ export function EmbeddedSiteVisit({ property }: EmbeddedSiteVisitProps) {
   const onSubmit = async (values: FormData) => {
     setIsSubmitting(true);
     setSubmitError(null);
+    setServerErrors({});
 
     try {
       const preferredStartAt = selectedSlot
         ? selectedSlot.startAt
-        : new Date(`${selectedDate}T11:00:00+05:30`).toISOString();
+        : selectedDate
+        ? new Date(`${selectedDate}T11:00:00+05:30`).toISOString()
+        : "";
 
       const preferredEndAt = selectedSlot ? selectedSlot.endAt : undefined;
 
       const payload = {
         fullName: values.fullName,
+        name: values.fullName,
         phone: values.phone,
         email: values.email || undefined,
         propertyId: property.id,
@@ -159,6 +175,9 @@ export function EmbeddedSiteVisit({ property }: EmbeddedSiteVisitProps) {
 
       const data = await response.json();
       if (!response.ok || !data.success) {
+        if (data.fields && typeof data.fields === "object") {
+          setServerErrors(data.fields);
+        }
         throw new Error(data.error || "Booking request failed. Please check inputs.");
       }
 
@@ -176,8 +195,8 @@ export function EmbeddedSiteVisit({ property }: EmbeddedSiteVisitProps) {
   };
 
   return (
-    <section id="book-site-visit" aria-labelledby="site-visit-heading" className="mb-12">
-      <div className="p-7 sm:p-10 rounded-3xl bg-gradient-to-br from-[#031C2B] via-[#072435] to-[#082B3B] text-white border border-[rgba(255,255,255,0.12)] shadow-[0_16px_40px_rgba(3,28,43,0.3)] relative overflow-hidden">
+    <section id="book-visit" aria-labelledby="site-visit-heading" className="mb-8 sm:mb-12">
+      <div className="p-4 sm:p-8 sm:p-10 rounded-2xl sm:rounded-3xl bg-gradient-to-br from-[#031C2B] via-[#072435] to-[#082B3B] text-white border border-[rgba(255,255,255,0.12)] shadow-[0_16px_40px_rgba(3,28,43,0.3)] relative overflow-hidden">
         {/* Subtle background grid */}
         <div
           className="absolute inset-0 opacity-[0.05] pointer-events-none bg-[radial-gradient(#52BDE9_1px,transparent_1px)] [background-size:24px_24px]"
@@ -186,14 +205,14 @@ export function EmbeddedSiteVisit({ property }: EmbeddedSiteVisitProps) {
 
         <div className="relative z-10 max-w-2xl mx-auto">
           {/* Header */}
-          <div className="text-center mb-8">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[rgba(82,189,233,0.14)] border border-[rgba(82,189,233,0.3)] text-[#52BDE9] text-xs font-bold uppercase tracking-wider mb-3">
+          <div className="text-center mb-6 sm:mb-8">
+            <div className="inline-flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1 rounded-full bg-[rgba(82,189,233,0.14)] border border-[rgba(82,189,233,0.3)] text-[#52BDE9] text-[10.5px] sm:text-xs font-semibold uppercase tracking-wider mb-2.5 sm:mb-3">
               <Calendar className="w-3.5 h-3.5" aria-hidden="true" />
               <span>Direct Advisor Booking</span>
             </div>
             <h2
               id="site-visit-heading"
-              className="font-heading text-2xl sm:text-3xl lg:text-4xl text-white font-normal leading-tight tracking-tight mb-2"
+              className="font-instrument text-xl sm:text-2xl sm:text-3xl lg:text-4xl text-white font-normal leading-tight tracking-tight mb-2"
             >
               Schedule a site visit or virtual consultation.
             </h2>
@@ -203,11 +222,11 @@ export function EmbeddedSiteVisit({ property }: EmbeddedSiteVisitProps) {
           </div>
 
           {/* Mode Toggle */}
-          <div className="flex rounded-2xl bg-[rgba(255,255,255,0.08)] p-1.5 border border-[rgba(255,255,255,0.12)] mb-6 max-w-md mx-auto">
+          <div className="flex rounded-xl sm:rounded-2xl bg-[rgba(255,255,255,0.08)] p-1 sm:p-1.5 border border-[rgba(255,255,255,0.12)] mb-5 sm:mb-6 max-w-md mx-auto">
             <button
               type="button"
               onClick={() => setMeetingMode("IN_PERSON")}
-              className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl text-xs font-bold transition-all ${
+              className={`flex-1 flex items-center justify-center gap-1.5 sm:gap-2 py-2 sm:py-2.5 rounded-lg sm:rounded-xl text-[11px] sm:text-xs font-bold transition-all ${
                 meetingMode === "IN_PERSON"
                   ? "bg-[#0784C8] text-white shadow-sm"
                   : "text-[#c5d8e4] hover:text-white"
@@ -220,7 +239,7 @@ export function EmbeddedSiteVisit({ property }: EmbeddedSiteVisitProps) {
             <button
               type="button"
               onClick={() => setMeetingMode("VIRTUAL_TOUR")}
-              className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl text-xs font-bold transition-all ${
+              className={`flex-1 flex items-center justify-center gap-1.5 sm:gap-2 py-2 sm:py-2.5 rounded-lg sm:rounded-xl text-[11px] sm:text-xs font-bold transition-all ${
                 meetingMode === "VIRTUAL_TOUR"
                   ? "bg-[#0784C8] text-white shadow-sm"
                   : "text-[#c5d8e4] hover:text-white"
@@ -262,12 +281,6 @@ export function EmbeddedSiteVisit({ property }: EmbeddedSiteVisitProps) {
           ) : (
             /* Booking Form */
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-              {submitError && (
-                <div className="p-4 rounded-xl bg-red-500/20 border border-red-500/30 text-xs text-red-200">
-                  {submitError}
-                </div>
-              )}
-
               {/* Honeypot */}
               <input type="text" className="hidden" tabIndex={-1} autoComplete="off" {...register("_honeypot")} />
 
@@ -335,10 +348,24 @@ export function EmbeddedSiteVisit({ property }: EmbeddedSiteVisitProps) {
                   <input
                     type="text"
                     placeholder="e.g. Vikram Sharma"
-                    className="w-full px-4 py-2.5 rounded-xl bg-[rgba(255,255,255,0.08)] border border-[rgba(255,255,255,0.15)] text-white text-sm focus:outline-none focus:ring-2 focus:ring-[#52BDE9]"
-                    {...register("fullName", { required: "Name is required" })}
+                    className={`w-full px-4 py-2.5 rounded-xl bg-[rgba(255,255,255,0.08)] border ${
+                      serverErrors.fullName || serverErrors.name
+                        ? "border-red-400 ring-1 ring-red-400"
+                        : "border-[rgba(255,255,255,0.15)]"
+                    } text-white text-sm focus:outline-none focus:ring-2 focus:ring-[#52BDE9]`}
+                    {...register("fullName", {
+                      onChange: () => {
+                        clearFieldError("fullName");
+                        clearFieldError("name");
+                      },
+                    })}
                   />
-                  {errors.fullName && <p className="text-xs text-red-400 mt-1">{errors.fullName.message}</p>}
+                  {(serverErrors.fullName?.[0] || serverErrors.name?.[0]) && (
+                    <p className="text-xs text-red-400 mt-1 flex items-center gap-1">
+                      <AlertCircle className="w-3.5 h-3.5 flex-shrink-0" />
+                      <span>{serverErrors.fullName?.[0] || serverErrors.name?.[0]}</span>
+                    </p>
+                  )}
                 </div>
 
                 <div>
@@ -348,24 +375,48 @@ export function EmbeddedSiteVisit({ property }: EmbeddedSiteVisitProps) {
                   <input
                     type="tel"
                     placeholder="+91 98765 43210"
-                    className="w-full px-4 py-2.5 rounded-xl bg-[rgba(255,255,255,0.08)] border border-[rgba(255,255,255,0.15)] text-white text-sm focus:outline-none focus:ring-2 focus:ring-[#52BDE9]"
-                    {...register("phone", { required: "Phone is required" })}
+                    className={`w-full px-4 py-2.5 rounded-xl bg-[rgba(255,255,255,0.08)] border ${
+                      serverErrors.phone
+                        ? "border-red-400 ring-1 ring-red-400"
+                        : "border-[rgba(255,255,255,0.15)]"
+                    } text-white text-sm focus:outline-none focus:ring-2 focus:ring-[#52BDE9]`}
+                    {...register("phone", {
+                      onChange: () => clearFieldError("phone"),
+                    })}
                   />
-                  {errors.phone && <p className="text-xs text-red-400 mt-1">{errors.phone.message}</p>}
+                  {serverErrors.phone?.[0] && (
+                    <p className="text-xs text-red-400 mt-1 flex items-center gap-1">
+                      <AlertCircle className="w-3.5 h-3.5 flex-shrink-0" />
+                      <span>{serverErrors.phone[0]}</span>
+                    </p>
+                  )}
                 </div>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <div className="sm:col-span-2">
                   <label className="block text-xs font-bold text-[#a0b6c6] uppercase tracking-wider mb-1.5">
-                    Email Address (Optional)
+                    Email Address <span className="text-red-400 font-bold">*</span>
                   </label>
                   <input
                     type="email"
+                    required
                     placeholder="name@domain.com"
-                    className="w-full px-4 py-2.5 rounded-xl bg-[rgba(255,255,255,0.08)] border border-[rgba(255,255,255,0.15)] text-white text-sm focus:outline-none focus:ring-2 focus:ring-[#52BDE9]"
-                    {...register("email")}
+                    className={`w-full px-4 py-2.5 rounded-xl bg-[rgba(255,255,255,0.08)] border ${
+                      serverErrors.email
+                        ? "border-red-400 ring-1 ring-red-400"
+                        : "border-[rgba(255,255,255,0.15)]"
+                    } text-white text-sm focus:outline-none focus:ring-2 focus:ring-[#52BDE9]`}
+                    {...register("email", {
+                      onChange: () => clearFieldError("email"),
+                    })}
                   />
+                  {serverErrors.email?.[0] && (
+                    <p className="text-xs text-red-400 mt-1 flex items-center gap-1">
+                      <AlertCircle className="w-3.5 h-3.5 flex-shrink-0" />
+                      <span>{serverErrors.email[0]}</span>
+                    </p>
+                  )}
                 </div>
 
                 <div>
@@ -378,7 +429,10 @@ export function EmbeddedSiteVisit({ property }: EmbeddedSiteVisitProps) {
                     max={10}
                     defaultValue={1}
                     className="w-full px-4 py-2.5 rounded-xl bg-[rgba(255,255,255,0.08)] border border-[rgba(255,255,255,0.15)] text-white text-sm font-mono focus:outline-none focus:ring-2 focus:ring-[#52BDE9]"
-                    {...register("visitorCount", { valueAsNumber: true })}
+                    {...register("visitorCount", {
+                      valueAsNumber: true,
+                      onChange: () => clearFieldError("visitorCount"),
+                    })}
                   />
                 </div>
               </div>
@@ -391,7 +445,9 @@ export function EmbeddedSiteVisit({ property }: EmbeddedSiteVisitProps) {
                   rows={2}
                   placeholder="e.g. Interested in East-facing villa plots, requesting revenue search review."
                   className="w-full px-4 py-2 rounded-xl bg-[rgba(255,255,255,0.08)] border border-[rgba(255,255,255,0.15)] text-white text-sm focus:outline-none focus:ring-2 focus:ring-[#52BDE9]"
-                  {...register("message")}
+                  {...register("message", {
+                    onChange: () => clearFieldError("message"),
+                  })}
                 />
               </div>
 

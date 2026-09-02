@@ -26,17 +26,17 @@ export function PropertyLocationMap({ property }: PropertyLocationMapProps) {
   const googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${coords.latitude},${coords.longitude}`;
 
   return (
-    <section aria-labelledby="map-heading" className="mb-12">
-      <div className="p-6 sm:p-8 rounded-3xl bg-white border border-[rgba(7,26,40,0.08)] shadow-[0_4px_24px_rgba(7,26,40,0.04)]">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6">
+    <section aria-labelledby="map-heading" className="mb-8 sm:mb-12">
+      <div className="p-4 sm:p-6 sm:p-8 rounded-2xl sm:rounded-3xl bg-white border border-[rgba(7,26,40,0.08)] shadow-[0_4px_24px_rgba(7,26,40,0.04)]">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 sm:gap-3 mb-5 sm:mb-6">
           <div>
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[rgba(7,132,200,0.08)] border border-[rgba(7,132,200,0.2)] text-[#0784C8] text-xs font-bold uppercase tracking-wider mb-2">
+            <div className="inline-flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1 rounded-full bg-[rgba(7,132,200,0.08)] border border-[rgba(7,132,200,0.2)] text-[#0784C8] text-[10.5px] sm:text-xs font-semibold uppercase tracking-wider mb-2">
               <Compass className="w-3.5 h-3.5" aria-hidden="true" />
               <span>Real Geospatial Map</span>
             </div>
             <h2
               id="map-heading"
-              className="font-heading text-2xl sm:text-3xl text-[#031C2B] font-normal leading-tight tracking-tight"
+              className="font-instrument text-xl sm:text-2xl sm:text-3xl text-[#031C2B] font-normal leading-tight tracking-tight"
             >
               Location, road network &amp; key landmarks.
             </h2>
@@ -46,7 +46,7 @@ export function PropertyLocationMap({ property }: PropertyLocationMapProps) {
             href={googleMapsUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-[#031C2B] hover:bg-[#0784C8] text-white text-xs font-bold transition-colors shadow-sm self-start sm:self-auto focus-visible:outline"
+            className="inline-flex items-center gap-1.5 px-3.5 sm:px-4 py-2 rounded-full bg-[#031C2B] hover:bg-[#0784C8] text-white text-[11px] sm:text-xs font-bold transition-colors shadow-sm self-start sm:self-auto focus-visible:outline"
             aria-label={`Open ${property.name} on Google Maps (opens in a new tab)`}
           >
             <Navigation className="w-3.5 h-3.5" />

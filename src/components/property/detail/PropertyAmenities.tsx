@@ -27,16 +27,16 @@ export function PropertyAmenities({ amenities, propertyName }: PropertyAmenities
   };
 
   return (
-    <section aria-labelledby="amenities-heading" className="mb-12">
-      <div className="p-7 sm:p-8 rounded-3xl bg-white border border-[rgba(7,26,40,0.08)] shadow-[0_4px_24px_rgba(7,26,40,0.04)]">
-        <div className="max-w-[720px] mb-6">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[rgba(7,132,200,0.08)] border border-[rgba(7,132,200,0.2)] text-[#0784C8] text-xs font-bold uppercase tracking-wider mb-2">
+    <section aria-labelledby="amenities-heading" className="mb-8 sm:mb-12">
+      <div className="p-4 sm:p-7 sm:p-8 rounded-2xl sm:rounded-3xl bg-white border border-[rgba(7,26,40,0.08)] shadow-[0_4px_24px_rgba(7,26,40,0.04)]">
+        <div className="max-w-[720px] mb-5 sm:mb-6">
+          <div className="inline-flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1 rounded-full bg-[rgba(7,132,200,0.08)] border border-[rgba(7,132,200,0.2)] text-[#0784C8] text-[10.5px] sm:text-xs font-semibold uppercase tracking-wider mb-2">
             <Layers className="w-3.5 h-3.5" aria-hidden="true" />
             <span>Infrastructure &amp; Amenities</span>
           </div>
           <h2
             id="amenities-heading"
-            className="font-heading text-2xl sm:text-3xl text-[#031C2B] font-normal leading-tight tracking-tight mb-2"
+            className="font-instrument text-xl sm:text-2xl sm:text-3xl text-[#031C2B] font-normal leading-tight tracking-tight mb-1.5 sm:mb-2"
           >
             Township infrastructure and features.
           </h2>
@@ -46,13 +46,13 @@ export function PropertyAmenities({ amenities, propertyName }: PropertyAmenities
         </div>
 
         {/* Amenities Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4">
           {amenities.map((item, idx) => {
             const Icon = getCategoryIcon(item.category);
             return (
               <div
                 key={idx}
-                className="p-5 rounded-2xl bg-[#F5F1E9] border border-[rgba(7,26,40,0.06)] flex flex-col justify-between"
+                className="p-3.5 sm:p-5 rounded-xl sm:rounded-2xl bg-[#F5F1E9] border border-[rgba(7,26,40,0.06)] flex flex-col justify-between"
               >
                 <div>
                   <div className="flex items-center justify-between mb-3">

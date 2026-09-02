@@ -19,7 +19,7 @@ export function AboutHero() {
   ];
 
   return (
-    <section className="relative pt-6 pb-14 sm:pb-20 overflow-hidden" aria-labelledby="about-hero-title">
+    <section className="relative pt-20 sm:pt-22 md:pt-24 pb-14 sm:pb-20 overflow-hidden" aria-labelledby="about-hero-title">
       {/* Background Subtle Gradient & Mesh Glow */}
       <div className="absolute inset-0 pointer-events-none -z-10 overflow-hidden">
         <div className="absolute -top-[20%] left-1/2 -translate-x-1/2 w-[1000px] h-[550px] bg-[radial-gradient(ellipse_at_center,rgba(66,183,232,0.12),transparent_70%)] blur-3xl" />
@@ -27,16 +27,16 @@ export function AboutHero() {
       </div>
 
       <div className="max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="mb-6 sm:mb-8">
+        <div className="mb-3 sm:mb-6">
           <Breadcrumbs items={breadcrumbItems} />
         </div>
 
         {/* Hero Copy Container */}
         <div className="max-w-4xl mx-auto text-center">
           <Reveal>
-            <div className="inline-flex items-center justify-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1.5 rounded-full bg-[var(--advisor-ivory)] border border-[rgba(8,127,195,0.2)] shadow-xs mb-5 max-w-full">
+            <div className="inline-flex items-center justify-center gap-1.5 px-3 py-1 sm:px-4 sm:py-1.5 rounded-full bg-[var(--advisor-ivory)] border border-[rgba(8,127,195,0.2)] shadow-xs mb-3 sm:mb-4 max-w-full">
               <span className="w-2 h-2 rounded-full bg-[var(--ratiwal-blue)] animate-pulse flex-shrink-0" />
-              <span className="text-[10px] xs:text-[11px] sm:text-[12.5px] font-bold tracking-[0.06em] xs:tracking-[0.1em] sm:tracking-[0.16em] uppercase text-[var(--ratiwal-blue)] font-body whitespace-nowrap leading-none">
+              <span className="text-[9.5px] xs:text-[10.5px] sm:text-[12px] font-bold tracking-[0.06em] xs:tracking-[0.08em] sm:tracking-[0.14em] uppercase text-[var(--ratiwal-blue)] font-body whitespace-nowrap leading-none">
                 FOUNDED ON TRUST &amp; TRANSPARENCY
               </span>
             </div>
@@ -45,7 +45,7 @@ export function AboutHero() {
           <Reveal delay={100}>
             <h1
               id="about-hero-title"
-              className="font-instrument text-[2.75rem] sm:text-[3.6rem] md:text-[4.4rem] lg:text-[4.9rem] text-[var(--midnight)] font-normal leading-[1.02] tracking-tight mb-5 sm:mb-6"
+              className="font-instrument text-[1.95rem] xs:text-[2.35rem] sm:text-[3.2rem] md:text-[4rem] lg:text-[4.6rem] text-[var(--midnight)] font-normal leading-[1.1] sm:leading-[1.03] tracking-tight mb-3 sm:mb-5"
             >
               Guiding generational wealth through{" "}
               <span className="italic text-[var(--ratiwal-blue)]">verified land assets.</span>
@@ -53,22 +53,22 @@ export function AboutHero() {
           </Reveal>
 
           <Reveal delay={200}>
-            <p className="text-base sm:text-lg md:text-xl text-[var(--text-secondary)] leading-relaxed max-w-2xl mx-auto mb-8 sm:mb-10 font-medium">
+            <p className="text-xs xs:text-sm sm:text-base md:text-lg text-[var(--text-secondary)] leading-relaxed max-w-2xl mx-auto mb-6 sm:mb-8 font-normal sm:font-medium px-1 sm:px-0">
               We eliminate the ambiguity, opaque pricing, and legal risks of property acquisition. 
               Every plot we advise on is backed by 30-year title diligence, ground verification, and unwavering fiduciary commitment.
             </p>
           </Reveal>
 
           <Reveal delay={250}>
-            <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4 mb-10 sm:mb-12">
-              <MagneticButton strength={6}>
-                <Link href="/contact" className="button-primary shadow-glow">
-                  Book Private Advisory <ArrowRight size={17} />
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 mb-8 sm:mb-12 max-w-md sm:max-w-none mx-auto w-full">
+              <MagneticButton strength={6} className="w-full sm:w-auto flex justify-center">
+                <Link href="/contact" className="button-primary shadow-glow w-full sm:w-auto justify-center whitespace-nowrap text-xs sm:text-sm px-6 py-3.5 min-h-[48px] sm:min-h-[52px]">
+                  Book Private Advisory <ArrowRight size={17} className="flex-shrink-0" />
                 </Link>
               </MagneticButton>
-              <MagneticButton strength={6}>
-                <Link href="/properties" className="button-ghost !text-[var(--midnight)] !border-[rgba(7,26,40,0.18)] hover:!bg-[var(--midnight)] hover:!text-white">
-                  Explore Verified Land <ArrowRight size={17} />
+              <MagneticButton strength={6} className="w-full sm:w-auto flex justify-center">
+                <Link href="/properties" className="button-ghost !text-[var(--midnight)] !border-[rgba(7,26,40,0.18)] hover:!bg-[var(--midnight)] hover:!text-white w-full sm:w-auto justify-center whitespace-nowrap text-xs sm:text-sm px-6 py-3.5 min-h-[48px] sm:min-h-[52px]">
+                  Explore Verified Land <ArrowRight size={17} className="flex-shrink-0" />
                 </Link>
               </MagneticButton>
             </div>

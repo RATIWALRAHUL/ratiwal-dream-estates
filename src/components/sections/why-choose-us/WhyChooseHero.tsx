@@ -12,7 +12,7 @@ export function WhyChooseHero() {
 
   return (
     <section
-      className="relative min-h-[640px] lg:min-h-[720px] bg-[var(--alabaster)] pt-28 sm:pt-32 pb-16 sm:pb-20 overflow-hidden border-b border-[rgba(7,26,40,0.08)]"
+      className="relative min-h-[600px] lg:min-h-[660px] bg-[var(--alabaster)] pt-20 sm:pt-22 md:pt-24 pb-16 sm:pb-20 overflow-hidden border-b border-[rgba(7,26,40,0.08)]"
       aria-labelledby="why-hero-title"
     >
       {/* Subtle blueprint grid architectural backdrop */}

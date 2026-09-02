@@ -17,26 +17,28 @@ export const publicSiteVisitRequestSchema = z.object({
 
   phone: z
     .string()
-    .min(7, "Phone number must be at least 7 characters")
+    .min(10, "Phone number must be at least 10 digits")
     .max(20, "Phone number must not exceed 20 characters")
-    .regex(/^\+?[\d\s\-().]+$/, "Phone number contains invalid characters"),
+    .regex(/^\+?[\d\s\-().]+$/, "Please enter a valid phone number"),
 
   email: z
     .string()
+    .min(1, "Email address is required")
     .email("Please enter a valid email address")
     .max(254, "Email must not exceed 254 characters")
-    .optional()
-    .or(z.literal(""))
-    .transform((v) => (v === "" ? undefined : v)),
+    .transform((v) => v.trim()),
 
   // Property details
-  propertyId: z.string().refine(isValidObjectId, { message: "Invalid property identifier" }),
-  locationId: z.string().refine(isValidObjectId, { message: "Invalid location identifier" }).optional().or(z.literal("")).transform((v) => (v === "" ? undefined : v)),
+  propertyId: z.string().min(1, "Property is required"),
+  locationId: z.string().optional().or(z.literal("")).transform((v) => (v === "" ? undefined : v)),
 
   // Schedule preferences
-  preferredStartAt: z.string().refine((val) => !isNaN(Date.parse(val)), {
-    message: "Invalid preferred start date/time",
-  }),
+  preferredStartAt: z
+    .string()
+    .min(1, "Please select a preferred visit date")
+    .refine((val) => !isNaN(Date.parse(val)), {
+      message: "Please select a valid visit date",
+    }),
   preferredEndAt: z.string().refine((val) => !isNaN(Date.parse(val)), {
     message: "Invalid preferred end date/time",
   }).optional(),
@@ -46,12 +48,11 @@ export const publicSiteVisitRequestSchema = z.object({
   visitorCount: z.number().int().min(1, "Minimum 1 visitor").max(20, "Maximum 20 visitors").optional().default(1),
 
   source: z.enum(SITE_VISIT_SOURCES).optional().default("PUBLIC_PROPERTY_PAGE"),
+  landingPath: z.string().optional(),
   message: z.string().max(2000, "Message cannot exceed 2000 characters").optional().transform((v) => (v ? v.trim() : undefined)),
 
   // Consent
-  consentGranted: z.literal(true).refine((val) => val === true, {
-    message: "You must consent to be contacted regarding this site visit.",
-  }),
+  consentGranted: z.boolean().optional().default(true),
 
   // Anti-abuse
   _honeypot: z.string().max(0, "Spam detected").optional(),

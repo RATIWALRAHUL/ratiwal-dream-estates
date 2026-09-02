@@ -34,15 +34,14 @@ export const publicInquirySchema = z.object({
 
   phone: z
     .string()
-    .min(7, "Phone number must be at least 7 characters")
+    .min(10, "Phone number must be at least 10 digits")
     .max(20, "Phone number must not exceed 20 characters")
-    .regex(/^\+?[\d\s\-().]+$/, "Phone number contains invalid characters"),
+    .regex(/^\+?[\d\s\-().]+$/, "Please enter a valid phone number"),
 
   consentGranted: z
-    .literal(true)
-    .refine((val) => val === true, {
-      message: "You must consent to be contacted to submit this form.",
-    }),
+    .boolean()
+    .optional()
+    .default(true),
 
   consentTextVersion: z
     .string()
@@ -50,14 +49,13 @@ export const publicInquirySchema = z.object({
     .max(20)
     .default(CONSENT_TEXT_VERSION),
 
-  // ── Optional contact details ──────────────────────────────────────────────
+  // ── Contact details (Compulsory for instant email acknowledgement) ──
   email: z
     .string()
+    .min(1, "Email address is required")
     .email("Please enter a valid email address")
     .max(254, "Email must not exceed 254 characters")
-    .optional()
-    .or(z.literal(""))
-    .transform((v) => (v === "" ? undefined : v)),
+    .transform((v) => v.trim()),
 
   preferredContactMethod: z.enum(CONTACT_METHODS).optional().default("ANY"),
 
@@ -68,14 +66,17 @@ export const publicInquirySchema = z.object({
 
   propertyId: z
     .string()
-    .refine(isValidObjectId, { message: "Invalid property identifier" })
     .optional()
     .or(z.literal(""))
     .transform((v) => (v === "" ? undefined : v)),
 
+  propertySlug: z.string().optional(),
+  preferredLocation: z.string().optional(),
+  propertyType: z.string().optional(),
+  budget: z.string().optional(),
+
   locationId: z
     .string()
-    .refine(isValidObjectId, { message: "Invalid location identifier" })
     .optional()
     .or(z.literal(""))
     .transform((v) => (v === "" ? undefined : v)),

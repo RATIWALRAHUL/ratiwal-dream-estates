@@ -113,13 +113,30 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
       );
     }
 
+    if (typeof rawBody === "object" && rawBody !== null) {
+      const bodyObj = rawBody as Record<string, unknown>;
+      if (!bodyObj.fullName && bodyObj.name) {
+        bodyObj.fullName = bodyObj.name;
+      }
+      if (bodyObj.consentGranted === undefined) {
+        bodyObj.consentGranted = true;
+      }
+      if (!bodyObj._honeypot && bodyObj.honeypot) {
+        bodyObj._honeypot = bodyObj.honeypot;
+      }
+    }
+
     const parseResult = publicInquirySchema.safeParse(rawBody);
     if (!parseResult.success) {
+      const fieldErrors = parseResult.error.flatten().fieldErrors as Record<string, string[]>;
+      if (fieldErrors.fullName && !fieldErrors.name) {
+        fieldErrors.name = fieldErrors.fullName;
+      }
       return NextResponse.json(
         {
           success: false,
-          error: "Invalid form submission. Please check your inputs.",
-          fields: parseResult.error.flatten().fieldErrors,
+          error: "Please correct the highlighted errors below.",
+          fields: fieldErrors,
         },
         { status: 400 }
       );
@@ -192,39 +209,46 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
       );
     }
 
-    // ── 9. Normalize email (optional) ────────────────────────────────────────
-    let normalizedEmailVal: string | undefined;
-    let displayEmailVal: string | undefined;
-    if (data.email) {
-      const emailNorm = normalizeEmail(data.email);
-      if (!emailNorm) {
-        return NextResponse.json(
-          {
-            success: false,
-            error: "Invalid form submission. Please check your inputs.",
-            fields: { email: ["Please enter a valid email address."] },
-          },
-          { status: 400 }
-        );
-      }
-      normalizedEmailVal = emailNorm;
-      displayEmailVal = data.email.trim();
-
-      // Per-email rate limit
-      const emailLimit = checkRateLimit(
-        `email:${normalizedEmailVal}`,
-        RATE_LIMITS.INQUIRY_PER_EMAIL.limit,
-        RATE_LIMITS.INQUIRY_PER_EMAIL.windowMs
+    // ── 9. Normalize email (Compulsory) ──────────────────────────────────────
+    if (!data.email || typeof data.email !== "string" || !data.email.trim()) {
+      return NextResponse.json(
+        {
+          success: false,
+          error: "Invalid form submission. Please check your inputs.",
+          fields: { email: ["Email address is required."] },
+        },
+        { status: 400 }
       );
-      if (!emailLimit.allowed) {
-        return NextResponse.json(
-          { success: false, error: "Too many requests. Please try again later." },
-          {
-            status: 429,
-            headers: { "Retry-After": String(Math.ceil(emailLimit.retryAfterMs / 1000)) },
-          }
-        );
-      }
+    }
+
+    const emailNorm = normalizeEmail(data.email);
+    if (!emailNorm) {
+      return NextResponse.json(
+        {
+          success: false,
+          error: "Invalid form submission. Please check your inputs.",
+          fields: { email: ["Please enter a valid email address."] },
+        },
+        { status: 400 }
+      );
+    }
+    const normalizedEmailVal = emailNorm;
+    const displayEmailVal = data.email.trim();
+
+    // Per-email rate limit
+    const emailLimit = checkRateLimit(
+      `email:${normalizedEmailVal}`,
+      RATE_LIMITS.INQUIRY_PER_EMAIL.limit,
+      RATE_LIMITS.INQUIRY_PER_EMAIL.windowMs
+    );
+    if (!emailLimit.allowed) {
+      return NextResponse.json(
+        { success: false, error: "Too many requests. Please try again later." },
+        {
+          status: 429,
+          headers: { "Retry-After": String(Math.ceil(emailLimit.retryAfterMs / 1000)) },
+        }
+      );
     }
 
     // ── 10. Validate Property / Location references ──────────────────────────
@@ -311,6 +335,78 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
 
     const isSpamSuspected = data.message ? countLinks(data.message) >= 3 : false;
 
+    // ── Enqueue Outbox Notifications (Asynchronous / Non-blocking) ────────────
+    let propertyTitle: string | undefined;
+    if (resolvedPropertyId) {
+      const prop = await Property.findById(resolvedPropertyId, { title: 1 }).lean();
+      if (prop) propertyTitle = prop.title;
+    }
+
+    // Determine descriptive page origin for timeline
+    let timelineSummary = "Inquiry received from Website";
+    if (propertyTitle) {
+      timelineSummary = `Inquiry received from ${propertyTitle} page`;
+    } else if (data.propertySlug) {
+      timelineSummary = `Inquiry received from /properties/${data.propertySlug} page`;
+    } else if (data.landingPath === "/contact" || resolvedSource === "CONTACT_PAGE") {
+      timelineSummary = "Inquiry received from Contact Page form";
+    } else if (data.landingPath && data.landingPath !== "/") {
+      timelineSummary = `Inquiry received from ${data.landingPath} form`;
+    } else if (data.landingPath === "/" || resolvedSource === "HOMEPAGE_CTA") {
+      timelineSummary = "Inquiry received from Homepage form";
+    } else if (resolvedSource === "LOCATION_PAGE") {
+      timelineSummary = "Inquiry received from Location Directory form";
+    } else {
+      timelineSummary = "Inquiry received from Website form";
+    }
+
+    // ── Location resolution ──────────────────────────────────────────────────
+    if (!resolvedLocationId && data.preferredLocation) {
+      const locMatch = await Location.findOne(
+        {
+          name: new RegExp(data.preferredLocation.trim(), "i"),
+          publicationStatus: "PUBLISHED",
+          archivedAt: null,
+        },
+        { _id: 1 }
+      ).lean();
+      if (locMatch) {
+        resolvedLocationId = new Types.ObjectId(locMatch._id);
+      }
+    }
+
+    // ── Budget & Property Interest Parsing ────────────────────────────────────
+    let budgetMinPaise = data.budgetMinimumPaise;
+    let budgetMaxPaise = data.budgetMaximumPaise;
+    let budgetRangeText = data.budget;
+
+    if (data.budget && (!budgetMinPaise || !budgetMaxPaise)) {
+      const bStr = data.budget.toLowerCase();
+      if (bStr.includes("25") && (bStr.includes("under") || bStr.includes("<"))) {
+        budgetMinPaise = 0;
+        budgetMaxPaise = 25 * 100000 * 100;
+        budgetRangeText = "Under ₹25 Lakhs";
+      } else if (bStr.includes("25") && bStr.includes("50")) {
+        budgetMinPaise = 25 * 100000 * 100;
+        budgetMaxPaise = 50 * 100000 * 100;
+        budgetRangeText = "₹25L – ₹50L";
+      } else if (bStr.includes("50") && (bStr.includes("1") || bStr.includes("cr"))) {
+        budgetMinPaise = 50 * 100000 * 100;
+        budgetMaxPaise = 100 * 100000 * 100;
+        budgetRangeText = "₹50L – ₹1 Cr";
+      } else if (bStr.includes("1") && bStr.includes("2.5")) {
+        budgetMinPaise = 100 * 100000 * 100;
+        budgetMaxPaise = 250 * 100000 * 100;
+        budgetRangeText = "₹1 Cr – ₹2.5 Cr";
+      } else if (bStr.includes("2.5") || bStr.includes("above")) {
+        budgetMinPaise = 250 * 100000 * 100;
+        budgetMaxPaise = 1000 * 100000 * 100;
+        budgetRangeText = "Above ₹2.5 Cr";
+      }
+    }
+
+    const resolvedPropertyType = data.propertyType || data.propertyTypeInterest;
+
     const createdLead = await Lead.create({
       referenceNumber,
       fullName: data.fullName,
@@ -324,9 +420,11 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
       source: resolvedSource,
       propertyId: resolvedPropertyId,
       locationId: resolvedLocationId,
-      propertyTypeInterest: data.propertyTypeInterest,
-      budgetMinimumPaise: data.budgetMinimumPaise,
-      budgetMaximumPaise: data.budgetMaximumPaise,
+      preferredLocation: data.preferredLocation,
+      propertyTypeInterest: resolvedPropertyType,
+      budgetMinimumPaise: budgetMinPaise,
+      budgetMaximumPaise: budgetMaxPaise,
+      budgetRange: budgetRangeText,
       areaMinimumSqFt: data.areaMinimumSqFt,
       areaMaximumSqFt: data.areaMaximumSqFt,
       purchaseTimeline: data.purchaseTimeline,
@@ -359,7 +457,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
         {
           eventType: "INQUIRY_SUBMITTED",
           actorType: "SYSTEM",
-          summary: `Inquiry received from ${resolvedSource.toLowerCase().replace(/_/g, " ")}`,
+          summary: timelineSummary,
           occurredAt: now,
         },
       ],
@@ -371,49 +469,49 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
       category: "inquiry",
       referenceNumber,
       source: resolvedSource,
+      timelineSummary,
     });
 
-    // ── Enqueue Outbox Notifications (Asynchronous / Non-blocking) ────────────
-    let propertyTitle: string | undefined;
-    if (resolvedPropertyId) {
-      const prop = await Property.findById(resolvedPropertyId, { title: 1 }).lean();
-      if (prop) propertyTitle = prop.title;
+    // 1. Customer Acknowledgement & 2. Internal Operations Alert
+    try {
+      await OutboxService.enqueue({
+        eventType: "INQUIRY_RECEIVED_CUSTOMER",
+        aggregateType: "LEAD",
+        aggregateId: createdLead._id,
+        aggregateVersion: 1,
+        recipientType: "CUSTOMER",
+        recipientEmail: displayEmailVal,
+        recipientPhone: phoneResult.e164,
+        recipientName: data.fullName.trim(),
+        variables: {
+          customerName: data.fullName.trim(),
+          referenceNumber,
+          propertyTitle,
+        },
+      });
+
+      await OutboxService.enqueue({
+        eventType: "LEAD_CREATED_INTERNAL",
+        aggregateType: "LEAD",
+        aggregateId: createdLead._id,
+        aggregateVersion: 1,
+        recipientType: "ADMIN_POOL",
+        variables: {
+          leadName: data.fullName.trim(),
+          leadPhone: phoneResult.e164,
+          leadId: createdLead._id.toString(),
+          source: resolvedSource,
+        },
+      });
+
+      // Trigger immediate background delivery worker
+      await NotificationProcessorService.processBatch(5);
+    } catch (commErr) {
+      logger.warn("[Inquiry] Non-blocking communication dispatch notice", {
+        category: "inquiry-communication",
+        error: commErr instanceof Error ? commErr.message : "Unknown",
+      });
     }
-
-    // 1. Customer Acknowledgement
-    OutboxService.enqueue({
-      eventType: "INQUIRY_RECEIVED_CUSTOMER",
-      aggregateType: "LEAD",
-      aggregateId: createdLead._id,
-      aggregateVersion: 1,
-      recipientType: "CUSTOMER",
-      recipientEmail: displayEmailVal,
-      recipientPhone: phoneResult.e164,
-      recipientName: data.fullName.trim(),
-      variables: {
-        customerName: data.fullName.trim(),
-        referenceNumber,
-        propertyTitle,
-      },
-    }).catch(() => {});
-
-    // 2. Internal Operations Alert
-    OutboxService.enqueue({
-      eventType: "LEAD_CREATED_INTERNAL",
-      aggregateType: "LEAD",
-      aggregateId: createdLead._id,
-      aggregateVersion: 1,
-      recipientType: "ADMIN_POOL",
-      variables: {
-        leadName: data.fullName.trim(),
-        leadPhone: phoneResult.e164,
-        leadId: createdLead._id.toString(),
-        source: resolvedSource,
-      },
-    }).catch(() => {});
-
-    // Trigger immediate background worker batch
-    NotificationProcessorService.processBatch(5).catch(() => {});
 
     // ── 13. Generic success response — no internal IDs ────────────────────────
     return NextResponse.json({

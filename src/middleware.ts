@@ -23,8 +23,24 @@ const PUBLIC_PARTNER_PATHS = [
   "/partner/claim",
 ];
 
+const DISCOVERY_LINK_HEADER =
+  '</.well-known/api-catalog>; rel="service-desc"; type="application/json", </llms.txt>; rel="alternate"; type="text/markdown", </sitemap.xml>; rel="sitemap"; type="application/xml"';
+
+const PUBLIC_MARKDOWN_PATHS = [
+  "/",
+  "/properties",
+  "/locations",
+  "/investment",
+  "/about",
+  "/why-choose-us",
+  "/testimonials",
+  "/insights",
+  "/contact",
+];
+
 export function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
+  const acceptHeader = req.headers.get("accept") || "";
 
   // 1. Dashboard route protection
   if (pathname.startsWith("/dashboard")) {
@@ -96,13 +112,40 @@ export function middleware(req: NextRequest) {
     return NextResponse.next();
   }
 
-  return NextResponse.next();
+  // 4. Markdown Content Negotiation for AI Agents and LLMs
+  const isPublicContentRoute =
+    PUBLIC_MARKDOWN_PATHS.includes(pathname) ||
+    pathname.startsWith("/properties/") ||
+    pathname.startsWith("/locations/") ||
+    pathname.startsWith("/insights/") ||
+    pathname.startsWith("/testimonials/");
+
+  if (isPublicContentRoute && acceptHeader.includes("text/markdown")) {
+    const negotiationUrl = new URL(`/api/content-negotiation`, req.url);
+    negotiationUrl.searchParams.set("path", pathname);
+    return NextResponse.rewrite(negotiationUrl);
+  }
+
+  // 5. Injected RFC 8288 Discovery Headers on Public HTML Pages
+  const response = NextResponse.next();
+
+  if (isPublicContentRoute) {
+    response.headers.set("Link", DISCOVERY_LINK_HEADER);
+    response.headers.set("Vary", "Accept");
+  }
+
+  return response;
 }
 
 export const config = {
   matcher: [
-    "/dashboard/:path*",
-    "/portal/:path*",
-    "/partner/:path*",
+    /*
+     * Match all request paths except for:
+     * - _next/static (static files)
+     * - _next/image (image optimization files)
+     * - favicon.ico, favicon.png, sitemap.xml, robots.txt, llms.txt
+     * - public images/assets (png, jpg, jpeg, gif, svg, webp)
+     */
+    "/((?!_next/static|_next/image|favicon|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico)$).*)",
   ],
 };

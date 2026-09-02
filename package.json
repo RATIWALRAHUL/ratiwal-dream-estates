@@ -32,7 +32,8 @@
     "audit:orphans": "tsx --conditions=react-server scripts/audit-orphans.ts",
     "audit:orphans:fix": "tsx --conditions=react-server scripts/audit-orphans.ts --fix",
     "test:perf": "tsx --conditions=react-server scripts/verify-phase2-performance.ts",
-    "test:equiv": "tsx --conditions=react-server scripts/test-backend-equivalence.ts"
+    "test:equiv": "tsx --conditions=react-server scripts/test-backend-equivalence.ts",
+    "test:agent-readiness": "tsx --conditions=react-server scripts/test-agent-readiness.ts"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.7.1",

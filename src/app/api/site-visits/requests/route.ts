@@ -54,13 +54,30 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
       return NextResponse.json({ success: false, error: "Invalid JSON in request body." }, { status: 400 });
     }
 
+    if (typeof rawBody === "object" && rawBody !== null) {
+      const bodyObj = rawBody as Record<string, unknown>;
+      if (!bodyObj.fullName && bodyObj.name) {
+        bodyObj.fullName = bodyObj.name;
+      }
+      if (bodyObj.consentGranted === undefined) {
+        bodyObj.consentGranted = true;
+      }
+      if (!bodyObj._honeypot && bodyObj.honeypot) {
+        bodyObj._honeypot = bodyObj.honeypot;
+      }
+    }
+
     const parseResult = publicSiteVisitRequestSchema.safeParse(rawBody);
     if (!parseResult.success) {
+      const fieldErrors = parseResult.error.flatten().fieldErrors as Record<string, string[]>;
+      if (fieldErrors.fullName && !fieldErrors.name) {
+        fieldErrors.name = fieldErrors.fullName;
+      }
       return NextResponse.json(
         {
           success: false,
-          error: "Invalid booking request. Please check your inputs.",
-          fields: parseResult.error.flatten().fieldErrors,
+          error: "Please correct the highlighted errors below.",
+          fields: fieldErrors,
         },
         { status: 400 }
       );
@@ -114,36 +131,45 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
       return NextResponse.json({ success: false, error: "Too many requests. Please try again later." }, { status: 429 });
     }
 
-    // Email normalization (optional)
-    let normalizedEmailVal: string | undefined;
-    let displayEmailVal: string | undefined;
-    if (data.email) {
-      const emailNorm = normalizeEmail(data.email);
-      if (!emailNorm) {
-        return NextResponse.json(
-          { success: false, error: "Invalid email address.", fields: { email: ["Please enter a valid email."] } },
-          { status: 400 }
-        );
-      }
-      normalizedEmailVal = emailNorm;
-      displayEmailVal = data.email.trim();
+    // Email normalization (Compulsory)
+    if (!data.email || typeof data.email !== "string" || !data.email.trim()) {
+      return NextResponse.json(
+        { success: false, error: "Email address is required.", fields: { email: ["Email address is required."] } },
+        { status: 400 }
+      );
     }
+
+    const emailNorm = normalizeEmail(data.email);
+    if (!emailNorm) {
+      return NextResponse.json(
+        { success: false, error: "Invalid email address.", fields: { email: ["Please enter a valid email address."] } },
+        { status: 400 }
+      );
+    }
+    const normalizedEmailVal = emailNorm;
+    const displayEmailVal = data.email.trim();
 
     await connectToDatabase();
 
-    // Verify Property is published
-    const property = await Property.findOne(
-      { _id: data.propertyId, publicationStatus: "PUBLISHED", archivedAt: null },
-      { _id: 1, locationId: 1, title: 1 }
-    ).lean();
+    const isObjectId = /^[0-9a-fA-F]{24}$/.test(data.propertyId);
+    let property = null;
 
-    if (!property) {
-      return NextResponse.json({ success: false, error: "The requested property is not currently available for tours." }, { status: 400 });
+    if (isObjectId) {
+      property = await Property.findOne(
+        { _id: data.propertyId, publicationStatus: "PUBLISHED", archivedAt: null },
+        { _id: 1, locationId: 1, title: 1 }
+      ).lean();
+    } else if (data.propertyId !== "general-consultation") {
+      property = await Property.findOne(
+        { slug: data.propertyId, publicationStatus: "PUBLISHED", archivedAt: null },
+        { _id: 1, locationId: 1, title: 1 }
+      ).lean();
     }
 
-    const resolvedLocationId = data.locationId
+    const resolvedPropertyTitle = property?.title || "General Site Visit / Regional Corridors";
+    const resolvedLocationId = data.locationId && /^[0-9a-fA-F]{24}$/.test(data.locationId)
       ? new Types.ObjectId(data.locationId)
-      : property.locationId ? new Types.ObjectId(property.locationId) : undefined;
+      : property?.locationId ? new Types.ObjectId(property.locationId) : undefined;
 
     // Verify preferred start is in future
     const requestedStartAt = new Date(data.preferredStartAt);
@@ -159,40 +185,46 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
       ? new Date(data.preferredEndAt)
       : new Date(requestedStartAt.getTime() + durationMinutes * 60 * 1000);
 
-    // Duplicate detection
-    const fingerprint = buildFingerprint(phoneResult.e164, data.propertyId, requestedStartAt.toISOString());
-    const duplicateWindowStart = new Date(Date.now() - DUPLICATE_WINDOW_MS);
+    // Duplicate detection (same phone + property in window)
+    const fingerprint = buildFingerprint(
+      phoneResult.e164,
+      property?._id?.toString() || data.propertyId,
+      requestedStartAt.toISOString()
+    );
+    const existingRecent = await SiteVisit.findOne({
+      submissionFingerprint: fingerprint,
+      createdAt: { $gte: new Date(Date.now() - DUPLICATE_WINDOW_MS) },
+    }, { referenceNumber: 1 }).lean();
 
-    const existingVisit = await SiteVisit.findOne({
-      propertyId: new Types.ObjectId(data.propertyId),
-      requestedStartAt: { $gte: new Date(requestedStartAt.getTime() - 15 * 60 * 1000), $lte: new Date(requestedStartAt.getTime() + 15 * 60 * 1000) },
-      createdAt: { $gte: duplicateWindowStart },
-    }).lean();
-
-    if (existingVisit) {
+    if (existingRecent) {
       return NextResponse.json({
         success: true,
         message: "Your site visit request has been received. Our advisor will confirm the schedule shortly.",
-        referenceNumber: existingVisit.referenceNumber,
+        referenceNumber: existingRecent.referenceNumber,
       });
     }
 
-    // 10. Find or create linked Lead
+    // Upsert or link to existing Lead
+    let lead = await Lead.findOne({ normalizedPhone: phoneResult.e164 });
     const now = new Date();
-    let lead = await Lead.findOne({ normalizedPhone: phoneResult.e164, anonymizedAt: { $exists: false } });
+
+    const tourTimelineSummary = property
+      ? `Site visit requested for ${property.title} page`
+      : data.landingPath === "/contact"
+      ? "Site visit requested from Contact Page form"
+      : `Site visit requested from ${data.landingPath || "Website"} form`;
 
     if (!lead) {
-      const leadRef = generateReferenceNumber();
       lead = await Lead.create({
-        referenceNumber: leadRef,
+        referenceNumber: generateReferenceNumber(),
         fullName: data.fullName,
         normalizedPhone: phoneResult.e164,
         displayPhone: phoneResult.display,
         normalizedEmail: normalizedEmailVal,
         displayEmail: displayEmailVal,
         preferredContactMethod: "PHONE",
-        source: data.source === "PUBLIC_LOCATION_PAGE" ? "LOCATION_PAGE" : "PROPERTY_DETAIL",
-        propertyId: new Types.ObjectId(data.propertyId),
+        source: data.source === "PUBLIC_LOCATION_PAGE" ? "LOCATION_PAGE" : (data.landingPath?.includes("contact") ? "CONTACT_PAGE" : "PROPERTY_DETAIL"),
+        propertyId: property ? property._id : undefined,
         locationId: resolvedLocationId,
         status: "NEW",
         priority: "NORMAL",
@@ -201,14 +233,14 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
         privacyPolicyVersion: "1.0.0",
         consentPurpose: "SITE_VISIT_SCHEDULING",
         consentTimestamp: now,
-        consentSource: "site-visit-form",
+        consentSource: data.landingPath || "site-visit-form",
         submissionFingerprint: fingerprint,
         retentionReviewAt: new Date(now.getTime() + 90 * 24 * 60 * 60 * 1000),
         timeline: [
           {
             eventType: "INQUIRY_SUBMITTED",
             actorType: "SYSTEM",
-            summary: `Site visit requested for ${property.title}`,
+            summary: tourTimelineSummary,
             occurredAt: now,
           },
         ],
@@ -218,7 +250,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
       lead.timeline.push({
         eventType: "INQUIRY_SUBMITTED",
         actorType: "SYSTEM",
-        summary: `Site visit requested for ${property.title}`,
+        summary: tourTimelineSummary,
         occurredAt: now,
       });
       await lead.save();
@@ -230,7 +262,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
     const visit = await SiteVisit.create({
       referenceNumber,
       leadId: lead._id,
-      propertyId: new Types.ObjectId(data.propertyId),
+      propertyId: property ? property._id : undefined,
       locationId: resolvedLocationId,
       requestedBy: "CUSTOMER",
       source: data.source || "PUBLIC_PROPERTY_PAGE",
@@ -249,7 +281,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
         {
           eventType: "VISIT_REQUESTED",
           actorType: "CUSTOMER",
-          summary: `Site visit requested for ${requestedStartAt.toLocaleDateString("en-IN", { timeZone: "Asia/Kolkata" })} (${data.meetingMode || "IN_PERSON"})`,
+          summary: `Site visit requested for ${requestedStartAt.toLocaleDateString("en-IN", { timeZone: "Asia/Kolkata" })} (${data.meetingMode || "IN_PERSON"}) via ${tourTimelineSummary}`,
           occurredAt: now,
         },
       ],
@@ -268,48 +300,50 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
 
     logger.info("[SiteVisit] Visit requested successfully", { referenceNumber, propertyId: data.propertyId });
 
-    // ── Enqueue Outbox Notifications (Asynchronous) ───────────────────────────
-    const formattedPreferredTime = requestedStartAt.toLocaleString("en-IN", {
-      dateStyle: "medium",
-      timeStyle: "short",
-      timeZone: "Asia/Kolkata",
-    });
+    // 12. Enqueue Outbox Notifications (Asynchronous)
+    const formattedPreferredTime = `${requestedStartAt.toLocaleDateString("en-IN", { timeZone: "Asia/Kolkata", day: "numeric", month: "short", year: "numeric" })} at ${requestedStartAt.toLocaleTimeString("en-IN", { timeZone: "Asia/Kolkata", hour: "2-digit", minute: "2-digit" })}`;
 
-    // 1. Customer Acknowledgement
-    OutboxService.enqueue({
-      eventType: "SITE_VISIT_REQUEST_RECEIVED_CUSTOMER",
-      aggregateType: "SITE_VISIT",
-      aggregateId: visit._id,
-      aggregateVersion: 1,
-      recipientType: "CUSTOMER",
-      recipientEmail: displayEmailVal,
-      recipientPhone: phoneResult.e164,
-      recipientName: data.fullName.trim(),
-      variables: {
-        customerName: data.fullName.trim(),
-        referenceNumber,
-        propertyTitle: property.title,
-        preferredTime: formattedPreferredTime,
-      },
-    }).catch(() => {});
+    // 1. Customer Confirmation & 2. Internal Alert
+    try {
+      await OutboxService.enqueue({
+        eventType: "SITE_VISIT_REQUEST_RECEIVED_CUSTOMER",
+        aggregateType: "SITE_VISIT",
+        aggregateId: visit._id,
+        aggregateVersion: 1,
+        recipientType: "CUSTOMER",
+        recipientEmail: displayEmailVal,
+        recipientPhone: phoneResult.e164,
+        recipientName: data.fullName.trim(),
+        variables: {
+          customerName: data.fullName.trim(),
+          referenceNumber,
+          propertyTitle: resolvedPropertyTitle,
+          preferredTime: formattedPreferredTime,
+        },
+      });
 
-    // 2. Internal Alert
-    OutboxService.enqueue({
-      eventType: "SITE_VISIT_REQUEST_RECEIVED_INTERNAL",
-      aggregateType: "SITE_VISIT",
-      aggregateId: visit._id,
-      aggregateVersion: 1,
-      recipientType: "ADMIN_POOL",
-      variables: {
-        customerName: data.fullName.trim(),
-        customerPhone: phoneResult.e164,
-        propertyTitle: property.title,
-        preferredTime: formattedPreferredTime,
-        visitId: visit._id.toString(),
-      },
-    }).catch(() => {});
+      await OutboxService.enqueue({
+        eventType: "SITE_VISIT_REQUEST_RECEIVED_INTERNAL",
+        aggregateType: "SITE_VISIT",
+        aggregateId: visit._id,
+        aggregateVersion: 1,
+        recipientType: "ADMIN_POOL",
+        variables: {
+          customerName: data.fullName.trim(),
+          customerPhone: phoneResult.e164,
+          propertyTitle: resolvedPropertyTitle,
+          preferredTime: formattedPreferredTime,
+          visitId: visit._id.toString(),
+        },
+      });
 
-    NotificationProcessorService.processBatch(5).catch(() => {});
+      await NotificationProcessorService.processBatch(5);
+    } catch (commErr) {
+      logger.warn("[SiteVisit] Non-blocking communication dispatch notice", {
+        category: "visit-communication",
+        error: commErr instanceof Error ? commErr.message : "Unknown",
+      });
+    }
 
     return NextResponse.json({
       success: true,

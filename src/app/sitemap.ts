@@ -1,82 +1,139 @@
 import { MetadataRoute } from "next";
 import { siteConfig } from "@/config/site";
-import { properties } from "@/data/properties";
-import { locations } from "@/data/locations";
+import { properties as fallbackProperties } from "@/data/properties";
+import { locations as fallbackLocations } from "@/data/locations";
 import { getAllPublishedCaseStudies } from "@/data/testimonials";
 import { getAllApprovedArticles } from "@/data/insights";
-import { CmsQueryService } from "@/lib/services/cms-query.service";
+import { connectToDatabase } from "@/lib/db/mongoose";
+import { Property } from "@/models/Property";
+import { Location } from "@/models/Location";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const baseUrl = siteConfig.url.replace(/\/$/, "");
+
+  // 1. Static Core Public Pages
   const staticRoutes = [
-    "",
-    "/properties",
-    "/locations",
-    "/investment",
-    "/about",
-    "/why-choose-us",
-    "/testimonials",
-    "/insights",
-    "/contact",
-    "/privacy-policy",
-    "/terms-of-service",
-    "/disclaimer",
+    { path: "", priority: 1.0, changeFrequency: "daily" as const },
+    { path: "/properties", priority: 0.9, changeFrequency: "daily" as const },
+    { path: "/locations", priority: 0.8, changeFrequency: "weekly" as const },
+    { path: "/investment", priority: 0.8, changeFrequency: "weekly" as const },
+    { path: "/about", priority: 0.8, changeFrequency: "monthly" as const },
+    { path: "/why-choose-us", priority: 0.8, changeFrequency: "monthly" as const },
+    { path: "/testimonials", priority: 0.7, changeFrequency: "weekly" as const },
+    { path: "/insights", priority: 0.8, changeFrequency: "weekly" as const },
+    { path: "/contact", priority: 0.8, changeFrequency: "monthly" as const },
+    { path: "/privacy-policy", priority: 0.3, changeFrequency: "yearly" as const },
+    { path: "/terms-of-service", priority: 0.3, changeFrequency: "yearly" as const },
+    { path: "/disclaimer", priority: 0.3, changeFrequency: "yearly" as const },
   ];
 
-  const staticUrls = staticRoutes.map((route) => ({
-    url: `${siteConfig.url}${route}`,
-    lastModified: new Date("2026-08-15"),
-    changeFrequency: "weekly" as const,
-    priority: route === "" ? 1.0 : 0.8,
+  const staticUrls: MetadataRoute.Sitemap = staticRoutes.map((r) => ({
+    url: `${baseUrl}${r.path}`,
+    lastModified: new Date(),
+    changeFrequency: r.changeFrequency,
+    priority: r.priority,
   }));
 
-  const propertyUrls = properties.map((prop) => ({
-    url: `${siteConfig.url}/properties/${prop.slug}`,
-    lastModified: new Date(prop.updatedAt),
-    changeFrequency: "weekly" as const,
-    priority: 0.7,
-  }));
+  // 2. Dynamic Published Properties
+  let propertyUrls: MetadataRoute.Sitemap = [];
+  try {
+    await connectToDatabase();
+    const liveProps = await Property.find(
+      { publicationStatus: "PUBLISHED", archivedAt: null },
+      { slug: 1, updatedAt: 1 }
+    ).lean();
 
-  const locationUrls = locations.map((loc) => ({
-    url: `${siteConfig.url}/locations/${loc.slug}`,
-    lastModified: new Date(loc.lastVerifiedAt || "2026-08-15"),
-    changeFrequency: "monthly" as const,
-    priority: 0.6,
-  }));
+    if (liveProps && liveProps.length > 0) {
+      propertyUrls = liveProps.map((p) => ({
+        url: `${baseUrl}/properties/${p.slug}`,
+        lastModified: p.updatedAt ? new Date(p.updatedAt) : new Date(),
+        changeFrequency: "weekly" as const,
+        priority: 0.8,
+      }));
+    } else {
+      propertyUrls = fallbackProperties.map((p) => ({
+        url: `${baseUrl}/properties/${p.slug}`,
+        lastModified: new Date(p.updatedAt || Date.now()),
+        changeFrequency: "weekly" as const,
+        priority: 0.8,
+      }));
+    }
+  } catch {
+    propertyUrls = fallbackProperties.map((p) => ({
+      url: `${baseUrl}/properties/${p.slug}`,
+      lastModified: new Date(p.updatedAt || Date.now()),
+      changeFrequency: "weekly" as const,
+      priority: 0.8,
+    }));
+  }
 
-  const caseStudyUrls = getAllPublishedCaseStudies().map((cs) => ({
-    url: `${siteConfig.url}/testimonials/${cs.slug}`,
+  // 3. Dynamic Published Locations
+  let locationUrls: MetadataRoute.Sitemap = [];
+  try {
+    const liveLocs = await Location.find(
+      { publicationStatus: "PUBLISHED", archivedAt: null },
+      { slug: 1, updatedAt: 1 }
+    ).lean();
+
+    if (liveLocs && liveLocs.length > 0) {
+      locationUrls = liveLocs.map((l) => ({
+        url: `${baseUrl}/locations/${l.slug}`,
+        lastModified: l.updatedAt ? new Date(l.updatedAt) : new Date(),
+        changeFrequency: "monthly" as const,
+        priority: 0.7,
+      }));
+    } else {
+      locationUrls = fallbackLocations.map((l) => ({
+        url: `${baseUrl}/locations/${l.slug}`,
+        lastModified: new Date(l.lastVerifiedAt || Date.now()),
+        changeFrequency: "monthly" as const,
+        priority: 0.7,
+      }));
+    }
+  } catch {
+    locationUrls = fallbackLocations.map((l) => ({
+      url: `${baseUrl}/locations/${l.slug}`,
+      lastModified: new Date(l.lastVerifiedAt || Date.now()),
+      changeFrequency: "monthly" as const,
+      priority: 0.7,
+    }));
+  }
+
+  // 4. Testimonials & Case Studies
+  const caseStudyUrls: MetadataRoute.Sitemap = getAllPublishedCaseStudies().map((cs) => ({
+    url: `${baseUrl}/testimonials/${cs.slug}`,
     lastModified: new Date(cs.lastReviewedAt || "2026-08-15"),
     changeFrequency: "monthly" as const,
     priority: 0.6,
   }));
 
-  const insightUrls = getAllApprovedArticles().map((art) => ({
-    url: `${siteConfig.url}/insights/${art.slug}`,
-    lastModified: new Date(art.updatedAt || art.publishedAt),
-    changeFrequency: "monthly" as const,
+  // 5. Approved Insights & Market Guides
+  const insightUrls: MetadataRoute.Sitemap = getAllApprovedArticles().map((art) => ({
+    url: `${baseUrl}/insights/${art.slug}`,
+    lastModified: new Date(art.updatedAt || art.publishedAt || Date.now()),
+    changeFrequency: "weekly" as const,
     priority: 0.7,
   }));
 
-  let dynamicCmsUrls: any[] = [];
-  try {
-    const cmsEntries = await CmsQueryService.getSitemapEntries();
-    dynamicCmsUrls = cmsEntries.map((entry) => ({
-      url: `${siteConfig.url}${entry.path}`,
-      lastModified: entry.lastModified,
-      changeFrequency: "weekly" as const,
-      priority: 0.7,
-    }));
-  } catch {
-    // Gracefully fallback if db not connected during static builds
-    dynamicCmsUrls = [];
-  }
-
-  return [
+  // 6. Deduplicate URLs
+  const allEntries = [
     ...staticUrls,
     ...propertyUrls,
     ...locationUrls,
     ...caseStudyUrls,
     ...insightUrls,
-    ...dynamicCmsUrls,
   ];
+
+  const seenUrls = new Set<string>();
+  const deduplicated: MetadataRoute.Sitemap = [];
+
+  for (const entry of allEntries) {
+    if (!seenUrls.has(entry.url)) {
+      seenUrls.add(entry.url);
+      deduplicated.push(entry);
+    }
+  }
+
+  return deduplicated;
 }
+

@@ -33,21 +33,25 @@ export function PropertiesCustomMandateCTA() {
         </Reveal>
 
         <Reveal delay={150}>
-          <div className="flex flex-wrap items-center justify-center gap-4 mb-8">
-            <MagneticButton strength={6}>
-              <Link href="/contact" className="button-primary shadow-glow">
-                Submit Custom Mandate <ArrowRight size={17} />
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 mb-8 max-w-md sm:max-w-none mx-auto w-full">
+            <MagneticButton strength={6} className="w-full sm:w-auto flex justify-center">
+              <Link
+                href="/contact"
+                className="button-primary shadow-glow w-full sm:w-auto justify-center whitespace-nowrap text-xs sm:text-sm px-6 py-3.5 min-h-[48px] sm:min-h-[52px]"
+              >
+                <span>Submit Custom Mandate</span>
+                <ArrowRight size={17} className="flex-shrink-0" />
               </Link>
             </MagneticButton>
-            <MagneticButton strength={6}>
+            <MagneticButton strength={6} className="w-full sm:w-auto flex justify-center">
               <a
                 href={whatsappUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full bg-[#25d366] hover:bg-[#20ba59] text-white font-bold text-sm shadow-md transition-all hover:scale-105"
+                className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-full bg-[#25d366] hover:bg-[#20ba59] text-white font-bold text-xs sm:text-sm shadow-md transition-all hover:scale-[1.02] w-full sm:w-auto whitespace-nowrap min-h-[48px] sm:min-h-[52px]"
               >
-                <MessageSquare size={17} />
-                WhatsApp Advisory Desk
+                <MessageSquare size={17} className="flex-shrink-0" />
+                <span>WhatsApp Advisory Desk</span>
               </a>
             </MagneticButton>
           </div>

@@ -7,16 +7,16 @@ interface PropertyConnectivityTimelineProps {
 
 export function PropertyConnectivityTimeline({ property }: PropertyConnectivityTimelineProps) {
   return (
-    <section aria-labelledby="connectivity-heading" className="mb-12">
-      <div className="p-7 sm:p-8 rounded-3xl bg-white border border-[rgba(7,26,40,0.08)] shadow-[0_4px_24px_rgba(7,26,40,0.04)]">
-        <div className="max-w-[720px] mb-6">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[rgba(7,132,200,0.08)] border border-[rgba(7,132,200,0.2)] text-[#0784C8] text-xs font-bold uppercase tracking-wider mb-2">
+    <section aria-labelledby="connectivity-heading" className="mb-8 sm:mb-12">
+      <div className="p-4 sm:p-7 sm:p-8 rounded-2xl sm:rounded-3xl bg-white border border-[rgba(7,26,40,0.08)] shadow-[0_4px_24px_rgba(7,26,40,0.04)]">
+        <div className="max-w-[720px] mb-5 sm:mb-6">
+          <div className="inline-flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1 rounded-full bg-[rgba(7,132,200,0.08)] border border-[rgba(7,132,200,0.2)] text-[#0784C8] text-[10.5px] sm:text-xs font-semibold uppercase tracking-wider mb-2">
             <Navigation className="w-3.5 h-3.5" aria-hidden="true" />
             <span>Regional Access &amp; Milestones</span>
           </div>
           <h2
             id="connectivity-heading"
-            className="font-heading text-2xl sm:text-3xl text-[#031C2B] font-normal leading-tight tracking-tight mb-2"
+            className="font-instrument text-xl sm:text-2xl sm:text-3xl text-[#031C2B] font-normal leading-tight tracking-tight mb-1.5 sm:mb-2"
           >
             Connectivity and surrounding infrastructure.
           </h2>
@@ -26,11 +26,11 @@ export function PropertyConnectivityTimeline({ property }: PropertyConnectivityT
         </div>
 
         {/* Connectivity Milestones Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 mb-6 sm:mb-8">
           {property.connectivity.map((item, idx) => (
             <div
               key={idx}
-              className="p-4 rounded-xl bg-[#F5F1E9] border border-[rgba(7,26,40,0.06)] flex items-start gap-3"
+              className="p-3.5 sm:p-4 rounded-xl bg-[#F5F1E9] border border-[rgba(7,26,40,0.06)] flex items-start gap-2.5 sm:gap-3"
             >
               <div className="w-8 h-8 rounded-lg bg-white text-[#0784C8] flex items-center justify-center flex-shrink-0 shadow-2xs mt-0.5">
                 <Clock className="w-4 h-4" />

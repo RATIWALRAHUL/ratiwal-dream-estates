@@ -79,9 +79,11 @@ export interface ILead extends Document {
   source: LeadSource;
   propertyId?: Types.ObjectId;
   locationId?: Types.ObjectId;
+  preferredLocation?: string;
   propertyTypeInterest?: string;
   budgetMinimumPaise?: number;
   budgetMaximumPaise?: number;
+  budgetRange?: string;
   areaMinimumSqFt?: number;
   areaMaximumSqFt?: number;
   purchaseTimeline?: PurchaseTimeline;
@@ -240,9 +242,11 @@ const LeadSchema = new Schema<ILead>(
     },
     propertyId: { type: Schema.Types.ObjectId, ref: "Property", index: true },
     locationId: { type: Schema.Types.ObjectId, ref: "Location", index: true },
+    preferredLocation: { type: String, trim: true, maxlength: 150 },
     propertyTypeInterest: { type: String, trim: true, maxlength: 100 },
     budgetMinimumPaise: { type: Number, min: 0 },
     budgetMaximumPaise: { type: Number, min: 0 },
+    budgetRange: { type: String, trim: true, maxlength: 100 },
     areaMinimumSqFt: { type: Number, min: 0 },
     areaMaximumSqFt: { type: Number, min: 0 },
     purchaseTimeline: { type: String, enum: PURCHASE_TIMELINES },

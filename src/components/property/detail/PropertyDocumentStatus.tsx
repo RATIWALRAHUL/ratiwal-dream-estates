@@ -16,16 +16,16 @@ export function PropertyDocumentStatus({
   }
 
   return (
-    <section aria-labelledby="doc-status-heading" className="mb-12">
-      <div className="p-7 sm:p-8 rounded-3xl bg-white border border-[rgba(7,26,40,0.08)] shadow-[0_4px_24px_rgba(7,26,40,0.04)]">
-        <div className="max-w-[720px] mb-6">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[rgba(36,209,127,0.1)] border border-[rgba(36,209,127,0.25)] text-[#10854d] text-xs font-bold uppercase tracking-wider mb-2">
+    <section aria-labelledby="doc-status-heading" className="mb-8 sm:mb-12">
+      <div className="p-4 sm:p-7 sm:p-8 rounded-2xl sm:rounded-3xl bg-white border border-[rgba(7,26,40,0.08)] shadow-[0_4px_24px_rgba(7,26,40,0.04)]">
+        <div className="max-w-[720px] mb-5 sm:mb-6">
+          <div className="inline-flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1 rounded-full bg-[rgba(36,209,127,0.1)] border border-[rgba(36,209,127,0.25)] text-[#10854d] text-[10.5px] sm:text-xs font-semibold uppercase tracking-wider mb-2">
             <ShieldCheck className="w-3.5 h-3.5" aria-hidden="true" />
             <span>Title &amp; Sanction Audit</span>
           </div>
           <h2
             id="doc-status-heading"
-            className="font-heading text-2xl sm:text-3xl text-[#031C2B] font-normal leading-tight tracking-tight mb-2"
+            className="font-instrument text-xl sm:text-2xl sm:text-3xl text-[#031C2B] font-normal leading-tight tracking-tight mb-1.5 sm:mb-2"
           >
             Available property information.
           </h2>
@@ -35,11 +35,11 @@ export function PropertyDocumentStatus({
         </div>
 
         {/* Document Status List */}
-        <div className="space-y-3 mb-6">
+        <div className="space-y-2.5 sm:space-y-3 mb-5 sm:mb-6">
           {documents.map((doc, idx) => (
             <div
               key={idx}
-              className="p-4 rounded-xl bg-[#F5F1E9] border border-[rgba(7,26,40,0.06)] flex flex-col sm:flex-row sm:items-center justify-between gap-3"
+              className="p-3 sm:p-4 rounded-xl bg-[#F5F1E9] border border-[rgba(7,26,40,0.06)] flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 sm:gap-3"
             >
               <div>
                 <div className="flex items-center gap-2 mb-0.5">
