@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Fraunces, Plus_Jakarta_Sans, Instrument_Serif, JetBrains_Mono } from "next/font/google";
 import { getMetadata } from "@/lib/seo";
 import { JsonLd, getRealEstateAgentSchema, getWebSiteSchema } from "@/components/seo/JsonLd";
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 
 const fraunces = Fraunces({
@@ -57,6 +58,7 @@ export default function RootLayout({
       </head>
       <body className="min-h-full bg-white text-text-main flex flex-col font-body antialiased selection:bg-[#087fc3] selection:text-white">
         {children}
+        <Analytics />
       </body>
     </html>
   );

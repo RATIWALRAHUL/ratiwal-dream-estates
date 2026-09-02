@@ -38,6 +38,7 @@
   "dependencies": {
     "@hookform/resolvers": "^5.7.1",
     "@types/leaflet": "^1.9.22",
+    "@vercel/analytics": "^2.0.1",
     "clsx": "^2.1.1",
     "imagekit": "^6.0.0",
     "leaflet": "^1.9.4",
