@@ -12,8 +12,6 @@ import { CountUp } from "@/components/home/CountUp";
 import { MagneticButton } from "@/components/home/MagneticButton";
 import { PropertyAdvisorSection } from "@/components/home/PropertyAdvisorSection";
 
-import { buildRealEstateAgentSchema, buildWebSiteSchema, sanitizeJsonLd } from "@/lib/schema";
-
 export const metadata = getMetadata({
   title: "Premium Plots in Jaipur & Navi Mumbai",
   description:
@@ -33,21 +31,8 @@ const marqueeItems = [
 export default function HomePage() {
   const featured = properties.filter((property) => property.featured);
 
-  const homeJsonLd = {
-    "@context": "https://schema.org",
-    "@graph": [
-      buildRealEstateAgentSchema(),
-      buildWebSiteSchema(),
-    ],
-  };
-
   return (
     <>
-      {/* Schema.org Structured Data */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: sanitizeJsonLd(homeJsonLd) }}
-      />
       <HeroSlider />
     <HomeSearch properties={properties}/>
     <div className="proof-marquee" aria-hidden="true"><div className="marquee-track">{[...marqueeItems, ...marqueeItems].map((item, index) => <span className="marquee-item" key={index}><item.icon size={16} strokeWidth={1.5}/>{item.label}<i/></span>)}</div></div>

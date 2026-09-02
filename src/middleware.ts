@@ -16,7 +16,6 @@ const PUBLIC_PORTAL_PATHS = [
   "/portal/login",
   "/portal/claim",
 ];
-
 // Public paths under /partner
 const PUBLIC_PARTNER_PATHS = [
   "/partner/login",
