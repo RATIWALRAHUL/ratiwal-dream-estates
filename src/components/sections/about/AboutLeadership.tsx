@@ -3,7 +3,7 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Phone, MessageSquare, ShieldCheck, Sparkles } from "lucide-react";
+import { Phone, Mail, MessageSquare, ShieldCheck, Sparkles } from "lucide-react";
 import { Reveal } from "@/components/home/Reveal";
 import { MagneticButton } from "@/components/home/MagneticButton";
 import { generateWhatsAppUrl } from "@/lib/whatsapp";
@@ -13,9 +13,9 @@ export function AboutLeadership() {
   const whatsappUrl = generateWhatsAppUrl({ type: "general" });
 
   const credentials = [
-    { title: "10+ Years Dedicated Experience", desc: "Specializing in Rajasthan & Maharashtra land markets and development corridors." },
-    { title: "Direct Fiduciary Advisory", desc: "Providing unbiased guidance with complete transactional clarity for family offices and investors." },
-    { title: "500+ Land Parcels Vetted", desc: "Expert in Jamabandi, Patta conversion, 90A/90B approvals, and Sub-Registrar verification." },
+    { title: "8+ Years Dedicated Experience", desc: "Specializing in Rajasthan land markets, masterplan alignments, and high-growth development corridors." },
+    { title: "250+ Satisfied Clients & Investors", desc: "Providing direct fiduciary advisory with complete transactional clarity for families and investors." },
+    { title: "50,000+ Sq. Yards Land Sold", desc: "Expert in Jamabandi, Patta conversion, 90A/90B approvals, RERA compliance, and Sub-Registrar verification." },
   ];
 
   return (
@@ -39,8 +39,8 @@ export function AboutLeadership() {
             <Reveal>
               <div className="relative w-full max-w-[420px] aspect-[4/5] rounded-2xl sm:rounded-3xl overflow-hidden border border-white/15 shadow-2xl bg-gradient-to-b from-[#0b2a40] to-[var(--midnight)]">
                 <Image
-                  src="/images/brand/advisor-portrait.png"
-                  alt="Rahul Ratiwal — Principal Advisor & Founder at Ratiwal Dream Estates"
+                  src={siteConfig.agent.image}
+                  alt={`${siteConfig.agent.name} — ${siteConfig.agent.role} (RERA: ${siteConfig.agent.reraNo})`}
                   fill
                   sizes="(max-width: 768px) 100vw, 420px"
                   className="object-cover object-top"
@@ -53,16 +53,21 @@ export function AboutLeadership() {
                   Available for Private Consultation
                 </div>
 
-                {/* Founder Plaque at bottom */}
+                {/* Founder / Senior Advisor Plaque at bottom */}
                 <div className="absolute bottom-4 left-4 right-4 p-4 rounded-xl bg-[var(--midnight)]/90 backdrop-blur-xl border border-white/20 text-white">
-                  <h3 className="font-instrument text-2xl text-white font-normal leading-tight">
-                    Rahul Ratiwal
-                  </h3>
+                  <div className="flex items-center justify-between gap-2">
+                    <h3 className="font-instrument text-2xl text-white font-normal leading-tight">
+                      {siteConfig.agent.name}
+                    </h3>
+                    <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                      RERA Verified
+                    </span>
+                  </div>
                   <p className="text-[12.5px] text-[var(--cyan)] font-semibold mt-0.5">
-                    Founder &amp; Principal Property Advisor
+                    {siteConfig.agent.role} &bull; RERA: {siteConfig.agent.reraNo}
                   </p>
                   <p className="text-[11.5px] text-white/70 mt-1">
-                    Jaipur &bull; Ajmer &bull; Navi Mumbai
+                    {siteConfig.agent.experience} Experience &bull; {siteConfig.agent.clients} Clients &bull; {siteConfig.agent.salesDetails}
                   </p>
                 </div>
               </div>
@@ -131,11 +136,21 @@ export function AboutLeadership() {
                 
                 <MagneticButton strength={6}>
                   <a
-                    href={`tel:${siteConfig.contact.phone.replace(/[^0-9+]/g, "")}`}
+                    href={`tel:${siteConfig.agent.phone.replace(/[^0-9+]/g, "")}`}
                     className="inline-flex items-center gap-2.5 px-5 py-3 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 text-white font-bold text-sm transition-all"
                   >
                     <Phone size={16} />
-                    {siteConfig.contact.phone}
+                    {siteConfig.agent.displayPhone}
+                  </a>
+                </MagneticButton>
+
+                <MagneticButton strength={6}>
+                  <a
+                    href={`mailto:${siteConfig.agent.email}`}
+                    className="inline-flex items-center gap-2.5 px-5 py-3 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 text-white font-bold text-sm transition-all"
+                  >
+                    <Mail size={16} />
+                    {siteConfig.agent.email}
                   </a>
                 </MagneticButton>
               </div>

@@ -6,6 +6,7 @@ import {
   FileText, 
   MapPin, 
   Phone, 
+  Mail,
   MessageSquare, 
   ShieldCheck, 
   Clock, 
@@ -181,22 +182,24 @@ export function ContactFormHub() {
               <div className="flex items-center gap-4 mb-4">
                 <div className="relative w-16 h-16 rounded-2xl overflow-hidden border-2 border-[var(--cyan)] flex-shrink-0">
                   <Image
-                    src="/images/brand/advisor-portrait.png"
-                    alt="Rahul Ratiwal"
+                    src={siteConfig.agent.image}
+                    alt={`${siteConfig.agent.name} — ${siteConfig.agent.role}`}
                     fill
                     className="object-cover object-top"
                   />
                 </div>
                 <div>
                   <h3 className="font-instrument text-2xl text-white font-normal leading-tight">
-                    Rahul Ratiwal
+                    {siteConfig.agent.name}
                   </h3>
                   <p className="text-xs text-[var(--cyan)] font-semibold">
-                    Founder &amp; Principal Property Advisor
+                    {siteConfig.agent.role} &bull; RERA: {siteConfig.agent.reraNo}
                   </p>
                   <div className="flex items-center gap-1.5 mt-1">
                     <span className="w-2 h-2 rounded-full bg-[#20c978] animate-pulse" />
-                    <span className="text-[11px] text-white/70">Available for consultations</span>
+                    <span className="text-[11px] text-white/70">
+                      {siteConfig.agent.experience} Exp &bull; {siteConfig.agent.clients} Clients
+                    </span>
                   </div>
                 </div>
               </div>
@@ -208,15 +211,23 @@ export function ContactFormHub() {
               <div className="space-y-2 text-xs text-white/90">
                 <div className="flex items-center gap-2">
                   <ShieldCheck size={15} className="text-[var(--cyan)] flex-shrink-0" />
-                  <span>30-Year Revenue Title Verification</span>
+                  <span>RERA Reg: {siteConfig.agent.reraNo}</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <ShieldCheck size={15} className="text-[var(--cyan)] flex-shrink-0" />
-                  <span>JDA / CIDCO / RERA Approval Audit</span>
+                  <span>{siteConfig.agent.salesDetails}</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <ShieldCheck size={15} className="text-[var(--cyan)] flex-shrink-0" />
-                  <span>Zero Speculative Middleman Markups</span>
+                  <Phone size={15} className="text-[var(--cyan)] flex-shrink-0" />
+                  <a href={`tel:${siteConfig.agent.phone.replace(/[^0-9+]/g, "")}`} className="hover:underline">
+                    {siteConfig.agent.displayPhone}
+                  </a>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Mail size={15} className="text-[var(--cyan)] flex-shrink-0" />
+                  <a href={`mailto:${siteConfig.agent.email}`} className="hover:underline truncate">
+                    {siteConfig.agent.email}
+                  </a>
                 </div>
               </div>
             </div>

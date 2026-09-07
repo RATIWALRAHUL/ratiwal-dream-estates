@@ -76,8 +76,8 @@ export function AdvisorPreview() {
 
                   <div className="pt-4 border-t border-[rgba(7,26,40,0.08)] flex items-center justify-between text-xs">
                     <div>
-                      <span className="font-bold text-[var(--midnight)] block">Jaipur Advisory Office</span>
-                      <span className="text-[11px] text-[var(--text-secondary)]">Rajasthan &amp; Maharashtra Corridors</span>
+                      <span className="font-bold text-[var(--midnight)] block">Senior Advisor Suresh Kumawat</span>
+                      <span className="text-[11px] text-[var(--text-secondary)]">RERA: RAJ/A/2019/983 &bull; Jaipur Advisory Desk</span>
                     </div>
                     <span className="px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-800 text-[10px] font-bold uppercase tracking-wider border border-emerald-200">
                       Consultation Active

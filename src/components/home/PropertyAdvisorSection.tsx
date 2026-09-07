@@ -1,12 +1,11 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
-import Image from "next/image";
-import Link from "next/link";
-import { ArrowRight, Lock } from "lucide-react";
+import { ArrowRight, Lock, ShieldCheck, Phone, Mail, Award, Users, BarChart3 } from "lucide-react";
 import { AdvisorExpertiseItem } from "./AdvisorExpertiseItem";
-import { AdvisorProfilePlaque } from "./AdvisorProfilePlaque";
+import DigitalVisitingCard from "./DigitalVisitingCard";
 import { generateWhatsAppUrl } from "@/lib/whatsapp";
+import { siteConfig } from "@/config/site";
 
 // Clean custom SVG icons matching the reference design line-style
 function MarketIntelligenceIcon() {
@@ -211,83 +210,100 @@ export function PropertyAdvisorSection() {
     <section
       ref={sectionRef}
       aria-labelledby="advisor-section-title"
-      className="relative w-[calc(100%-32px)] sm:w-[calc(100%-48px)] max-w-[1900px] mx-auto my-8 sm:my-10 md:my-12 rounded-[18px] sm:rounded-[24px] md:rounded-[28px] overflow-hidden border border-[var(--advisor-border)] bg-[var(--advisor-alabaster)] shadow-[0_16px_40px_rgba(6,30,46,0.06)]"
+      className="relative w-full bg-[var(--advisor-alabaster)] py-14 sm:py-16 md:py-20 lg:py-24"
     >
-      {/* Topographic Background Overlay across alabaster area */}
-      <TopographicPattern />
+      {/* Max-width container */}
+      <div className="max-w-[1380px] mx-auto px-5 sm:px-8 md:px-10 lg:px-14 xl:px-16">
 
-      {/* Midnight Navy Architectural Wing on Desktop & Tablet Right Edge */}
-      <div
-        className="hidden md:block absolute top-0 right-0 bottom-0 w-[34%] xl:w-[35%] bg-[var(--advisor-midnight)] z-0"
-        aria-hidden="true"
-      >
-        <ArchitecturalLineDrawing />
-      </div>
-
-      {/* Main Grid Content: Left Content Area + Right Image Area */}
-      <div className="relative z-10 grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-6 lg:gap-8 xl:gap-10 items-center">
-        {/* Left Column: Editorial Content */}
+      {/* Main Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-8 lg:gap-12 xl:gap-16 items-center">
+        {/* Left Column */}
         <div
-          className={`md:col-span-7 xl:col-span-7 px-5 py-7 sm:px-8 sm:py-8 md:py-8 md:pl-10 lg:py-10 lg:pl-12 xl:pl-16 lg:pr-4 flex flex-col justify-center transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] ${
-            isVisible
-              ? "opacity-100 translate-y-0"
-              : "opacity-0 translate-y-6"
+          className={`md:col-span-7 flex flex-col justify-center transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
           }`}
         >
           {/* Eyebrow */}
-          <div className="flex items-center">
-            <span className="text-[11.5px] sm:text-[12.5px] font-bold tracking-[0.16em] uppercase text-[var(--advisor-blue)] font-body">
-              PRIVATE CLIENT ADVISORY
+          <div className="flex items-center gap-3 mb-4 sm:mb-5">
+            <div className="w-7 sm:w-8 h-[2px] bg-[var(--advisor-blue)] rounded-full flex-shrink-0" aria-hidden="true" />
+            <span className="text-[11px] sm:text-[12px] font-bold tracking-[0.18em] uppercase text-[var(--advisor-blue)]">
+              Meet Your Property Advisor
             </span>
           </div>
 
           {/* Primary Heading */}
           <h2
             id="advisor-section-title"
-            className="font-instrument text-[2.2rem] sm:text-[2.7rem] md:text-[3rem] lg:text-[3.35rem] xl:text-[3.75rem] text-[var(--advisor-midnight)] font-normal leading-[1.02] tracking-tight mt-2.5 sm:mt-3 mb-3 sm:mb-3.5 max-w-[620px]"
+            className="font-instrument text-[2.2rem] sm:text-[2.7rem] md:text-[3rem] lg:text-[3.35rem] xl:text-[3.75rem] text-[var(--advisor-midnight)] font-normal leading-[1.02] tracking-tight mt-1 sm:mt-1.5 mb-3 sm:mb-3.5 max-w-[640px]"
           >
             Property guidance,
             <br />
             shaped around you.
           </h2>
 
-          {/* Supporting Copy */}
-          <p className="text-[14px] sm:text-[15px] md:text-[15.5px] lg:text-[16.5px] text-[var(--advisor-graphite)] leading-[1.5] max-w-[560px] font-normal mb-3.5 sm:mb-4">
-            Local insight, verified opportunities and clear advice—from the first
-            conversation to final documentation.
+          {/* Supporting Copy with Advisor Name */}
+          <p className="text-[14px] sm:text-[15px] md:text-[15.5px] lg:text-[16.5px] text-[var(--advisor-graphite)] leading-[1.5] max-w-[580px] font-normal mb-3.5 sm:mb-4">
+            Direct one-on-one advisory led by Senior Property Advisor{" "}
+            <strong className="text-[var(--advisor-midnight)] font-semibold">{siteConfig.agent.name}</strong>{" "}
+            (RERA: {siteConfig.agent.reraNo}). Clear legal verification, realistic land valuations, and transparent guidance from first conversation to final registry.
           </p>
 
-          {/* Expert Statement */}
-          <div className="mb-3.5 sm:mb-4">
-            <p className="font-instrument text-[17.5px] sm:text-[19.5px] md:text-[21px] lg:text-[23px] text-[var(--advisor-midnight)] font-normal leading-[1.22] max-w-[560px]">
-              Every recommendation begins with your goals, not a listing.
-            </p>
+          {/* Stats — inline row with thin dividers */}
+          <div className="flex items-center max-w-[580px] mb-4 sm:mb-5 bg-white border border-[rgba(6,30,46,0.08)] rounded-xl px-3 sm:px-4 py-3 shadow-[0_1px_8px_rgba(6,30,46,0.05)]">
+            {/* Stat 1 */}
+            <div className="flex items-center gap-2.5 flex-1 min-w-0">
+              <Award size={17} className="text-[var(--advisor-blue)] flex-shrink-0" strokeWidth={1.6} aria-hidden="true" />
+              <div className="min-w-0">
+                <p className="text-[var(--advisor-midnight)] font-bold text-[13px] sm:text-sm leading-tight">{siteConfig.agent.experience}</p>
+                <p className="text-[var(--advisor-muted)] text-[10px] sm:text-[11px] leading-tight truncate">Dedicated Land Advisory</p>
+              </div>
+            </div>
+            {/* Divider */}
+            <div className="w-px h-9 bg-[rgba(6,30,46,0.1)] mx-3 flex-shrink-0" aria-hidden="true" />
+            {/* Stat 2 */}
+            <div className="flex items-center gap-2.5 flex-1 min-w-0">
+              <Users size={17} className="text-[var(--advisor-blue)] flex-shrink-0" strokeWidth={1.6} aria-hidden="true" />
+              <div className="min-w-0">
+                <p className="text-[var(--advisor-midnight)] font-bold text-[13px] sm:text-sm leading-tight">{siteConfig.agent.clients} Clients</p>
+                <p className="text-[var(--advisor-muted)] text-[10px] sm:text-[11px] leading-tight truncate">Families &amp; Investors</p>
+              </div>
+            </div>
+            {/* Divider */}
+            <div className="w-px h-9 bg-[rgba(6,30,46,0.1)] mx-3 flex-shrink-0" aria-hidden="true" />
+            {/* Stat 3 */}
+            <div className="flex items-center gap-2.5 flex-1 min-w-0">
+              <BarChart3 size={17} className="text-[var(--advisor-blue)] flex-shrink-0" strokeWidth={1.6} aria-hidden="true" />
+              <div className="min-w-0">
+                <p className="text-[var(--advisor-midnight)] font-bold text-[13px] sm:text-sm leading-tight">{siteConfig.agent.salesExperience}</p>
+                <p className="text-[var(--advisor-muted)] text-[10px] sm:text-[11px] leading-tight truncate">Plots &amp; Land Sold</p>
+              </div>
+            </div>
           </div>
 
           {/* Expertise Items List */}
-          <div className="space-y-0 max-w-[560px] mb-5 sm:mb-6">
+          <div className="space-y-0 max-w-[580px] mb-5 sm:mb-6">
             <AdvisorExpertiseItem
               icon={<MarketIntelligenceIcon />}
               title="Local market intelligence"
-              description="Neighbourhood context and long-term potential"
+              description="Neighbourhood context, corridor pricing and infrastructure potential"
               hasSeparator={true}
             />
             <AdvisorExpertiseItem
               icon={<OpportunityReviewIcon />}
               title="Independent opportunity review"
-              description="Clear evaluation before you commit"
+              description="Objective title checks, JDA / RERA verification before you commit"
               hasSeparator={true}
             />
             <AdvisorExpertiseItem
               icon={<DocumentationSupportIcon />}
               title="Documentation and closing support"
-              description="Guidance through every critical step"
+              description="Registry, Patta, Sub-Registrar execution and transparent handover"
               hasSeparator={false}
             />
           </div>
 
-          {/* CTAs Row */}
-          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3.5 sm:gap-6">
+          {/* CTAs & Direct Contact Row */}
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4 mb-3">
             {/* Primary CTA Button */}
             <a
               href={whatsapp}
@@ -295,7 +311,7 @@ export function PropertyAdvisorSection() {
               rel="noopener noreferrer"
               className="group inline-flex items-center justify-center gap-2.5 bg-[var(--advisor-midnight)] hover:bg-[var(--advisor-blue)] active:scale-[0.985] text-[var(--advisor-ivory)] px-5 sm:px-7 min-h-[48px] sm:h-[50px] py-2.5 sm:py-0 rounded-lg sm:rounded-[8px] text-[13.5px] xs:text-[14px] sm:text-[14.5px] font-semibold tracking-normal whitespace-nowrap transition-all duration-300 shadow-[0_4px_14px_rgba(6,30,46,0.12)] hover:shadow-[0_6px_20px_rgba(8,127,195,0.28)]"
             >
-              <span>Schedule a private consultation</span>
+              <span>Consult with Suresh Kumawat</span>
               <ArrowRight
                 size={16}
                 className="flex-shrink-0 transition-transform duration-300 group-hover:translate-x-1"
@@ -303,56 +319,45 @@ export function PropertyAdvisorSection() {
               />
             </a>
 
-            {/* Secondary CTA Link */}
-            <Link
-              href="/about"
-              className="group inline-flex items-center justify-center sm:justify-start gap-2 text-[var(--advisor-midnight)] hover:text-[var(--advisor-blue)] text-[13.5px] sm:text-[14.5px] font-semibold py-1.5 transition-colors duration-300 relative self-center sm:self-auto"
-            >
-              <span className="relative pb-0.5 border-b-[1.5px] border-[var(--advisor-cyan)] group-hover:border-[var(--advisor-blue)] transition-colors duration-300">
-                Meet the advisory team
-              </span>
-            </Link>
+            {/* Direct Phone & Email Links */}
+            <div className="flex items-center gap-2">
+              <a
+                href={`tel:${siteConfig.agent.phone.replace(/[^0-9+]/g, "")}`}
+                className="inline-flex items-center gap-1.5 px-3 py-2.5 rounded-lg bg-white border border-[var(--advisor-border)] text-[var(--advisor-midnight)] hover:text-[var(--advisor-blue)] hover:border-[var(--advisor-blue)] text-xs font-semibold shadow-2xs transition-colors"
+                title={`Call ${siteConfig.agent.phone}`}
+              >
+                <Phone size={13} className="text-[var(--advisor-blue)]" />
+                <span>{siteConfig.agent.displayPhone}</span>
+              </a>
+              <a
+                href={`mailto:${siteConfig.agent.email}`}
+                className="inline-flex items-center gap-1.5 px-3 py-2.5 rounded-lg bg-white border border-[var(--advisor-border)] text-[var(--advisor-midnight)] hover:text-[var(--advisor-blue)] hover:border-[var(--advisor-blue)] text-xs font-semibold shadow-2xs transition-colors"
+                title={`Email ${siteConfig.agent.email}`}
+              >
+                <Mail size={13} className="text-[var(--advisor-blue)]" />
+                <span className="hidden xs:inline">{siteConfig.agent.email}</span>
+                <span className="xs:hidden">Email</span>
+              </a>
+            </div>
           </div>
 
           {/* Trust Note */}
-          <div className="flex items-center gap-2 mt-2.5 sm:mt-3 text-[var(--advisor-muted)] text-[12px] sm:text-[12.5px]">
+          <div className="flex items-center gap-2 mt-1 text-[var(--advisor-muted)] text-[12px] sm:text-[12.5px]">
             <Lock size={13} className="flex-shrink-0 opacity-80" aria-hidden="true" />
-            <span>Confidential, no-pressure consultation.</span>
+            <span>RERA Registered: {siteConfig.agent.reraNo} &bull; Confidential, zero-pressure advisory.</span>
           </div>
         </div>
 
-        {/* Right Column: Advisor Portrait & Plaque */}
+        {/* Right Column: Interactive Digital Visiting Card */}
         <div
-          className={`md:col-span-5 xl:col-span-5 px-5 sm:px-8 pb-7 sm:pb-8 md:px-0 md:py-6 lg:py-8 md:pr-6 lg:pr-8 xl:pr-10 relative flex justify-center md:justify-end transition-all duration-900 delay-150 ease-[cubic-bezier(0.22,1,0.36,1)] ${
-            isVisible
-              ? "opacity-100 translate-y-0 scale-100"
-              : "opacity-0 translate-y-8 scale-[0.98]"
+          className={`md:col-span-5 transition-all duration-700 delay-200 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           }`}
         >
-          {/* Portrait Container */}
-          <div className="relative w-full max-w-[380px] md:max-w-[390px] lg:max-w-[440px] xl:max-w-[470px] aspect-[4/5] sm:aspect-[3.6/4.5] md:h-[400px] lg:h-[460px] xl:h-[500px] rounded-[10px] rounded-tr-[54px] sm:rounded-tr-[70px] lg:rounded-tr-[84px] overflow-hidden shadow-[0_20px_44px_rgba(6,30,46,0.16)] border border-[rgba(255,255,255,0.2)]">
-            <Image
-              src="/images/brand/advisor-portrait.png"
-              alt="Senior Property Advisor in a luxury real-estate gallery"
-              fill
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 45vw"
-              className="object-cover object-top hover:scale-[1.015] transition-transform duration-700 ease-out"
-              priority={false}
-            />
-
-            {/* Subtle Gradient Vignette at the bottom for plaque readability on mobile */}
-            <div
-              className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-[rgba(6,30,46,0.5)] to-transparent md:hidden pointer-events-none"
-              aria-hidden="true"
-            />
-          </div>
-
-          {/* Profile Plaque Overlay */}
-          <div className="absolute left-4 sm:left-6 md:left-[-18px] lg:left-[-26px] xl:left-[-32px] bottom-3 sm:bottom-4 md:bottom-5 lg:bottom-6 z-20 w-[calc(100%-32px)] sm:w-auto">
-            <AdvisorProfilePlaque />
-          </div>
+          <DigitalVisitingCard />
         </div>
-      </div>
+      </div>{/* end grid */}
+      </div>{/* end max-w container */}
     </section>
   );
 }
