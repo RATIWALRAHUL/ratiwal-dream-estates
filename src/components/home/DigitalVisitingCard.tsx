@@ -562,8 +562,6 @@ export default function DigitalVisitingCard() {
         </div>
       </div>
 
-      </div>
-
       {/* ── Action buttons — pill style matching reference ──────────────────────── */}
       <div className="flex items-center gap-2.5 mt-3">
         {/* Flip */}
