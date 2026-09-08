@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Fraunces, Plus_Jakarta_Sans, Instrument_Serif, JetBrains_Mono } from "next/font/google";
+import { Fraunces, Plus_Jakarta_Sans, Instrument_Serif, JetBrains_Mono, Playfair_Display, Alex_Brush } from "next/font/google";
 import { getMetadata } from "@/lib/seo";
 import { JsonLd, getRealEstateAgentSchema, getWebSiteSchema } from "@/components/seo/JsonLd";
 import { Analytics } from "@vercel/analytics/next";
@@ -10,6 +10,20 @@ const fraunces = Fraunces({
   variable: "--font-heading",
   style: ["normal", "italic"],
   axes: ["opsz", "SOFT"],
+  display: "swap",
+});
+
+const playfair = Playfair_Display({
+  subsets: ["latin"],
+  variable: "--font-playfair",
+  weight: ["400", "600", "700", "800"],
+  display: "swap",
+});
+
+const alexBrush = Alex_Brush({
+  subsets: ["latin"],
+  variable: "--font-signature",
+  weight: ["400"],
   display: "swap",
 });
 
@@ -47,7 +61,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${fraunces.variable} ${instrument.variable} ${jakarta.variable} ${mono.variable} h-full scroll-smooth`}
+      className={`${fraunces.variable} ${playfair.variable} ${alexBrush.variable} ${instrument.variable} ${jakarta.variable} ${mono.variable} h-full scroll-smooth`}
     >
       <head>
         <link rel="icon" type="image/png" href="/images/brand/logo.png" />
