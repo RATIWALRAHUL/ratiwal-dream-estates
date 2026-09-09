@@ -2,8 +2,7 @@
 
 import React from "react";
 import Image from "next/image";
-import Link from "next/link";
-import { Phone, Mail, MessageSquare, ShieldCheck, Sparkles } from "lucide-react";
+import { Phone, Mail, MessageSquare, ShieldCheck, Sparkles, CheckCircle2 } from "lucide-react";
 import { Reveal } from "@/components/home/Reveal";
 import { MagneticButton } from "@/components/home/MagneticButton";
 import { generateWhatsAppUrl } from "@/lib/whatsapp";
@@ -32,42 +31,43 @@ export function AboutLeadership() {
       </div>
 
       <div className="max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 xl:gap-14 items-center">
           
-          {/* Left Column: Portrait with Luxury Plaque */}
+          {/* Left Column: Premium Masterplanned Estate Image with Luxury Plaque */}
           <div className="lg:col-span-5 flex flex-col items-center">
             <Reveal>
-              <div className="relative w-full max-w-[420px] aspect-[4/5] rounded-2xl sm:rounded-3xl overflow-hidden border border-white/15 shadow-2xl bg-gradient-to-b from-[#0b2a40] to-[var(--midnight)]">
+              <div className="relative w-full max-w-[460px] aspect-[4/4.8] rounded-2xl sm:rounded-3xl overflow-hidden border border-white/15 shadow-2xl bg-gradient-to-b from-[#0b2a40] to-[var(--midnight)] group">
                 <Image
-                  src={siteConfig.agent.image}
-                  alt={`${siteConfig.agent.name} — ${siteConfig.agent.role} (RERA: ${siteConfig.agent.reraNo})`}
+                  src="/images/about/leadership-ethos.jpg"
+                  alt="Ratiwal Dream Estates - Masterplanned Plotted Development & Fiduciary Excellence"
                   fill
-                  sizes="(max-width: 768px) 100vw, 420px"
-                  className="object-cover object-top"
+                  sizes="(max-width: 768px) 100vw, 460px"
+                  className="object-cover transition-transform duration-700 group-hover:scale-105"
+                  priority
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-[var(--midnight)] via-transparent to-transparent opacity-80" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[var(--midnight)] via-[var(--midnight)]/30 to-transparent opacity-90" />
 
                 {/* Overlaid Floating Status Pill */}
-                <div className="absolute top-4 left-4 inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[var(--midnight)]/85 backdrop-blur-md border border-white/20 text-[11px] font-semibold text-white">
+                <div className="absolute top-4 left-4 inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[var(--midnight)]/90 backdrop-blur-md border border-white/20 text-[10.5px] sm:text-[11px] font-semibold text-white shadow-lg">
                   <span className="w-2 h-2 rounded-full bg-[#20c978] animate-pulse" />
-                  Available for Private Consultation
+                  Statutory Clear Masterplans
                 </div>
 
-                {/* Founder / Senior Advisor Plaque at bottom */}
-                <div className="absolute bottom-4 left-4 right-4 p-4 rounded-xl bg-[var(--midnight)]/90 backdrop-blur-xl border border-white/20 text-white">
+                {/* Bottom Institutional Quality Plaque */}
+                <div className="absolute bottom-3.5 left-3.5 right-3.5 sm:bottom-4 sm:left-4 sm:right-4 p-3.5 sm:p-4 rounded-xl sm:rounded-2xl bg-[var(--midnight)]/92 backdrop-blur-xl border border-white/20 text-white shadow-2xl">
                   <div className="flex items-center justify-between gap-2">
-                    <h3 className="font-instrument text-2xl text-white font-normal leading-tight">
-                      {siteConfig.agent.name}
+                    <h3 className="font-instrument text-xl sm:text-2xl text-white font-normal leading-tight">
+                      Fiduciary Land Governance
                     </h3>
-                    <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
-                      RERA Verified
+                    <span className="text-[9.5px] sm:text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 whitespace-nowrap">
+                      100% Title Clarity
                     </span>
                   </div>
-                  <p className="text-[12.5px] text-[var(--cyan)] font-semibold mt-0.5">
-                    {siteConfig.agent.role} &bull; RERA: {siteConfig.agent.reraNo}
+                  <p className="text-[11.5px] sm:text-[12px] text-[var(--cyan)] font-semibold mt-0.5">
+                    Section 90A Approved &bull; RERA Registered &bull; Zero Speculation
                   </p>
-                  <p className="text-[11.5px] text-white/70 mt-1">
-                    {siteConfig.agent.experience} Experience &bull; {siteConfig.agent.clients} Clients &bull; {siteConfig.agent.salesDetails}
+                  <p className="text-[10.5px] sm:text-[11px] text-white/70 mt-1 leading-snug">
+                    Over 50,000+ Sq. Yards Transacted with Complete Revenue Verification.
                   </p>
                 </div>
               </div>
@@ -77,14 +77,14 @@ export function AboutLeadership() {
           {/* Right Column: Founder's Vision & Advisory Philosophy */}
           <div className="lg:col-span-7">
             <Reveal>
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/15 text-[11.5px] font-bold uppercase tracking-widest text-[var(--cyan)] mb-4">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/15 text-[11px] sm:text-[11.5px] font-bold uppercase tracking-widest text-[var(--cyan)] mb-3 sm:mb-4">
                 <Sparkles size={14} />
                 LEADERSHIP &amp; FIDUCIARY ETHOS
               </div>
 
               <h2
                 id="leadership-title"
-                className="font-instrument text-[2.4rem] sm:text-[3.2rem] md:text-[3.6rem] text-white font-normal leading-[1.05] tracking-tight mb-6"
+                className="font-instrument text-[2.2rem] xs:text-[2.6rem] sm:text-[3.2rem] md:text-[3.6rem] text-white font-normal leading-[1.06] tracking-tight mb-4 sm:mb-6"
               >
                 “Real estate advice is not a sales pitch. It is a{" "}
                 <span className="italic text-[var(--cyan)]">lifelong fiduciary pledge.</span>”
@@ -92,7 +92,7 @@ export function AboutLeadership() {
             </Reveal>
 
             <Reveal delay={100}>
-              <div className="space-y-4 text-white/80 text-base sm:text-lg leading-relaxed mb-8">
+              <div className="space-y-3 sm:space-y-4 text-white/80 text-xs xs:text-sm sm:text-base md:text-[17px] leading-relaxed mb-6 sm:mb-8">
                 <p>
                   “When a family or investor purchases land, they are committing their hard-earned capital toward their future security. Our duty as advisors is to protect that trust with total transparency.”
                 </p>
@@ -103,58 +103,59 @@ export function AboutLeadership() {
             </Reveal>
 
             {/* Key Credentials */}
-            <div className="space-y-3.5 mb-8">
+            <div className="space-y-2.5 sm:space-y-3 mb-6 sm:mb-8">
               {credentials.map((cred, idx) => (
                 <Reveal key={idx} delay={150 + idx * 50}>
-                  <div className="flex items-start gap-3 p-3.5 rounded-xl bg-white/5 border border-white/10 backdrop-blur-sm">
-                    <div className="w-8 h-8 rounded-lg bg-[var(--ratiwal-blue)]/30 text-[var(--cyan)] flex items-center justify-center flex-shrink-0 mt-0.5">
-                      <ShieldCheck size={18} />
+                  <div className="flex items-start gap-3 p-3 sm:p-3.5 rounded-xl bg-white/5 border border-white/10 backdrop-blur-xs">
+                    <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-[var(--ratiwal-blue)]/30 text-[var(--cyan)] flex items-center justify-center flex-shrink-0 mt-0.5">
+                      <ShieldCheck size={16} />
                     </div>
                     <div>
-                      <h4 className="text-sm font-bold text-white mb-0.5">{cred.title}</h4>
-                      <p className="text-[12.5px] text-white/70 leading-normal">{cred.desc}</p>
+                      <h4 className="text-xs sm:text-sm font-bold text-white mb-0.5">{cred.title}</h4>
+                      <p className="text-[11.5px] sm:text-[12.5px] text-white/70 leading-normal">{cred.desc}</p>
                     </div>
                   </div>
                 </Reveal>
               ))}
             </div>
 
-            {/* Direct Connect Buttons */}
+            {/* Direct Connect Buttons - GUARANTEED SINGLE ROW ON EVERY SCREEN */}
             <Reveal delay={250}>
-              <div className="flex flex-wrap items-center gap-3.5 pt-2">
-                <MagneticButton strength={6}>
-                  <a
-                    href={whatsappUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2.5 px-5 py-3 rounded-full bg-[#25d366] text-white font-bold text-sm shadow-lg hover:bg-[#20ba59] transition-all hover:scale-105"
-                  >
-                    <MessageSquare size={17} />
-                    Chat Directly on WhatsApp
-                  </a>
-                </MagneticButton>
+              <div className="flex flex-row items-center gap-2 sm:gap-3 w-full max-w-[580px] pt-1">
+                {/* 1. WhatsApp Button */}
+                <a
+                  href={whatsappUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex-1 min-w-0 inline-flex items-center justify-center gap-1.5 sm:gap-2 px-2.5 sm:px-4 py-3 rounded-full bg-[#25d366] hover:bg-[#20ba59] text-white font-bold text-[11px] xs:text-xs sm:text-[13px] shadow-lg transition-all active:scale-[0.98] whitespace-nowrap"
+                  aria-label="Chat on WhatsApp"
+                >
+                  <MessageSquare size={15} className="flex-shrink-0" />
+                  <span className="truncate">WhatsApp</span>
+                </a>
                 
-                <MagneticButton strength={6}>
-                  <a
-                    href={`tel:${siteConfig.agent.phone.replace(/[^0-9+]/g, "")}`}
-                    className="inline-flex items-center gap-2.5 px-5 py-3 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 text-white font-bold text-sm transition-all"
-                  >
-                    <Phone size={16} />
-                    {siteConfig.agent.displayPhone}
-                  </a>
-                </MagneticButton>
+                {/* 2. Direct Call Button */}
+                <a
+                  href={`tel:${siteConfig.agent.phone.replace(/[^0-9+]/g, "")}`}
+                  className="flex-1 min-w-0 inline-flex items-center justify-center gap-1.5 sm:gap-2 px-2.5 sm:px-4 py-3 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 text-white font-bold text-[11px] xs:text-xs sm:text-[13px] transition-all active:scale-[0.98] whitespace-nowrap"
+                  title={`Call ${siteConfig.agent.displayPhone}`}
+                >
+                  <Phone size={14} className="flex-shrink-0 text-[var(--cyan)]" />
+                  <span className="truncate">Call Advisor</span>
+                </a>
 
-                <MagneticButton strength={6}>
-                  <a
-                    href={`mailto:${siteConfig.agent.email}`}
-                    className="inline-flex items-center gap-2.5 px-5 py-3 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 text-white font-bold text-sm transition-all"
-                  >
-                    <Mail size={16} />
-                    {siteConfig.agent.email}
-                  </a>
-                </MagneticButton>
+                {/* 3. Send Email Button */}
+                <a
+                  href={`mailto:${siteConfig.agent.email}`}
+                  className="flex-1 min-w-0 inline-flex items-center justify-center gap-1.5 sm:gap-2 px-2.5 sm:px-4 py-3 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 text-white font-bold text-[11px] xs:text-xs sm:text-[13px] transition-all active:scale-[0.98] whitespace-nowrap"
+                  title={`Email ${siteConfig.agent.email}`}
+                >
+                  <Mail size={14} className="flex-shrink-0 text-[var(--cyan)]" />
+                  <span className="truncate">Send Email</span>
+                </a>
               </div>
             </Reveal>
+
           </div>
 
         </div>

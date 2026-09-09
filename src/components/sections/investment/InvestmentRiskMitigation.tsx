@@ -54,13 +54,13 @@ export function InvestmentRiskMitigation() {
 
             <h2
               id="risk-heading"
-              className="font-instrument text-[2.4rem] sm:text-[3.2rem] md:text-[3.8rem] text-white font-normal leading-[1.05] tracking-tight mb-4"
+              className="font-instrument text-[1.85rem] xs:text-[2.15rem] sm:text-[2.9rem] md:text-[3.5rem] lg:text-[3.8rem] text-white font-normal leading-[1.12] sm:leading-[1.05] tracking-tight mb-3 sm:mb-4"
             >
               How we protect your capital from{" "}
               <span className="italic text-[var(--cyan)]">market pitfalls.</span>
             </h2>
 
-            <p className="text-base sm:text-lg text-white/75 leading-relaxed">
+            <p className="text-xs sm:text-base md:text-lg text-white/75 leading-relaxed max-w-2xl mx-auto font-normal sm:font-medium">
               We reject high-risk land aggressively. Every investment recommendation must pass our 4-pillar fiduciary risk shield.
             </p>
           </Reveal>

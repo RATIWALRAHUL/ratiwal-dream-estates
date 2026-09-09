@@ -54,7 +54,7 @@ export function TestimonialsFinalCTA() {
                 href="/properties"
                 className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-full bg-[rgba(255,255,255,0.1)] hover:bg-[rgba(255,255,255,0.18)] text-white text-sm font-semibold border border-[rgba(255,255,255,0.2)] transition-all duration-300"
               >
-                <span>Explore properties</span>
+                <span>Explore All Properties</span>
                 <ArrowRight className="w-4 h-4" aria-hidden="true" />
               </Link>
             </div>

@@ -48,22 +48,22 @@ export function InvestmentProfiles() {
         {/* Header */}
         <div className="max-w-3xl mx-auto text-center mb-12 sm:mb-16">
           <Reveal>
-            <div className="flex items-center justify-center gap-2 mb-3">
-              <Users size={16} className="text-[var(--ratiwal-blue)]" />
-              <span className="text-[12px] font-bold tracking-[0.16em] uppercase text-[var(--ratiwal-blue)]">
+            <div className="inline-flex items-center justify-center gap-1.5 px-3 py-1 rounded-full bg-[var(--advisor-ivory)] border border-[rgba(8,127,195,0.2)] shadow-2xs mb-3">
+              <Users size={14} className="text-[var(--ratiwal-blue)]" />
+              <span className="text-[10px] sm:text-[11.5px] font-bold tracking-[0.14em] uppercase text-[var(--ratiwal-blue)]">
                 INVESTOR PROFILES
               </span>
             </div>
 
             <h2
               id="profiles-heading"
-              className="font-instrument text-[2.4rem] sm:text-[3.2rem] md:text-[3.8rem] text-[var(--midnight)] font-normal leading-[1.05] tracking-tight mb-4"
+              className="font-instrument text-[1.85rem] xs:text-[2.15rem] sm:text-[2.9rem] md:text-[3.5rem] lg:text-[3.8rem] text-[var(--midnight)] font-normal leading-[1.12] sm:leading-[1.05] tracking-tight mb-3 sm:mb-4"
             >
               Tailored advisory for your{" "}
               <span className="italic text-[var(--ratiwal-blue)]">capital goals.</span>
             </h2>
 
-            <p className="text-base sm:text-lg text-[var(--text-secondary)] leading-relaxed">
+            <p className="text-xs sm:text-base md:text-lg text-[var(--text-secondary)] leading-relaxed max-w-2xl mx-auto font-normal sm:font-medium">
               Whether allocating family savings or managing an institutional land bank, our advisory adapts to your exact risk profile.
             </p>
           </Reveal>

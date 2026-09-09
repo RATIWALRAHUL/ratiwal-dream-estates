@@ -213,12 +213,12 @@ export function HeroSlider() {
 
             {/* Action Buttons */}
             <div className="hero-cta-group">
-              <MagneticButton strength={8}>
+              <MagneticButton strength={8} className="flex-1 sm:flex-initial min-w-0">
                 <Link href="/properties" className="button-primary hero-btn-main">
-                  Explore properties <ArrowRight size={17} />
+                  Explore All Properties <ArrowRight size={17} />
                 </Link>
               </MagneticButton>
-              <MagneticButton strength={8}>
+              <MagneticButton strength={8} className="flex-1 sm:flex-initial min-w-0">
                 <Link href="/contact" className="button-ghost hero-btn-secondary">
                   Talk to an expert <ArrowRight size={17} />
                 </Link>

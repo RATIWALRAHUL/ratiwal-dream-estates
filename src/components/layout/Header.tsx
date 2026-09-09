@@ -73,7 +73,7 @@ export default function Header() {
 
           {/* Desktop Navigation Link Lists */}
           <nav className="hidden lg:flex nav-links my-auto" aria-label="Main Navigation">
-            {navigationConfig.mainNav.filter((link) => ["Home", "Properties", "Locations", "Investment", "Insights", "About Us", "Contact"].includes(link.label)).map((link) => {
+            {navigationConfig.mainNav.filter((link) => ["Home", "Properties", "Locations", "Investment", "About Us", "Contact"].includes(link.label)).map((link) => {
               const isActive = pathname === link.href;
               return (
                 <Link

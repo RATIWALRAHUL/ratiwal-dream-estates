@@ -12,7 +12,6 @@ export const navigationConfig = {
     { label: "About Us", href: "/about" },
     { label: "Why Choose Us", href: "/why-choose-us" },
     { label: "Testimonials", href: "/testimonials" },
-    { label: "Insights", href: "/insights" },
     { label: "Contact", href: "/contact" },
   ] as NavLink[],
   

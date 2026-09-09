@@ -32,12 +32,13 @@ export function InvestmentHero() {
         </div>
 
         {/* Hero Copy */}
-        <div className="max-w-4xl mx-auto text-center mb-8 sm:mb-14">
+        <div className="max-w-4xl mx-auto text-center mb-8 sm:mb-10">
           <Reveal>
-            <div className="inline-flex items-center justify-center gap-1.5 px-3 py-1 sm:px-4 sm:py-1.5 rounded-full bg-[var(--advisor-ivory)] border border-[rgba(8,127,195,0.2)] shadow-xs mb-3 sm:mb-4 max-w-full">
+            <div className="inline-flex items-center justify-center gap-1.5 px-3 py-1 sm:px-4 sm:py-1.5 rounded-full bg-[var(--advisor-ivory)] border border-[rgba(8,127,195,0.2)] shadow-2xs mb-3 sm:mb-4 max-w-full">
               <Sparkles size={13} className="text-[var(--ratiwal-blue)] flex-shrink-0" />
-              <span className="text-[9.5px] xs:text-[10.5px] sm:text-[12px] font-bold tracking-[0.06em] xs:tracking-[0.08em] sm:tracking-[0.14em] uppercase text-[var(--ratiwal-blue)] font-body whitespace-nowrap leading-none">
-                STRATEGIC LAND ALLOCATION &amp; WEALTH PRESERVATION
+              <span className="text-[9.5px] xs:text-[10.5px] sm:text-[12px] font-bold tracking-[0.06em] xs:tracking-[0.08em] sm:tracking-[0.14em] uppercase text-[var(--ratiwal-blue)] font-body leading-none text-center">
+                <span className="sm:hidden">STRATEGIC LAND ALLOCATION</span>
+                <span className="hidden sm:inline">STRATEGIC LAND ALLOCATION &amp; WEALTH PRESERVATION</span>
               </span>
             </div>
           </Reveal>
@@ -59,37 +60,47 @@ export function InvestmentHero() {
           </Reveal>
 
           <Reveal delay={200}>
-            <div className="flex flex-wrap items-center justify-center gap-3.5 sm:gap-4 mb-10 sm:mb-12">
-              <MagneticButton strength={6}>
-                <a href="#calculator" className="button-primary shadow-glow">
-                  <Calculator size={17} />
-                  Calculate Land ROI <ArrowRight size={17} />
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 mb-6 sm:mb-8 max-w-md sm:max-w-none mx-auto w-full">
+              <MagneticButton strength={6} className="w-full sm:w-auto flex justify-center">
+                <a
+                  href="#calculator"
+                  className="button-primary shadow-glow w-full sm:w-[260px] justify-center whitespace-nowrap text-xs sm:text-sm px-6 py-3.5 min-h-[48px] sm:min-h-[52px]"
+                >
+                  <Calculator size={17} className="flex-shrink-0" />
+                  <span>Calculate Land ROI</span>
+                  <ArrowRight size={17} className="flex-shrink-0" />
                 </a>
               </MagneticButton>
-              <MagneticButton strength={6}>
-                <Link href="/contact" className="button-ghost !text-[var(--midnight)] !border-[rgba(7,26,40,0.18)] hover:!bg-[var(--midnight)] hover:!text-white">
-                  Schedule Portfolio Advisory <ArrowRight size={17} />
+              <MagneticButton strength={6} className="w-full sm:w-auto flex justify-center">
+                <Link
+                  href="/contact"
+                  className="button-ghost !text-[var(--midnight)] !border-[rgba(7,26,40,0.18)] hover:!bg-[var(--midnight)] hover:!text-white w-full sm:w-[260px] justify-center whitespace-nowrap text-xs sm:text-sm px-6 py-3.5 min-h-[48px] sm:min-h-[52px]"
+                >
+                  <span>Schedule Portfolio Advisory</span>
+                  <ArrowRight size={17} className="flex-shrink-0" />
                 </Link>
               </MagneticButton>
             </div>
           </Reveal>
+        </div>
 
-          {/* Key Metric Highlights */}
+        {/* Key Metric Highlights - Fully Responsive Multi-Screen Grid */}
+        <div className="max-w-7xl mx-auto mb-8 sm:mb-14">
           <Reveal delay={250}>
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 max-w-4xl mx-auto">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5 sm:gap-4 lg:gap-5">
               {highlights.map((h, idx) => (
                 <div
                   key={idx}
-                  className="p-4 rounded-2xl bg-white/80 backdrop-blur-md border border-[rgba(7,26,40,0.08)] shadow-xs transition-all duration-300 hover:border-[rgba(8,127,195,0.3)] hover:shadow-sm text-left flex flex-col justify-between"
+                  className="p-4.5 sm:p-5 lg:p-6 rounded-2xl bg-white/95 backdrop-blur-md border border-[rgba(7,26,40,0.08)] shadow-[0_4px_20px_rgba(7,26,40,0.04)] transition-all duration-300 hover:border-[rgba(8,127,195,0.35)] hover:shadow-md text-left flex flex-col justify-between"
                 >
-                  <div className="w-9 h-9 rounded-xl bg-[var(--cyan-soft)] text-[var(--ratiwal-blue)] flex items-center justify-center mb-3">
-                    <h.icon size={18} strokeWidth={2} />
+                  <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-[var(--cyan-soft)] text-[var(--ratiwal-blue)] flex items-center justify-center mb-3 sm:mb-4 flex-shrink-0">
+                    <h.icon size={20} strokeWidth={2.2} />
                   </div>
-                  <div>
-                    <div className="text-sm sm:text-[14.5px] font-bold text-[var(--midnight)] leading-snug">
+                  <div className="flex-1 flex flex-col justify-between">
+                    <div className="text-[14.5px] xs:text-[15px] sm:text-[16px] font-bold text-[var(--midnight)] leading-snug sm:min-h-[44px] flex items-center">
                       {h.label}
                     </div>
-                    <div className="text-[11.5px] text-[var(--text-secondary)] mt-0.5">
+                    <div className="text-[12px] sm:text-[12.5px] text-[var(--text-secondary)] mt-1.5 leading-relaxed font-normal">
                       {h.desc}
                     </div>
                   </div>

@@ -108,15 +108,15 @@ function FilterDropdown({
                   onChange(opt.value);
                   setIsOpen(false);
                 }}
-                className={`w-full flex items-center justify-between gap-2 px-3 py-2 rounded-lg text-xs sm:text-sm text-left transition-colors font-medium ${
+                className={`w-full flex items-center justify-between gap-2 px-3 py-2.5 rounded-lg text-xs sm:text-sm text-left transition-colors font-bold cursor-pointer ${
                   isSelected
-                    ? "bg-[var(--mist-blue)] text-[var(--ratiwal-blue-deep)] font-bold"
+                    ? "bg-[var(--mist-blue)] text-[var(--ratiwal-blue-deep)] font-extrabold"
                     : "text-[var(--midnight)] hover:bg-[var(--surface)] hover:text-[var(--ratiwal-blue)]"
                 }`}
               >
-                <span className="truncate">{opt.label}</span>
+                <span className="truncate font-bold">{opt.label}</span>
                 {isSelected && (
-                  <Check size={14} className="text-[var(--ratiwal-blue)] flex-shrink-0" />
+                  <Check size={15} strokeWidth={2.5} className="text-[var(--ratiwal-blue)] flex-shrink-0" />
                 )}
               </button>
             );

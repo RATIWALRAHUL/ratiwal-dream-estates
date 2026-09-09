@@ -30,10 +30,11 @@ export function PropertiesHero() {
         {/* Hero Title & Subheading */}
         <div className="max-w-4xl mx-auto text-center mb-6 sm:mb-10">
           <Reveal>
-            <div className="inline-flex items-center justify-center gap-1.5 px-3 py-1 sm:px-4 sm:py-1.5 rounded-full bg-[var(--advisor-ivory)] border border-[rgba(8,127,195,0.2)] shadow-xs mb-3 sm:mb-4 max-w-full">
+            <div className="inline-flex items-center justify-center gap-1.5 px-3 py-1 sm:px-4 sm:py-1.5 rounded-full bg-[var(--advisor-ivory)] border border-[rgba(8,127,195,0.2)] shadow-2xs mb-3 sm:mb-4 max-w-full">
               <Sparkles size={13} className="text-[var(--ratiwal-blue)] flex-shrink-0" />
-              <span className="text-[9.5px] xs:text-[10.5px] sm:text-[12px] font-bold tracking-[0.06em] xs:tracking-[0.08em] sm:tracking-[0.14em] uppercase text-[var(--ratiwal-blue)] font-body whitespace-nowrap leading-none">
-                VERIFIED PLOTTED ASSETS &amp; LAND HOLDINGS
+              <span className="text-[9.5px] xs:text-[10.5px] sm:text-[12px] font-bold tracking-[0.06em] xs:tracking-[0.08em] sm:tracking-[0.14em] uppercase text-[var(--ratiwal-blue)] font-body leading-none text-center">
+                <span className="sm:hidden">VERIFIED PLOTTED ASSETS</span>
+                <span className="hidden sm:inline">VERIFIED PLOTTED ASSETS &amp; LAND HOLDINGS</span>
               </span>
             </div>
           </Reveal>
