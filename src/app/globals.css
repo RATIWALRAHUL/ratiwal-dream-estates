@@ -1657,3 +1657,200 @@ main { padding-top: 0; }
   background: transparent !important;
   border: none !important;
 }
+
+/* ==========================================================================
+   SweetAlert2 Custom Toast & Modal with Brand Logo Background Watermark
+   ========================================================================== */
+.swal2-container.swal2-top-end,
+.swal2-container.swal2-top-right {
+  padding-top: 1rem !important;
+  padding-right: 1rem !important;
+  z-index: 99999 !important;
+}
+
+/* Toast Container with Background Logo */
+.ratiwal-sweetalert-toast {
+  position: relative !important;
+  overflow: hidden !important;
+  background-color: #ffffff !important;
+  background-image: url("/images/brand/logo.png") !important;
+  background-repeat: no-repeat !important;
+  background-position: right 6px center !important;
+  background-size: 78px auto !important;
+  border: 1px solid rgba(8, 127, 195, 0.18) !important;
+  border-radius: 18px !important;
+  box-shadow: 0 16px 36px -6px rgba(7, 26, 40, 0.16), 0 4px 14px rgba(8, 127, 195, 0.1) !important;
+  padding: 12px 18px !important;
+  min-width: 320px !important;
+  max-width: 420px !important;
+}
+
+/* Subtle gradient wash over background logo for clear text readability */
+.ratiwal-sweetalert-toast::before {
+  content: "" !important;
+  position: absolute !important;
+  inset: 0 !important;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.98) 0%,
+    rgba(255, 255, 255, 0.94) 55%,
+    rgba(255, 255, 255, 0.82) 100%
+  ) !important;
+  pointer-events: none !important;
+  z-index: 0 !important;
+}
+
+.ratiwal-sweetalert-toast .swal2-icon {
+  position: relative !important;
+  z-index: 1 !important;
+  margin: 0 12px 0 0 !important;
+  transform: scale(0.85) !important;
+}
+
+.ratiwal-toast-title {
+  position: relative !important;
+  z-index: 1 !important;
+  font-family: var(--font-body), "Plus Jakarta Sans", -apple-system, sans-serif !important;
+  font-size: 0.875rem !important;
+  font-weight: 700 !important;
+  color: #071a28 !important;
+  letter-spacing: -0.01em !important;
+  margin: 0 !important;
+}
+
+.ratiwal-toast-body {
+  position: relative !important;
+  z-index: 1 !important;
+  font-family: var(--font-body), "Plus Jakarta Sans", -apple-system, sans-serif !important;
+  font-size: 0.75rem !important;
+  color: #647581 !important;
+  margin-top: 2px !important;
+  padding: 0 !important;
+}
+
+.ratiwal-toast-progressbar {
+  background: #087fc3 !important;
+  height: 3px !important;
+  border-radius: 9999px !important;
+  opacity: 0.85 !important;
+}
+
+/* Modal Popup with Brand Logo Background */
+.ratiwal-sweetalert-modal {
+  position: relative !important;
+  overflow: hidden !important;
+  background-color: #ffffff !important;
+  background-image: url("/images/brand/logo.png") !important;
+  background-repeat: no-repeat !important;
+  background-position: right -15px bottom -15px !important;
+  background-size: 140px auto !important;
+  border-radius: 24px !important;
+  border: 1px solid rgba(7, 26, 40, 0.1) !important;
+  box-shadow: 0 25px 60px -12px rgba(7, 26, 40, 0.28) !important;
+  padding: 24px !important;
+  max-width: 440px !important;
+}
+
+.ratiwal-sweetalert-modal::before {
+  content: "" !important;
+  position: absolute !important;
+  inset: 0 !important;
+  background: radial-gradient(
+    circle at top left,
+    rgba(255, 255, 255, 0.99) 0%,
+    rgba(255, 255, 255, 0.94) 70%,
+    rgba(255, 255, 255, 0.88) 100%
+  ) !important;
+  pointer-events: none !important;
+  z-index: 0 !important;
+}
+
+.ratiwal-sweetalert-modal > * {
+  position: relative !important;
+  z-index: 1 !important;
+}
+
+.ratiwal-modal-title {
+  font-family: var(--font-heading), "Fraunces", Georgia, serif !important;
+  font-size: 1.25rem !important;
+  font-weight: 700 !important;
+  color: #071a28 !important;
+  margin-top: 8px !important;
+}
+
+.ratiwal-modal-body {
+  font-family: var(--font-body), "Plus Jakarta Sans", sans-serif !important;
+  font-size: 0.8125rem !important;
+  color: #647581 !important;
+  line-height: 1.5 !important;
+  margin-top: 6px !important;
+  padding: 0 !important;
+}
+
+.ratiwal-modal-confirm-btn {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 8px 18px !important;
+  border-radius: 12px !important;
+  font-family: var(--font-body), sans-serif !important;
+  font-size: 0.8125rem !important;
+  font-weight: 700 !important;
+  color: #ffffff !important;
+  background-color: #087fc3 !important;
+  box-shadow: 0 2px 8px rgba(8, 127, 195, 0.3) !important;
+  border: none !important;
+  cursor: pointer !important;
+  margin: 0 4px !important;
+  transition: all 0.15s ease !important;
+}
+
+.ratiwal-modal-confirm-btn:hover {
+  background-color: #066ca8 !important;
+  transform: translateY(-1px) !important;
+}
+
+.ratiwal-modal-danger-btn {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 8px 18px !important;
+  border-radius: 12px !important;
+  font-family: var(--font-body), sans-serif !important;
+  font-size: 0.8125rem !important;
+  font-weight: 700 !important;
+  color: #ffffff !important;
+  background-color: #e11d48 !important;
+  box-shadow: 0 2px 8px rgba(225, 29, 72, 0.3) !important;
+  border: none !important;
+  cursor: pointer !important;
+  margin: 0 4px !important;
+  transition: all 0.15s ease !important;
+}
+
+.ratiwal-modal-danger-btn:hover {
+  background-color: #be123c !important;
+  transform: translateY(-1px) !important;
+}
+
+.ratiwal-modal-cancel-btn {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 8px 16px !important;
+  border-radius: 12px !important;
+  font-family: var(--font-body), sans-serif !important;
+  font-size: 0.8125rem !important;
+  font-weight: 600 !important;
+  color: #071a28 !important;
+  background-color: #ffffff !important;
+  border: 1px solid rgba(7, 26, 40, 0.15) !important;
+  cursor: pointer !important;
+  margin: 0 4px !important;
+  transition: all 0.15s ease !important;
+}
+
+.ratiwal-modal-cancel-btn:hover {
+  background-color: #f8f7f4 !important;
+}
+

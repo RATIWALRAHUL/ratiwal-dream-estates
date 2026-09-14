@@ -593,6 +593,85 @@ export async function archiveLeadAction(
 }
 
 /**
+ * Permanently delete a single lead inquiry. ADMIN/SUPER_ADMIN only.
+ */
+export async function deleteLeadAction(
+  leadId: string
+): Promise<ActionResult> {
+  try {
+    const session = await requireAdminSession(["ADMIN", "SUPER_ADMIN"]);
+    await connectToDatabase();
+
+    const lead = await Lead.findById(leadId);
+    if (!lead) {
+      return { success: false, code: "NOT_FOUND", message: "Lead inquiry not found." };
+    }
+
+    const leadRef = lead.referenceNumber;
+    const leadName = lead.fullName;
+
+    // Delete lead record and associated stage history
+    await Lead.findByIdAndDelete(leadId);
+    await LeadStageHistory.deleteMany({ leadId });
+
+    await logAuditEvent({
+      actor: session.user,
+      action: "LEAD_DELETED",
+      targetLeadId: lead._id,
+      reason: `Permanently deleted lead inquiry ${leadRef} (${leadName})`,
+    });
+
+    revalidateLeads(leadId);
+    return { success: true, message: `Lead ${leadRef} deleted successfully.` };
+  } catch (error) {
+    logger.error("[Lead] deleteLeadAction failed", { error: error instanceof Error ? error.message : "Unknown" });
+    return { success: false, code: "DATABASE_ERROR", message: "Failed to delete lead inquiry." };
+  }
+}
+
+/**
+ * Permanently delete multiple lead inquiries in bulk. ADMIN/SUPER_ADMIN only.
+ */
+export async function bulkDeleteLeadsAction(
+  leadIds: string[]
+): Promise<ActionResult<{ deletedCount: number }>> {
+  try {
+    const session = await requireAdminSession(["ADMIN", "SUPER_ADMIN"]);
+    await connectToDatabase();
+
+    if (!Array.isArray(leadIds) || leadIds.length === 0) {
+      return { success: false, code: "VALIDATION_ERROR", message: "No leads selected for deletion." };
+    }
+
+    // Filter valid lead IDs
+    const validIds = leadIds.filter((id) => typeof id === "string" && id.trim().length > 0);
+    if (validIds.length === 0) {
+      return { success: false, code: "VALIDATION_ERROR", message: "Invalid lead selection." };
+    }
+
+    // Delete matching leads and stage histories
+    const deleteResult = await Lead.deleteMany({ _id: { $in: validIds } });
+    await LeadStageHistory.deleteMany({ leadId: { $in: validIds } });
+
+    await logAuditEvent({
+      actor: session.user,
+      action: "LEADS_BULK_DELETED",
+      reason: `Bulk deleted ${deleteResult.deletedCount || validIds.length} lead inquiries`,
+    });
+
+    revalidateLeads();
+    return {
+      success: true,
+      message: `Successfully deleted ${deleteResult.deletedCount} lead inquiries.`,
+      data: { deletedCount: deleteResult.deletedCount },
+    };
+  } catch (error) {
+    logger.error("[Lead] bulkDeleteLeadsAction failed", { error: error instanceof Error ? error.message : "Unknown" });
+    return { success: false, code: "DATABASE_ERROR", message: "Failed to delete selected leads." };
+  }
+}
+
+/**
  * Record consent withdrawal. ADMIN/SUPER_ADMIN only.
  * Marks timeline and sets consentWithdrawnAt. Does NOT auto-delete data.
  */

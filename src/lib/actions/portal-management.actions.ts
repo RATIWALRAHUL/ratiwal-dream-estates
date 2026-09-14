@@ -10,6 +10,7 @@ import { CustomerPortalInvitation } from "@/models/CustomerPortalInvitation";
 import { PortalSupportService } from "@/lib/services/portal-support.service";
 import { logAuditEvent } from "@/lib/services/audit.service";
 import { CommunicationOutboxService } from "@/lib/services/communication-outbox.service";
+import { CustomerSupportRequest } from "@/models/CustomerSupportRequest";
 import { PortalAccessRole } from "@/types/portal";
 
 /**
@@ -158,5 +159,63 @@ export async function staffReplySupportAction(params: {
     return { success: true, status: ticket.status };
   } catch (err) {
     return { success: false, error: (err as Error).message };
+  }
+}
+
+/**
+ * Staff deletes a single support ticket / inquiry
+ */
+export async function deleteSupportTicketAction(requestId: string) {
+  try {
+    const session = await requireAdminSession(["ADMIN", "SUPER_ADMIN"]);
+    await connectToDatabase();
+
+    const ticket = await CustomerSupportRequest.findById(requestId);
+    if (!ticket) {
+      return { success: false, error: "Support ticket not found." };
+    }
+
+    const reqNum = ticket.requestNumber;
+    await CustomerSupportRequest.findByIdAndDelete(requestId);
+
+    await logAuditEvent({
+      actor: session.user,
+      action: "SUPPORT_TICKET_DELETED",
+      targetSupportRequestId: ticket._id,
+      reason: `Deleted support inquiry ${reqNum}`,
+    });
+
+    revalidatePath("/dashboard/support");
+    return { success: true, message: `Support inquiry ${reqNum} deleted.` };
+  } catch (err) {
+    return { success: false, error: (err as Error).message || "Failed to delete support inquiry." };
+  }
+}
+
+/**
+ * Staff deletes multiple support tickets / inquiries in bulk
+ */
+export async function bulkDeleteSupportTicketsAction(requestIds: string[]) {
+  try {
+    const session = await requireAdminSession(["ADMIN", "SUPER_ADMIN"]);
+    await connectToDatabase();
+
+    if (!Array.isArray(requestIds) || requestIds.length === 0) {
+      return { success: false, error: "No support inquiries selected." };
+    }
+
+    const validIds = requestIds.filter((id) => typeof id === "string" && id.trim().length > 0);
+    const result = await CustomerSupportRequest.deleteMany({ _id: { $in: validIds } });
+
+    await logAuditEvent({
+      actor: session.user,
+      action: "SUPPORT_TICKETS_BULK_DELETED",
+      reason: `Bulk deleted ${result.deletedCount || validIds.length} support inquiries`,
+    });
+
+    revalidatePath("/dashboard/support");
+    return { success: true, message: `Deleted ${result.deletedCount} support inquiries.` };
+  } catch (err) {
+    return { success: false, error: (err as Error).message || "Failed to bulk delete support inquiries." };
   }
 }

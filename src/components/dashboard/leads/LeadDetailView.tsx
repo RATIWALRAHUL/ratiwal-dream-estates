@@ -25,6 +25,7 @@ import { LeadStatusPanel } from "./LeadStatusPanel";
 import { LeadConsentPanel } from "./LeadConsentPanel";
 import { LeadStatusBadge } from "./LeadStatusBadge";
 import { LeadPriorityBadge } from "./LeadPriorityBadge";
+import { LeadDeleteButton } from "./LeadDeleteButton";
 import { formatPaiseToRupeeString } from "@/lib/utils/currency";
 import type { LeadDetail } from "@/lib/services/lead.service";
 
@@ -154,6 +155,13 @@ export function LeadDetailView({ lead, role, userId }: LeadDetailViewProps) {
                 <span>Email</span>
               </a>
             )}
+            <LeadDeleteButton
+              leadId={lead.id}
+              referenceNumber={lead.referenceNumber}
+              fullName={lead.fullName}
+              role={role}
+              variant="header"
+            />
           </div>
         </div>
       </div>
@@ -339,6 +347,25 @@ export function LeadDetailView({ lead, role, userId }: LeadDetailViewProps) {
               </div>
             </div>
           </div>
+
+          {/* Danger Zone */}
+          {(role === "ADMIN" || role === "SUPER_ADMIN") && (
+            <div className="bg-white rounded-3xl border border-rose-100 shadow-xs p-6 space-y-3">
+              <h3 className="text-xs font-mono uppercase tracking-widest text-rose-700 font-bold">
+                Danger Zone
+              </h3>
+              <p className="text-xs text-[#647581] leading-relaxed">
+                Permanently purge this client inquiry, timeline activity logs, and contact notes.
+              </p>
+              <LeadDeleteButton
+                leadId={lead.id}
+                referenceNumber={lead.referenceNumber}
+                fullName={lead.fullName}
+                role={role}
+                variant="panel"
+              />
+            </div>
+          )}
         </div>
       </div>
     </div>
