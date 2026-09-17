@@ -30,9 +30,20 @@ async function seedSuperAdmin() {
   console.log("   SEEDING SUPER ADMIN ACCOUNT                   ");
   console.log("=================================================\n");
 
-  const email = "rahulkumawat1408@gmail.com".toLowerCase().trim();
-  const rawPassword = "ratiwaldreamestate";
-  const fullName = "Rahul Kumawat";
+  const email = (process.env.SUPERADMIN_SEED_EMAIL || "").toLowerCase().trim();
+  const rawPassword = process.env.SUPERADMIN_SEED_PASSWORD || "";
+  const fullName = process.env.SUPERADMIN_SEED_NAME || "Super Administrator";
+
+  if (!email || !rawPassword) {
+    console.error(
+      "SUPERADMIN_SEED_EMAIL and SUPERADMIN_SEED_PASSWORD must be set (in .env.local or the shell environment) before running this script."
+    );
+    process.exit(1);
+  }
+  if (rawPassword.length < 8) {
+    console.error("SUPERADMIN_SEED_PASSWORD must be at least 8 characters.");
+    process.exit(1);
+  }
 
   try {
     await connectToDatabase();
@@ -88,13 +99,10 @@ async function seedSuperAdmin() {
       });
       console.log(`✓ Created AdminAuthAccount: ${account.email} (Role: ${account.role})`);
     } else {
-      account.name = fullName;
-      account.passwordHash = passwordHash;
-      account.passwordSalt = salt;
-      account.role = "SUPER_ADMIN";
-      account.isActive = true;
-      account.failedLoginAttempts = 0;
-      account.lockUntil = undefined;
+      // An existing account's password/role must never be silently overwritten
+      // by re-running this script — use the dashboard's password-reset flow or
+      // the team-management UI instead. Only the team-member link is ensured.
+      console.log(`i AdminAuthAccount already exists for ${account.email} — leaving credentials and role untouched.`);
       account.teamMemberId = teamMember._id;
       await account.save();
       console.log(`✓ Updated AdminAuthAccount: ${account.email} (Role: ${account.role})`);
@@ -108,7 +116,6 @@ async function seedSuperAdmin() {
     console.log("   SUPER ADMIN SEEDED SUCCESSFULLY!              ");
     console.log("=================================================");
     console.log(`Email:    ${email}`);
-    console.log(`Password: ${rawPassword}`);
     console.log(`Role:     SUPER_ADMIN`);
     console.log(`Status:   ACTIVE`);
     console.log("=================================================\n");

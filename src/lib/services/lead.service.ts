@@ -419,6 +419,19 @@ export async function getLeadById(
 }
 
 /**
+ * Marks a lead as viewed (idempotent — only sets viewedAt the first time).
+ * Used to decrement the "unread" leads badge in the sidebar without touching
+ * the CRM `status` field, since opening a lead is not the same as contacting it.
+ */
+export async function markLeadAsViewed(leadId: string): Promise<void> {
+  await connectToDatabase();
+  await Lead.updateOne(
+    { _id: leadId, viewedAt: { $exists: false } },
+    { $set: { viewedAt: new Date() } }
+  );
+}
+
+/**
  * Retention dry-run report — lists leads approaching or past review date.
  * Does not delete or modify any data.
  */

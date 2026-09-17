@@ -6,7 +6,16 @@ export const CUSTOMER_AUTH_COOKIE_NAME = "ratiwal_customer_token";
 export const CUSTOMER_AUTH_HEADER_NAME = "x-customer-token";
 export const DEV_CUSTOMER_OVERRIDE_HEADER = "x-dev-customer-session";
 
-const SESSION_SECRET = process.env.CUSTOMER_SESSION_SECRET || "ratiwal_customer_portal_session_secret_2026_super_secure";
+function getSessionSecret(): string {
+  const secret = process.env.CUSTOMER_SESSION_SECRET;
+  if (secret) return secret;
+  if (process.env.NODE_ENV !== "production") {
+    return "dev-only-insecure-customer-session-secret-do-not-use-in-prod";
+  }
+  throw new Error(
+    "CUSTOMER_SESSION_SECRET must be set in production — refusing to sign or verify customer sessions without it."
+  );
+}
 
 /**
  * Hash password with PBKDF2
@@ -49,7 +58,7 @@ export function createCustomerSessionToken(user: CustomerUser, expiresInMs: numb
 
   const payloadBase64 = Buffer.from(JSON.stringify(payload)).toString("base64url");
   const signature = crypto
-    .createHmac("sha256", SESSION_SECRET)
+    .createHmac("sha256", getSessionSecret())
     .update(payloadBase64)
     .digest("base64url");
 
@@ -67,7 +76,7 @@ export function verifyCustomerSessionToken(token: string): CustomerSession | nul
     if (!payloadBase64 || !signature) return null;
 
     const expectedSignature = crypto
-      .createHmac("sha256", SESSION_SECRET)
+      .createHmac("sha256", getSessionSecret())
       .update(payloadBase64)
       .digest("base64url");
 

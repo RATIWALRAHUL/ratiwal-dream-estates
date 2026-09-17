@@ -1,6 +1,6 @@
 import "server-only";
 import { getImageKitClient } from "./client";
-import { InternalServerError, ValidationError } from "@/lib/api/errors";
+import { InternalServerError, ValidationError, getErrorMessage } from "@/lib/api/errors";
 
 export interface UploadOptions {
   file: string | Buffer; // Base64 string or Buffer
@@ -65,8 +65,8 @@ export async function uploadToImageKit(options: UploadOptions): Promise<UploadRe
       fileType: response.fileType,
       filePath: response.filePath,
     };
-  } catch (error: any) {
-    const errorMsg = error?.message || "Failed to upload file to ImageKit";
+  } catch (error) {
+    const errorMsg = getErrorMessage(error, "Failed to upload file to ImageKit");
     throw new InternalServerError(`ImageKit upload failed: ${errorMsg}`);
   }
 }
@@ -86,12 +86,14 @@ export async function deleteFromImageKit(fileId: string): Promise<boolean> {
   try {
     await ik.deleteFile(fileId);
     return true;
-  } catch (error: any) {
-    // If file already deleted, treat as success
-    if (error?.message?.includes("not found") || error?.help?.includes("not found")) {
+  } catch (error) {
+    // If file already deleted, treat as success. ImageKit SDK errors carry a
+    // non-standard `.help` field alongside `.message`.
+    const helpText = typeof error === "object" && error !== null && "help" in error ? String((error as { help?: unknown }).help) : "";
+    if (getErrorMessage(error).includes("not found") || helpText.includes("not found")) {
       return true;
     }
-    throw new InternalServerError(`ImageKit deletion failed: ${error?.message || "Unknown error"}`);
+    throw new InternalServerError(`ImageKit deletion failed: ${getErrorMessage(error, "Unknown error")}`);
   }
 }
 
@@ -103,8 +105,8 @@ export async function getFileDetails(fileId: string) {
 
   try {
     return await ik.getFileDetails(fileId);
-  } catch (error: any) {
-    throw new InternalServerError(`ImageKit getFileDetails failed: ${error?.message || "Unknown error"}`);
+  } catch (error) {
+    throw new InternalServerError(`ImageKit getFileDetails failed: ${getErrorMessage(error, "Unknown error")}`);
   }
 }
 

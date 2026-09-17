@@ -12,6 +12,7 @@ import { DealStage, DealLostReason } from "@/types/deal";
 
 import { logger } from "@/lib/logger";
 
+import { getErrorMessage } from "@/lib/api/errors";
 function safeRevalidate(path: string) {
   try {
     revalidatePath(path);
@@ -28,9 +29,9 @@ export async function createDealAction(input: CreateDealInput) {
     const deal = await DealService.createDeal(input, session);
     safeRevalidate("/dashboard/deals");
     return { success: true as const, dealId: deal._id.toString(), dealNumber: deal.dealNumber };
-  } catch (error: any) {
-    logger.error("[DealAction] createDealAction failed", { error: error?.message });
-    return { success: false as const, message: error?.message || "Failed to create deal." };
+  } catch (error) {
+    logger.error("[DealAction] createDealAction failed", { error: getErrorMessage(error) });
+    return { success: false as const, message: getErrorMessage(error, "Failed to create deal.") };
   }
 }
 
@@ -53,9 +54,9 @@ export async function updateDealStageAction(params: {
     safeRevalidate("/dashboard/deals");
     safeRevalidate(`/dashboard/deals/${params.dealId}`);
     return { success: true as const, deal: updated };
-  } catch (error: any) {
-    logger.error("[DealAction] updateDealStageAction failed", { error: error?.message });
-    return { success: false as const, message: error?.message || "Failed to update deal stage." };
+  } catch (error) {
+    logger.error("[DealAction] updateDealStageAction failed", { error: getErrorMessage(error) });
+    return { success: false as const, message: getErrorMessage(error, "Failed to update deal stage.") };
   }
 }
 
@@ -74,9 +75,9 @@ export async function reassignDealAdvisorAction(params: {
     safeRevalidate("/dashboard/deals");
     safeRevalidate(`/dashboard/deals/${params.dealId}`);
     return { success: true as const, deal: updated };
-  } catch (error: any) {
-    logger.error("[DealAction] reassignDealAdvisorAction failed", { error: error?.message });
-    return { success: false as const, message: error?.message || "Failed to reassign advisor." };
+  } catch (error) {
+    logger.error("[DealAction] reassignDealAdvisorAction failed", { error: getErrorMessage(error) });
+    return { success: false as const, message: getErrorMessage(error, "Failed to reassign advisor.") };
   }
 }
 
@@ -88,9 +89,9 @@ export async function createOfferAction(input: CreateOfferInput) {
     const offer = await OfferService.createOffer(input, session);
     safeRevalidate(`/dashboard/deals/${input.dealId}`);
     return { success: true as const, offerId: offer._id.toString(), offerNumber: offer.offerNumber };
-  } catch (error: any) {
-    logger.error("[DealAction] createOfferAction failed", { error: error?.message });
-    return { success: false as const, message: error?.message || "Failed to create offer." };
+  } catch (error) {
+    logger.error("[DealAction] createOfferAction failed", { error: getErrorMessage(error) });
+    return { success: false as const, message: getErrorMessage(error, "Failed to create offer.") };
   }
 }
 
@@ -100,9 +101,9 @@ export async function approveOfferAction(offerId: string) {
     const offer = await OfferService.approveOffer(offerId, session);
     safeRevalidate(`/dashboard/deals/${offer.dealId}`);
     return { success: true as const, offer };
-  } catch (error: any) {
-    logger.error("[DealAction] approveOfferAction failed", { error: error?.message });
-    return { success: false as const, message: error?.message || "Failed to approve offer." };
+  } catch (error) {
+    logger.error("[DealAction] approveOfferAction failed", { error: getErrorMessage(error) });
+    return { success: false as const, message: getErrorMessage(error, "Failed to approve offer.") };
   }
 }
 
@@ -112,9 +113,9 @@ export async function rejectOfferAction(params: { offerId: string; reason: strin
     const offer = await OfferService.rejectOffer(params.offerId, params.reason, session);
     safeRevalidate(`/dashboard/deals/${offer.dealId}`);
     return { success: true as const, offer };
-  } catch (error: any) {
-    logger.error("[DealAction] rejectOfferAction failed", { error: error?.message });
-    return { success: false as const, message: error?.message || "Failed to reject offer." };
+  } catch (error) {
+    logger.error("[DealAction] rejectOfferAction failed", { error: getErrorMessage(error) });
+    return { success: false as const, message: getErrorMessage(error, "Failed to reject offer.") };
   }
 }
 
@@ -124,9 +125,9 @@ export async function acceptOfferAction(offerId: string) {
     const offer = await OfferService.acceptOffer(offerId, session);
     safeRevalidate(`/dashboard/deals/${offer.dealId}`);
     return { success: true as const, offer };
-  } catch (error: any) {
-    logger.error("[DealAction] acceptOfferAction failed", { error: error?.message });
-    return { success: false as const, message: error?.message || "Failed to accept offer." };
+  } catch (error) {
+    logger.error("[DealAction] acceptOfferAction failed", { error: getErrorMessage(error) });
+    return { success: false as const, message: getErrorMessage(error, "Failed to accept offer.") };
   }
 }
 
@@ -141,9 +142,9 @@ export async function acquireHoldAction(input: AcquireHoldInput) {
     safeRevalidate("/dashboard/inventory");
     safeRevalidate(`/dashboard/deals/${input.dealId}`);
     return { success: true as const, holdId: hold._id.toString(), holdNumber: hold.holdNumber };
-  } catch (error: any) {
-    logger.error("[DealAction] acquireHoldAction failed", { error: error?.message });
-    return { success: false as const, message: error?.message || "Failed to acquire hold." };
+  } catch (error) {
+    logger.error("[DealAction] acquireHoldAction failed", { error: getErrorMessage(error) });
+    return { success: false as const, message: getErrorMessage(error, "Failed to acquire hold.") };
   }
 }
 
@@ -161,9 +162,9 @@ export async function extendHoldAction(params: {
     safeRevalidate("/dashboard/holds");
     safeRevalidate(`/dashboard/deals/${hold.dealId}`);
     return { success: true as const, hold };
-  } catch (error: any) {
-    logger.error("[DealAction] extendHoldAction failed", { error: error?.message });
-    return { success: false as const, message: error?.message || "Failed to extend hold." };
+  } catch (error) {
+    logger.error("[DealAction] extendHoldAction failed", { error: getErrorMessage(error) });
+    return { success: false as const, message: getErrorMessage(error, "Failed to extend hold.") };
   }
 }
 
@@ -178,9 +179,9 @@ export async function releaseHoldAction(params: { holdId: string; reason: string
     safeRevalidate("/dashboard/inventory");
     safeRevalidate(`/dashboard/deals/${hold.dealId}`);
     return { success: true as const, hold };
-  } catch (error: any) {
-    logger.error("[DealAction] releaseHoldAction failed", { error: error?.message });
-    return { success: false as const, message: error?.message || "Failed to release hold." };
+  } catch (error) {
+    logger.error("[DealAction] releaseHoldAction failed", { error: getErrorMessage(error) });
+    return { success: false as const, message: getErrorMessage(error, "Failed to release hold.") };
   }
 }
 
@@ -199,9 +200,9 @@ export async function convertHoldToReservationAction(input: CreateReservationInp
       reservationId: reservation._id.toString(),
       reservationNumber: reservation.reservationNumber,
     };
-  } catch (error: any) {
-    logger.error("[DealAction] convertHoldToReservationAction failed", { error: error?.message });
-    return { success: false as const, message: error?.message || "Failed to convert reservation." };
+  } catch (error) {
+    logger.error("[DealAction] convertHoldToReservationAction failed", { error: getErrorMessage(error) });
+    return { success: false as const, message: getErrorMessage(error, "Failed to convert reservation.") };
   }
 }
 
@@ -216,9 +217,9 @@ export async function cancelReservationAction(params: { reservationId: string; r
     safeRevalidate("/dashboard/inventory");
     safeRevalidate(`/dashboard/deals/${reservation.dealId}`);
     return { success: true as const, reservation };
-  } catch (error: any) {
-    logger.error("[DealAction] cancelReservationAction failed", { error: error?.message });
-    return { success: false as const, message: error?.message || "Failed to cancel reservation." };
+  } catch (error) {
+    logger.error("[DealAction] cancelReservationAction failed", { error: getErrorMessage(error) });
+    return { success: false as const, message: getErrorMessage(error, "Failed to cancel reservation.") };
   }
 }
 
@@ -238,9 +239,9 @@ export async function confirmBookingAction(input: ConfirmBookingInput) {
       bookingId: booking._id.toString(),
       bookingNumber: booking.bookingNumber,
     };
-  } catch (error: any) {
-    logger.error("[DealAction] confirmBookingAction failed", { error: error?.message });
-    return { success: false as const, message: error?.message || "Failed to confirm booking." };
+  } catch (error) {
+    logger.error("[DealAction] confirmBookingAction failed", { error: getErrorMessage(error) });
+    return { success: false as const, message: getErrorMessage(error, "Failed to confirm booking.") };
   }
 }
 
@@ -259,9 +260,9 @@ export async function cancelBookingAction(params: {
     safeRevalidate("/dashboard/inventory");
     safeRevalidate(`/dashboard/deals/${booking.dealId}`);
     return { success: true as const, booking };
-  } catch (error: any) {
-    logger.error("[DealAction] cancelBookingAction failed", { error: error?.message });
-    return { success: false as const, message: error?.message || "Failed to cancel booking." };
+  } catch (error) {
+    logger.error("[DealAction] cancelBookingAction failed", { error: getErrorMessage(error) });
+    return { success: false as const, message: getErrorMessage(error, "Failed to cancel booking.") };
   }
 }
 
@@ -272,8 +273,8 @@ export async function runDealReconciliationAction() {
     await requireAdminSession(["SUPER_ADMIN", "ADMIN"]);
     const report = await DealReconciliationService.scanConsistency();
     return { success: true as const, report };
-  } catch (error: any) {
-    return { success: false as const, message: error?.message || "Failed to run reconciliation." };
+  } catch (error) {
+    return { success: false as const, message: getErrorMessage(error, "Failed to run reconciliation.") };
   }
 }
 
@@ -285,7 +286,7 @@ export async function autoRepairDealAnomaliesAction() {
     safeRevalidate("/dashboard/holds");
     safeRevalidate("/dashboard/inventory");
     return { success: true as const, ...result };
-  } catch (error: any) {
-    return { success: false as const, message: error?.message || "Failed to auto-repair anomalies." };
+  } catch (error) {
+    return { success: false as const, message: getErrorMessage(error, "Failed to auto-repair anomalies.") };
   }
 }

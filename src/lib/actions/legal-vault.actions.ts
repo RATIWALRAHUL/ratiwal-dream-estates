@@ -11,6 +11,7 @@ import {
 import { LegalShareService } from "@/lib/services/legal-share.service";
 
 import { LegalExpiryService } from "@/lib/services/legal-expiry.service";
+import { getErrorMessage } from "@/lib/api/errors";
 import {
   DocumentCategory,
   DocumentClassification,
@@ -42,10 +43,10 @@ export async function createLegalDocumentAction(input: CreateLegalDocumentInput)
       documentId: doc._id.toString(),
       documentReference: doc.documentReference,
     };
-  } catch (error: any) {
+  } catch (error) {
     return {
       success: false as const,
-      message: error?.message || "Failed to register legal document.",
+      message: getErrorMessage(error, "Failed to register legal document."),
     };
   }
 }
@@ -66,10 +67,10 @@ export async function addLegalDocumentVersionAction(input: AddDocumentVersionInp
       versionId: version._id.toString(),
       versionNumber: version.versionNumber,
     };
-  } catch (error: any) {
+  } catch (error) {
     return {
       success: false as const,
-      message: error?.message || "Failed to add document version.",
+      message: getErrorMessage(error, "Failed to add document version."),
     };
   }
 }
@@ -103,10 +104,10 @@ export async function transitionLegalDocumentStatusAction(params: {
       status: doc.status,
       version: doc.version,
     };
-  } catch (error: any) {
+  } catch (error) {
     return {
       success: false as const,
-      message: error?.message || "Failed to transition document review status.",
+      message: getErrorMessage(error, "Failed to transition document review status."),
     };
   }
 }
@@ -138,10 +139,10 @@ export async function createLegalDocumentShareAction(params: {
       shareToken: result.shareToken,
       expiresAt: result.expiresAt.toISOString(),
     };
-  } catch (error: any) {
+  } catch (error) {
     return {
       success: false as const,
-      message: error?.message || "Failed to generate external share link.",
+      message: getErrorMessage(error, "Failed to generate external share link."),
     };
   }
 }
@@ -157,10 +158,10 @@ export async function revokeLegalDocumentShareAction(shareId: string, reason: st
     safeRevalidate("/dashboard/legal-vault");
 
     return { success: true as const };
-  } catch (error: any) {
+  } catch (error) {
     return {
       success: false as const,
-      message: error?.message || "Failed to revoke document share.",
+      message: getErrorMessage(error, "Failed to revoke document share."),
     };
   }
 }
@@ -180,10 +181,10 @@ export async function toggleLegalHoldAction(legalDocumentId: string, holdActive:
       success: true as const,
       legalHold: doc.legalHold,
     };
-  } catch (error: any) {
+  } catch (error) {
     return {
       success: false as const,
-      message: error?.message || "Failed to update legal hold status.",
+      message: getErrorMessage(error, "Failed to update legal hold status."),
     };
   }
 }
@@ -202,10 +203,10 @@ export async function evaluateLegalExpiryAction() {
       success: true as const,
       ...result,
     };
-  } catch (error: any) {
+  } catch (error) {
     return {
       success: false as const,
-      message: error?.message || "Failed to evaluate expired documents.",
+      message: getErrorMessage(error, "Failed to evaluate expired documents."),
     };
   }
 }

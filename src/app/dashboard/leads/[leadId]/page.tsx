@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getAdminSession } from "@/lib/auth/session";
 import { redirect } from "next/navigation";
-import { getLeadById } from "@/lib/services/lead.service";
+import { getLeadById, markLeadAsViewed } from "@/lib/services/lead.service";
 import { logAuditEvent } from "@/lib/services/audit.service";
 import { LeadDetailView } from "@/components/dashboard/leads/LeadDetailView";
 import { Types } from "mongoose";
@@ -40,6 +40,11 @@ export default async function LeadDetailPage({ params }: LeadDetailPageProps) {
     action: "LEAD_VIEWED",
     targetLeadId: new Types.ObjectId(leadId),
   }).catch(() => {/* view audit failure must not break the page */});
+
+  // Mark as viewed so the sidebar "unread" badge count decrements. Awaited (unlike the
+  // audit log above) because on serverless this promise could otherwise be frozen once
+  // the response is sent, silently defeating the whole point of the feature.
+  await markLeadAsViewed(leadId).catch(() => {/* view tracking failure must not break the page */});
 
   return (
     <LeadDetailView

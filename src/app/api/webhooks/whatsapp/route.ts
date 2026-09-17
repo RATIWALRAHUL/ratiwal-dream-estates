@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import crypto from "crypto";
 import { connectToDatabase } from "@/lib/db/mongoose";
 import { WebhookReceipt } from "@/models/WebhookReceipt";
 import { NotificationDelivery } from "@/models/NotificationDelivery";
@@ -10,15 +11,28 @@ import { ConsentService } from "@/lib/communications/services/consent.service";
  * POST: Delivery & Status Updates
  */
 
+/** Verifies Meta's `X-Hub-Signature-256: sha256=<hex-hmac>` header over the raw body. */
+function verifyWhatsAppSignature(rawBody: string, signatureHeader: string | null): boolean {
+  const secret = process.env.WHATSAPP_APP_SECRET;
+  if (!secret || !signatureHeader?.startsWith("sha256=")) return false;
+
+  const expectedSignature = crypto.createHmac("sha256", secret).update(rawBody).digest("hex");
+  const providedSignature = signatureHeader.slice("sha256=".length);
+
+  const expectedBuf = Buffer.from(expectedSignature);
+  const providedBuf = Buffer.from(providedSignature);
+  return expectedBuf.length === providedBuf.length && crypto.timingSafeEqual(expectedBuf, providedBuf);
+}
+
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const mode = searchParams.get("hub.mode");
   const token = searchParams.get("hub.verify_token");
   const challenge = searchParams.get("hub.challenge");
 
-  const verifyToken = process.env.WHATSAPP_WEBHOOK_VERIFY_TOKEN || "ratiwal_whatsapp_verify_token";
+  const verifyToken = process.env.WHATSAPP_WEBHOOK_VERIFY_TOKEN;
 
-  if (mode === "subscribe" && token === verifyToken) {
+  if (verifyToken && mode === "subscribe" && token === verifyToken) {
     return new Response(challenge, { status: 200 });
   }
 
@@ -28,6 +42,12 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   try {
     const rawBody = await request.text();
+
+    const signatureValid = verifyWhatsAppSignature(rawBody, request.headers.get("x-hub-signature-256"));
+    if (!signatureValid) {
+      return NextResponse.json({ error: "Invalid webhook signature" }, { status: 401 });
+    }
+
     let payload: Record<string, unknown>;
     try {
       payload = JSON.parse(rawBody);
@@ -61,7 +81,7 @@ export async function POST(request: NextRequest) {
           provider: "WHATSAPP",
           providerEventId: eventId,
           eventType: `whatsapp.message.${statusStr}`,
-          signatureValid: true,
+          signatureValid,
           receivedAt: new Date(),
           processingStatus: "PROCESSED",
           processedAt: new Date(),

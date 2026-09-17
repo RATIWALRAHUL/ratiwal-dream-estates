@@ -1,7 +1,7 @@
 import "server-only";
 
 import { cookies } from "next/headers";
-import { createHmac, randomBytes, pbkdf2Sync } from "crypto";
+import { createHmac, randomBytes, pbkdf2Sync, timingSafeEqual } from "crypto";
 import { PartnerUser, PartnerSession } from "@/types/partner";
 import { PartnerAccount } from "@/models/PartnerAccount";
 import { ChannelPartner } from "@/models/ChannelPartner";
@@ -12,8 +12,14 @@ export const PARTNER_AUTH_COOKIE_NAME = "ratiwal_partner_token";
 const SESSION_DURATION_SECONDS = 7 * 24 * 60 * 60; // 7 days
 
 function getSessionSecret(): string {
-  const secret = process.env.PARTNER_SESSION_SECRET || process.env.ADMIN_SESSION_SECRET || "ratiwal_partner_portal_production_secure_secret_key_2026";
-  return secret;
+  const secret = process.env.PARTNER_SESSION_SECRET || process.env.ADMIN_SESSION_SECRET;
+  if (secret) return secret;
+  if (process.env.NODE_ENV !== "production") {
+    return "dev-only-insecure-partner-session-secret-do-not-use-in-prod";
+  }
+  throw new Error(
+    "PARTNER_SESSION_SECRET (or ADMIN_SESSION_SECRET) must be set in production — refusing to sign or verify partner sessions without it."
+  );
 }
 
 // ─── 1. Password Cryptography (PBKDF2) ────────────────────────────────────────
@@ -26,7 +32,9 @@ export function hashPartnerPassword(password: string): { hash: string; salt: str
 
 export function verifyPartnerPassword(password: string, hash: string, salt: string): boolean {
   const calculatedHash = pbkdf2Sync(password, salt, 10000, 64, "sha512").toString("hex");
-  return calculatedHash === hash;
+  const calculatedBuf = Buffer.from(calculatedHash);
+  const hashBuf = Buffer.from(hash);
+  return calculatedBuf.length === hashBuf.length && timingSafeEqual(calculatedBuf, hashBuf);
 }
 
 // ─── 2. Cryptographic Session Tokens ──────────────────────────────────────────
@@ -56,7 +64,11 @@ export function verifyPartnerSessionToken(token: string): PartnerSession | null 
     const secret = getSessionSecret();
     const expectedSignature = createHmac("sha256", secret).update(payloadB64).digest("base64url");
 
-    if (signature !== expectedSignature) return null;
+    const signatureBuf = Buffer.from(signature);
+    const expectedBuf = Buffer.from(expectedSignature);
+    if (signatureBuf.length !== expectedBuf.length || !timingSafeEqual(signatureBuf, expectedBuf)) {
+      return null;
+    }
 
     const payload = JSON.parse(Buffer.from(payloadB64, "base64url").toString("utf-8"));
     const now = Math.floor(Date.now() / 1000);

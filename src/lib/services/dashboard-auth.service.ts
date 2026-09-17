@@ -3,13 +3,21 @@ import { connectToDatabase } from "@/lib/db/mongoose";
 import { AdminAuthAccount, IAdminAuthAccount } from "@/models/AdminAuthAccount";
 import { AdminAuthSession, IAdminAuthSession } from "@/models/AdminAuthSession";
 import { AdminPasswordResetRequest } from "@/models/AdminPasswordResetRequest";
-import { TeamMember } from "@/models/TeamMember";
 import { AdminUser, createSessionToken } from "@/lib/auth/session";
 import { AdminAuthSessionDTO, PasswordRequirementCheck } from "@/types/dashboard-auth";
 import { EmailProvider } from "@/lib/communications/providers/email.provider";
 import { renderBrandedEmailHtml } from "@/lib/communications/templates/email-base";
 
-const AUTH_SECRET = process.env.AUTH_SECRET || "ratiwal-dream-estates-secret-salt-2026";
+function getAuthSecret(): string {
+  const secret = process.env.AUTH_SECRET;
+  if (secret) return secret;
+  if (process.env.NODE_ENV !== "production") {
+    return "dev-only-insecure-auth-secret-do-not-use-in-prod";
+  }
+  throw new Error(
+    "AUTH_SECRET must be set in production — refusing to hash OTPs / MFA challenges without it."
+  );
+}
 const MAX_LOGIN_ATTEMPTS = 5;
 const LOCKOUT_MINUTES = 15;
 const OTP_TTL_MINUTES = 10;
@@ -42,7 +50,7 @@ export class DashboardAuthService {
    * Hashes a 6-digit OTP using HMAC-SHA256
    */
   static hashOtp(otp: string): string {
-    return crypto.createHmac("sha256", AUTH_SECRET).update(otp).digest("hex");
+    return crypto.createHmac("sha256", getAuthSecret()).update(otp).digest("hex");
   }
 
   /**
@@ -106,41 +114,12 @@ export class DashboardAuthService {
   }
 
   /**
-   * Finds or provisions a default super admin account if no accounts exist
-   */
-  static async getOrCreateAdminAccount(email: string): Promise<IAdminAuthAccount | null> {
-    await connectToDatabase();
-    let account = await AdminAuthAccount.findOne({ email: email.toLowerCase() });
-    if (!account) {
-      // Check if team member exists with this email
-      const teamMember = await TeamMember.findOne({ email: email.toLowerCase() });
-      const salt = this.generateSalt();
-      const defaultHash = this.hashPassword("Ratiwal@2026!", salt);
-
-      account = await AdminAuthAccount.create({
-        email: email.toLowerCase(),
-        phone: teamMember?.phoneMasked || "+919829012345",
-        phoneNormalized: "+919829012345",
-        passwordHash: defaultHash,
-        passwordSalt: salt,
-        name: teamMember?.fullName || "Ratiwal Admin",
-        role: teamMember?.roleKey === "SUPER_ADMIN" ? "SUPER_ADMIN" : "ADMIN",
-        isActive: teamMember ? teamMember.status === "ACTIVE" : true,
-        mfaEnabled: false,
-        failedLoginAttempts: 0,
-        teamMemberId: teamMember?._id,
-      });
-    }
-    return account;
-  }
-
-  /**
    * Authenticates administrator with identifier (email or phone) and password
    */
   static async authenticateAdmin(
     identifier: string,
     password: string,
-    metadata?: { ipAddress?: string; userAgent?: string }
+    metadata?: { ipAddress?: string; userAgent?: string; rememberDevice?: boolean }
   ): Promise<{
     success: boolean;
     error?: string;
@@ -155,10 +134,6 @@ export class DashboardAuthService {
     let account: IAdminAuthAccount | null = null;
     if (type === "EMAIL") {
       account = await AdminAuthAccount.findOne({ email: normalized });
-      // If first run, initialize admin
-      if (!account && (normalized === "admin@ratiwaldreamestates.com" || normalized.endsWith("@ratiwaldreamestates.com"))) {
-        account = await this.getOrCreateAdminAccount(normalized);
-      }
     } else {
       account = await AdminAuthAccount.findOne({ phoneNormalized: normalized });
     }
@@ -182,11 +157,19 @@ export class DashboardAuthService {
 
     const isMatch = this.verifyPassword(password, account.passwordHash, account.passwordSalt);
     if (!isMatch) {
-      account.failedLoginAttempts += 1;
-      if (account.failedLoginAttempts >= MAX_LOGIN_ATTEMPTS) {
-        account.lockUntil = new Date(Date.now() + LOCKOUT_MINUTES * 60 * 1000);
+      // Atomic $inc so concurrent wrong-password requests can't all read the
+      // same stale count and race past the lockout threshold together.
+      const updated = await AdminAuthAccount.findByIdAndUpdate(
+        account._id,
+        { $inc: { failedLoginAttempts: 1 } },
+        { new: true }
+      );
+      if (updated && updated.failedLoginAttempts >= MAX_LOGIN_ATTEMPTS) {
+        await AdminAuthAccount.updateOne(
+          { _id: account._id },
+          { $set: { lockUntil: new Date(Date.now() + LOCKOUT_MINUTES * 60 * 1000) } }
+        );
       }
-      await account.save();
       return { success: false, error: "Unable to sign in with the provided credentials." };
     }
 
@@ -196,9 +179,11 @@ export class DashboardAuthService {
     account.lastLoginAt = new Date();
     await account.save();
 
-    // Check MFA
+    // Check MFA — the challenge token binds this specific account + password
+    // verification to whatever code gets submitted next, so the MFA step can't
+    // be satisfied by just knowing an account's email (see completeMfaChallenge).
     if (account.mfaEnabled) {
-      const mfaToken = crypto.randomBytes(32).toString("hex");
+      const mfaToken = this.createMfaChallengeToken(account._id.toString());
       return {
         success: true,
         requiresMfa: true,
@@ -207,25 +192,154 @@ export class DashboardAuthService {
       };
     }
 
-    // Create session token and active session record
+    const { sessionToken } = await this.issueSession(account, metadata);
+
+    return {
+      success: true,
+      requiresMfa: false,
+      account,
+      sessionToken,
+    };
+  }
+
+  /**
+   * Builds the signed session token for an authenticated account and records
+   * the active session. Shared by password-only login and MFA-completed login
+   * so both paths issue sessions the same way.
+   */
+  static async issueSession(
+    account: IAdminAuthAccount,
+    metadata?: { ipAddress?: string; userAgent?: string; rememberDevice?: boolean }
+  ): Promise<{ adminUser: AdminUser; sessionToken: string }> {
     const adminUser: AdminUser = {
       id: account._id.toString(),
       email: account.email,
       name: account.name,
       role: account.role,
       isActive: account.isActive,
-      lastLoginAt: account.lastLoginAt.toISOString(),
+      lastLoginAt: (account.lastLoginAt || new Date()).toISOString(),
     };
 
-    const rawToken = createSessionToken(adminUser);
-    await this.recordActiveSession(account._id.toString(), rawToken, metadata);
+    // Keep the token's internal expiry in sync with the session cookie's maxAge
+    // (see login route) so a "remember device" session doesn't silently die at the
+    // default 24h mark while its cookie is still alive for up to 7 days.
+    const expiresInMs = metadata?.rememberDevice ? 7 * 24 * 60 * 60 * 1000 : 12 * 60 * 60 * 1000;
+    const sessionToken = createSessionToken(adminUser, expiresInMs);
+    await this.recordActiveSession(account._id.toString(), sessionToken, metadata);
 
-    return {
-      success: true,
-      requiresMfa: false,
-      account,
-      sessionToken: rawToken,
-    };
+    return { adminUser, sessionToken };
+  }
+
+  /**
+   * Creates a short-lived (5 min), HMAC-signed MFA challenge token bound to a
+   * specific account. Must be presented back alongside the TOTP/recovery code —
+   * without this, the MFA step could be satisfied by anyone who merely knows an
+   * account's email, with no proof the password step ever happened.
+   */
+  static createMfaChallengeToken(accountId: string, expiresInMs = 5 * 60 * 1000): string {
+    const expiresAt = Date.now() + expiresInMs;
+    const payloadB64 = Buffer.from(`${accountId}.${expiresAt}`, "utf-8").toString("base64url");
+    const signature = crypto.createHmac("sha256", getAuthSecret()).update(payloadB64).digest("base64url");
+    return `mfachal_${payloadB64}.${signature}`;
+  }
+
+  /**
+   * Verifies an MFA challenge token, returning the bound account id or null if
+   * it's missing, tampered with, or expired.
+   */
+  static verifyMfaChallengeToken(token: string | undefined | null): string | null {
+    if (!token || !token.startsWith("mfachal_")) return null;
+    try {
+      const [payloadB64, signature] = token.slice(8).split(".");
+      if (!payloadB64 || !signature) return null;
+
+      const expectedSignature = crypto.createHmac("sha256", getAuthSecret()).update(payloadB64).digest("base64url");
+      const signatureBuf = Buffer.from(signature);
+      const expectedBuf = Buffer.from(expectedSignature);
+      if (signatureBuf.length !== expectedBuf.length || !crypto.timingSafeEqual(signatureBuf, expectedBuf)) {
+        return null;
+      }
+
+      const [accountId, expiresAtStr] = Buffer.from(payloadB64, "base64url").toString("utf-8").split(".");
+      if (!accountId || !expiresAtStr || Number(expiresAtStr) < Date.now()) return null;
+
+      return accountId;
+    } catch {
+      return null;
+    }
+  }
+
+  /**
+   * Verifies the second MFA factor (TOTP or a one-time recovery code) against
+   * the account bound to a challenge token, and issues a session on success.
+   * This is the single source of truth for MFA verification — previously this
+   * logic was duplicated (and diverged, insecurely) across a server action and
+   * an API route.
+   */
+  static async completeMfaChallenge(
+    mfaToken: string,
+    code: string,
+    isRecovery: boolean,
+    metadata?: { ipAddress?: string; userAgent?: string; rememberDevice?: boolean }
+  ): Promise<{ success: boolean; error?: string; account?: IAdminAuthAccount; sessionToken?: string }> {
+    await connectToDatabase();
+
+    const accountId = this.verifyMfaChallengeToken(mfaToken);
+    if (!accountId) {
+      return { success: false, error: "Your verification session has expired. Please sign in again." };
+    }
+
+    const account = await AdminAuthAccount.findById(accountId);
+    if (!account || !account.isActive || !account.mfaEnabled) {
+      return { success: false, error: "Your verification session has expired. Please sign in again." };
+    }
+
+    // Reuse the same lockout fields/thresholds as the password step so MFA
+    // codes can't be brute-forced indefinitely.
+    if (account.lockUntil && new Date(account.lockUntil).getTime() > Date.now()) {
+      const remainingMinutes = Math.ceil((new Date(account.lockUntil).getTime() - Date.now()) / 60000);
+      return {
+        success: false,
+        error: `Too many failed attempts. Please retry in ${remainingMinutes} minute(s).`,
+      };
+    }
+
+    let isValid = false;
+    if (isRecovery) {
+      const hashedCode = this.hashOtp(code.trim());
+      if (account.mfaRecoveryCodes?.includes(hashedCode)) {
+        isValid = true;
+        account.mfaRecoveryCodes = account.mfaRecoveryCodes.filter((c) => c !== hashedCode);
+      }
+    } else if (account.mfaSecret) {
+      // No fallback secret here on purpose — an mfaEnabled account with no
+      // mfaSecret must never validate against a shared/guessable default.
+      isValid = this.verifyTotp(account.mfaSecret, code);
+    }
+
+    if (!isValid) {
+      const updated = await AdminAuthAccount.findByIdAndUpdate(
+        account._id,
+        { $inc: { failedLoginAttempts: 1 } },
+        { new: true }
+      );
+      if (updated && updated.failedLoginAttempts >= MAX_LOGIN_ATTEMPTS) {
+        await AdminAuthAccount.updateOne(
+          { _id: account._id },
+          { $set: { lockUntil: new Date(Date.now() + LOCKOUT_MINUTES * 60 * 1000) } }
+        );
+      }
+      return { success: false, error: "The verification code is incorrect or has expired." };
+    }
+
+    account.failedLoginAttempts = 0;
+    account.lockUntil = undefined;
+    account.lastLoginAt = new Date();
+    await account.save();
+
+    const { sessionToken } = await this.issueSession(account, metadata);
+
+    return { success: true, account, sessionToken };
   }
 
   /**
@@ -303,9 +417,6 @@ export class DashboardAuthService {
     let account: IAdminAuthAccount | null = null;
     if (type === "EMAIL") {
       account = await AdminAuthAccount.findOne({ email: normalized });
-      if (!account && normalized.endsWith("@ratiwaldreamestates.com")) {
-        account = await this.getOrCreateAdminAccount(normalized);
-      }
     } else {
       account = await AdminAuthAccount.findOne({ phoneNormalized: normalized });
     }
@@ -386,8 +497,6 @@ export class DashboardAuthService {
         console.error("[AUTH] Failed to send reset OTP email via Resend:", emailErr);
       }
     }
-
-    console.log(`[AUTH-OTP] Dashboard Reset OTP for ${normalized}: ${otp}`);
 
     return {
       success: true,

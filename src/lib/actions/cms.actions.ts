@@ -10,6 +10,7 @@ import { CmsFaqItem } from "@/models/CmsFaqItem";
 import { CmsPublishingService } from "@/lib/services/cms-publishing.service";
 import { CmsPreviewService } from "@/lib/services/cms-preview.service";
 
+import { getErrorMessage } from "@/lib/api/errors";
 export interface ActionResult<T = any> {
   success: boolean;
   message?: string;
@@ -72,8 +73,8 @@ export async function saveCmsDraftAction(formData: FormData): Promise<ActionResu
     revalidatePath("/dashboard/content");
     revalidatePath(`/dashboard/content/editor/${entry._id}`);
     return { success: true, message: "Draft saved successfully.", data: { entryId: entry._id.toString() } };
-  } catch (error: any) {
-    return { success: false, code: "SAVE_ERROR", message: error.message || "Failed to save draft." };
+  } catch (error) {
+    return { success: false, code: "SAVE_ERROR", message: getErrorMessage(error, "Failed to save draft.") };
   }
 }
 
@@ -93,8 +94,8 @@ export async function publishCmsAction(entryId: string): Promise<ActionResult> {
     revalidatePath("/dashboard/content");
     revalidatePath(`/dashboard/content/editor/${entryId}`);
     return { success: true, message: `Published version ${entry.publishedVersionNumber} successfully.` };
-  } catch (error: any) {
-    return { success: false, code: "PUBLISH_ERROR", message: error.message || "Failed to publish entry." };
+  } catch (error) {
+    return { success: false, code: "PUBLISH_ERROR", message: getErrorMessage(error, "Failed to publish entry.") };
   }
 }
 
@@ -114,8 +115,8 @@ export async function rollbackCmsVersionAction(entryId: string, targetVersion: n
     revalidatePath("/dashboard/content");
     revalidatePath(`/dashboard/content/editor/${entryId}`);
     return { success: true, message: `Rollback to version ${targetVersion} completed.` };
-  } catch (error: any) {
-    return { success: false, code: "ROLLBACK_ERROR", message: error.message || "Failed to rollback version." };
+  } catch (error) {
+    return { success: false, code: "ROLLBACK_ERROR", message: getErrorMessage(error, "Failed to rollback version.") };
   }
 }
 
@@ -132,8 +133,8 @@ export async function generatePreviewLinkAction(entryId: string): Promise<Action
       message: "Preview link generated (valid for 2 hours).",
       data: { previewUrl, expiresAt: expiresAt.toISOString() },
     };
-  } catch (error: any) {
-    return { success: false, code: "PREVIEW_ERROR", message: error.message || "Failed to generate preview." };
+  } catch (error) {
+    return { success: false, code: "PREVIEW_ERROR", message: getErrorMessage(error, "Failed to generate preview.") };
   }
 }
 
@@ -163,8 +164,8 @@ export async function createRedirectAction(sourcePath: string, destinationPath: 
 
     revalidatePath("/dashboard/content/redirects");
     return { success: true, message: "Redirect created successfully.", data: { redirectId: redirect._id.toString() } };
-  } catch (error: any) {
-    return { success: false, code: "REDIRECT_ERROR", message: error.message || "Failed to create redirect." };
+  } catch (error) {
+    return { success: false, code: "REDIRECT_ERROR", message: getErrorMessage(error, "Failed to create redirect.") };
   }
 }
 
@@ -179,8 +180,8 @@ export async function deleteRedirectAction(redirectId: string): Promise<ActionRe
     await RedirectRule.findByIdAndDelete(redirectId);
     revalidatePath("/dashboard/content/redirects");
     return { success: true, message: "Redirect rule deleted." };
-  } catch (error: any) {
-    return { success: false, code: "DELETE_ERROR", message: error.message || "Failed to delete redirect." };
+  } catch (error) {
+    return { success: false, code: "DELETE_ERROR", message: getErrorMessage(error, "Failed to delete redirect.") };
   }
 }
 
@@ -231,8 +232,8 @@ export async function saveTestimonialAction(formData: FormData): Promise<ActionR
     revalidatePath("/dashboard/content/testimonials");
     revalidatePath("/testimonials");
     return { success: true, message: "Testimonial saved." };
-  } catch (error: any) {
-    return { success: false, code: "SAVE_ERROR", message: error.message || "Failed to save testimonial." };
+  } catch (error) {
+    return { success: false, code: "SAVE_ERROR", message: getErrorMessage(error, "Failed to save testimonial.") };
   }
 }
 
@@ -279,7 +280,7 @@ export async function saveFaqAction(formData: FormData): Promise<ActionResult> {
 
     revalidatePath("/dashboard/content/faqs");
     return { success: true, message: "FAQ saved." };
-  } catch (error: any) {
-    return { success: false, code: "SAVE_ERROR", message: error.message || "Failed to save FAQ." };
+  } catch (error) {
+    return { success: false, code: "SAVE_ERROR", message: getErrorMessage(error, "Failed to save FAQ.") };
   }
 }

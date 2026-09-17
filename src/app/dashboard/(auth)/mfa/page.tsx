@@ -13,7 +13,7 @@ import { verifyAdminMfaAction } from "@/lib/actions/dashboard-auth.actions";
 function MfaVerificationContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const email = searchParams.get("email") || "";
+  const mfaToken = searchParams.get("token") || "";
   const returnUrl = searchParams.get("returnUrl") || "/dashboard";
 
   const [useRecoveryCode, setUseRecoveryCode] = useState(false);
@@ -31,9 +31,13 @@ function MfaVerificationContent() {
       setError(useRecoveryCode ? "Please enter your recovery backup code." : "Please enter the 6-digit code from your authenticator app.");
       return;
     }
+    if (!mfaToken) {
+      setError("Your verification session has expired. Please sign in again.");
+      return;
+    }
 
     const formData = new FormData();
-    formData.append("email", email);
+    formData.append("mfaToken", mfaToken);
     formData.append("code", code);
     formData.append("isRecovery", String(useRecoveryCode));
 

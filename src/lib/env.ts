@@ -27,16 +27,13 @@ const serverEnvSchema = z.object({
     .default("http://localhost:3000"),
   IMAGEKIT_PUBLIC_KEY: z
     .string()
-    .min(1, "IMAGEKIT_PUBLIC_KEY is required")
-    .default("public_dzOgOjve3IxMrPVRKJcU4f9qHlY="),
+    .min(1, "IMAGEKIT_PUBLIC_KEY is required. Please set it in your environment or .env.local"),
   IMAGEKIT_PRIVATE_KEY: z
     .string()
-    .min(1, "IMAGEKIT_PRIVATE_KEY is required")
-    .default("private_bEblHeV+VfAZ+5YAznJ+FjF4fBg="),
+    .min(1, "IMAGEKIT_PRIVATE_KEY is required. Please set it in your environment or .env.local"),
   IMAGEKIT_URL_ENDPOINT: z
     .string()
-    .url("IMAGEKIT_URL_ENDPOINT must be a valid URL")
-    .default("https://ik.imagekit.io/ratiwaldream"),
+    .url("IMAGEKIT_URL_ENDPOINT must be a valid URL"),
 });
 
 export type ServerEnv = z.infer<typeof serverEnvSchema>;

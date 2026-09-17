@@ -16,7 +16,8 @@ export const siteConfig = {
     officeHours: "10:00 AM - 7:00 PM (IST)",
   },
   agent: {
-    name: "Suresh Kumawat",
+    name: "Suresh Ratiwal",
+    legalName: "Suresh Kumawat",
     role: "Senior Property Advisor",
     email: "Sureshkumawat6917@gmail.com",
     phone: "+91-9929533436",

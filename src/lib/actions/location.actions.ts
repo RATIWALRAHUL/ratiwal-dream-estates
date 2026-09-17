@@ -40,6 +40,7 @@ import {
 } from "@/lib/validations/location.schema";
 import type { ActionResult } from "./types";
 
+import { getErrorMessage } from "@/lib/api/errors";
 /**
  * 1. Create a new Location Draft
  */
@@ -113,17 +114,17 @@ export async function createLocationDraftAction(
         slug: targetSlug,
       },
     };
-  } catch (err: any) {
-    if (err.name === "AuthenticationError") {
-      return { success: false, code: "UNAUTHORIZED", message: err.message };
+  } catch (err) {
+    if ((err instanceof Error && err.name) === "AuthenticationError") {
+      return { success: false, code: "UNAUTHORIZED", message: getErrorMessage(err) };
     }
-    if (err.name === "AuthorizationError") {
-      return { success: false, code: "FORBIDDEN", message: err.message };
+    if ((err instanceof Error && err.name) === "AuthorizationError") {
+      return { success: false, code: "FORBIDDEN", message: getErrorMessage(err) };
     }
     return {
       success: false,
       code: "DATABASE_ERROR",
-      message: err.message || "Failed to create location draft.",
+      message: getErrorMessage(err, "Failed to create location draft."),
     };
   }
 }
@@ -236,17 +237,17 @@ export async function updateLocationAction(
         version: location.version,
       },
     };
-  } catch (err: any) {
-    if (err.name === "AuthenticationError") {
-      return { success: false, code: "UNAUTHORIZED", message: err.message };
+  } catch (err) {
+    if ((err instanceof Error && err.name) === "AuthenticationError") {
+      return { success: false, code: "UNAUTHORIZED", message: getErrorMessage(err) };
     }
-    if (err.name === "AuthorizationError") {
-      return { success: false, code: "FORBIDDEN", message: err.message };
+    if ((err instanceof Error && err.name) === "AuthorizationError") {
+      return { success: false, code: "FORBIDDEN", message: getErrorMessage(err) };
     }
     return {
       success: false,
       code: "DATABASE_ERROR",
-      message: err.message || "Failed to update location.",
+      message: getErrorMessage(err, "Failed to update location."),
     };
   }
 }
@@ -293,17 +294,17 @@ export async function submitLocationForReviewAction(
       message: "Location submitted for review successfully.",
       data: { locationId: location._id.toString(), status: "REVIEW" },
     };
-  } catch (err: any) {
-    if (err.name === "AuthenticationError") {
-      return { success: false, code: "UNAUTHORIZED", message: err.message };
+  } catch (err) {
+    if ((err instanceof Error && err.name) === "AuthenticationError") {
+      return { success: false, code: "UNAUTHORIZED", message: getErrorMessage(err) };
     }
-    if (err.name === "AuthorizationError") {
-      return { success: false, code: "FORBIDDEN", message: err.message };
+    if ((err instanceof Error && err.name) === "AuthorizationError") {
+      return { success: false, code: "FORBIDDEN", message: getErrorMessage(err) };
     }
     return {
       success: false,
       code: "DATABASE_ERROR",
-      message: err.message || "Failed to submit location for review.",
+      message: getErrorMessage(err, "Failed to submit location for review."),
     };
   }
 }
@@ -362,17 +363,17 @@ export async function returnLocationToDraftAction(
       message: "Location returned to draft with feedback.",
       data: { locationId: location._id.toString(), status: "DRAFT" },
     };
-  } catch (err: any) {
-    if (err.name === "AuthenticationError") {
-      return { success: false, code: "UNAUTHORIZED", message: err.message };
+  } catch (err) {
+    if ((err instanceof Error && err.name) === "AuthenticationError") {
+      return { success: false, code: "UNAUTHORIZED", message: getErrorMessage(err) };
     }
-    if (err.name === "AuthorizationError") {
-      return { success: false, code: "FORBIDDEN", message: err.message };
+    if ((err instanceof Error && err.name) === "AuthorizationError") {
+      return { success: false, code: "FORBIDDEN", message: getErrorMessage(err) };
     }
     return {
       success: false,
       code: "DATABASE_ERROR",
-      message: err.message || "Failed to return location to draft.",
+      message: getErrorMessage(err, "Failed to return location to draft."),
     };
   }
 }
@@ -439,17 +440,17 @@ export async function publishLocationAction(
         slug: location.slug,
       },
     };
-  } catch (err: any) {
-    if (err.name === "AuthenticationError") {
-      return { success: false, code: "UNAUTHORIZED", message: err.message };
+  } catch (err) {
+    if ((err instanceof Error && err.name) === "AuthenticationError") {
+      return { success: false, code: "UNAUTHORIZED", message: getErrorMessage(err) };
     }
-    if (err.name === "AuthorizationError") {
-      return { success: false, code: "FORBIDDEN", message: err.message };
+    if ((err instanceof Error && err.name) === "AuthorizationError") {
+      return { success: false, code: "FORBIDDEN", message: getErrorMessage(err) };
     }
     return {
       success: false,
       code: "DATABASE_ERROR",
-      message: err.message || "Failed to publish location.",
+      message: getErrorMessage(err, "Failed to publish location."),
     };
   }
 }
@@ -523,17 +524,17 @@ export async function archiveLocationAction(
       message: "Location archived successfully.",
       data: { locationId: location._id.toString(), status: "ARCHIVED" },
     };
-  } catch (err: any) {
-    if (err.name === "AuthenticationError") {
-      return { success: false, code: "UNAUTHORIZED", message: err.message };
+  } catch (err) {
+    if ((err instanceof Error && err.name) === "AuthenticationError") {
+      return { success: false, code: "UNAUTHORIZED", message: getErrorMessage(err) };
     }
-    if (err.name === "AuthorizationError") {
-      return { success: false, code: "FORBIDDEN", message: err.message };
+    if ((err instanceof Error && err.name) === "AuthorizationError") {
+      return { success: false, code: "FORBIDDEN", message: getErrorMessage(err) };
     }
     return {
       success: false,
       code: "DATABASE_ERROR",
-      message: err.message || "Failed to archive location.",
+      message: getErrorMessage(err, "Failed to archive location."),
     };
   }
 }
@@ -579,17 +580,17 @@ export async function restoreLocationToDraftAction(
       message: "Location restored to DRAFT status.",
       data: { locationId: location._id.toString(), status: "DRAFT" },
     };
-  } catch (err: any) {
-    if (err.name === "AuthenticationError") {
-      return { success: false, code: "UNAUTHORIZED", message: err.message };
+  } catch (err) {
+    if ((err instanceof Error && err.name) === "AuthenticationError") {
+      return { success: false, code: "UNAUTHORIZED", message: getErrorMessage(err) };
     }
-    if (err.name === "AuthorizationError") {
-      return { success: false, code: "FORBIDDEN", message: err.message };
+    if ((err instanceof Error && err.name) === "AuthorizationError") {
+      return { success: false, code: "FORBIDDEN", message: getErrorMessage(err) };
     }
     return {
       success: false,
       code: "DATABASE_ERROR",
-      message: err.message || "Failed to restore location.",
+      message: getErrorMessage(err, "Failed to restore location."),
     };
   }
 }
@@ -665,17 +666,17 @@ export async function changePublishedLocationSlugAction(
         newSlug: targetSlug,
       },
     };
-  } catch (err: any) {
-    if (err.name === "AuthenticationError") {
-      return { success: false, code: "UNAUTHORIZED", message: err.message };
+  } catch (err) {
+    if ((err instanceof Error && err.name) === "AuthenticationError") {
+      return { success: false, code: "UNAUTHORIZED", message: getErrorMessage(err) };
     }
-    if (err.name === "AuthorizationError") {
-      return { success: false, code: "FORBIDDEN", message: err.message };
+    if ((err instanceof Error && err.name) === "AuthorizationError") {
+      return { success: false, code: "FORBIDDEN", message: getErrorMessage(err) };
     }
     return {
       success: false,
       code: "DATABASE_ERROR",
-      message: err.message || "Failed to update location slug.",
+      message: getErrorMessage(err, "Failed to update location slug."),
     };
   }
 }
@@ -750,11 +751,11 @@ export async function addMicroMarketAction(
       message: "Micro-market added successfully.",
       data: { microMarketId: newId.toString() },
     };
-  } catch (err: any) {
+  } catch (err) {
     return {
       success: false,
       code: "DATABASE_ERROR",
-      message: err.message || "Failed to add micro-market.",
+      message: getErrorMessage(err, "Failed to add micro-market."),
     };
   }
 }
@@ -791,11 +792,11 @@ export async function removeMicroMarketAction(
       message: "Micro-market removed successfully.",
       data: { success: true },
     };
-  } catch (err: any) {
+  } catch (err) {
     return {
       success: false,
       code: "DATABASE_ERROR",
-      message: err.message || "Failed to remove micro-market.",
+      message: getErrorMessage(err, "Failed to remove micro-market."),
     };
   }
 }
@@ -852,11 +853,11 @@ export async function addInfrastructureMilestoneAction(
       message: "Infrastructure milestone added successfully.",
       data: { milestoneId: newId.toString() },
     };
-  } catch (err: any) {
+  } catch (err) {
     return {
       success: false,
       code: "DATABASE_ERROR",
-      message: err.message || "Failed to add infrastructure milestone.",
+      message: getErrorMessage(err, "Failed to add infrastructure milestone."),
     };
   }
 }
@@ -893,11 +894,11 @@ export async function removeInfrastructureMilestoneAction(
       message: "Infrastructure milestone removed successfully.",
       data: { success: true },
     };
-  } catch (err: any) {
+  } catch (err) {
     return {
       success: false,
       code: "DATABASE_ERROR",
-      message: err.message || "Failed to remove infrastructure milestone.",
+      message: getErrorMessage(err, "Failed to remove infrastructure milestone."),
     };
   }
 }
@@ -954,11 +955,11 @@ export async function addConnectivityMilestoneAction(
       message: "Connectivity milestone added successfully.",
       data: { milestoneId: newId.toString() },
     };
-  } catch (err: any) {
+  } catch (err) {
     return {
       success: false,
       code: "DATABASE_ERROR",
-      message: err.message || "Failed to add connectivity milestone.",
+      message: getErrorMessage(err, "Failed to add connectivity milestone."),
     };
   }
 }
@@ -995,11 +996,11 @@ export async function removeConnectivityMilestoneAction(
       message: "Connectivity milestone removed successfully.",
       data: { success: true },
     };
-  } catch (err: any) {
+  } catch (err) {
     return {
       success: false,
       code: "DATABASE_ERROR",
-      message: err.message || "Failed to remove connectivity milestone.",
+      message: getErrorMessage(err, "Failed to remove connectivity milestone."),
     };
   }
 }
@@ -1060,11 +1061,11 @@ export async function addMarketObservationAction(
       message: "Market observation logged successfully.",
       data: { observationId: newId.toString() },
     };
-  } catch (err: any) {
+  } catch (err) {
     return {
       success: false,
       code: "DATABASE_ERROR",
-      message: err.message || "Failed to log market observation.",
+      message: getErrorMessage(err, "Failed to log market observation."),
     };
   }
 }
@@ -1102,11 +1103,11 @@ export async function removeMarketObservationAction(
       message: "Market observation removed successfully.",
       data: { success: true },
     };
-  } catch (err: any) {
+  } catch (err) {
     return {
       success: false,
       code: "DATABASE_ERROR",
-      message: err.message || "Failed to remove market observation.",
+      message: getErrorMessage(err, "Failed to remove market observation."),
     };
   }
 }

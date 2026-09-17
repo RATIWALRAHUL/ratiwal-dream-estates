@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { HoldService } from "@/lib/services/hold.service";
 import { logger } from "@/lib/logger";
 
+import { getErrorMessage } from "@/lib/api/errors";
 export const dynamic = "force-dynamic";
 
 /**
@@ -11,9 +12,9 @@ export const dynamic = "force-dynamic";
 export async function GET(request: Request) {
   try {
     const authHeader = request.headers.get("authorization");
-    const expectedSecret = process.env.CRON_SECRET || "ratiwal-cron-secret-2026";
+    const expectedSecret = process.env.CRON_SECRET;
 
-    if (authHeader !== `Bearer ${expectedSecret}`) {
+    if (!expectedSecret || authHeader !== `Bearer ${expectedSecret}`) {
       return NextResponse.json({ error: "UNAUTHORIZED" }, { status: 401 });
     }
 
@@ -25,10 +26,10 @@ export async function GET(request: Request) {
       expiredHoldIds: result.expiredHoldIds,
       timestamp: new Date().toISOString(),
     });
-  } catch (error: any) {
-    logger.error("[API] Hold expiration job failed", { error: error?.message });
+  } catch (error) {
+    logger.error("[API] Hold expiration job failed", { error: getErrorMessage(error) });
     return NextResponse.json(
-      { success: false, error: error?.message || "Internal server error" },
+      { success: false, error: getErrorMessage(error, "Internal server error") },
       { status: 500 }
     );
   }

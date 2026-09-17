@@ -4,6 +4,7 @@ import { useState, useRef } from "react";
 import Image from "next/image";
 import { UploadCloud, CheckCircle2, AlertCircle, Loader2, X, Image as FileText } from "lucide-react";
 
+import { getErrorMessage } from "@/lib/api/errors";
 interface ImageKitUploadProps {
   onSuccess: (result: {
     url: string;
@@ -81,8 +82,8 @@ export function ImageKitUpload({
         size: json.data.size,
         thumbnailUrl: json.data.thumbnailUrl,
       });
-    } catch (err: any) {
-      setError(err?.message || "Failed to upload file");
+    } catch (err) {
+      setError(getErrorMessage(err, "Failed to upload file"));
       setIsUploading(false);
       setUploadProgress(null);
     }

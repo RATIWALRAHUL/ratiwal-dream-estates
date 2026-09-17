@@ -23,9 +23,10 @@ import {
 
 // ─── Advisor data ──────────────────────────────────────────────────────────────
 const AGENT = {
-  name: "Suresh Kumawat",
+  name: "Suresh Ratiwal",
+  legalName: "Suresh Kumawat",
   firstName: "Suresh",
-  lastName: "Kumawat",
+  lastName: "Ratiwal",
   company: "Ratiwal Dream Estates",
   designation: "Real Estate Consultant",
   phone: "+91 99295 33436",
@@ -48,7 +49,7 @@ function generateVCard(): string {
     `TITLE:${AGENT.designation}`,
     `TEL;TYPE=CELL:+${AGENT.phoneRaw}`,
     `EMAIL;TYPE=INTERNET:${AGENT.email}`,
-    `NOTE:RERA No. ${AGENT.rera}`,
+    `NOTE:RERA No. ${AGENT.rera} (Registered Legal Name: ${AGENT.legalName})`,
     "END:VCARD",
   ].join("\r\n");
 }
@@ -86,7 +87,7 @@ function CardFront() {
       {/* Name + designation */}
       <div>
         <h3 className="text-[#061e2e] font-extrabold text-[11px] sm:text-[13px] leading-tight tracking-[0.07em] uppercase">
-          SURESH KUMAWAT
+          SURESH RATIWAL
         </h3>
         <p className="text-[#D7A63C] text-[8px] sm:text-[9.5px] font-bold mt-0.5">
           Real Estate Consultant
@@ -126,8 +127,8 @@ function CardFront() {
           <span className="w-4 h-4 rounded-full bg-[#087FC3] flex items-center justify-center flex-shrink-0">
             <ShieldCheck size={8} className="text-white" />
           </span>
-          <span className="text-[#2c3e50] text-[8px] sm:text-[9.5px] font-medium">
-            RERA No. RAJ/A/2019/983
+          <span className="text-[#2c3e50] text-[8px] sm:text-[9.5px] font-medium leading-tight">
+            RERA: {AGENT.rera} (Regd: {AGENT.legalName})
           </span>
         </div>
       </div>
@@ -283,7 +284,7 @@ function ShareModal({ onClose, pageUrl }: { onClose: () => void; pageUrl: string
               Share Contact
             </h3>
             <p className="text-[#50616d] text-xs mt-0.5">
-              Suresh Kumawat — Real Estate Consultant
+              Suresh Ratiwal — Real Estate Consultant
             </p>
           </div>
           <button
@@ -395,7 +396,7 @@ export default function DigitalVisitingCard() {
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = "suresh-kumawat-ratiwal-dream-estates.vcf";
+    a.download = "suresh-ratiwal-ratiwal-dream-estates.vcf";
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
@@ -483,7 +484,7 @@ export default function DigitalVisitingCard() {
           >
             <Image
               src={AGENT.photo}
-              alt="Suresh Kumawat"
+              alt="Suresh Ratiwal"
               fill
               className="object-cover object-top"
               sizes="(max-width: 640px) 56vw, 300px"

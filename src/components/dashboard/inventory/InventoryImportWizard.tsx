@@ -19,6 +19,7 @@ import {
 import { IRowValidationError } from "@/models/InventoryImportJob";
 import { ParsedCsvRow } from "@/lib/services/inventory-import.service";
 
+import { getErrorMessage } from "@/lib/api/errors";
 interface InventoryImportWizardProps {
   properties: { _id: string; title: string }[];
 }
@@ -80,8 +81,8 @@ export function InventoryImportWizard({ properties }: InventoryImportWizardProps
         setRowErrors(res.rowErrors || []);
         setParsedRows(res.parsedRows || []);
         setStep(2);
-      } catch (err: any) {
-        setError(err.message || "An error occurred during CSV parsing.");
+      } catch (err) {
+        setError(getErrorMessage(err, "An error occurred during CSV parsing."));
       }
     });
   };
@@ -97,8 +98,8 @@ export function InventoryImportWizard({ properties }: InventoryImportWizardProps
         }
         setImportResult({ created: res.created || 0, skipped: res.skipped || 0, failed: res.failed || 0 });
         setStep(3);
-      } catch (err: any) {
-        setError(err.message || "Failed to complete import.");
+      } catch (err) {
+        setError(getErrorMessage(err, "Failed to complete import."));
       }
     });
   };

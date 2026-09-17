@@ -33,7 +33,7 @@ export default async function PropertyLegalVaultPage({ params }: PropertyLegalVa
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div>
           <Link
-            href={`/dashboard/properties/${propertyId}`}
+            href={`/dashboard/properties/${propertyId}/edit`}
             className="inline-flex items-center gap-1.5 text-xs text-[#647581] hover:text-[#071a28] transition-colors mb-2"
           >
             <ArrowLeft className="w-3.5 h-3.5" />

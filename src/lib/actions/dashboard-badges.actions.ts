@@ -35,7 +35,7 @@ export async function getDashboardSidebarBadgesAction(): Promise<DashboardSideba
     await connectToDatabase();
 
     const [leads, siteVisits, support, kyc, tasks, partners] = await Promise.all([
-      Lead.countDocuments({ status: "NEW", abuseStatus: { $ne: "BLOCKED" } }).maxTimeMS(2500).catch(() => 0),
+      Lead.countDocuments({ status: "NEW", abuseStatus: { $ne: "BLOCKED" }, viewedAt: { $exists: false } }).maxTimeMS(2500).catch(() => 0),
       SiteVisit.countDocuments({ status: "REQUESTED" }).maxTimeMS(2500).catch(() => 0),
       CustomerSupportRequest.countDocuments({ status: "OPEN" }).maxTimeMS(2500).catch(() => 0),
       CustomerKycCase.countDocuments({ status: { $in: ["SUBMITTED", "UNDER_REVIEW", "IN_PROGRESS"] } }).maxTimeMS(2500).catch(() => 0),

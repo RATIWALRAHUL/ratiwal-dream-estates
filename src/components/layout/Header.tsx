@@ -72,7 +72,7 @@ export default function Header() {
           </Link>
 
           {/* Desktop Navigation Link Lists */}
-          <nav className="hidden lg:flex nav-links my-auto" aria-label="Main Navigation">
+          <nav className="hidden xl:flex nav-links my-auto" aria-label="Main Navigation">
             {navigationConfig.mainNav.filter((link) => ["Home", "Properties", "Locations", "Investment", "About Us", "Contact"].includes(link.label)).map((link) => {
               const isActive = pathname === link.href;
               return (
@@ -88,7 +88,7 @@ export default function Header() {
           </nav>
 
           {/* Desktop CTAs */}
-          <div className="hidden lg:flex nav-ctas my-auto">
+          <div className="hidden xl:flex nav-ctas my-auto">
             <a
               href={whatsappUrl}
               target="_blank"
@@ -105,8 +105,8 @@ export default function Header() {
             </Link>
           </div>
 
-          {/* Mobile Quick Action & Navigation Trigger */}
-          <div className="flex lg:hidden items-center gap-2 sm:gap-2.5 my-auto shrink-0">
+          {/* Mobile & Tablet Quick Action & Navigation Trigger */}
+          <div className="flex xl:hidden items-center gap-2 sm:gap-2.5 my-auto shrink-0">
             <a
               href={whatsappUrl}
               target="_blank"

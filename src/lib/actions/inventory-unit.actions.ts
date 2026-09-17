@@ -19,6 +19,7 @@ import {
 import { IPricingSnapshot } from "@/models/InventoryPriceHistory";
 import { logger } from "@/lib/logger";
 
+import { getErrorMessage } from "@/lib/api/errors";
 function safeRevalidate(path: string) {
   try {
     revalidatePath(path);
@@ -36,10 +37,10 @@ export async function createInventoryUnitAction(input: CreateUnitInput) {
     const unit = await InventoryService.createUnit(input, session);
     safeRevalidate("/dashboard/inventory");
     safeRevalidate(`/dashboard/properties/${input.propertyId}/inventory`);
-    return { success: true, unitId: unit._id.toString(), referenceCode: unit.referenceCode };
-  } catch (error: any) {
-    logger.error("[Inventory] createInventoryUnitAction failed", { error: error?.message });
-    return { success: false, message: error?.message || "Failed to create unit." };
+    return { success: true as const, unitId: unit._id.toString(), referenceCode: unit.referenceCode };
+  } catch (error) {
+    logger.error("[Inventory] createInventoryUnitAction failed", { error: getErrorMessage(error) });
+    return { success: false as const, message: getErrorMessage(error, "Failed to create unit.") };
   }
 }
 
@@ -52,10 +53,10 @@ export async function updateInventoryUnitAction(unitId: string, input: UpdateUni
     const updated = await InventoryService.updateUnit(unitId, input, session);
     safeRevalidate("/dashboard/inventory");
     safeRevalidate(`/dashboard/inventory/${unitId}`);
-    return { success: true, unit: updated };
-  } catch (error: any) {
-    logger.error("[Inventory] updateInventoryUnitAction failed", { error: error?.message });
-    return { success: false, message: error?.message || "Failed to update unit." };
+    return { success: true as const, unit: updated };
+  } catch (error) {
+    logger.error("[Inventory] updateInventoryUnitAction failed", { error: getErrorMessage(error) });
+    return { success: false as const, message: getErrorMessage(error, "Failed to update unit.") };
   }
 }
 
@@ -77,10 +78,10 @@ export async function transitionUnitStatusAction(params: {
     });
     safeRevalidate("/dashboard/inventory");
     safeRevalidate(`/dashboard/inventory/${params.unitId}`);
-    return { success: true, unit: updated };
-  } catch (error: any) {
-    logger.error("[Inventory] transitionUnitStatusAction failed", { error: error?.message });
-    return { success: false, message: error?.message || "Failed to change status." };
+    return { success: true as const, unit: updated };
+  } catch (error) {
+    logger.error("[Inventory] transitionUnitStatusAction failed", { error: getErrorMessage(error) });
+    return { success: false as const, message: getErrorMessage(error, "Failed to change status.") };
   }
 }
 
@@ -102,10 +103,10 @@ export async function updateUnitPricingAction(params: {
     });
     safeRevalidate("/dashboard/inventory");
     safeRevalidate(`/dashboard/inventory/${params.unitId}`);
-    return { success: true, unit: updated };
-  } catch (error: any) {
-    logger.error("[Inventory] updateUnitPricingAction failed", { error: error?.message });
-    return { success: false, message: error?.message || "Failed to update pricing." };
+    return { success: true as const, unit: updated };
+  } catch (error) {
+    logger.error("[Inventory] updateUnitPricingAction failed", { error: getErrorMessage(error) });
+    return { success: false as const, message: getErrorMessage(error, "Failed to update pricing.") };
   }
 }
 
@@ -141,15 +142,15 @@ export async function bulkUpdateUnitsAction(params: {
             updatedCount++;
           }
         }
-      } catch (err: any) {
-        errors.push(`Unit ${id}: ${err.message}`);
+      } catch (err) {
+        errors.push(`Unit ${id}: ${getErrorMessage(err)}`);
       }
     }
 
     safeRevalidate("/dashboard/inventory");
-    return { success: true, updatedCount, errors };
-  } catch (error: any) {
-    return { success: false, message: error?.message || "Bulk update failed." };
+    return { success: true as const, updatedCount, errors };
+  } catch (error) {
+    return { success: false as const, message: getErrorMessage(error, "Bulk update failed.") };
   }
 }
 
@@ -160,7 +161,7 @@ export async function queryInventoryUnitsAction(params: InventoryFilterParams) {
   try {
     const session = await requireAdminSession();
     return await InventoryService.queryUnits(params, session);
-  } catch (error: any) {
+  } catch (error) {
     throw error;
   }
 }
@@ -172,7 +173,7 @@ export async function getInventoryAvailabilitySummaryAction(propertyId?: string)
   try {
     await requireAdminSession();
     return await InventoryService.getAvailabilitySummary(propertyId);
-  } catch (error: any) {
+  } catch (error) {
     throw error;
   }
 }
@@ -184,7 +185,7 @@ export async function getInventoryMatrixViewAction(propertyId: string, towerBloc
   try {
     await requireAdminSession();
     return await InventoryService.getMatrixViewData(propertyId, towerBlockSector);
-  } catch (error: any) {
+  } catch (error) {
     throw error;
   }
 }
@@ -196,7 +197,7 @@ export async function scanInventoryDataQualityAction() {
   try {
     await requireAdminSession();
     return await InventoryService.scanDataQuality();
-  } catch (error: any) {
+  } catch (error) {
     throw error;
   }
 }
@@ -214,8 +215,8 @@ export async function validateInventoryImportAction(
     const session = await requireAdminSession(["SUPER_ADMIN", "ADMIN"]);
     const result = await InventoryImportService.validateImport(propertyId, csvContent, filename, importMode, session);
     return { success: true as const, ...result };
-  } catch (error: any) {
-    return { success: false as const, message: error?.message || "Failed to validate CSV." };
+  } catch (error) {
+    return { success: false as const, message: getErrorMessage(error, "Failed to validate CSV.") };
   }
 }
 
@@ -233,7 +234,7 @@ export async function executeInventoryImportAction(
     safeRevalidate("/dashboard/inventory");
     safeRevalidate(`/dashboard/properties/${propertyId}/inventory`);
     return { success: true as const, ...result };
-  } catch (error: any) {
-    return { success: false as const, message: error?.message || "Failed to execute import." };
+  } catch (error) {
+    return { success: false as const, message: getErrorMessage(error, "Failed to execute import.") };
   }
 }

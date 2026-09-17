@@ -71,7 +71,7 @@ export async function POST(req: NextRequest) {
       success: true,
       message: "Password updated successfully. Please log in with your new credentials.",
     });
-  } catch (error: any) {
+  } catch (error) {
     return NextResponse.json(
       { success: false, message: "An unexpected error occurred during password reset." },
       { status: 500 }

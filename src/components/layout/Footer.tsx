@@ -152,24 +152,28 @@ export default function Footer() {
                 Connect With Us
               </span>
               <div className="flex items-center gap-2.5">
-                <a
-                  href={siteConfig.social.instagram}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="Follow Ratiwal Dream Estates on Instagram"
-                  className="w-9 h-9 rounded-full bg-slate-50 border border-slate-200 text-slate-600 flex items-center justify-center hover:bg-[#087fc3] hover:text-white hover:border-[#087fc3] transition-all duration-300 shadow-xs hover:-translate-y-0.5"
-                >
-                  <InstagramIcon className="w-4 h-4" />
-                </a>
-                <a
-                  href={siteConfig.social.linkedin}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="Connect with Ratiwal Dream Estates on LinkedIn"
-                  className="w-9 h-9 rounded-full bg-slate-50 border border-slate-200 text-slate-600 flex items-center justify-center hover:bg-[#087fc3] hover:text-white hover:border-[#087fc3] transition-all duration-300 shadow-xs hover:-translate-y-0.5"
-                >
-                  <LinkedinIcon className="w-4 h-4" />
-                </a>
+                {siteConfig.social.instagram !== "#" && (
+                  <a
+                    href={siteConfig.social.instagram}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Follow Ratiwal Dream Estates on Instagram"
+                    className="w-9 h-9 rounded-full bg-slate-50 border border-slate-200 text-slate-600 flex items-center justify-center hover:bg-[#087fc3] hover:text-white hover:border-[#087fc3] transition-all duration-300 shadow-xs hover:-translate-y-0.5"
+                  >
+                    <InstagramIcon className="w-4 h-4" />
+                  </a>
+                )}
+                {siteConfig.social.linkedin !== "#" && (
+                  <a
+                    href={siteConfig.social.linkedin}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Connect with Ratiwal Dream Estates on LinkedIn"
+                    className="w-9 h-9 rounded-full bg-slate-50 border border-slate-200 text-slate-600 flex items-center justify-center hover:bg-[#087fc3] hover:text-white hover:border-[#087fc3] transition-all duration-300 shadow-xs hover:-translate-y-0.5"
+                  >
+                    <LinkedinIcon className="w-4 h-4" />
+                  </a>
+                )}
                 <a
                   href={whatsappUrl}
                   target="_blank"
@@ -180,7 +184,7 @@ export default function Footer() {
                   <MessageCircle className="w-4 h-4" />
                 </a>
                 <a
-                  href="https://ratiwaldreamestates.com"
+                  href={siteConfig.url}
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="Official Website"

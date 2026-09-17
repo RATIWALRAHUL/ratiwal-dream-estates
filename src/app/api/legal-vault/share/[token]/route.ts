@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { LegalShareService } from "@/lib/services/legal-share.service";
 import { getStorageProvider } from "@/lib/storage";
 
+import { getErrorMessage } from "@/lib/api/errors";
 export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ token: string }> }
@@ -27,15 +28,15 @@ export async function GET(
         "X-Robots-Tag": "noindex, nofollow, noarchive",
       },
     });
-  } catch (error: any) {
-    const status = error?.message?.includes("UNAUTHORIZED")
+  } catch (error) {
+    const status = getErrorMessage(error)?.includes("UNAUTHORIZED")
       ? 401
-      : error?.message?.includes("EXPIRED") || error?.message?.includes("LIMIT_REACHED") || error?.message?.includes("REVOKED")
+      : getErrorMessage(error)?.includes("EXPIRED") || getErrorMessage(error)?.includes("LIMIT_REACHED") || getErrorMessage(error)?.includes("REVOKED")
       ? 410
       : 404;
 
     return NextResponse.json(
-      { error: error?.message || "Invalid or inaccessible share link." },
+      { error: getErrorMessage(error, "Invalid or inaccessible share link.") },
       { status }
     );
   }

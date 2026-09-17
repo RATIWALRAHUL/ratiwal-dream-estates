@@ -140,3 +140,13 @@ export class InternalServerError extends AppError {
 export function isAppError(error: unknown): error is AppError {
   return error instanceof AppError;
 }
+
+/**
+ * Safely extracts a human-readable message from a caught value of type
+ * `unknown` (the correct TS type for a catch clause — `catch (err: any)` is
+ * an anti-pattern because it silently allows unsafe member access on
+ * whatever was thrown, which isn't always an Error instance).
+ */
+export function getErrorMessage(err: unknown, fallback = "An unexpected error occurred."): string {
+  return err instanceof Error && err.message ? err.message : fallback;
+}

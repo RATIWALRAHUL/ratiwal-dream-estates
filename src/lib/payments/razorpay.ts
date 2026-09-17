@@ -111,7 +111,8 @@ export class RazorpayAdapter implements PaymentProviderAdapter {
 
     const secret = params.webhookSecret || this.webhookSecret;
     if (!secret) {
-      return params.signature.startsWith("mock_") || params.signature.startsWith("sim_");
+      // Fail closed: no configured secret must never mean "any signature passes".
+      return false;
     }
 
     const rawBuffer = typeof params.rawBody === "string" ? Buffer.from(params.rawBody, "utf8") : params.rawBody;

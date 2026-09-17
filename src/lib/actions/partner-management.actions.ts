@@ -15,6 +15,7 @@ import { PartnerActionResult } from "./partner-auth.actions";
 import { PartnerType, PartnerStatus } from "@/types/partner";
 import { Types } from "mongoose";
 
+import { getErrorMessage } from "@/lib/api/errors";
 // ─── 1. Create Partner Organization (Staff Action) ───────────────────────────
 
 export async function createChannelPartnerAction(formData: FormData): Promise<PartnerActionResult> {
@@ -70,8 +71,8 @@ export async function createChannelPartnerAction(formData: FormData): Promise<Pa
 
     revalidatePath("/dashboard/partners");
     return { success: true, data: { partnerId: partner._id.toString(), partnerCode } };
-  } catch (err: any) {
-    return { success: false, error: err.message || "Failed to create partner." };
+  } catch (err) {
+    return { success: false, error: getErrorMessage(err, "Failed to create partner.") };
   }
 }
 
@@ -109,8 +110,8 @@ export async function sendPartnerInvitationAction(formData: FormData): Promise<P
         inviteUrl,
       },
     };
-  } catch (err: any) {
-    return { success: false, error: err.message || "Failed to send invitation." };
+  } catch (err) {
+    return { success: false, error: getErrorMessage(err, "Failed to send invitation.") };
   }
 }
 
@@ -177,8 +178,8 @@ export async function reviewPartnerComplianceAction(formData: FormData): Promise
     revalidatePath("/dashboard/partners");
 
     return { success: true };
-  } catch (err: any) {
-    return { success: false, error: err.message || "Compliance review update failed." };
+  } catch (err) {
+    return { success: false, error: getErrorMessage(err, "Compliance review update failed.") };
   }
 }
 
@@ -213,8 +214,8 @@ export async function grantPartnerPropertyAccessAction(formData: FormData): Prom
 
     revalidatePath(`/dashboard/partners/${partnerId}`);
     return { success: true };
-  } catch (err: any) {
-    return { success: false, error: err.message || "Failed to grant property access." };
+  } catch (err) {
+    return { success: false, error: getErrorMessage(err, "Failed to grant property access.") };
   }
 }
 
@@ -242,8 +243,8 @@ export async function createCommissionPayoutAction(formData: FormData): Promise<
     revalidatePath("/dashboard/commissions/payouts");
 
     return { success: true, data: { payoutId: payout._id.toString(), payoutNumber: payout.payoutNumber } };
-  } catch (err: any) {
-    return { success: false, error: err.message || "Failed to draft payout." };
+  } catch (err) {
+    return { success: false, error: getErrorMessage(err, "Failed to draft payout.") };
   }
 }
 
@@ -266,8 +267,8 @@ export async function approveCommissionPayoutAction(formData: FormData): Promise
     revalidatePath("/dashboard/commissions/payouts");
 
     return { success: true, data: { payoutNumber: payout.payoutNumber } };
-  } catch (err: any) {
-    return { success: false, error: err.message || "Failed to approve payout." };
+  } catch (err) {
+    return { success: false, error: getErrorMessage(err, "Failed to approve payout.") };
   }
 }
 
@@ -292,7 +293,7 @@ export async function processCommissionPayoutAction(formData: FormData): Promise
     revalidatePath("/dashboard/commissions/payouts");
 
     return { success: true, data: { payoutNumber: payout.payoutNumber } };
-  } catch (err: any) {
-    return { success: false, error: err.message || "Failed to mark payout as processed." };
+  } catch (err) {
+    return { success: false, error: getErrorMessage(err, "Failed to mark payout as processed.") };
   }
 }

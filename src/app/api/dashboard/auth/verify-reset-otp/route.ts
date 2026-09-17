@@ -67,7 +67,7 @@ export async function POST(req: NextRequest) {
       resetToken: result.resetToken,
       message: "Verification code confirmed. You may now set a new password.",
     });
-  } catch (error: any) {
+  } catch (error) {
     return NextResponse.json(
       { success: false, message: "An unexpected error occurred during OTP verification." },
       { status: 500 }

@@ -9,6 +9,7 @@ import { logAuditEvent } from "@/lib/services/audit.service";
 import { validatePermissionDependencies } from "@/types/settings-team";
 import { connectToDatabase } from "@/lib/db/mongoose";
 
+import { getErrorMessage } from "@/lib/api/errors";
 function safeRevalidate(path: string) {
   try {
     revalidatePath(path);
@@ -42,10 +43,10 @@ export async function updateGeneralSettingsAction(params: {
       success: true as const,
       version: settings.settingsVersion,
     };
-  } catch (error: any) {
+  } catch (error) {
     return {
       success: false as const,
-      message: error?.message || "Failed to update general settings.",
+      message: getErrorMessage(error, "Failed to update general settings."),
     };
   }
 }
@@ -75,10 +76,10 @@ export async function updateRegionalSettingsAction(params: {
       success: true as const,
       version: settings.settingsVersion,
     };
-  } catch (error: any) {
+  } catch (error) {
     return {
       success: false as const,
-      message: error?.message || "Failed to update regional settings.",
+      message: getErrorMessage(error, "Failed to update regional settings."),
     };
   }
 }
@@ -137,10 +138,10 @@ export async function updateBusinessSettingsAction(params: {
       success: true as const,
       version,
     };
-  } catch (error: any) {
+  } catch (error) {
     return {
       success: false as const,
-      message: error?.message || "Failed to update business settings.",
+      message: getErrorMessage(error, "Failed to update business settings."),
     };
   }
 }
@@ -170,10 +171,10 @@ export async function updateSecuritySettingsAction(params: {
       success: true as const,
       version: settings.settingsVersion,
     };
-  } catch (error: any) {
+  } catch (error) {
     return {
       success: false as const,
-      message: error?.message || "Failed to update security settings.",
+      message: getErrorMessage(error, "Failed to update security settings."),
     };
   }
 }
@@ -230,10 +231,10 @@ export async function createCustomRoleAction(params: {
       roleId: (role as any)._id.toString(),
       roleKey: (role as any).roleKey,
     };
-  } catch (error: any) {
+  } catch (error) {
     return {
       success: false as const,
-      message: error?.message || "Failed to create custom role.",
+      message: getErrorMessage(error, "Failed to create custom role."),
     };
   }
 }
@@ -273,10 +274,10 @@ export async function archiveCustomRoleAction(roleKey: string) {
     safeRevalidate("/dashboard/settings/roles");
 
     return { success: true as const };
-  } catch (error: any) {
+  } catch (error) {
     return {
       success: false as const,
-      message: error?.message || "Failed to archive custom role.",
+      message: getErrorMessage(error, "Failed to archive custom role."),
     };
   }
 }
@@ -296,10 +297,10 @@ export async function rollbackSettingsAction(changeId: string) {
       success: true as const,
       version: settings.settingsVersion,
     };
-  } catch (error: any) {
+  } catch (error) {
     return {
       success: false as const,
-      message: error?.message || "Failed to roll back settings.",
+      message: getErrorMessage(error, "Failed to roll back settings."),
     };
   }
 }

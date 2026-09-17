@@ -21,7 +21,7 @@ export async function GET() {
     const authParams = getImageKitAuthParams();
 
     return successResponse(authParams);
-  } catch (error: any) {
+  } catch (error) {
     return errorResponse(error);
   }
 }

@@ -4,6 +4,7 @@ import { siteConfig } from "@/config/site";
 
 interface AdvisorProfilePlaqueProps {
   name?: string;
+  legalName?: string;
   role?: string;
   reraNo?: string;
   experience?: string;
@@ -17,6 +18,7 @@ interface AdvisorProfilePlaqueProps {
 
 export function AdvisorProfilePlaque({
   name = siteConfig.agent.name,
+  legalName = siteConfig.agent.legalName,
   role = siteConfig.agent.role,
   reraNo = siteConfig.agent.reraNo,
   experience = siteConfig.agent.experience,
@@ -56,6 +58,9 @@ export function AdvisorProfilePlaque({
       <div className="mt-1.5 flex items-center gap-1.5 text-[11px] text-[var(--advisor-graphite)] font-medium">
         <span className="text-[var(--advisor-muted)]">RERA:</span>
         <span className="font-semibold text-[var(--advisor-midnight)] tracking-wide">{reraNo}</span>
+        {legalName && (
+          <span className="text-[10px] text-[var(--advisor-muted)]">(Regd: {legalName})</span>
+        )}
       </div>
 
       {/* Quick Track Record Chips */}

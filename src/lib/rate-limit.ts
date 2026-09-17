@@ -110,4 +110,15 @@ export const RATE_LIMITS = {
   LEAD_EXPORT: { limit: 5, windowMs: 60 * 60 * 1000 },
   /** Anonymization actions */
   LEAD_ANONYMIZE: { limit: 10, windowMs: 60 * 60 * 1000 },
+  /**
+   * Login attempts, per IP, across the admin/customer/partner realms. This is
+   * on top of (not instead of) the existing per-account lockout — an account
+   * lockout alone doesn't stop one IP from password-spraying many different
+   * accounts.
+   */
+  AUTH_LOGIN_PER_IP: { limit: 20, windowMs: 15 * 60 * 1000 },
+  /** MFA code submissions, per IP. */
+  AUTH_MFA_PER_IP: { limit: 20, windowMs: 15 * 60 * 1000 },
+  /** Password-reset OTP requests/verifications, per IP. */
+  AUTH_OTP_PER_IP: { limit: 15, windowMs: 15 * 60 * 1000 },
 } as const;

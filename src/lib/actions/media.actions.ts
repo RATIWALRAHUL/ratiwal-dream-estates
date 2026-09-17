@@ -11,6 +11,7 @@ import { getStorageProvider } from "@/lib/storage";
 import { ALWAYS_PRIVATE_PURPOSES } from "@/lib/storage/types";
 import type { ActionResult } from "./types";
 
+import { getErrorMessage } from "@/lib/api/errors";
 function safeRevalidate(path: string) {
   try { revalidatePath(path); } catch { /* CLI test env */ }
 }
@@ -67,8 +68,8 @@ export async function getOwnerAssetsAction(
         })),
       },
     };
-  } catch (e: any) {
-    return { success: false, code: "DATABASE_ERROR", message: e.message || "Failed to load assets." };
+  } catch (e) {
+    return { success: false, code: "DATABASE_ERROR", message: getErrorMessage(e, "Failed to load assets.") };
   }
 }
 
@@ -107,8 +108,8 @@ export async function updateAltTextAction(
 
     safeRevalidate(`/dashboard/${asset.ownerType === "PROPERTY" ? "properties" : "locations"}/${asset.ownerId}/media`);
     return { success: true, message: "Alt text updated.", data: { assetId } };
-  } catch (e: any) {
-    return { success: false, code: "DATABASE_ERROR", message: e.message };
+  } catch (e) {
+    return { success: false, code: "DATABASE_ERROR", message: getErrorMessage(e) };
   }
 }
 
@@ -153,8 +154,8 @@ export async function setPrimaryImageAction(
 
     safeRevalidate(`/dashboard/${asset.ownerType === "PROPERTY" ? "properties" : "locations"}/${asset.ownerId}/media`);
     return { success: true, message: "Primary image updated.", data: { assetId } };
-  } catch (e: any) {
-    return { success: false, code: "DATABASE_ERROR", message: e.message };
+  } catch (e) {
+    return { success: false, code: "DATABASE_ERROR", message: getErrorMessage(e) };
   }
 }
 
@@ -199,8 +200,8 @@ export async function reorderMediaAction(
 
     safeRevalidate(`/dashboard/${ownerType === "PROPERTY" ? "properties" : "locations"}/${ownerId}/media`);
     return { success: true, message: "Media reordered.", data: { updated: orderedAssetIds.length } };
-  } catch (e: any) {
-    return { success: false, code: "DATABASE_ERROR", message: e.message };
+  } catch (e) {
+    return { success: false, code: "DATABASE_ERROR", message: getErrorMessage(e) };
   }
 }
 
@@ -238,8 +239,8 @@ export async function detachAssetAction(
 
     safeRevalidate(`/dashboard/${asset.ownerType === "PROPERTY" ? "properties" : "locations"}/${asset.ownerId}/media`);
     return { success: true, message: "Asset detached.", data: { assetId } };
-  } catch (e: any) {
-    return { success: false, code: "DATABASE_ERROR", message: e.message };
+  } catch (e) {
+    return { success: false, code: "DATABASE_ERROR", message: getErrorMessage(e) };
   }
 }
 
@@ -282,8 +283,8 @@ export async function permanentlyDeleteAssetAction(
     });
 
     return { success: true, message: "Asset permanently deleted.", data: { assetId } };
-  } catch (e: any) {
-    return { success: false, code: "DATABASE_ERROR", message: e.message };
+  } catch (e) {
+    return { success: false, code: "DATABASE_ERROR", message: getErrorMessage(e) };
   }
 }
 
@@ -325,8 +326,8 @@ export async function approveAssetAction(
 
     safeRevalidate(`/dashboard/properties/${asset.ownerId}/documents`);
     return { success: true, message: "Asset approved.", data: { assetId } };
-  } catch (e: any) {
-    return { success: false, code: "DATABASE_ERROR", message: e.message };
+  } catch (e) {
+    return { success: false, code: "DATABASE_ERROR", message: getErrorMessage(e) };
   }
 }
 
@@ -388,8 +389,8 @@ export async function changeDocumentVisibilityAction(
 
     safeRevalidate(`/dashboard/properties/${asset.ownerId}/documents`);
     return { success: true, message: `Visibility changed to ${newAccess}.`, data: { assetId } };
-  } catch (e: any) {
-    return { success: false, code: "DATABASE_ERROR", message: e.message };
+  } catch (e) {
+    return { success: false, code: "DATABASE_ERROR", message: getErrorMessage(e) };
   }
 }
 
@@ -421,7 +422,7 @@ export async function updateDocumentMetadataAction(
 
     safeRevalidate(`/dashboard/properties/${asset.ownerId}/documents`);
     return { success: true, message: "Document metadata updated.", data: { assetId } };
-  } catch (e: any) {
-    return { success: false, code: "DATABASE_ERROR", message: e.message };
+  } catch (e) {
+    return { success: false, code: "DATABASE_ERROR", message: getErrorMessage(e) };
   }
 }

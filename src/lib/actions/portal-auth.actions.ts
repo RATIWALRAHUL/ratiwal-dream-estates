@@ -1,8 +1,9 @@
 "use server";
 
-import { cookies } from "next/headers";
+import { cookies, headers } from "next/headers";
 import { revalidatePath } from "next/cache";
 import { connectToDatabase } from "@/lib/db/mongoose";
+import { checkRateLimit, RATE_LIMITS } from "@/lib/rate-limit";
 import { CustomerPortalAccount } from "@/models/CustomerPortalAccount";
 import {
   CUSTOMER_AUTH_COOKIE_NAME,
@@ -28,6 +29,16 @@ export async function loginCustomerAction(formData: FormData) {
       return { success: false, error: "Please provide your registered email address and password." };
     }
 
+    const headersList = await headers();
+    const ipAddress =
+      headersList.get("x-forwarded-for")?.split(",")[0]?.trim() ||
+      headersList.get("x-real-ip") ||
+      "127.0.0.1";
+    const rateLimit = checkRateLimit(`auth-login:${ipAddress}`, RATE_LIMITS.AUTH_LOGIN_PER_IP.limit, RATE_LIMITS.AUTH_LOGIN_PER_IP.windowMs);
+    if (!rateLimit.allowed) {
+      return { success: false, error: "Too many sign-in attempts from this network. Please try again later." };
+    }
+
     await connectToDatabase();
 
     const account = await CustomerPortalAccount.findOne({ email });
@@ -50,11 +61,19 @@ export async function loginCustomerAction(formData: FormData) {
 
     const isValid = verifyCustomerPassword(password, account.passwordHash, account.passwordSalt);
     if (!isValid) {
-      account.failedLoginAttempts += 1;
-      if (account.failedLoginAttempts >= 5) {
-        account.lockUntil = new Date(Date.now() + 15 * 60 * 1000); // 15 mins lock
+      // Atomic $inc so concurrent wrong-password requests can't all read the
+      // same stale count and race past the lockout threshold together.
+      const updated = await CustomerPortalAccount.findByIdAndUpdate(
+        account._id,
+        { $inc: { failedLoginAttempts: 1 } },
+        { new: true }
+      );
+      if (updated && updated.failedLoginAttempts >= 5) {
+        await CustomerPortalAccount.updateOne(
+          { _id: account._id },
+          { $set: { lockUntil: new Date(Date.now() + 15 * 60 * 1000) } } // 15 mins lock
+        );
       }
-      await account.save();
       return { success: false, error: "Invalid email address or password." };
     }
 

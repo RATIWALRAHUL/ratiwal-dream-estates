@@ -1,8 +1,45 @@
 import { NextRequest, NextResponse } from "next/server";
+import crypto from "crypto";
 import { connectToDatabase } from "@/lib/db/mongoose";
 import { WebhookReceipt } from "@/models/WebhookReceipt";
 import { NotificationDelivery } from "@/models/NotificationDelivery";
 import { ConsentService } from "@/lib/communications/services/consent.service";
+
+const SVIX_TOLERANCE_SECONDS = 5 * 60;
+
+/**
+ * Verifies a Resend (Svix-format) webhook signature.
+ * Scheme: signedContent = `${svixId}.${svixTimestamp}.${rawBody}`, signed with
+ * HMAC-SHA256 using the base64 portion of the `whsec_<base64>` secret. The
+ * `svix-signature` header may carry multiple space-separated `v1,<sig>` pairs.
+ */
+function verifyResendSignature(
+  rawBody: string,
+  headers: { svixId: string | null; svixTimestamp: string | null; svixSignature: string | null }
+): boolean {
+  const secret = process.env.RESEND_WEBHOOK_SECRET;
+  if (!secret || !headers.svixId || !headers.svixTimestamp || !headers.svixSignature) {
+    return false;
+  }
+
+  // Reject stale/replayed signatures.
+  const timestampSeconds = Number(headers.svixTimestamp);
+  if (!Number.isFinite(timestampSeconds) || Math.abs(Date.now() / 1000 - timestampSeconds) > SVIX_TOLERANCE_SECONDS) {
+    return false;
+  }
+
+  const secretBytes = Buffer.from(secret.replace(/^whsec_/, ""), "base64");
+  const signedContent = `${headers.svixId}.${headers.svixTimestamp}.${rawBody}`;
+  const expectedSignature = crypto.createHmac("sha256", secretBytes).update(signedContent).digest("base64");
+  const expectedBuf = Buffer.from(expectedSignature);
+
+  return headers.svixSignature.split(" ").some((candidate) => {
+    const [, sig] = candidate.split(",");
+    if (!sig) return false;
+    const sigBuf = Buffer.from(sig);
+    return sigBuf.length === expectedBuf.length && crypto.timingSafeEqual(sigBuf, expectedBuf);
+  });
+}
 
 /**
  * Resend Email Delivery Webhook Handler
@@ -10,6 +47,17 @@ import { ConsentService } from "@/lib/communications/services/consent.service";
 export async function POST(request: NextRequest) {
   try {
     const rawBody = await request.text();
+
+    const signatureValid = verifyResendSignature(rawBody, {
+      svixId: request.headers.get("svix-id"),
+      svixTimestamp: request.headers.get("svix-timestamp"),
+      svixSignature: request.headers.get("svix-signature"),
+    });
+
+    if (!signatureValid) {
+      return NextResponse.json({ error: "Invalid webhook signature" }, { status: 401 });
+    }
+
     let payload: Record<string, unknown>;
     try {
       payload = JSON.parse(rawBody);
@@ -38,7 +86,7 @@ export async function POST(request: NextRequest) {
       provider: "RESEND",
       providerEventId: eventId,
       eventType,
-      signatureValid: true,
+      signatureValid,
       receivedAt: new Date(),
       processingStatus: "RECEIVED",
     });

@@ -30,6 +30,7 @@ import { SiteVisit } from "@/models/SiteVisit";
 import { Location } from "@/models/Location";
 import { logger } from "@/lib/logger";
 
+import { getErrorMessage } from "@/lib/api/errors";
 export interface IndexMigrationPlan {
   collection: string;
   indexSpec: Record<string, 1 | -1 | "text">;
@@ -166,9 +167,9 @@ export async function runIndexMigration(dryRun = true): Promise<{
         created.push(`Created ${specDesc}`);
         logger.info(`[Index Created] ${specDesc}`);
       }
-    } catch (err: any) {
-      errors.push(`Failed on ${plan.collection}: ${err.message}`);
-      logger.error(`Error migrating index for ${plan.collection}`, { error: err.message });
+    } catch (err) {
+      errors.push(`Failed on ${plan.collection}: ${getErrorMessage(err)}`);
+      logger.error(`Error migrating index for ${plan.collection}`, { error: getErrorMessage(err) });
     }
   }
 
@@ -234,9 +235,9 @@ export async function rollbackIndexMigration(dryRun = true): Promise<{
         dropped.push(`Dropped ${plan.collection}.${found.name}`);
         logger.info(`[Index Dropped] ${plan.collection}.${found.name}`);
       }
-    } catch (err: any) {
-      errors.push(`Failed to drop on ${plan.collection}: ${err.message}`);
-      logger.error(`Error dropping index on ${plan.collection}`, { error: err.message });
+    } catch (err) {
+      errors.push(`Failed to drop on ${plan.collection}: ${getErrorMessage(err)}`);
+      logger.error(`Error dropping index on ${plan.collection}`, { error: getErrorMessage(err) });
     }
   }
 

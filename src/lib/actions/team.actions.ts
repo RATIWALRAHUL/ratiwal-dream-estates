@@ -6,6 +6,7 @@ import { TeamService, UpdateMemberInput } from "@/lib/services/team.service";
 import { TeamInvitationService, CreateInvitationInput } from "@/lib/services/team-invitation.service";
 import { TeamHandoverService } from "@/lib/services/team-handover.service";
 
+import { getErrorMessage } from "@/lib/api/errors";
 function safeRevalidate(path: string) {
   try {
     revalidatePath(path);
@@ -31,10 +32,10 @@ export async function createTeamInvitationAction(input: CreateInvitationInput) {
       rawToken: result.rawToken,
       expiresAt: result.invitation.expiresAt.toISOString(),
     };
-  } catch (error: any) {
+  } catch (error) {
     return {
       success: false as const,
-      message: error?.message || "Failed to create team invitation.",
+      message: getErrorMessage(error, "Failed to create team invitation."),
     };
   }
 }
@@ -54,10 +55,10 @@ export async function resendTeamInvitationAction(invitationId: string) {
       rawToken: result.rawToken,
       expiresAt: result.expiresAt.toISOString(),
     };
-  } catch (error: any) {
+  } catch (error) {
     return {
       success: false as const,
-      message: error?.message || "Failed to resend team invitation.",
+      message: getErrorMessage(error, "Failed to resend team invitation."),
     };
   }
 }
@@ -73,10 +74,10 @@ export async function revokeTeamInvitationAction(invitationId: string, reason: s
     safeRevalidate("/dashboard/team/invitations");
 
     return { success: true as const };
-  } catch (error: any) {
+  } catch (error) {
     return {
       success: false as const,
-      message: error?.message || "Failed to revoke team invitation.",
+      message: getErrorMessage(error, "Failed to revoke team invitation."),
     };
   }
 }
@@ -98,10 +99,10 @@ export async function updateTeamMemberAction(input: UpdateMemberInput) {
       memberId: member._id.toString(),
       version: member.version,
     };
-  } catch (error: any) {
+  } catch (error) {
     return {
       success: false as const,
-      message: error?.message || "Failed to update team member.",
+      message: getErrorMessage(error, "Failed to update team member."),
     };
   }
 }
@@ -121,10 +122,10 @@ export async function suspendTeamMemberAction(memberId: string, reason: string) 
       success: true as const,
       status: member.status,
     };
-  } catch (error: any) {
+  } catch (error) {
     return {
       success: false as const,
-      message: error?.message || "Failed to suspend team member.",
+      message: getErrorMessage(error, "Failed to suspend team member."),
     };
   }
 }
@@ -144,10 +145,10 @@ export async function reactivateTeamMemberAction(memberId: string) {
       success: true as const,
       status: member.status,
     };
-  } catch (error: any) {
+  } catch (error) {
     return {
       success: false as const,
-      message: error?.message || "Failed to reactivate team member.",
+      message: getErrorMessage(error, "Failed to reactivate team member."),
     };
   }
 }
@@ -179,10 +180,10 @@ export async function executeTeamHandoverAction(params: {
       siteVisitsReassignedCount: job.siteVisitsReassignedCount,
       legalReviewsReassignedCount: job.legalReviewsReassignedCount,
     };
-  } catch (error: any) {
+  } catch (error) {
     return {
       success: false as const,
-      message: error?.message || "Failed to execute work handover.",
+      message: getErrorMessage(error, "Failed to execute work handover."),
     };
   }
 }

@@ -9,6 +9,7 @@ import { PartnerAccount } from "@/models/PartnerAccount";
 import { connectToDatabase } from "@/lib/db/mongoose";
 import { PartnerActionResult } from "./partner-auth.actions";
 
+import { getErrorMessage } from "@/lib/api/errors";
 export async function submitPartnerLeadAction(formData: FormData): Promise<PartnerActionResult> {
   try {
     const session = await requirePartnerSession();
@@ -52,8 +53,8 @@ export async function submitPartnerLeadAction(formData: FormData): Promise<Partn
         message: statusMessage,
       },
     };
-  } catch (err: any) {
-    return { success: false, error: err.message || "Failed to submit lead." };
+  } catch (err) {
+    return { success: false, error: getErrorMessage(err, "Failed to submit lead.") };
   }
 }
 
@@ -87,8 +88,8 @@ export async function uploadPartnerInvoiceAction(formData: FormData): Promise<Pa
     revalidatePath("/partner/documents");
 
     return { success: true, data: { invoiceId: invoice._id.toString() } };
-  } catch (err: any) {
-    return { success: false, error: err.message || "Failed to submit invoice." };
+  } catch (err) {
+    return { success: false, error: getErrorMessage(err, "Failed to submit invoice.") };
   }
 }
 
@@ -111,7 +112,7 @@ export async function updatePartnerPreferencesAction(formData: FormData): Promis
 
     revalidatePath("/partner/profile");
     return { success: true };
-  } catch (err: any) {
-    return { success: false, error: err.message || "Failed to update preferences." };
+  } catch (err) {
+    return { success: false, error: getErrorMessage(err, "Failed to update preferences.") };
   }
 }

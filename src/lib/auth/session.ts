@@ -1,5 +1,23 @@
 import { cookies, headers } from "next/headers";
 import { cache } from "react";
+import crypto from "crypto";
+
+/**
+ * Secret used to HMAC-sign admin session tokens. Must be set in production —
+ * without this, session tokens were previously just base64url JSON with no
+ * signature at all, meaning anyone could hand-craft a cookie claiming to be a
+ * SUPER_ADMIN. The dev fallback only ever applies outside production.
+ */
+function getAdminSessionSecret(): string {
+  const secret = process.env.ADMIN_SESSION_SECRET;
+  if (secret) return secret;
+  if (process.env.NODE_ENV !== "production") {
+    return "dev-only-insecure-admin-session-secret-do-not-use-in-prod";
+  }
+  throw new Error(
+    "ADMIN_SESSION_SECRET must be set in production — refusing to sign or verify admin sessions without it."
+  );
+}
 
 export type AdminRole = "ADMIN" | "EDITOR" | "SUPER_ADMIN";
 
@@ -47,7 +65,7 @@ async function getAdminSessionUncached(): Promise<AdminSession | null> {
 
     // 3. Check for development / test environment session simulation
     const devOverride = headersList.get(DEV_ADMIN_OVERRIDE_HEADER);
-    if (process.env.NODE_ENV !== "production" && devOverride) {
+    if (process.env.NODE_ENV === "development" && devOverride) {
       try {
         const parsedUser = JSON.parse(devOverride) as AdminUser;
         if (parsedUser && parsedUser.role && parsedUser.isActive) {
@@ -82,11 +100,27 @@ async function getAdminSessionUncached(): Promise<AdminSession | null> {
       return null;
     }
 
-    // Parse simple token payload format (e.g. base64 json or signed session)
+    // Parse and verify the signed session token (sess_<payload>.<hmac-signature>)
     try {
-      // Attempt decoding if token is structured or JWT-like
       if (token.startsWith("sess_")) {
-        const payloadStr = Buffer.from(token.replace("sess_", ""), "base64url").toString("utf-8");
+        const [payload, signature] = token.slice(5).split(".");
+        if (!payload || !signature) return null;
+
+        const expectedSignature = crypto
+          .createHmac("sha256", getAdminSessionSecret())
+          .update(payload)
+          .digest("base64url");
+
+        const signatureBuf = Buffer.from(signature);
+        const expectedBuf = Buffer.from(expectedSignature);
+        if (
+          signatureBuf.length !== expectedBuf.length ||
+          !crypto.timingSafeEqual(signatureBuf, expectedBuf)
+        ) {
+          return null;
+        }
+
+        const payloadStr = Buffer.from(payload, "base64url").toString("utf-8");
         const sessionData = JSON.parse(payloadStr) as AdminSession;
         if (
           sessionData?.user &&
@@ -104,7 +138,7 @@ async function getAdminSessionUncached(): Promise<AdminSession | null> {
   } catch {
     // When running in CLI / test environments outside of Next.js HTTP request scope,
     // if DEV_ADMIN_AUTO_AUTH is enabled, provide the test admin session.
-    if (process.env.DEV_ADMIN_AUTO_AUTH === "true") {
+    if (process.env.NODE_ENV === "development" && process.env.DEV_ADMIN_AUTO_AUTH === "true") {
       return {
         user: {
           id: "dev-admin-001",
@@ -128,7 +162,7 @@ async function getAdminSessionUncached(): Promise<AdminSession | null> {
 export const getAdminSession = cache(getAdminSessionUncached);
 
 /**
- * Creates a valid session token string for testing or authenticated responses.
+ * Creates a signed, HMAC-authenticated admin session token.
  */
 export function createSessionToken(user: AdminUser, expiresInMs = 86400000): string {
   const session: AdminSession = {
@@ -136,7 +170,8 @@ export function createSessionToken(user: AdminUser, expiresInMs = 86400000): str
     expiresAt: new Date(Date.now() + expiresInMs).toISOString(),
   };
   const payload = Buffer.from(JSON.stringify(session), "utf-8").toString("base64url");
-  return `sess_${payload}`;
+  const signature = crypto.createHmac("sha256", getAdminSessionSecret()).update(payload).digest("base64url");
+  return `sess_${payload}.${signature}`;
 }
 
 export async function requireAdminSession(): Promise<AdminSession> {

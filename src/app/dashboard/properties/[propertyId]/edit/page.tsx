@@ -1,9 +1,11 @@
 import "server-only";
+import { notFound } from "next/navigation";
 import { requireAdminSession } from "@/lib/auth/guard";
 import { connectToDatabase } from "@/lib/db/mongoose";
 import { Location } from "@/models/Location";
 import { getPropertyForEditor } from "@/lib/services/property-editor.service";
 import { PropertyEditor } from "@/components/dashboard/properties/editor/PropertyEditor";
+import { AppError } from "@/lib/api/errors";
 
 export const dynamic = "force-dynamic";
 
@@ -17,13 +19,21 @@ export default async function EditPropertyPage({ params }: EditPropertyPageProps
 
   await connectToDatabase();
 
-  const [property, locations] = await Promise.all([
-    getPropertyForEditor(propertyId),
-    Location.find({ publicationStatus: { $ne: "ARCHIVED" } })
-      .select("name city state publicationStatus")
-      .sort({ name: 1 })
-      .lean(),
-  ]);
+  let property, locations;
+  try {
+    [property, locations] = await Promise.all([
+      getPropertyForEditor(propertyId),
+      Location.find({ publicationStatus: { $ne: "ARCHIVED" } })
+        .select("name city state publicationStatus")
+        .sort({ name: 1 })
+        .lean(),
+    ]);
+  } catch (error) {
+    if (error instanceof AppError && error.code === "NOT_FOUND") {
+      notFound();
+    }
+    throw error;
+  }
 
   const serializableLocations = locations.map((loc) => ({
     id: loc._id.toString(),

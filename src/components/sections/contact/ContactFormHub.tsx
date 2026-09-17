@@ -211,7 +211,14 @@ export function ContactFormHub() {
               <div className="space-y-2 text-xs text-white/90">
                 <div className="flex items-center gap-2">
                   <ShieldCheck size={15} className="text-[var(--cyan)] flex-shrink-0" />
-                  <span>RERA Reg: {siteConfig.agent.reraNo}</span>
+                  <span>
+                    RERA Reg: {siteConfig.agent.reraNo}
+                    {siteConfig.agent.legalName && (
+                      <span className="text-white/60 text-[11px] ml-1.5 font-normal">
+                        (Regd: {siteConfig.agent.legalName})
+                      </span>
+                    )}
+                  </span>
                 </div>
                 <div className="flex items-center gap-2">
                   <ShieldCheck size={15} className="text-[var(--cyan)] flex-shrink-0" />

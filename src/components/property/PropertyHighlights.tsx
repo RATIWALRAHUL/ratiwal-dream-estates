@@ -1,6 +1,7 @@
 import { Check } from "lucide-react";
 import { Property } from "@/types/property";
 import { Badge } from "@/components/ui/Badge";
+import { displayOrFallback } from "@/lib/propertyFormatters";
 
 interface PropertyHighlightsProps {
   property: Property;
@@ -82,12 +83,12 @@ export function PropertyHighlights({ property }: PropertyHighlightsProps) {
         <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-8 space-y-3 sm:space-y-0 mt-3">
           <div>
             <span className="text-xs text-text-muted block mb-1">Authority Approval</span>
-            <Badge variant="outline">{property.approvalAuthority || "[CONTENT REQUIRED]"}</Badge>
+            <Badge variant="outline">{displayOrFallback(property.approvalAuthority, "Pending Disclosure")}</Badge>
           </div>
           <div>
             <span className="text-xs text-text-muted block mb-1">Details & RERA / Registry Info</span>
             <span className="text-sm font-medium text-text-main">
-              {property.approvalDetails || "[CONTENT REQUIRED]"}
+              {displayOrFallback(property.approvalDetails, "Available on request")}
             </span>
           </div>
         </div>

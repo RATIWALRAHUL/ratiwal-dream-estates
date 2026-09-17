@@ -80,7 +80,7 @@ export async function POST(request: NextRequest) {
     });
 
     return successResponse(result);
-  } catch (error: any) {
+  } catch (error) {
     return errorResponse(error);
   }
 }

@@ -11,9 +11,9 @@ import {
 } from "lucide-react";
 import { advisorData } from "@/data/advisorData";
 
-/* ─────────────────────────────────────────────────────────────────────────────
-   Architectural backdrop SVG — subtle, felt not noticed
-───────────────────────────────────────────────────────────────────────────── */
+/* -----------------------------------------------------------------------------
+   Architectural backdrop SVG - subtle architectural elevation
+----------------------------------------------------------------------------- */
 function ArchitecturalBackdrop() {
   return (
     <svg
@@ -55,19 +55,19 @@ function ArchitecturalBackdrop() {
   );
 }
 
-/* ─────────────────────────────────────────────────────────────────────────────
-   Brand Logo (vector) — top-left of navy panel
-───────────────────────────────────────────────────────────────────────────── */
+/* -----------------------------------------------------------------------------
+   Brand Logo (vector) - top-left of navy panel
+----------------------------------------------------------------------------- */
 function BrandLogo() {
   return (
-    <div className="flex items-center gap-2.5 min-w-0">
+    <div className="flex items-center gap-2 xs:gap-2.5 min-w-0">
       <svg
-        width="36"
-        height="36"
+        width="34"
+        height="34"
         viewBox="0 0 100 100"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
-        className="flex-shrink-0"
+        className="w-7 h-7 xs:w-8 xs:h-8 sm:w-9 sm:h-9 flex-shrink-0"
         aria-hidden="true"
       >
         <path d="M 18 52 L 50 20 L 82 52" stroke="#0798D8" strokeWidth="7" strokeLinecap="round" strokeLinejoin="round" />
@@ -78,11 +78,11 @@ function BrandLogo() {
         <line x1="76" y1="58" x2="76" y2="80" stroke="#0798D8" strokeWidth="6" strokeLinecap="round" />
       </svg>
       <div className="flex flex-col min-w-0">
-        <div className="flex items-baseline gap-1.5 font-extrabold text-[16px] sm:text-[18px] tracking-[0.02em] leading-tight">
+        <div className="flex items-baseline gap-1 xs:gap-1.5 font-extrabold text-[13px] xs:text-[15px] sm:text-[18px] tracking-[0.02em] leading-tight whitespace-nowrap">
           <span className="text-white">RATIWAL</span>
           <span className="text-[#0798D8]">DREAM</span>
         </div>
-        <span className="text-white/75 font-medium text-[8.5px] sm:text-[10px] tracking-[0.26em] uppercase leading-none mt-0.5">
+        <span className="text-white/75 font-medium text-[7.5px] xs:text-[8.5px] sm:text-[10px] tracking-[0.24em] uppercase leading-none mt-0.5">
           ESTATES
         </span>
       </div>
@@ -90,9 +90,9 @@ function BrandLogo() {
   );
 }
 
-/* ─────────────────────────────────────────────────────────────────────────────
+/* -----------------------------------------------------------------------------
    WhatsApp SVG icon
-───────────────────────────────────────────────────────────────────────────── */
+----------------------------------------------------------------------------- */
 function WhatsAppIcon({ className = "w-5 h-5" }: { className?: string }) {
   return (
     <svg className={className} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -101,9 +101,9 @@ function WhatsAppIcon({ className = "w-5 h-5" }: { className?: string }) {
   );
 }
 
-/* ─────────────────────────────────────────────────────────────────────────────
+/* -----------------------------------------------------------------------------
    Stat Item
-───────────────────────────────────────────────────────────────────────────── */
+----------------------------------------------------------------------------- */
 function StatItem({
   icon: Icon,
   value,
@@ -116,18 +116,19 @@ function StatItem({
   label2: string;
 }) {
   return (
-    <div className="flex items-start gap-3 min-w-0">
-      <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full border border-[#0798D8]/30 flex items-center justify-center text-[#0798D8] flex-shrink-0 mt-1">
-        <Icon size={18} strokeWidth={1.8} />
+    <div className="flex flex-col sm:flex-row sm:items-start gap-1.5 sm:gap-3 min-w-0">
+      <div className="w-7 h-7 xs:w-8 xs:h-8 sm:w-10 sm:h-10 rounded-full border border-[#0798D8]/30 flex items-center justify-center text-[#0798D8] flex-shrink-0 sm:mt-1">
+        <Icon size={14} className="sm:hidden" strokeWidth={1.8} />
+        <Icon size={18} className="hidden sm:block" strokeWidth={1.8} />
       </div>
       <div className="min-w-0">
-        <div className="text-[2rem] sm:text-[2.2rem] font-extrabold text-[#0B2239] leading-none tracking-tight font-body">
+        <div className="text-[1.4rem] xs:text-[1.75rem] sm:text-[2.2rem] font-extrabold text-[#0B2239] leading-none tracking-tight font-body">
           {value}
         </div>
-        <div className="text-[12.5px] sm:text-[13.5px] font-semibold text-[#0B2239] mt-1 leading-snug whitespace-nowrap">
+        <div className="text-[11px] xs:text-[12px] sm:text-[13.5px] font-semibold text-[#0B2239] mt-1 leading-tight sm:whitespace-nowrap">
           {label1}
         </div>
-        <div className="text-[11.5px] sm:text-[12.5px] text-[#52657A] font-normal leading-snug whitespace-nowrap">
+        <div className="text-[9.5px] xs:text-[10.5px] sm:text-[12.5px] text-[#52657A] font-normal leading-tight mt-0.5 sm:whitespace-nowrap">
           {label2}
         </div>
       </div>
@@ -135,11 +136,9 @@ function StatItem({
   );
 }
 
-
-
-/* ─────────────────────────────────────────────────────────────────────────────
+/* -----------------------------------------------------------------------------
    Main Component
-───────────────────────────────────────────────────────────────────────────── */
+----------------------------------------------------------------------------- */
 export function PropertyAdvisorSection() {
   const sectionRef = useRef<HTMLElement>(null);
   const [isVisible, setIsVisible] = useState(false);
@@ -154,7 +153,10 @@ export function PropertyAdvisorSection() {
     if (!node) return;
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) { setIsVisible(true); observer.disconnect(); }
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.disconnect();
+        }
       },
       { threshold: 0.08 }
     );
@@ -169,126 +171,126 @@ export function PropertyAdvisorSection() {
       aria-labelledby="advisor-heading"
       className="relative w-full bg-[#F7F5EF] overflow-hidden"
     >
-      {/* ── MAIN CONTENT ─────────────────────────────────────────────────────── */}
-      <div className="max-w-[1500px] mx-auto px-5 sm:px-8 md:px-10 lg:px-14 xl:px-16 py-16 sm:py-20 lg:py-24 xl:py-28">
-        <div className="grid grid-cols-1 lg:grid-cols-[54fr_46fr] gap-12 lg:gap-14 xl:gap-18 items-stretch">
+      {/* Main content */}
+      <div className="max-w-[1500px] mx-auto px-5 sm:px-8 md:px-10 lg:px-10 xl:px-16 pt-6 pb-12 xs:pt-8 xs:pb-14 sm:py-20 lg:py-24 xl:py-28">
+        <div className="grid grid-cols-1 lg:grid-cols-[56fr_44fr] xl:grid-cols-[54fr_46fr] gap-8 lg:gap-10 xl:gap-16 items-stretch">
 
-          {/* ================================================================
-              LEFT COLUMN
-          ================================================================ */}
+          {/* LEFT COLUMN */}
           <div
-            className={`flex flex-col gap-8 sm:gap-9 transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+            className={`flex flex-col gap-7 sm:gap-8 lg:gap-8 xl:gap-9 transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] ${
               isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
             }`}
           >
-            {/* ── TOP CONTENT ─────────────────────────────────────────────── */}
+            {/* Top content */}
             <div>
-              {/* EYEBROW */}
-              <div className="flex items-center gap-3 mb-5 sm:mb-6">
+              {/* Eyebrow */}
+              <div className="flex items-center gap-3 mb-4 sm:mb-5">
                 <div className="w-10 sm:w-14 h-[1.5px] bg-[#0798D8]" aria-hidden="true" />
                 <span className="text-[11.5px] sm:text-[13px] font-bold tracking-[0.14em] uppercase text-[#0798D8] font-body">
                   DIRECT PROPERTY ADVISORY
                 </span>
               </div>
 
-              {/* MAIN HEADING */}
+              {/* Main Heading */}
               <h2
                 id="advisor-heading"
-                className="font-instrument font-normal text-[#0B2239] leading-[1.08] tracking-tight mb-5 sm:mb-6
-                           text-[1.85rem] xs:text-[2.15rem] sm:text-[2.9rem] md:text-[3.5rem] lg:text-[3.8rem]"
+                className="font-instrument font-normal text-[#0B2239] leading-[1.08] tracking-tight mb-4 sm:mb-6
+                           text-[1.85rem] xs:text-[2.15rem] sm:text-[2.6rem] md:text-[3rem] lg:text-[3.2rem] xl:text-[3.8rem]"
               >
                 Property guidance,
                 <br />
                 shaped around you.
               </h2>
 
-              {/* GOLD DIVIDER */}
-              <div className="w-[62px] h-[3px] bg-[#D9A62E] mb-6 sm:mb-7" aria-hidden="true" />
+              {/* Gold divider */}
+              <div className="w-[62px] h-[3px] bg-[#D9A62E] mb-5 sm:mb-6" aria-hidden="true" />
 
-              {/* DESCRIPTION */}
-              <p className="text-[15px] sm:text-[17px] text-[#52657A] leading-[1.62] max-w-[640px]">
+              {/* Description */}
+              <p className="text-[14.5px] sm:text-[16px] lg:text-[16px] xl:text-[17px] text-[#52657A] leading-[1.62] max-w-[640px]">
                 Direct one-on-one advisory led by Senior Property Advisor{" "}
                 <strong className="text-[#0B2239] font-semibold">{advisorData.name}</strong>{" "}
                 (RERA: {advisorData.rera}). Clear legal verification, genuine corridor
                 valuations, and transparent guidance from initial enquiry to final registry.
               </p>
 
-              {/* EDITORIAL STATS ROW */}
-              <div className="flex items-start flex-wrap gap-y-6 gap-x-6 sm:gap-x-8 lg:gap-x-10 border-t border-b border-[#0B2239]/10 py-6 sm:py-7">
-                <StatItem icon={Users} value="8+" label1="Years Exp." label2="Land Advisory" />
-                <div className="w-px self-stretch bg-[#D9A62E]/40 hidden xs:block" aria-hidden="true" />
-                <StatItem icon={Users} value="250+" label1="Families" label2="Guided" />
-                <div className="w-px self-stretch bg-[#D9A62E]/40 hidden xs:block" aria-hidden="true" />
-                <StatItem icon={TrendingUp} value="50K+" label1="Sq. Yards" label2="Transacted" />
+              {/* Responsive 3-column stats */}
+              <div className="grid grid-cols-3 divide-x divide-[#0B2239]/10 border-t border-b border-[#0B2239]/10 py-4 xs:py-5 sm:py-6 my-2">
+                <div className="pr-2 xs:pr-3 sm:px-3 lg:px-3 xl:px-6 first:pl-0">
+                  <StatItem icon={Users} value="8+" label1="Years Exp." label2="Land Advisory" />
+                </div>
+                <div className="px-2 xs:px-3 sm:px-3 lg:px-3 xl:px-6">
+                  <StatItem icon={Users} value="250+" label1="Families" label2="Guided" />
+                </div>
+                <div className="pl-2 xs:pl-3 sm:px-3 lg:px-3 xl:px-6 last:pr-0">
+                  <StatItem icon={TrendingUp} value="50K+" label1="Sq. Yards" label2="Transacted" />
+                </div>
               </div>
             </div>
 
-            {/* ── CTA BUTTONS ─────────────────────────────────────────────── */}
+            {/* CTA Buttons */}
             <div>
-              <div className="flex flex-wrap gap-3 sm:gap-4 mb-4">
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5 sm:gap-3 xl:flex xl:flex-wrap xl:gap-4 mb-4">
                 {/* WhatsApp */}
                 <a
                   href={whatsappUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2.5 bg-[#25D366] hover:bg-[#1da956] text-white
-                             h-[52px] sm:h-[56px] px-5 sm:px-7 rounded-full
-                             text-[14px] sm:text-[15px] font-bold whitespace-nowrap
+                  className="w-full xl:w-auto inline-flex items-center justify-center gap-1.5 xs:gap-2 bg-[#25D366] hover:bg-[#1da956] text-white
+                             h-[46px] xs:h-[48px] sm:h-[50px] lg:h-[52px] xl:h-[56px] px-2.5 xs:px-3.5 sm:px-4 xl:px-7 rounded-full
+                             text-[12.5px] xs:text-[13.5px] sm:text-[13.5px] lg:text-[14px] xl:text-[15px] font-bold whitespace-nowrap
                              shadow-[0_4px_18px_rgba(37,211,102,0.3)] hover:shadow-[0_6px_24px_rgba(37,211,102,0.4)]
                              transition-all duration-250 active:scale-[0.98]"
                   aria-label={`Message ${advisorData.name} on WhatsApp`}
                 >
-                  <WhatsAppIcon className="w-5 h-5 flex-shrink-0" />
-                  WhatsApp
+                  <WhatsAppIcon className="w-4 h-4 xs:w-4.5 xs:h-4.5 sm:w-5 sm:h-5 flex-shrink-0" />
+                  <span>WhatsApp</span>
                 </a>
 
                 {/* Call */}
                 <a
                   href={`tel:${advisorData.phoneRaw}`}
-                  className="inline-flex items-center gap-2.5 bg-white hover:bg-[#f0f7fd] text-[#0B2239]
+                  className="w-full xl:w-auto inline-flex items-center justify-center gap-1.5 xs:gap-2 bg-white hover:bg-[#f0f7fd] text-[#0B2239]
                              border border-[#0798D8]/40 hover:border-[#0798D8]
-                             h-[52px] sm:h-[56px] px-5 sm:px-7 rounded-full
-                             text-[14px] sm:text-[15px] font-bold whitespace-nowrap
+                             h-[46px] xs:h-[48px] sm:h-[50px] lg:h-[52px] xl:h-[56px] px-2.5 xs:px-3.5 sm:px-4 xl:px-7 rounded-full
+                             text-[12.5px] xs:text-[13.5px] sm:text-[13.5px] lg:text-[14px] xl:text-[15px] font-bold whitespace-nowrap
                              shadow-[0_2px_10px_rgba(7,152,216,0.1)] hover:shadow-[0_4px_16px_rgba(7,152,216,0.18)]
                              transition-all duration-250 active:scale-[0.98]"
                 >
-                  <Phone size={17} className="text-[#0798D8]" strokeWidth={2} />
-                  Call Advisor
+                  <Phone size={15} className="text-[#0798D8] flex-shrink-0 sm:w-[16px] sm:h-[16px]" strokeWidth={2} />
+                  <span>Call Advisor</span>
                 </a>
 
-                {/* Email */}
+                {/* Email: desktop & tablet only */}
                 <a
                   href={`mailto:${advisorData.email}`}
-                  className="inline-flex items-center gap-2.5 bg-white hover:bg-[#f0f7fd] text-[#0B2239]
+                  className="hidden sm:inline-flex w-full xl:w-auto items-center justify-center gap-1.5 xs:gap-2 bg-white hover:bg-[#f0f7fd] text-[#0B2239]
                              border border-[#0798D8]/40 hover:border-[#0798D8]
-                             h-[52px] sm:h-[56px] px-5 sm:px-7 rounded-full
-                             text-[14px] sm:text-[15px] font-bold whitespace-nowrap
+                             h-[46px] xs:h-[48px] sm:h-[50px] lg:h-[52px] xl:h-[56px] px-2.5 xs:px-3.5 sm:px-4 xl:px-7 rounded-full
+                             text-[12.5px] xs:text-[13.5px] sm:text-[13.5px] lg:text-[14px] xl:text-[15px] font-bold whitespace-nowrap
                              shadow-[0_2px_10px_rgba(7,152,216,0.1)] hover:shadow-[0_4px_16px_rgba(7,152,216,0.18)]
                              transition-all duration-250 active:scale-[0.98]"
                 >
-                  <Mail size={17} className="text-[#0798D8]" strokeWidth={2} />
-                  Send Email
+                  <Mail size={15} className="text-[#0798D8] flex-shrink-0 sm:w-[16px] sm:h-[16px]" strokeWidth={2} />
+                  <span>Send Email</span>
                 </a>
               </div>
 
-              {/* FOOTNOTE */}
-              <p className="text-[12px] sm:text-[13px] text-[#8A9BAA] font-medium">
+              {/* Footnote */}
+              <p className="text-[11.5px] sm:text-[13px] text-[#8A9BAA] font-medium leading-relaxed">
                 RERA Registered: {advisorData.rera} &bull; 100% Free &amp; Confidential Advisory
               </p>
             </div>
           </div>
 
-          {/* ================================================================
-              RIGHT COLUMN — NAVY PANEL
-          ================================================================ */}
+          {/* RIGHT COLUMN — NAVY PANEL */}
           <div
             className={`relative flex h-full transition-all duration-700 delay-200 ease-[cubic-bezier(0.22,1,0.36,1)] ${
               isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
             }`}
           >
-            <div className="relative w-full h-full
-                            bg-[#082A40] rounded-[28px] sm:rounded-[32px] overflow-hidden
-                            shadow-[0_30px_80px_rgba(4,18,31,0.45)] border border-white/[0.07]
+            <div className="relative w-full h-full min-h-[500px] xs:min-h-[540px] sm:min-h-[600px] lg:min-h-[640px]
+                            bg-[#082A40] rounded-[24px] sm:rounded-[32px] overflow-hidden
+                            shadow-[0_24px_60px_rgba(4,18,31,0.4)] border border-white/[0.07]
                             flex flex-col select-none">
 
               {/* Subtle top-left radial glow */}
@@ -299,24 +301,24 @@ export function PropertyAdvisorSection() {
               {/* Architectural backdrop */}
               <ArchitecturalBackdrop />
 
-              {/* ── TOP BAR: Logo + RERA badge ─────────────────────────── */}
-              <div className="relative z-30 flex items-center justify-between gap-3 px-5 sm:px-7 pt-5 sm:pt-6">
+              {/* Top Bar: Logo + RERA badge */}
+              <div className="relative z-30 flex items-center justify-between gap-2 xs:gap-3 px-4 xs:px-5 sm:px-7 pt-4 xs:pt-5 sm:pt-6">
                 <BrandLogo />
 
-                <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-[#D9A62E] bg-transparent flex-shrink-0">
-                  <ShieldCheck size={13} className="text-[#D9A62E]" strokeWidth={2.2} aria-hidden="true" />
-                  <span className="text-white text-[9px] sm:text-[10.5px] font-bold tracking-[0.07em] uppercase whitespace-nowrap">
+                <div className="inline-flex items-center gap-1 xs:gap-1.5 px-2.5 py-1 xs:px-3 xs:py-1.5 rounded-full border border-[#D9A62E] bg-transparent flex-shrink-0">
+                  <ShieldCheck size={11} className="text-[#D9A62E] sm:w-[13px] sm:h-[13px]" strokeWidth={2.2} aria-hidden="true" />
+                  <span className="text-white text-[8px] xs:text-[9px] sm:text-[10.5px] font-bold tracking-[0.07em] uppercase whitespace-nowrap">
                     RERA VERIFIED
                   </span>
                 </div>
               </div>
 
-              {/* ── GOLD DIVIDER below header ──────────────────────────── */}
-              <div className="relative z-20 mx-5 sm:mx-7 mt-4 w-14 h-[2px] bg-[#D9A62E]" aria-hidden="true" />
+              {/* Gold divider below header */}
+              <div className="relative z-20 mx-4 xs:mx-5 sm:mx-7 mt-3 xs:mt-4 w-12 sm:w-14 h-[2px] bg-[#D9A62E]" aria-hidden="true" />
 
-              {/* ── TRUST MOTTO ────────────────────────────────────────── */}
-              <div className="relative z-20 px-5 sm:px-7 mt-4 sm:mt-5">
-                <p className="text-[#D9A62E] font-bold text-[13px] sm:text-[14.5px] tracking-[0.14em] uppercase leading-[1.7] font-body max-w-[200px]">
+              {/* Trust Motto */}
+              <div className="relative z-20 px-4 xs:px-5 sm:px-7 mt-3 xs:mt-4 sm:mt-5">
+                <p className="text-[#D9A62E] font-bold text-[11.5px] xs:text-[13px] sm:text-[14.5px] tracking-[0.14em] uppercase leading-[1.65] font-body max-w-[200px]">
                   TRUSTED GUIDANCE
                   <br />
                   FOR A BRIGHTER
@@ -325,32 +327,34 @@ export function PropertyAdvisorSection() {
                 </p>
               </div>
 
-              {/* ── RIGHT SIDE VERTICAL TEXT ─────────────────────────── */}
-              <div className="absolute right-5 sm:right-6 top-[180px] sm:top-[200px] z-20 flex flex-col gap-1 pointer-events-none" aria-hidden="true">
+              {/* Right Side Vertical Text */}
+              <div className="absolute right-3 xs:right-4 sm:right-6 top-[150px] sm:top-[200px] z-20 flex flex-col gap-1 pointer-events-none" aria-hidden="true">
                 {["PEOPLE", "TRUST", "", "PROPERTIES", "GROW", "", "RELATIONSHIPS", "LAST"].map((word, i) =>
                   word === "" ? (
-                    <div key={i} className="h-4 w-px bg-[#D9A62E]/30 mx-auto" />
+                    <div key={i} className="h-3 sm:h-4 w-px bg-[#D9A62E]/30 mx-auto" />
                   ) : (
-                    <span key={i} className="text-white/70 font-bold text-[7.5px] sm:text-[8.5px] tracking-[0.18em] uppercase leading-none">
+                    <span key={i} className="text-white/60 sm:text-white/70 font-bold text-[7px] sm:text-[8.5px] tracking-[0.16em] uppercase leading-none">
                       {word}
                     </span>
                   )
                 )}
               </div>
 
-              {/* ── SCRIPT SIGNATURE OVERLAY ─────────────────────────── */}
-              <div className="absolute left-5 sm:left-7 top-[210px] sm:top-[240px] z-10 pointer-events-none" aria-hidden="true">
-                <div className="font-signature text-[34px] sm:text-[42px] text-white/15 leading-[1.1] -rotate-6">
+              {/* Script Signature Overlay */}
+              <div className="absolute left-4 xs:left-5 sm:left-7 top-[160px] sm:top-[220px] lg:top-[260px] z-10 pointer-events-none" aria-hidden="true">
+                <div className="font-signature text-[28px] xs:text-[32px] sm:text-[42px] text-white/15 leading-[1.1] -rotate-6">
                   Suresh
                   <br />
-                  Kumawat
+                  Ratiwal
                 </div>
               </div>
 
-              {/* ── CONSULTANT PORTRAIT ──────────────────────────────── */}
-              <div className="absolute left-1/2 -translate-x-1/2 bottom-[88px] sm:bottom-[96px] z-[15] pointer-events-none w-[72%] sm:w-[68%] lg:w-[72%]" style={{top: "140px"}}>
+              {/* Consultant Portrait */}
+              <div
+                className="absolute left-1/2 -translate-x-1/2 bottom-[75px] xs:bottom-[80px] sm:bottom-[96px] z-[15] pointer-events-none w-[80%] xs:w-[74%] sm:w-[68%] lg:w-[68%] top-[120px] sm:top-[160px] lg:top-[165px]"
+              >
                 {/* Portrait fade at bottom */}
-                <div className="absolute bottom-0 inset-x-0 h-[35%] bg-gradient-to-t from-[#082A40]/90 via-[#082A40]/30 to-transparent z-10" aria-hidden="true" />
+                <div className="absolute bottom-0 inset-x-0 h-[30%] bg-gradient-to-t from-[#082A40] via-[#082A40]/40 to-transparent z-10" aria-hidden="true" />
 
                 <div className="relative w-full h-full">
                   <Image
@@ -364,28 +368,31 @@ export function PropertyAdvisorSection() {
                 </div>
               </div>
 
-              {/* ── ADVISOR IDENTITY CARD ────────────────────────────── */}
-              <div className="relative z-30 mt-auto mx-4 sm:mx-5 mb-4 sm:mb-5">
-                <div className="bg-[#051822]/85 backdrop-blur-md rounded-[18px] sm:rounded-[22px] border border-white/[0.12] px-4 sm:px-5 py-3.5 sm:py-4">
+              {/* Advisor Identity Card */}
+              <div className="relative z-30 mt-auto mx-3 xs:mx-4 sm:mx-5 mb-3 xs:mb-4 sm:mb-5">
+                <div className="bg-[#051822]/90 backdrop-blur-md rounded-[16px] sm:rounded-[22px] border border-white/[0.12] px-3.5 py-3 sm:px-5 sm:py-4">
                   {/* Name + Role */}
                   <div className="flex items-start justify-between gap-3">
                     <div>
-                      <h3 className="text-white font-bold text-[20px] sm:text-[24px] font-playfair leading-tight tracking-tight">
+                      <h3 className="text-white font-bold text-[18px] xs:text-[20px] sm:text-[24px] font-playfair leading-tight tracking-tight">
                         {advisorData.name}
                       </h3>
-                      <div className="text-[#D9A62E] text-[9.5px] sm:text-[10.5px] font-extrabold tracking-[0.14em] uppercase mt-0.5">
+                      <div className="text-[#D9A62E] text-[9px] xs:text-[9.5px] sm:text-[10.5px] font-extrabold tracking-[0.14em] uppercase mt-0.5">
                         SENIOR PROPERTY ADVISOR
                       </div>
-                      <div className="text-white/75 text-[12px] sm:text-[13px] font-medium mt-0.5">
+                      <div className="text-white/75 text-[11.5px] xs:text-[12px] sm:text-[13px] font-medium mt-0.5">
                         {advisorData.role}
                       </div>
-                      <div className="text-white/50 text-[11px] sm:text-[11.5px] font-mono mt-0.5">
+                      <div className="text-white/50 text-[10.5px] xs:text-[11px] sm:text-[11.5px] font-mono mt-0.5">
                         RERA: {advisorData.rera}
+                        {advisorData.legalName && (
+                          <span className="text-white/40 text-[9.5px] sm:text-[10px] font-sans ml-1.5">
+                            (Regd: {advisorData.legalName})
+                          </span>
+                        )}
                       </div>
                     </div>
                   </div>
-
-
                 </div>
               </div>
             </div>
@@ -394,7 +401,7 @@ export function PropertyAdvisorSection() {
         </div>
       </div>
 
-      {/* ── BOTTOM EDITORIAL SIGNATURE LINE ────────────────────────────────── */}
+      {/* Bottom Editorial Signature Line */}
       <div className="max-w-[1500px] mx-auto px-5 sm:px-8 md:px-10 lg:px-14 xl:px-16 pb-10 sm:pb-12">
         <div className="flex items-center justify-between gap-4">
           <div className="flex items-baseline gap-2.5">

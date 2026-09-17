@@ -9,6 +9,7 @@ import { LegalDocument } from "@/models/LegalDocument";
 import { AdminSession } from "@/lib/auth/session";
 import { logAuditEvent } from "@/lib/services/audit.service";
 
+import { getErrorMessage } from "@/lib/api/errors";
 export interface MemberActiveWorkSummary {
   memberId: string;
   memberName: string;
@@ -186,9 +187,9 @@ export class TeamHandoverService {
       });
 
       return job;
-    } catch (err: any) {
+    } catch (err) {
       job.status = "FAILED";
-      job.errorMessage = err.message;
+      job.errorMessage = getErrorMessage(err);
       await job.save();
       throw err;
     }

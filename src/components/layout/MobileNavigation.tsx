@@ -52,7 +52,7 @@ export default function MobileNavigation({ isOpen, onClose }: MobileNavigationPr
     <div
       id="mobile-navigation"
       className={cn(
-        "fixed inset-0 z-[100] lg:hidden transition-all duration-300",
+        "fixed inset-0 z-[100] xl:hidden transition-all duration-300",
         isOpen ? "pointer-events-auto visible" : "pointer-events-none invisible"
       )}
       aria-hidden={!isOpen}
@@ -70,7 +70,7 @@ export default function MobileNavigation({ isOpen, onClose }: MobileNavigationPr
       {/* Drawer content panel */}
       <div
         className={cn(
-          "absolute right-0 top-0 bottom-0 w-[320px] max-w-[88vw] bg-white shadow-2xl rounded-l-[28px] flex flex-col justify-between p-5 sm:p-6 z-10 transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] h-full overflow-hidden border-l border-[rgba(7,26,40,0.08)]",
+          "absolute right-0 top-0 bottom-0 w-[320px] sm:w-[360px] md:w-[380px] max-w-[85vw] bg-white shadow-2xl rounded-l-[28px] flex flex-col justify-between p-5 sm:p-6 md:p-7 z-10 transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] h-full overflow-hidden border-l border-[rgba(7,26,40,0.08)]",
           isOpen ? "translate-x-0" : "translate-x-full"
         )}
       >

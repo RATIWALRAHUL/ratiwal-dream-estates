@@ -1,6 +1,7 @@
 export interface PropertyAdvisor {
   company: string;
   name: string;
+  legalName?: string;
   designation: string;
   role: string;
   phone: string;
@@ -18,7 +19,8 @@ export interface PropertyAdvisor {
 
 export const advisorData: PropertyAdvisor = {
   company: "Ratiwal Dream Estates",
-  name: "Suresh Kumawat",
+  name: "Suresh Ratiwal",
+  legalName: "Suresh Kumawat",
   designation: "Senior Property Advisor",
   role: "Real Estate Consultant",
   phone: "+91 99295 33436",

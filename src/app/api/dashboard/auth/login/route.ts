@@ -22,6 +22,7 @@ export async function POST(req: NextRequest) {
     const result = await DashboardAuthService.authenticateAdmin(identifier, password, {
       ipAddress,
       userAgent,
+      rememberDevice: Boolean(rememberDevice),
     });
 
     await connectToDatabase();
@@ -101,7 +102,7 @@ export async function POST(req: NextRequest) {
         role: result.account.role,
       },
     });
-  } catch (error: any) {
+  } catch (error) {
     return NextResponse.json(
       { success: false, message: "An unexpected error occurred during sign in." },
       { status: 500 }

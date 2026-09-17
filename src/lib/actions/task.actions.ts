@@ -18,6 +18,7 @@ import {
 } from "@/types/task";
 import { logAuditEvent } from "@/lib/services/audit.service";
 
+import { getErrorMessage } from "@/lib/api/errors";
 export interface ActionResult<T = any> {
   success: boolean;
   message?: string;
@@ -106,8 +107,8 @@ export async function createTaskAction(formData: FormData): Promise<ActionResult
     revalidatePath("/dashboard/my-work");
     revalidatePath("/dashboard/tasks");
     return { success: true, message: "Task created successfully.", data: { taskId: task._id.toString(), taskNumber } };
-  } catch (error: any) {
-    return { success: false, code: "SERVER_ERROR", message: error.message || "Failed to create task." };
+  } catch (error) {
+    return { success: false, code: "SERVER_ERROR", message: getErrorMessage(error, "Failed to create task.") };
   }
 }
 
@@ -131,8 +132,8 @@ export async function updateTaskStatusAction(taskId: string, newStatus: TaskStat
     revalidatePath("/dashboard/tasks");
     revalidatePath(`/dashboard/tasks/${taskId}`);
     return { success: true, message: `Task status updated to ${newStatus}.` };
-  } catch (error: any) {
-    return { success: false, code: "TRANSITION_ERROR", message: error.message || "Failed to update task status." };
+  } catch (error) {
+    return { success: false, code: "TRANSITION_ERROR", message: getErrorMessage(error, "Failed to update task status.") };
   }
 }
 
@@ -194,8 +195,8 @@ export async function reassignTaskAction(taskId: string, newAssigneeId: string, 
     revalidatePath("/dashboard/tasks");
     revalidatePath(`/dashboard/tasks/${taskId}`);
     return { success: true, message: "Task reassigned successfully." };
-  } catch (error: any) {
-    return { success: false, code: "REASSIGN_ERROR", message: error.message || "Failed to reassign task." };
+  } catch (error) {
+    return { success: false, code: "REASSIGN_ERROR", message: getErrorMessage(error, "Failed to reassign task.") };
   }
 }
 
@@ -228,8 +229,8 @@ export async function completeLeadFollowUpAction(
     revalidatePath("/dashboard/leads");
     revalidatePath(`/dashboard/leads/${leadId}`);
     return { success: true, message: "Follow-up recorded successfully." };
-  } catch (error: any) {
-    return { success: false, code: "FOLLOW_UP_ERROR", message: error.message || "Failed to complete follow-up." };
+  } catch (error) {
+    return { success: false, code: "FOLLOW_UP_ERROR", message: getErrorMessage(error, "Failed to complete follow-up.") };
   }
 }
 
@@ -267,8 +268,8 @@ export async function addTaskCommentAction(taskId: string, content: string, visi
 
     revalidatePath(`/dashboard/tasks/${taskId}`);
     return { success: true, message: "Comment added.", data: { commentId: comment._id.toString() } };
-  } catch (error: any) {
-    return { success: false, code: "COMMENT_ERROR", message: error.message || "Failed to add comment." };
+  } catch (error) {
+    return { success: false, code: "COMMENT_ERROR", message: getErrorMessage(error, "Failed to add comment.") };
   }
 }
 
@@ -311,7 +312,7 @@ export async function bulkUpdateTasksAction(taskIds: string[], update: { status?
     revalidatePath("/dashboard/my-work");
     revalidatePath("/dashboard/tasks");
     return { success: true, message: `Successfully updated ${updatedCount} tasks.` };
-  } catch (error: any) {
-    return { success: false, code: "BULK_ERROR", message: error.message || "Failed to perform bulk update." };
+  } catch (error) {
+    return { success: false, code: "BULK_ERROR", message: getErrorMessage(error, "Failed to perform bulk update.") };
   }
 }

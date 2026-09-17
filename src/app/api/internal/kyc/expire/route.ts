@@ -6,8 +6,8 @@ export const dynamic = "force-dynamic";
 export async function POST(request: NextRequest) {
   try {
     const authHeader = request.headers.get("authorization");
-    const secret = process.env.CRON_SECRET || "internal-cron-secret-key-2026";
-    if (authHeader !== `Bearer ${secret}`) {
+    const secret = process.env.CRON_SECRET;
+    if (!secret || authHeader !== `Bearer ${secret}`) {
       return NextResponse.json({ error: "UNAUTHORIZED: Invalid cron secret." }, { status: 401 });
     }
 

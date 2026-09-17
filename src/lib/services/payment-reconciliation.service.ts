@@ -46,6 +46,16 @@ export class PaymentReconciliationService {
 
     scannedCount += capturedPayments.length;
 
+    // 2. Scan Captured Payments missing Receipts — one batched query instead of
+    // one PaymentReceipt lookup per payment (N+1).
+    const issuedReceipts = await PaymentReceipt.find({
+      paymentId: { $in: capturedPayments.map((p) => p._id) },
+      receiptStatus: "ISSUED",
+    })
+      .select("paymentId")
+      .lean();
+    const paymentIdsWithReceipt = new Set(issuedReceipts.map((r) => r.paymentId.toString()));
+
     for (const p of capturedPayments) {
       if (p.capturedAmountPaise > p.allocatedAmountPaise) {
         anomalies.push({
@@ -58,13 +68,7 @@ export class PaymentReconciliationService {
         });
       }
 
-      // 2. Scan Captured Payments missing Receipts
-      const receipt = await PaymentReceipt.findOne({
-        paymentId: p._id,
-        receiptStatus: "ISSUED",
-      });
-
-      if (!receipt) {
+      if (!paymentIdsWithReceipt.has(p._id.toString())) {
         anomalies.push({
           code: "MISSING_RECEIPT_FOR_CAPTURED_PAYMENT",
           severity: "CRITICAL",

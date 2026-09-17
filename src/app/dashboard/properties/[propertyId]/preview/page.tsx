@@ -1,10 +1,12 @@
 import "server-only";
 import Link from "next/link";
+import { notFound } from "next/navigation";
 import { ArrowLeft, ShieldCheck, MapPin, Eye, Building, CheckCircle2, Layers } from "lucide-react";
 import { requireAdminSession } from "@/lib/auth/guard";
 import { getPropertyForPreview } from "@/lib/services/property-editor.service";
 import { formatPaiseToRupeeString } from "@/lib/utils/currency";
 import { sqFtToSqYards } from "@/lib/utils/area";
+import { AppError } from "@/lib/api/errors";
 
 export const dynamic = "force-dynamic";
 
@@ -16,7 +18,15 @@ export default async function PreviewPropertyPage({ params }: PreviewPropertyPag
   await requireAdminSession(["EDITOR", "ADMIN", "SUPER_ADMIN"]);
   const { propertyId } = await params;
 
-  const { property, location, plotOptions } = await getPropertyForPreview(propertyId);
+  let property, location, plotOptions;
+  try {
+    ({ property, location, plotOptions } = await getPropertyForPreview(propertyId));
+  } catch (error) {
+    if (error instanceof AppError && error.code === "NOT_FOUND") {
+      notFound();
+    }
+    throw error;
+  }
 
   const primaryImage = property.media?.find((m: any) => m.isPrimary) || property.media?.[0];
   const isDraft = property.publicationStatus === "DRAFT";

@@ -102,6 +102,10 @@ export interface ILead extends Document {
   lostReason?: LostReason;
   lostExplanation?: string;
   archivedAt?: Date;
+  /** Set the first time an admin opens this lead's detail page. Drives the
+   *  "unread" sidebar badge independently of CRM status (viewing a lead is
+   *  not the same as having actually contacted the customer). */
+  viewedAt?: Date;
 
   // ── Consent ───────────────────────────────
   consentGranted: boolean;
@@ -280,6 +284,7 @@ const LeadSchema = new Schema<ILead>(
     lostReason: { type: String, enum: LOST_REASONS },
     lostExplanation: { type: String, trim: true, maxlength: 1000 },
     archivedAt: { type: Date },
+    viewedAt: { type: Date },
 
     // Consent
     consentGranted: { type: Boolean, required: true },
