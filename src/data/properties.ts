@@ -1,6 +1,7 @@
 import { Property } from "../types/property";
 
 export const properties: Property[] = [
+  /*
   {
     id: "prop-jaipur-ajmer-rd",
     slug: "royal-palms-township-ajmer-road-jaipur",
@@ -721,6 +722,7 @@ export const properties: Property[] = [
       { name: "30-Year Sub-Registrar Title Search", type: "Legal Audit", status: "Reviewed", description: "Clean title search." },
     ],
   },
+  */
 ];
 
 export function getAllProperties(): Property[] {

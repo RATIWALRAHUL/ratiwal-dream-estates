@@ -34,12 +34,22 @@ export default function HomePage() {
   return (
     <>
       <HeroSlider />
-    <HomeSearch properties={properties}/>
-    <div className="proof-marquee" aria-hidden="true"><div className="marquee-track">{[...marqueeItems, ...marqueeItems].map((item, index) => <span className="marquee-item" key={index}><item.icon size={16} strokeWidth={1.5}/>{item.label}<i/></span>)}</div></div>
-    <section className="section-wrap editorial-properties" id="featured" aria-labelledby="featured-title">
-      <Reveal><div className="section-heading-row"><div><p className="eyebrow">Handpicked opportunities</p><h2 id="featured-title">Properties selected<br className="hidden sm:inline"/> with purpose.</h2><i aria-hidden="true"/></div><Link href="/properties" className="text-link">View all properties <ArrowRight size={17}/></Link></div></Reveal>
-      <Reveal className="property-grid editorial-grid reveal-stagger">{featured.map((property)=><PropertyCard property={property} key={property.id}/>)}</Reveal>
-    </section>
+      <HomeSearch properties={properties}/>
+      <div className="proof-marquee" aria-hidden="true"><div className="marquee-track">{[...marqueeItems, ...marqueeItems].map((item, index) => <span className="marquee-item" key={index}><item.icon size={16} strokeWidth={1.5}/>{item.label}<i/></span>)}</div></div>
+      <section className="section-wrap editorial-properties" id="featured" aria-labelledby="featured-title">
+        <Reveal><div className="section-heading-row"><div><p className="eyebrow">Handpicked opportunities</p><h2 id="featured-title">Properties selected<br className="hidden sm:inline"/> with purpose.</h2><i aria-hidden="true"/></div><Link href="/properties" className="text-link">View all properties <ArrowRight size={17}/></Link></div></Reveal>
+        {/* 6 static cards commented out - only database properties will show here once configured */}
+        {/*
+        <Reveal className="property-grid editorial-grid reveal-stagger">{featured.map((property)=><PropertyCard property={property} key={property.id}/>)}</Reveal>
+        */}
+        {featured.length > 0 && (
+          <Reveal className="property-grid editorial-grid reveal-stagger">
+            {featured.map((property) => (
+              <PropertyCard property={property} key={property.id} />
+            ))}
+          </Reveal>
+        )}
+      </section>
     <Reveal><section className="about-section" aria-labelledby="about-title"><div className="about-copy"><p className="eyebrow">About Ratiwal Dream Estates</p><h2 id="about-title">Property decisions,<br className="hidden sm:inline"/> made with clarity.</h2><p>We help buyers and investors discover verified land opportunities across Rajasthan and Maharashtra. Every recommendation is guided by transparency, documentation, and a long-term view.</p><ul className="trust-list"><li><Check/><span>Clear, honest consultation</span></li><li><Check/><span>Carefully evaluated opportunities</span></li><li><Check/><span>Support from discovery to documentation</span></li><li><Check/><span>End-to-end assistance and legal support</span></li></ul><MagneticButton><Link href="/about" className="button-primary">Learn more about us <ArrowRight size={17}/></Link></MagneticButton></div><div className="about-visual"><div className="about-image-wrap"><div className="about-image"><Image src="/images/placeholders/insight-placeholder.jpg" alt="Architectural plans under professional review" fill sizes="(max-width: 768px) 100vw, 50vw" quality={85} loading="lazy" className="object-cover"/></div><div className="floating-badge"><i><ShieldCheck size={18}/></i><span><strong>Verified &amp; Transparent</strong><small>Every opportunity reviewed</small></span></div></div><div className="metrics"><span><strong><CountUp end={10} suffix="+"/></strong><small>Years of<br/>Experience</small></span><span><strong><CountUp end={1} decimals={0} suffix="K+"/></strong><small>Happy<br/>Clients</small></span><span><strong><CountUp end={500} suffix="+"/></strong><small>Verified<br/>Projects</small></span><span><strong><CountUp end={100} suffix="%"/></strong><small>Transparency<br/>Always</small></span></div></div></section></Reveal>
     <PropertyAdvisorSection />
     <Reveal>
