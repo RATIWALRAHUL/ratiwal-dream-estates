@@ -185,6 +185,7 @@ export function ContactFormHub() {
                     src={siteConfig.agent.image}
                     alt={`${siteConfig.agent.name} — ${siteConfig.agent.role}`}
                     fill
+                    sizes="64px"
                     className="object-cover object-top"
                   />
                 </div>

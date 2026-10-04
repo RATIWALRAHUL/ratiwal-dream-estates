@@ -3,11 +3,15 @@ import { useEffect, useRef, useState } from "react";
 
 export function CountUp({ end, duration = 1600, suffix = "", decimals = 0 }: { end: number; duration?: number; suffix?: string; decimals?: number }) {
   const ref = useRef<HTMLSpanElement>(null);
-  const [value, setValue] = useState(() => (typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches ? end : 0));
+  const [value, setValue] = useState(0);
 
   useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      setValue(end);
+      return;
+    }
     const node = ref.current;
-    if (!node || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    if (!node) return;
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (!entry.isIntersecting) return;
@@ -28,7 +32,7 @@ export function CountUp({ end, duration = 1600, suffix = "", decimals = 0 }: { e
   }, [end, duration]);
 
   return (
-    <span ref={ref}>
+    <span ref={ref} suppressHydrationWarning>
       {value.toFixed(decimals)}
       {suffix}
     </span>
