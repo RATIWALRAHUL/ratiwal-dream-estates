@@ -107,7 +107,7 @@ export function AboutStory() {
                 
                 {/* Floating Top Pill */}
                 <div className="absolute top-4 left-4 inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/90 backdrop-blur-md text-[10.5px] font-bold uppercase tracking-wider text-[var(--midnight)] shadow-md">
-                  <Sparkles size={12} className="text-[var(--ratiwal-blue)]" />
+                  <ShieldCheck size={12} className="text-[var(--ratiwal-blue)]" />
                   <span>Vetted Land Assets</span>
                 </div>
 

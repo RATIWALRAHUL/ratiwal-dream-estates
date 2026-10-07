@@ -2,6 +2,7 @@ import { Suspense } from "react";
 import { getMetadata } from "@/lib/seo";
 import { getAllApprovedArticles, getFeaturedArticle } from "@/data/insights";
 import { getAllApprovedResources } from "@/data/resources";
+import { getAllLocations } from "@/lib/data/locations";
 import { InsightsHero } from "@/components/insights/InsightsHero";
 import { FeaturedInsight } from "@/components/insights/FeaturedInsight";
 import { InsightDirectory } from "@/components/insights/InsightDirectory";
@@ -20,10 +21,13 @@ export const metadata = getMetadata({
   image: `${siteConfig.url}/images/locations/jaipur.jpg`,
 });
 
-export default function InsightsPage() {
+export const revalidate = 120;
+
+export default async function InsightsPage() {
   const approvedArticles = getAllApprovedArticles();
   const featuredArticle = getFeaturedArticle();
   const approvedResources = getAllApprovedResources();
+  const locations = await getAllLocations();
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -97,7 +101,7 @@ export default function InsightsPage() {
       <GuidedContentPaths />
 
       {/* 5. Regional Market Spotlight */}
-      <MarketGuideSpotlight />
+      <MarketGuideSpotlight locations={locations} />
 
       {/* 6. Downloadable Practical Tools & Resource Library */}
       <ResourceLibrary resources={approvedResources} />

@@ -177,12 +177,10 @@ export class DashboardAuthService {
     account.failedLoginAttempts = 0;
     account.lockUntil = undefined;
     account.lastLoginAt = new Date();
-    await account.save();
 
-    // Check MFA — the challenge token binds this specific account + password
-    // verification to whatever code gets submitted next, so the MFA step can't
-    // be satisfied by just knowing an account's email (see completeMfaChallenge).
+    // Check MFA
     if (account.mfaEnabled) {
+      await account.save();
       const mfaToken = this.createMfaChallengeToken(account._id.toString());
       return {
         success: true,
@@ -192,13 +190,17 @@ export class DashboardAuthService {
       };
     }
 
-    const { sessionToken } = await this.issueSession(account, metadata);
+    // Run account updates and active session recording concurrently to minimize DB latency
+    const [, sessionResult] = await Promise.all([
+      account.save(),
+      this.issueSession(account, metadata),
+    ]);
 
     return {
       success: true,
       requiresMfa: false,
       account,
-      sessionToken,
+      sessionToken: sessionResult.sessionToken,
     };
   }
 

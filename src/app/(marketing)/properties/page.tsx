@@ -5,9 +5,11 @@ import {
   PropertiesDiligenceStrip, 
   PropertiesCustomMandateCTA 
 } from "@/components/sections/properties";
-import { properties } from "@/data/properties";
+import { getAllProperties } from "@/lib/data/properties";
 import { buildBreadcrumbSchema, buildWebPageSchema, sanitizeJsonLd } from "@/lib/schema";
 import { siteConfig } from "@/config/site";
+
+export const revalidate = 60;
 
 export const metadata = getMetadata({
   title: "Verified Residential & Commercial Plots Portfolio",
@@ -16,7 +18,8 @@ export const metadata = getMetadata({
   slug: "/properties",
 });
 
-export default function PropertiesPage() {
+export default async function PropertiesPage() {
+  const properties = await getAllProperties();
   const jsonLd = {
     "@context": "https://schema.org",
     "@graph": [

@@ -430,6 +430,7 @@ export async function publishLocationAction(
     safeRevalidatePath("/dashboard/locations");
     safeRevalidatePath(`/dashboard/locations/${locationId}/edit`);
     safeRevalidatePath(`/locations/${location.slug}`);
+    safeRevalidatePath("/locations");
 
     return {
       success: true,

@@ -1,14 +1,15 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { X, MessageSquare, ArrowRight, ShieldCheck } from "lucide-react";
+import { X, MessageSquare, ArrowRight, ShieldCheck, ChevronDown, MapPin } from "lucide-react";
 import { siteConfig } from "@/config/site";
 import { navigationConfig } from "@/config/navigation";
 import { generateWhatsAppUrl } from "@/lib/whatsapp";
 import { cn } from "@/lib/utils";
+import { useLocations } from "@/lib/hooks/useLocations";
 
 interface MobileNavigationProps {
   isOpen: boolean;
@@ -17,6 +18,8 @@ interface MobileNavigationProps {
 
 export default function MobileNavigation({ isOpen, onClose }: MobileNavigationProps) {
   const pathname = usePathname();
+  const { locations: dbLocations } = useLocations();
+  const [isLocationsExpanded, setIsLocationsExpanded] = useState(false);
 
   // Auto-close on route transition
   useEffect(() => {
@@ -100,7 +103,76 @@ export default function MobileNavigation({ isOpen, onClose }: MobileNavigationPr
           aria-label="Mobile Navigation Links"
         >
           {navigationConfig.mainNav.map((link) => {
-            const isActive = pathname === link.href;
+            const isLocationsLink = link.label === "Locations";
+            const isActive = pathname === link.href || (isLocationsLink && pathname.startsWith("/locations"));
+
+            if (isLocationsLink) {
+              return (
+                <div key={link.href} className="flex flex-col">
+                  <div
+                    className={cn(
+                      "text-sm font-semibold py-3 px-4 rounded-xl transition-all flex items-center justify-between cursor-pointer",
+                      isActive
+                        ? "text-[var(--ratiwal-blue)] bg-[var(--mist-blue)] font-bold shadow-xs"
+                        : "text-[var(--midnight)] hover:bg-[var(--surface)] hover:text-[var(--ratiwal-blue)]"
+                    )}
+                  >
+                    <Link
+                      href={link.href}
+                      onClick={onClose}
+                      className="flex-1"
+                    >
+                      {link.label}
+                    </Link>
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setIsLocationsExpanded((prev) => !prev);
+                      }}
+                      className="p-1 -mr-1 rounded-lg text-slate-400 hover:text-[#087fc3] hover:bg-slate-200/50 transition-colors"
+                      aria-label="Toggle locations sub-menu"
+                    >
+                      <ChevronDown
+                        size={16}
+                        className={cn(
+                          "transition-transform duration-200",
+                          isLocationsExpanded ? "rotate-180 text-[var(--ratiwal-blue)]" : ""
+                        )}
+                      />
+                    </button>
+                  </div>
+
+                  {/* Expandable sub-items */}
+                  {isLocationsExpanded && (
+                    <div className="pl-4 pr-1 py-1 mt-1 space-y-1 border-l-2 border-[#087fc3]/20 ml-4 animate-in fade-in-0 duration-150">
+                      <Link
+                        href="/locations"
+                        onClick={onClose}
+                        className="flex items-center gap-2 py-2 px-3 rounded-lg text-xs font-bold text-[#087fc3] hover:bg-sky-50 transition-colors"
+                      >
+                        <MapPin size={12} />
+                        <span>All Locations & Corridors</span>
+                      </Link>
+                      {dbLocations.map((loc) => (
+                        <Link
+                          key={loc.id || loc.slug}
+                          href={`/locations/${loc.slug}`}
+                          onClick={onClose}
+                          className="flex flex-col py-1.5 px-3 rounded-lg text-xs text-slate-700 hover:bg-slate-50 hover:text-[#087fc3] transition-colors"
+                        >
+                          <span className="font-semibold text-slate-900">{loc.name}</span>
+                          <span className="text-[10px] text-slate-400">
+                            {loc.city ? `${loc.city}, ${loc.state}` : loc.state || "Corridor"}
+                          </span>
+                        </Link>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              );
+            }
+
             return (
               <Link
                 key={link.href}

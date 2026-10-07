@@ -172,7 +172,7 @@ export function PropertyAdvisorSection() {
       className="relative w-full bg-[#F7F5EF] overflow-hidden"
     >
       {/* Main content */}
-      <div className="max-w-[1500px] mx-auto px-5 sm:px-8 md:px-10 lg:px-10 xl:px-16 pt-6 pb-12 xs:pt-8 xs:pb-14 sm:py-20 lg:py-24 xl:py-28">
+      <div className="w-[calc(100%-52px)] sm:w-[calc(100%-68px)] max-w-[1300px] mx-auto px-0 pt-6 pb-12 xs:pt-8 xs:pb-14 sm:py-20 lg:py-24 xl:py-28">
         <div className="grid grid-cols-1 lg:grid-cols-[56fr_44fr] xl:grid-cols-[54fr_46fr] gap-8 lg:gap-10 xl:gap-16 items-stretch">
 
           {/* LEFT COLUMN */}

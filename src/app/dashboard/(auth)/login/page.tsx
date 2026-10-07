@@ -53,8 +53,8 @@ function LoginFormContent() {
       } else if (res.requiresMfa) {
         router.push(`/dashboard/mfa?email=${encodeURIComponent(res.accountEmail || email)}&token=${res.mfaToken}`);
       } else {
-        router.push(returnUrl);
-        router.refresh();
+        // Direct browser navigation is instantaneous and ensures cookies are sent immediately
+        window.location.href = returnUrl;
       }
     });
   };
@@ -65,14 +65,17 @@ function LoginFormContent() {
       subtitle="Sign in to your Ratiwal Control Center account to manage plotted inventories and operations."
     >
       {/* Identifier Mode Switcher */}
-      <div className="flex rounded-2xl bg-stone-100 p-1 border border-[rgba(7,26,40,0.06)]">
+      <div className={`flex rounded-2xl bg-stone-100 p-1 border border-[rgba(7,26,40,0.06)] ${isPending ? "opacity-60 pointer-events-none" : ""}`}>
         <button
           type="button"
+          disabled={isPending}
           onClick={() => {
             setAuthMode("EMAIL");
             setError(null);
           }}
           className={`flex-1 py-2 text-xs font-bold rounded-xl transition flex items-center justify-center gap-1.5 ${
+            isPending ? "cursor-not-allowed" : ""
+          } ${
             authMode === "EMAIL"
               ? "bg-white text-[#071a28] shadow-xs"
               : "text-[#647581] hover:text-[#071a28]"
@@ -84,11 +87,14 @@ function LoginFormContent() {
 
         <button
           type="button"
+          disabled={isPending}
           onClick={() => {
             setAuthMode("PHONE");
             setError(null);
           }}
           className={`flex-1 py-2 text-xs font-bold rounded-xl transition flex items-center justify-center gap-1.5 ${
+            isPending ? "cursor-not-allowed" : ""
+          } ${
             authMode === "PHONE"
               ? "bg-white text-[#071a28] shadow-xs"
               : "text-[#647581] hover:text-[#071a28]"
@@ -107,6 +113,7 @@ function LoginFormContent() {
             label="Corporate Email Address"
             type="email"
             required
+            disabled={isPending}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="admin@ratiwaldreamestates.com"
@@ -120,6 +127,7 @@ function LoginFormContent() {
             onCountryCodeChange={setCountryCode}
             phone={phone}
             onPhoneChange={setPhone}
+            disabled={isPending}
             required
           />
         )}
@@ -131,13 +139,14 @@ function LoginFormContent() {
             onChange={(e) => setPassword(e.target.value)}
             placeholder="••••••••"
             required
+            disabled={isPending}
             autoComplete="current-password"
           />
 
           <div className="flex items-center justify-end pt-1">
             <Link
               href="/dashboard/forgot-password"
-              className="text-xs font-semibold text-[#0088cc] hover:underline"
+              className={`text-xs font-semibold text-[#0088cc] hover:underline ${isPending ? "pointer-events-none opacity-50" : ""}`}
             >
               Forgot password?
             </Link>
@@ -148,11 +157,15 @@ function LoginFormContent() {
           <input
             id="rememberDevice"
             type="checkbox"
+            disabled={isPending}
             checked={rememberDevice}
             onChange={(e) => setRememberDevice(e.target.checked)}
-            className="w-4 h-4 rounded border-stone-300 text-[#0088cc] focus:ring-[#0088cc] cursor-pointer"
+            className="w-4 h-4 rounded border-stone-300 text-[#0088cc] focus:ring-[#0088cc] cursor-pointer disabled:cursor-not-allowed disabled:opacity-50"
           />
-          <label htmlFor="rememberDevice" className="text-xs font-medium text-[#071a28] cursor-pointer">
+          <label
+            htmlFor="rememberDevice"
+            className={`text-xs font-medium text-[#071a28] ${isPending ? "cursor-not-allowed opacity-60" : "cursor-pointer"}`}
+          >
             Remember this device for 30 days
           </label>
         </div>

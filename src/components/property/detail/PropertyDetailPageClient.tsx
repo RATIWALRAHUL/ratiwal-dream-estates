@@ -13,6 +13,7 @@ import { PropertyBrochureDownloads } from "./PropertyBrochureDownloads";
 import { PropertyDocumentStatus } from "./PropertyDocumentStatus";
 import { PropertyAmenities } from "./PropertyAmenities";
 import { PropertyConnectivityTimeline } from "./PropertyConnectivityTimeline";
+import dynamic from "next/dynamic";
 import { PropertyLocationMap } from "./PropertyLocationMap";
 import { EmbeddedSiteVisit } from "./EmbeddedSiteVisit";
 import { StickyPropertyInquiry } from "./StickyPropertyInquiry";
@@ -20,9 +21,20 @@ import { MobilePropertyActionBar } from "./MobilePropertyActionBar";
 import { PropertyFAQ } from "./PropertyFAQ";
 import { RelatedPropertiesGrid } from "./RelatedPropertiesGrid";
 import { PropertyFinalCTA } from "./PropertyFinalCTA";
-import { Modal } from "@/components/ui/Modal";
-import { EnquiryForm } from "@/components/forms/EnquiryForm";
-import { SiteVisitForm } from "@/components/forms/SiteVisitForm";
+
+// Code-split heavy interactive modals so they don't block the critical rendering path
+const Modal = dynamic(
+  () => import("@/components/ui/Modal").then((m) => m.Modal),
+  { ssr: false }
+);
+const EnquiryForm = dynamic(
+  () => import("@/components/forms/EnquiryForm").then((m) => m.EnquiryForm),
+  { ssr: false }
+);
+const SiteVisitForm = dynamic(
+  () => import("@/components/forms/SiteVisitForm").then((m) => m.SiteVisitForm),
+  { ssr: false }
+);
 
 interface PropertyDetailPageClientProps {
   property: Property;

@@ -5,14 +5,16 @@ import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { Compass, RotateCcw } from "lucide-react";
 import { Location } from "@/types/location";
+import type { Property } from "@/types/property";
 import { LocationCard } from "./LocationCard";
 import { LocationFilters } from "./LocationFilters";
 
 interface LocationDirectoryProps {
   locations: Location[];
+  properties: Property[];
 }
 
-export function LocationDirectory({ locations }: LocationDirectoryProps) {
+export function LocationDirectory({ locations, properties }: LocationDirectoryProps) {
   const searchParams = useSearchParams();
   const activeState = searchParams.get("state") || "all";
   const activeType = searchParams.get("type") || "all";
@@ -88,7 +90,7 @@ export function LocationDirectory({ locations }: LocationDirectoryProps) {
         {filteredLocations.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
             {filteredLocations.map((location) => (
-              <LocationCard key={location.id} location={location} />
+              <LocationCard key={location.id} location={location} properties={properties} />
             ))}
           </div>
         ) : (

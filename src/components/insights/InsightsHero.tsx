@@ -44,7 +44,7 @@ export function InsightsHero({ featuredArticle }: InsightsHeroProps) {
           <div className="lg:col-span-7 flex flex-col items-start z-10">
             <Reveal>
               <div className="inline-flex items-center gap-1.5 px-3.5 py-1 sm:px-4 sm:py-1.5 rounded-full bg-[var(--advisor-ivory)] border border-[rgba(8,127,195,0.2)] shadow-2xs mb-3 sm:mb-4">
-                <Sparkles size={13} className="text-[var(--ratiwal-blue)] flex-shrink-0" />
+                <ShieldCheck size={13} className="text-[var(--ratiwal-blue)] flex-shrink-0" />
                 <span className="text-[9.5px] xs:text-[10.5px] sm:text-[12px] font-bold tracking-[0.14em] uppercase text-[var(--ratiwal-blue)]">
                   PROPERTY INTELLIGENCE &amp; RESEARCH
                 </span>

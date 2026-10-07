@@ -4,6 +4,7 @@ import { FormEvent, useEffect, useMemo, useRef, useState } from "react";
 import { Building2, Check, ChevronDown, IndianRupee, Loader2, MapPin, Search } from "lucide-react";
 import type { Property } from "@/types/property";
 import { PropertyCard } from "@/components/property/PropertyCard";
+import { useLocations } from "@/lib/hooks/useLocations";
 
 type Option = { label: string; value: string };
 
@@ -87,17 +88,27 @@ export function HomeSearch({ properties }: { properties: Property[] }) {
   const [budget, setBudget] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const [isSearching, setIsSearching] = useState(false);
+  const { locations: dbLocations } = useLocations();
 
-  const locations = useMemo<Option[]>(
-    () => [
+  const locations = useMemo<Option[]>(() => {
+    const optionsMap = new Map<string, string>();
+    dbLocations.forEach((loc) => {
+      optionsMap.set(loc.name.toLowerCase(), loc.name);
+    });
+    properties.forEach((p) => {
+      if (p.city && !optionsMap.has(p.city.toLowerCase())) {
+        optionsMap.set(p.city.toLowerCase(), p.city);
+      }
+    });
+
+    return [
       { label: "City or area", value: "" },
-      ...Array.from(new Set(properties.map((p) => p.city))).map((city) => ({
-        label: city,
-        value: city,
+      ...Array.from(optionsMap.values()).map((name) => ({
+        label: name,
+        value: name,
       })),
-    ],
-    [properties]
-  );
+    ];
+  }, [dbLocations, properties]);
 
   const propertyTypes = useMemo<Option[]>(
     () => [

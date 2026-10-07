@@ -4,16 +4,15 @@ import React from "react";
 import Image from "next/image";
 import { ArrowRight, Compass, MapPin, Building2, ShieldCheck, MessageCircle } from "lucide-react";
 import { Location } from "@/types/location";
-import { getLocationSummaryStats } from "@/data/locations";
 import { Breadcrumbs } from "@/components/shared/Breadcrumbs";
 import { generateWhatsAppUrl } from "@/lib/whatsapp";
 
 interface LocationDetailHeroProps {
   location: Location;
+  propertyCount: number;
 }
 
-export function LocationDetailHero({ location }: LocationDetailHeroProps) {
-  const stats = getLocationSummaryStats(location);
+export function LocationDetailHero({ location, propertyCount }: LocationDetailHeroProps) {
   const breadcrumbItems = [
     { label: "Home", href: "/" },
     { label: "Locations", href: "/locations" },
@@ -75,7 +74,7 @@ export function LocationDetailHero({ location }: LocationDetailHeroProps) {
             <div className="flex flex-wrap items-center gap-2.5 mb-8">
               <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white border border-[rgba(7,26,40,0.1)] text-xs text-[var(--midnight)] font-semibold shadow-xs">
                 <Building2 className="w-3.5 h-3.5 text-[var(--ratiwal-blue)]" />
-                <span>{stats.propertyCount} Verified Listings</span>
+                <span>{propertyCount} Verified Listings</span>
               </div>
 
               {location.propertyTypes.map((type, i) => (

@@ -1,6 +1,6 @@
 "use client";
 import { useState, useTransition } from "react";
-import { PlusCircle, Loader2, Lock, StickyNote, Send, Sparkles } from "lucide-react";
+import { PlusCircle, Loader2, Lock, StickyNote, Send, Phone, Coins, MapPin, Car, Clock } from "lucide-react";
 import { addLeadNoteAction } from "@/lib/actions/lead.actions";
 
 interface Note {
@@ -39,11 +39,11 @@ function getInitials(name: string) {
 }
 
 const QUICK_TAGS = [
-  "📞 Call Log",
-  "💰 Budget Discussion",
-  "📍 Plot Preference",
-  "🚗 Site Visit Planned",
-  "⏳ Follow-up Required",
+  { label: "Call Log", icon: Phone },
+  { label: "Budget Discussion", icon: Coins },
+  { label: "Plot Preference", icon: MapPin },
+  { label: "Site Visit Planned", icon: Car },
+  { label: "Follow-up Required", icon: Clock },
 ];
 
 export function LeadNotes({ leadId, notes, version }: LeadNotesProps) {
@@ -98,18 +98,18 @@ export function LeadNotes({ leadId, notes, version }: LeadNotesProps) {
         <div className="rounded-2xl border border-[rgba(7,26,40,0.12)] bg-[#faf9f6] focus-within:bg-white focus-within:border-[#087fc3] focus-within:ring-2 focus-within:ring-[#087fc3]/15 transition-all p-4 shadow-2xs">
           {/* Quick Tag Pills */}
           <div className="flex flex-wrap items-center gap-1.5 mb-2.5">
-            <span className="text-[10px] font-mono text-[#647581] mr-1 flex items-center gap-1">
-              <Sparkles className="w-3 h-3 text-amber-600" />
+            <span className="text-[10px] font-mono text-[#647581] mr-1">
               Quick:
             </span>
-            {QUICK_TAGS.map((tag) => (
+            {QUICK_TAGS.map(({ label, icon: Icon }) => (
               <button
-                key={tag}
+                key={label}
                 type="button"
-                onClick={() => handleTagClick(tag)}
-                className="px-2 py-0.5 rounded-lg text-[10px] font-medium bg-white border border-[rgba(7,26,40,0.08)] text-[#071a28] hover:bg-[#087fc3] hover:text-white hover:border-[#087fc3] transition-all shadow-2xs"
+                onClick={() => handleTagClick(label)}
+                className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[10px] font-medium bg-white border border-[rgba(7,26,40,0.08)] text-[#071a28] hover:bg-[#087fc3] hover:text-white hover:border-[#087fc3] transition-all shadow-2xs group"
               >
-                {tag}
+                <Icon className="w-3 h-3 text-[#087fc3] group-hover:text-white transition-colors flex-shrink-0" />
+                <span>{label}</span>
               </button>
             ))}
           </div>

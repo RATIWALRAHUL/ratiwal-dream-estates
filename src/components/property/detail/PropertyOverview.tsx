@@ -10,7 +10,7 @@ export function PropertyOverview({ property }: PropertyOverviewProps) {
     <section aria-labelledby="property-overview-heading" className="mb-8 sm:mb-12">
       <div className="p-4 sm:p-7 sm:p-8 rounded-2xl sm:rounded-3xl bg-white border border-[rgba(7,26,40,0.08)] shadow-[0_4px_24px_rgba(7,26,40,0.04)]">
         <div className="inline-flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1 rounded-full bg-[rgba(7,132,200,0.08)] border border-[rgba(7,132,200,0.2)] text-[#0784C8] text-[10.5px] sm:text-xs font-semibold uppercase tracking-wider mb-3 sm:mb-4">
-          <Sparkles className="w-3.5 h-3.5" aria-hidden="true" />
+          <CheckCircle2 className="w-3.5 h-3.5" aria-hidden="true" />
           <span>Project Narrative &amp; Due Diligence</span>
         </div>
 

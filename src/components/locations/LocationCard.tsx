@@ -2,14 +2,16 @@ import Link from "next/link";
 import Image from "next/image";
 import { ArrowRight, MapPin, Building2, CheckCircle2, Layers } from "lucide-react";
 import { Location } from "@/types/location";
-import { getLocationSummaryStats } from "@/data/locations";
+import type { Property } from "@/types/property";
+import { getLocationSummaryStats } from "@/lib/utils/location-stats";
 
 interface LocationCardProps {
   location: Location;
+  properties: Property[];
 }
 
-export function LocationCard({ location }: LocationCardProps) {
-  const stats = getLocationSummaryStats(location);
+export function LocationCard({ location, properties }: LocationCardProps) {
+  const stats = getLocationSummaryStats(properties, location);
 
   return (
     <article

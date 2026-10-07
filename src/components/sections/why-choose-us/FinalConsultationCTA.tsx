@@ -21,7 +21,7 @@ export function FinalConsultationCTA() {
 
             <div className="relative z-10 max-w-3xl mx-auto">
               <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 border border-white/15 text-[var(--cyan)] text-xs font-bold uppercase tracking-wider mb-6">
-                <Sparkles size={14} />
+                <CheckCircle size={14} />
                 <span>{finalCta.eyebrow}</span>
               </div>
 

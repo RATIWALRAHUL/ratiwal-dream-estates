@@ -5,7 +5,8 @@ import dynamic from "next/dynamic";
 import Link from "next/link";
 import { Navigation, ArrowRight, Layers, CheckCircle2, MapPin } from "lucide-react";
 import { Location } from "@/types/location";
-import { getLocationSummaryStats } from "@/data/locations";
+import type { Property } from "@/types/property";
+import { getLocationSummaryStats } from "@/lib/utils/location-stats";
 
 // Dynamically import the real Leaflet interactive map with ssr: false
 const RealInteractiveMap = dynamic(
@@ -24,11 +25,12 @@ const RealInteractiveMap = dynamic(
 
 interface MarketMapProps {
   locations: Location[];
+  properties: Property[];
   selectedLocationSlug?: string;
   onSelectLocation?: (slug: string) => void;
 }
 
-export function MarketMap({ locations, selectedLocationSlug, onSelectLocation }: MarketMapProps) {
+export function MarketMap({ locations, properties, selectedLocationSlug, onSelectLocation }: MarketMapProps) {
   const [activeSlug, setActiveSlug] = useState<string>(selectedLocationSlug || locations[0]?.slug || "jaipur");
   const [viewMode, setViewMode] = useState<"map" | "list">("map");
 
@@ -108,7 +110,7 @@ export function MarketMap({ locations, selectedLocationSlug, onSelectLocation }:
             /* Accessible List View Fallback */
             <div className="p-6 sm:p-8 divide-y divide-[rgba(7,26,40,0.08)]">
               {locations.map((loc) => {
-                const stats = getLocationSummaryStats(loc);
+                const stats = getLocationSummaryStats(properties, loc);
                 return (
                   <div key={loc.id} className="py-6 first:pt-0 last:pb-0 grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
                     <div className="md:col-span-4">

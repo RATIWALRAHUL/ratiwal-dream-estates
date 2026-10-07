@@ -3,8 +3,8 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import { getMetadata } from "@/lib/seo";
 import { getAllPublishedCaseStudies, getCaseStudyBySlug } from "@/data/testimonials";
-import { getPropertyBySlug } from "@/data/properties";
-import { getLocationBySlug } from "@/data/locations";
+import { getPropertyBySlug } from "@/lib/data/properties";
+import { getLocationBySlug } from "@/lib/data/locations";
 import { PropertyCard } from "@/components/property/PropertyCard";
 import {
   ArrowLeft,
@@ -61,11 +61,11 @@ export default async function CaseStudyDetailPage({ params }: CaseStudyPageProps
   }
 
   const relatedProperty = caseStudy.relatedPropertySlug
-    ? getPropertyBySlug(caseStudy.relatedPropertySlug)
+    ? await getPropertyBySlug(caseStudy.relatedPropertySlug)
     : undefined;
 
   const relatedLocation = caseStudy.relatedLocationSlug
-    ? getLocationBySlug(caseStudy.relatedLocationSlug)
+    ? await getLocationBySlug(caseStudy.relatedLocationSlug)
     : undefined;
 
   const whatsappUrl = generateWhatsAppUrl({

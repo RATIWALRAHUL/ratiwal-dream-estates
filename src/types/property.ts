@@ -1,5 +1,12 @@
-export type PropertyType = "Residential Plot" | "Commercial Plot";
-export type PropertyStatus = "Available" | "Sold Out" | "Upcoming" | "Limited";
+export type PropertyType =
+  | "Residential Plot"
+  | "Commercial Plot"
+  | "Industrial Plot"
+  | "Farm Land"
+  | "Villa"
+  | "Apartment"
+  | "Other";
+export type PropertyStatus = "Available" | "Sold Out" | "Upcoming" | "Limited" | "Reserved" | "Unavailable";
 
 export interface PlotOption {
   id: string;
@@ -11,14 +18,14 @@ export interface PlotOption {
   areaSqFt: number;
   ratePerSqYd: number;
   basePriceLabel: string;
-  facing: "North" | "East" | "North-East" | "West" | "South" | "Dual Road Frontage";
+  facing: "North" | "East" | "North-East" | "West" | "South" | "Dual Road Frontage" | "Other";
   isCorner: boolean;
-  status: "Available" | "Limited" | "Reserved";
+  status: "Available" | "Limited" | "Reserved" | "Sold" | "On Request" | "Unavailable";
 }
 
 export interface PropertyAmenity {
   name: string;
-  category: "Roads & Access" | "Utilities & Power" | "Security & Safety" | "Greenery & Leisure" | "Infrastructure";
+  category: string;
   status: "Available" | "Under Development" | "Planned";
   description?: string;
 }
@@ -51,7 +58,7 @@ export interface BrochureInfo {
 export interface ReraInfo {
   reraNumber: string;
   authorityName: string;
-  registrationStatus: "Registered & Verified" | "Exempted / Pre-RERA" | "Registration in Progress";
+  registrationStatus: "Registered & Verified" | "Exempted / Pre-RERA" | "Registration in Progress" | string;
   portalUrl: string;
 }
 

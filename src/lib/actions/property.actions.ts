@@ -3,6 +3,7 @@
 
 import { Types } from "mongoose";
 import { revalidatePath } from "next/cache";
+import { invalidatePropertyCache } from "@/lib/data/properties";
 
 function safeRevalidatePath(path: string) {
   try {
@@ -380,6 +381,7 @@ export async function updatePropertyAction(
     if (current.publicationStatus === "PUBLISHED") {
       safeRevalidatePath(`/properties/${current.slug}`);
       safeRevalidatePath("/properties");
+      invalidatePropertyCache(current.slug);
     }
 
     return {
@@ -584,6 +586,7 @@ export async function publishPropertyAction(
     safeRevalidatePath("/properties");
     safeRevalidatePath("/dashboard");
     safeRevalidatePath("/");
+    invalidatePropertyCache(property.slug);
 
     return {
       success: true,
@@ -648,6 +651,7 @@ export async function archivePropertyAction(
     safeRevalidatePath(`/properties/${property.slug}`);
     safeRevalidatePath("/properties");
     safeRevalidatePath("/dashboard");
+    invalidatePropertyCache(property.slug);
 
     return {
       success: true,
@@ -780,6 +784,8 @@ export async function changePublishedSlugAction(
     safeRevalidatePath(`/properties/${oldSlug}`);
     safeRevalidatePath(`/properties/${parsed.data.newSlug}`);
     safeRevalidatePath("/properties");
+    invalidatePropertyCache(oldSlug);
+    invalidatePropertyCache(parsed.data.newSlug);
 
     return {
       success: true,

@@ -61,11 +61,10 @@ function FilterDropdown({
         aria-haspopup="listbox"
         aria-expanded={isOpen}
         aria-label={ariaLabel}
-        className={`w-full flex items-center justify-between gap-2 px-3.5 py-2.5 sm:py-3 rounded-xl bg-[var(--surface)] hover:bg-white border ${
-          isOpen
-            ? "border-[var(--ratiwal-blue)] bg-white ring-2 ring-[rgba(8,127,195,0.15)] shadow-sm"
-            : "border-[rgba(7,26,40,0.08)] hover:border-[rgba(8,127,195,0.3)]"
-        } text-xs sm:text-sm font-semibold text-[var(--midnight)] transition-all shadow-2xs text-left cursor-pointer`}
+        className={`w-full flex items-center justify-between gap-2 px-3.5 py-2.5 sm:py-3 rounded-xl bg-white border ${
+          isOpen ? "border-[#087fc3]" : "border-slate-300 hover:border-slate-400"
+        } text-xs sm:text-sm font-semibold text-[var(--midnight)] transition-all shadow-none text-left cursor-pointer outline-none focus:outline-none`}
+        style={{ outline: "none", boxShadow: "none" }}
       >
         <div className="flex items-center gap-2 min-w-0 flex-1">
           {Icon && (
@@ -132,11 +131,27 @@ interface PropertiesFilterSectionProps {
 }
 
 export function PropertiesFilterSection({ properties }: PropertiesFilterSectionProps) {
+  const [rawSearch, setRawSearch] = useState<string>("");
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [selectedCity, setSelectedCity] = useState<string>("All");
   const [selectedType, setSelectedType] = useState<string>("All");
   const [selectedStatus, setSelectedStatus] = useState<string>("All");
   const [sortBy, setSortBy] = useState<"featured" | "newest" | "name">("featured");
+  const [displayCount, setDisplayCount] = useState<number>(12);
+  const [isPending, startTransition] = React.useTransition();
+
+  const filterCacheRef = useRef<Map<string, Property[]>>(new Map());
+  const sentinelRef = useRef<HTMLDivElement | null>(null);
+
+  // Debounced search with 250ms delay
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      startTransition(() => {
+        setSearchQuery(rawSearch);
+      });
+    }, 250);
+    return () => clearTimeout(timer);
+  }, [rawSearch]);
 
   // Extract unique cities from properties
   const cities = useMemo(() => {
@@ -144,12 +159,24 @@ export function PropertiesFilterSection({ properties }: PropertiesFilterSectionP
     return ["All", ...unique];
   }, [properties]);
 
-  const propertyTypes = ["All", "Residential Plot", "Commercial Plot"];
-  const statuses = ["All", "Available", "Upcoming"];
+  const propertyTypes = useMemo(() => {
+    const unique = Array.from(new Set(properties.map((p) => p.propertyType))).filter(Boolean);
+    return ["All", ...unique];
+  }, [properties]);
 
-  // Filter and sort logic
+  const statuses = useMemo(() => {
+    const unique = Array.from(new Set(properties.map((p) => p.status))).filter(Boolean);
+    return ["All", ...unique];
+  }, [properties]);
+
+  // In-memory cached filter and sort logic (0ms instant recall)
   const filteredProperties = useMemo(() => {
-    return properties
+    const cacheKey = `${searchQuery.trim().toLowerCase()}|${selectedCity}|${selectedType}|${selectedStatus}|${sortBy}`;
+    if (filterCacheRef.current.has(cacheKey)) {
+      return filterCacheRef.current.get(cacheKey)!;
+    }
+
+    const computed = properties
       .filter((p) => {
         // Search query match
         if (searchQuery.trim()) {
@@ -192,20 +219,53 @@ export function PropertiesFilterSection({ properties }: PropertiesFilterSectionP
         }
         return 0;
       });
+
+    filterCacheRef.current.set(cacheKey, computed);
+    return computed;
   }, [properties, searchQuery, selectedCity, selectedType, selectedStatus, sortBy]);
 
   const hasActiveFilters =
-    searchQuery.trim() !== "" ||
+    rawSearch.trim() !== "" ||
     selectedCity !== "All" ||
     selectedType !== "All" ||
     selectedStatus !== "All";
 
+  // Reset pagination when search or filters change
+  useEffect(() => {
+    setDisplayCount(12);
+  }, [searchQuery, selectedCity, selectedType, selectedStatus, sortBy]);
+
+  // Auto-prefetching next page when user scrolls past 65% of results
+  useEffect(() => {
+    if (displayCount >= filteredProperties.length) return;
+    const sentinel = sentinelRef.current;
+    if (!sentinel) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          setDisplayCount((prev) => Math.min(prev + 12, filteredProperties.length));
+        }
+      },
+      { rootMargin: "250px" }
+    );
+
+    observer.observe(sentinel);
+    return () => observer.disconnect();
+  }, [displayCount, filteredProperties.length]);
+
+  const visibleProperties = useMemo(() => {
+    return filteredProperties.slice(0, displayCount);
+  }, [filteredProperties, displayCount]);
+
   function handleReset() {
+    setRawSearch("");
     setSearchQuery("");
     setSelectedCity("All");
     setSelectedType("All");
     setSelectedStatus("All");
     setSortBy("featured");
+    setDisplayCount(12);
   }
 
   const sortOptions: DropdownOption[] = [
@@ -237,15 +297,19 @@ export function PropertiesFilterSection({ properties }: PropertiesFilterSectionP
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-[var(--ratiwal-blue)] w-4 h-4" />
             <input
               type="text"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
+              value={rawSearch}
+              onChange={(e) => setRawSearch(e.target.value)}
               placeholder="Search by plot name, road, corridor, or keyword (e.g. Ajmer Road, Ring Road, Panvel)..."
-              className="w-full pl-11 pr-4 py-2.5 sm:py-3 rounded-xl bg-[var(--surface)] border border-[rgba(7,26,40,0.08)] focus:border-[var(--ratiwal-blue)] focus:bg-white text-xs sm:text-sm text-[var(--midnight)] outline-none transition-all"
+              className="w-full pl-11 pr-4 py-2.5 sm:py-3 rounded-xl bg-white border border-slate-300 hover:border-slate-400 focus:border-[#087fc3] text-xs sm:text-sm text-[var(--midnight)] outline-none focus:outline-none focus:ring-0 shadow-none transition-all"
+              style={{ outline: "none", boxShadow: "none" }}
             />
-            {searchQuery && (
+            {rawSearch && (
               <button
-                onClick={() => setSearchQuery("")}
-                className="absolute right-3.5 top-1/2 -translate-y-1/2 text-xs text-[var(--text-secondary)] hover:text-[var(--midnight)] font-semibold"
+                onClick={() => {
+                  setRawSearch("");
+                  setSearchQuery("");
+                }}
+                className="absolute right-3.5 top-1/2 -translate-y-1/2 text-xs text-[var(--text-secondary)] hover:text-[var(--midnight)] font-semibold cursor-pointer"
               >
                 Clear
               </button>
@@ -389,12 +453,29 @@ export function PropertiesFilterSection({ properties }: PropertiesFilterSectionP
           onAction={handleReset}
         />
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 mb-14">
-          {filteredProperties.map((property) => (
-            <div key={property.id} className="h-full">
-              <PropertyCard property={property} />
+        <div className={`space-y-8 mb-14 transition-opacity duration-200 ${isPending ? "opacity-75" : "opacity-100"}`}>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+            {visibleProperties.map((property) => (
+              <div key={property.id} className="h-full">
+                <PropertyCard property={property} />
+              </div>
+            ))}
+          </div>
+
+          {/* Infinite Scroll Prefetch Sentinel */}
+          <div ref={sentinelRef} className="h-2 w-full pointer-events-none" aria-hidden="true" />
+
+          {displayCount < filteredProperties.length && (
+            <div className="flex flex-col items-center justify-center pt-4 pb-2">
+              <button
+                type="button"
+                onClick={() => setDisplayCount((prev) => Math.min(prev + 12, filteredProperties.length))}
+                className="px-6 py-3 rounded-full bg-white border border-[var(--ratiwal-blue)] text-[var(--ratiwal-blue)] hover:bg-[var(--ratiwal-blue)] hover:text-white text-xs sm:text-sm font-bold transition-all shadow-none hover:shadow-xs cursor-pointer flex items-center gap-2"
+              >
+                <span>Load More Land Opportunities ({filteredProperties.length - displayCount} remaining)</span>
+              </button>
             </div>
-          ))}
+          )}
         </div>
       )}
     </div>

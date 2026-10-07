@@ -3,14 +3,16 @@ export type InfrastructureStatus =
   | "Under construction"
   | "Approved"
   | "Proposed"
-  | "Status unverified";
+  | "Status unverified"
+  | string;
 
 export type InfrastructureCategory =
   | "Highway & Expressways"
   | "Airport & Aviation"
   | "Rail & Metro"
   | "Industrial & Logistics"
-  | "Urban Master Planning";
+  | "Urban Master Planning"
+  | string;
 
 export interface InfrastructureItem {
   id: string;
@@ -27,7 +29,7 @@ export interface ConnectivityItem {
   destination: string;
   distanceKm: number;
   approxTravelTime: string;
-  travelMode: "Drive / Highway" | "Transit / Rail" | "Flight / Airport";
+  travelMode: "Drive / Highway" | "Transit / Rail" | "Flight / Airport" | string;
   route: string;
   lastVerifiedAt: string;
 }
@@ -46,9 +48,9 @@ export interface MicroMarket {
 
 export interface BuyerConsideration {
   title: string;
-  category: "Title & Documentation" | "Zoning & Land Use" | "Access & Infrastructure" | "Statutory Approvals" | "Regulatory Verification";
+  category: "Title & Documentation" | "Zoning & Land Use" | "Access & Infrastructure" | "Statutory Approvals" | "Regulatory Verification" | string;
   description: string;
-  importance: "Mandatory Due Diligence" | "Strategic Advantage" | "Regulatory Verification";
+  importance: "Mandatory Due Diligence" | "Strategic Advantage" | "Regulatory Verification" | string;
 }
 
 export interface VerifiedMarketData {

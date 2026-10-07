@@ -4,9 +4,13 @@ import React from "react";
 import Link from "next/link";
 import { ArrowRight, MapPin, Navigation } from "lucide-react";
 import { Reveal } from "@/components/home/Reveal";
-import { properties } from "@/data/properties";
+import type { Property } from "@/types/property";
 
-export function LocalExpertisePreview() {
+interface LocalExpertisePreviewProps {
+  properties: Property[];
+}
+
+export function LocalExpertisePreview({ properties }: LocalExpertisePreviewProps) {
   const verifiedCorridors = [
     {
       city: "Jaipur, Rajasthan",

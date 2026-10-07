@@ -112,7 +112,7 @@ export function AboutHero() {
             {/* Overlaid Floating Plaque */}
             <div className="absolute bottom-3 left-3 right-3 sm:bottom-6 sm:left-6 sm:right-auto max-w-md p-3.5 sm:p-5 rounded-xl sm:rounded-2xl bg-[rgba(7,26,40,0.9)] backdrop-blur-xl border border-white/15 text-white shadow-2xl">
               <div className="flex items-center gap-1.5 sm:gap-2 mb-1">
-                <Sparkles size={14} className="text-[var(--cyan)] flex-shrink-0" />
+                <ShieldCheck size={14} className="text-[var(--cyan)] flex-shrink-0" />
                 <span className="text-[10px] sm:text-[11px] uppercase tracking-widest font-bold text-[var(--cyan)]">
                   The Advisory Standard
                 </span>

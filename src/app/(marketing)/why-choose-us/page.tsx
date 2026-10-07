@@ -2,6 +2,7 @@ import React from "react";
 import { getMetadata } from "@/lib/seo";
 import { siteConfig } from "@/config/site";
 import { whyChooseUsData } from "@/data/whyChooseUsData";
+import { getAllProperties } from "@/lib/data/properties";
 import {
   WhyChooseHero,
   TrustPrinciples,
@@ -29,7 +30,8 @@ export const metadata = getMetadata({
   slug: "/why-choose-us",
 });
 
-export default function WhyChooseUsPage() {
+export default async function WhyChooseUsPage() {
+  const properties = await getAllProperties();
   const jsonLd = {
     "@context": "https://schema.org",
     "@graph": [
@@ -78,7 +80,7 @@ export default function WhyChooseUsPage() {
         <BuyerDeliverables />
 
         {/* Section 8: Local Market Intelligence & Verified Corridors */}
-        <LocalExpertisePreview />
+        <LocalExpertisePreview properties={properties} />
 
         {/* Section 9: Advisory Council & Personal Guidance */}
         <AdvisorPreview />

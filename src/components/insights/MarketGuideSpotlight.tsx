@@ -1,9 +1,13 @@
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowRight, MapPin, Building2, ShieldCheck } from "lucide-react";
-import { locations } from "@/data/locations";
+import type { Location } from "@/types/location";
 
-export function MarketGuideSpotlight() {
+interface MarketGuideSpotlightProps {
+  locations: Location[];
+}
+
+export function MarketGuideSpotlight({ locations }: MarketGuideSpotlightProps) {
   const spotlights = locations.slice(0, 3); // Jaipur, Navi Mumbai, Ajmer
 
   return (

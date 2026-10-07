@@ -12,7 +12,6 @@ import {
   X,
   Check,
   Loader2,
-  Sparkles,
 } from "lucide-react";
 import { updateLeadRequirementsAction } from "@/lib/actions/lead.actions";
 import { formatPaiseToRupeeString } from "@/lib/utils/currency";
@@ -325,8 +324,7 @@ export function LeadRequirementsEditor({ lead }: LeadRequirementsEditorProps) {
                   className="w-full px-3.5 py-2.5 text-xs rounded-xl border border-[rgba(7,26,40,0.12)] bg-[#faf9f6] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#087fc3]/30 shadow-2xs"
                 />
                 <div className="flex flex-wrap items-center gap-1 mt-2">
-                  <span className="text-[10px] font-mono text-[#647581] mr-1 flex items-center gap-0.5">
-                    <Sparkles className="w-3 h-3 text-amber-500" />
+                  <span className="text-[10px] font-mono text-[#647581] mr-1">
                     Chips:
                   </span>
                   {LOCATION_SUGGESTIONS.map((loc) => (

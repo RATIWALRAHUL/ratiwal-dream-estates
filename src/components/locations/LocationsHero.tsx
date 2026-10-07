@@ -5,15 +5,14 @@ import { Breadcrumbs } from "@/components/shared/Breadcrumbs";
 import { Reveal } from "@/components/home/Reveal";
 import { Compass, ShieldCheck, MapPin, Building2, CheckCircle2 } from "lucide-react";
 import { Location } from "@/types/location";
-import { properties } from "@/data/properties";
 
 interface LocationsHeroProps {
   locations: Location[];
+  totalActiveProperties: number;
 }
 
-export function LocationsHero({ locations }: LocationsHeroProps) {
+export function LocationsHero({ locations, totalActiveProperties }: LocationsHeroProps) {
   const totalVerifiedMarkets = locations.length;
-  const totalActiveProperties = properties.length;
   const totalStates = Array.from(new Set(locations.map((l) => l.state.split("/")[0].trim()))).length;
 
   const breadcrumbItems = [{ label: "Locations & Corridors", href: "/locations" }];

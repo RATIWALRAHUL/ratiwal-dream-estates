@@ -1,18 +1,19 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Input } from "@/components/ui/Input";
 import { Select } from "@/components/ui/Select";
 import { Textarea } from "@/components/ui/Textarea";
 import { Button } from "@/components/ui/Button";
 import { AlertCircle, CheckCircle2 } from "lucide-react";
+import type { PropertyType } from "@/types/property";
 
 interface EnquiryFormProps {
   propertyId?: string;
   propertySlug?: string;
   preferredLocation?: string;
-  propertyType?: "Residential Plot" | "Commercial Plot" | "Any";
+  propertyType?: PropertyType | "Any";
   onSuccess?: () => void;
 }
 
@@ -40,6 +41,27 @@ export function EnquiryForm({
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [serverErrors, setServerErrors] = useState<Record<string, string[]>>({});
   const [confirmedRef, setConfirmedRef] = useState<string | null>(null);
+  const [locationOptions, setLocationOptions] = useState<{ value: string; label: string }[]>([]);
+
+  useEffect(() => {
+    let cancelled = false;
+    fetch("/api/locations")
+      .then((res) => res.json())
+      .then((data) => {
+        if (cancelled || !data?.success) return;
+        const options = (data.locations as { name: string }[]).map((loc) => ({
+          value: loc.name,
+          label: loc.name,
+        }));
+        setLocationOptions([...options, { value: "Other Locations", label: "Other Locations" }]);
+      })
+      .catch(() => {
+        // Silent — the Select simply shows the placeholder if this fails.
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   const { register, handleSubmit, reset } = useForm<FormValues>({
     defaultValues: {
@@ -203,15 +225,9 @@ export function EnquiryForm({
         <div>
           <Select
             label="Preferred Location"
-            placeholder="Select location"
-            options={[
-              { value: "Jaipur", label: "Jaipur" },
-              { value: "Ajmer", label: "Ajmer" },
-              { value: "Navi Mumbai", label: "Navi Mumbai" },
-              { value: "Panvel", label: "Panvel" },
-              { value: "Bhiwadi", label: "Bhiwadi" },
-              { value: "Other Locations", label: "Other Locations" },
-            ]}
+            placeholder={locationOptions.length ? "Select location" : "Loading locations..."}
+            options={locationOptions}
+            disabled={locationOptions.length === 0}
             error={serverErrors.preferredLocation?.[0]}
             {...register("preferredLocation", {
               onChange: () => clearFieldError("preferredLocation"),

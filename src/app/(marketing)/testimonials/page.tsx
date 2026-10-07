@@ -23,6 +23,8 @@ export const metadata = getMetadata({
   image: `${siteConfig.url}/images/about/office-consultation.jpg`,
 });
 
+export const revalidate = 120;
+
 export default function TestimonialsPage() {
   const publishedTestimonials = getAllPublishedTestimonials();
   const publishedCaseStudies = getAllPublishedCaseStudies();

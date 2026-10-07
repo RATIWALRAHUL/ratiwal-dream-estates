@@ -4,13 +4,15 @@ import { useState } from "react";
 import Link from "next/link";
 import { SlidersHorizontal, ExternalLink } from "lucide-react";
 import { Location } from "@/types/location";
-import { getLocationSummaryStats } from "@/data/locations";
+import type { Property } from "@/types/property";
+import { getLocationSummaryStats } from "@/lib/utils/location-stats";
 
 interface LocationComparisonProps {
   locations: Location[];
+  properties: Property[];
 }
 
-export function LocationComparison({ locations }: LocationComparisonProps) {
+export function LocationComparison({ locations, properties }: LocationComparisonProps) {
   // Default compare Jaipur, Navi Mumbai, and Ajmer
   const [selectedSlugs, setSelectedSlugs] = useState<string[]>([
     locations[0]?.slug || "jaipur",
@@ -129,7 +131,7 @@ export function LocationComparison({ locations }: LocationComparisonProps) {
                     Verified Listings
                   </td>
                   {selectedLocations.map((loc) => {
-                    const stats = getLocationSummaryStats(loc);
+                    const stats = getLocationSummaryStats(properties, loc);
                     return (
                       <td key={loc.id} className="p-5">
                         <span className="font-bold text-[#031C2B]">{stats.propertyCount} Active Parcels</span>
@@ -202,7 +204,7 @@ export function LocationComparison({ locations }: LocationComparisonProps) {
         {/* Mobile Stacked Panels (320px - 767px) */}
         <div className="block md:hidden space-y-6">
           {selectedLocations.map((loc) => {
-            const stats = getLocationSummaryStats(loc);
+            const stats = getLocationSummaryStats(properties, loc);
             return (
               <div
                 key={loc.id}

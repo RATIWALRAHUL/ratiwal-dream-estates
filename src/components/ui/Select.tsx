@@ -155,24 +155,12 @@ const Select = forwardRef<HTMLSelectElement, SelectProps>(
     // Find current label
     const selectedOption = options.find((opt) => opt.value === currentValue);
     const displayLabel = selectedOption ? selectedOption.label : placeholder;
-    const isPlaceholderActive = !selectedOption || currentValue === "";
+    const hasSelectedValue = Boolean(selectedOption && currentValue !== "");
+    const isPlaceholderActive = !hasSelectedValue;
+    const isFloating = isOpen || hasSelectedValue;
 
     return (
-      <div ref={containerRef} className="w-full flex flex-col space-y-1.5 relative">
-        {label && (
-          <label
-            htmlFor={id}
-            className="text-xs sm:text-[13px] font-bold text-[var(--midnight)] flex items-center"
-          >
-            {label}
-            {required && (
-              <span className="text-red-500 ml-1 font-bold" aria-hidden="true">
-                *
-              </span>
-            )}
-          </label>
-        )}
-
+      <div ref={containerRef} className="w-full flex flex-col space-y-1 relative">
         {/* Hidden Native Select for standard HTML form & React Hook Form integration */}
         <select
           ref={setRef}
@@ -196,7 +184,7 @@ const Select = forwardRef<HTMLSelectElement, SelectProps>(
         </select>
 
         {/* Custom Luxury Dropdown Trigger Box */}
-        <div className="relative">
+        <div className="relative w-full pt-1.5">
           <button
             type="button"
             onClick={() => !disabled && setIsOpen((prev) => !prev)}
@@ -206,20 +194,23 @@ const Select = forwardRef<HTMLSelectElement, SelectProps>(
             aria-expanded={isOpen}
             aria-describedby={error ? errorId : undefined}
             className={cn(
-              "w-full min-h-[48px] px-4 py-2.5 rounded-xl text-left text-xs sm:text-sm font-medium transition-all duration-200 flex items-center justify-between gap-2 border bg-white shadow-xs focus:outline-none",
-              isOpen
-                ? "border-[var(--ratiwal-blue)] ring-2 ring-[rgba(8,127,195,0.18)] shadow-sm"
-                : error
-                ? "border-red-400 ring-1 ring-red-400/20"
-                : "border-[rgba(7,26,40,0.12)] hover:border-[rgba(8,127,195,0.4)]",
-              disabled && "opacity-60 cursor-not-allowed bg-gray-50",
+              "w-full min-h-[48px] px-4 py-2.5 rounded-xl text-left text-xs sm:text-sm font-medium transition-all duration-200 flex items-center justify-between gap-2 border border-[1px] bg-white shadow-none outline-none focus:outline-none focus-visible:outline-none focus:ring-0 focus-visible:ring-0",
+              error
+                ? "border-red-500 focus:border-red-500"
+                : isOpen
+                ? "border-[#087fc3] focus:border-[#087fc3]"
+                : "border-slate-300 hover:border-slate-400",
+              disabled && "opacity-60 cursor-not-allowed bg-gray-50 border-[rgba(7,26,40,0.14)]",
               className
             )}
+            style={{ outline: "none", boxShadow: "none" }}
           >
             <span
               className={cn(
-                "truncate block",
-                isPlaceholderActive
+                "truncate block transition-opacity duration-200",
+                label && !isFloating
+                  ? "opacity-0 select-none"
+                  : isPlaceholderActive
                   ? "text-[var(--text-secondary)] font-normal"
                   : "text-[var(--midnight)] font-semibold"
               )}
@@ -235,6 +226,35 @@ const Select = forwardRef<HTMLSelectElement, SelectProps>(
               aria-hidden="true"
             />
           </button>
+
+          {label && (
+            <label
+              htmlFor={id}
+              className={cn(
+                "absolute transition-all duration-200 ease-out pointer-events-none select-none flex items-center leading-none",
+                isFloating
+                  ? "top-1.5 -translate-y-1/2 left-3 px-1.5 bg-white text-[11px] sm:text-xs font-bold z-10"
+                  : "top-1/2 -translate-y-1/2 left-4 text-xs sm:text-sm font-normal text-[var(--text-secondary)]",
+                isFloating
+                  ? isOpen
+                    ? "text-[var(--ratiwal-blue)]"
+                    : error
+                    ? "text-red-500"
+                    : "text-[var(--midnight)]"
+                  : "text-[var(--text-secondary)]"
+              )}
+            >
+              <span>{label}</span>
+              {required && isOpen && (
+                <span
+                  className="text-red-500 ml-1 font-bold text-sm leading-none animate-in fade-in duration-200"
+                  aria-hidden="true"
+                >
+                  *
+                </span>
+              )}
+            </label>
+          )}
 
           {/* Floating Custom Menu Overlay */}
           {isOpen && (

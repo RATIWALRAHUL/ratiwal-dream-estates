@@ -25,8 +25,9 @@ const securityHeaders = [
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
+  compress: true,
   experimental: {
-    optimizePackageImports: ["lucide-react", "@hookform/resolvers"],
+    optimizePackageImports: ["lucide-react", "@hookform/resolvers", "date-fns"],
   },
   images: {
     formats: ["image/avif", "image/webp"],

@@ -133,7 +133,7 @@ export function InvestmentThesis() {
               </div>
               <div className="flex items-center gap-2 self-start sm:self-auto">
                 <span className="text-[10.5px] sm:text-[11px] font-semibold px-3 py-1 rounded-full bg-[var(--ratiwal-blue)]/30 text-sky-200 border border-[var(--ratiwal-blue)]/40 flex items-center gap-1.5 shadow-2xs">
-                  <Sparkles size={13} className="text-[var(--cyan)]" /> Statutory Backed Data
+                  <CheckCircle2 size={13} className="text-[var(--cyan)]" /> Statutory Backed Data
                 </span>
               </div>
             </div>

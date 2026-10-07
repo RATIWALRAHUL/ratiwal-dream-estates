@@ -1,5 +1,6 @@
 import { getMetadata } from "@/lib/seo";
-import { locations } from "@/data/locations";
+import { getAllLocations } from "@/lib/data/locations";
+import { getAllProperties } from "@/lib/data/properties";
 import { LocationsHero } from "@/components/locations/LocationsHero";
 import { MarketMap } from "@/components/locations/MarketMap";
 import { LocationDirectory } from "@/components/locations/LocationDirectory";
@@ -16,7 +17,10 @@ export const metadata = getMetadata({
   image: `${siteConfig.url}/images/locations/jaipur.jpg`,
 });
 
-export default function LocationsPage() {
+export const revalidate = 120;
+
+export default async function LocationsPage() {
+  const [locations, properties] = await Promise.all([getAllLocations(), getAllProperties()]);
   // Structured Data (JSON-LD) for CollectionPage and ItemList
   const jsonLd = {
     "@context": "https://schema.org",
@@ -70,19 +74,19 @@ export default function LocationsPage() {
       />
 
       {/* 1. Editorial Location Hero */}
-      <LocationsHero locations={locations} />
+      <LocationsHero locations={locations} totalActiveProperties={properties.length} />
 
       {/* 2. Interactive Market Navigator Map */}
-      <MarketMap locations={locations} />
+      <MarketMap locations={locations} properties={properties} />
 
       {/* 3. Location Directory with Verified Filter State */}
-      <LocationDirectory locations={locations} />
+      <LocationDirectory locations={locations} properties={properties} />
 
       {/* 4. Strategic Micro-Market Context Preview */}
       <MicroMarketPreview locations={locations} />
 
       {/* 5. Side-by-Side Market Comparison Tool */}
-      <LocationComparison locations={locations} />
+      <LocationComparison locations={locations} properties={properties} />
 
       {/* 6. Location Advisory Consultation CTA */}
       <LocationAdvisoryCTA />

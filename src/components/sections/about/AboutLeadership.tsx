@@ -174,7 +174,7 @@ export function AboutLeadership() {
           <div className="lg:col-span-7">
             <Reveal>
               <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 border border-white/15 text-[11px] sm:text-[11.5px] font-bold uppercase tracking-widest text-[var(--cyan)] mb-4">
-                <Sparkles size={14} />
+                <ShieldCheck size={14} />
                 LEADERSHIP &amp; FIDUCIARY ETHOS
               </div>
 

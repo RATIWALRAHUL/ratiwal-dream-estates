@@ -1,8 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { Heart, MapPin, Maximize, MessageCircle } from "lucide-react";
 import { Property } from "@/types/property";
 import { Badge } from "@/components/ui/Badge";
@@ -16,8 +17,17 @@ interface PropertyCardProps {
   property: Property;
 }
 
+import { shouldPrefetch } from "@/lib/utils/network";
+
 export function PropertyCard({ property }: PropertyCardProps) {
+  const router = useRouter();
   const [saved, setSaved] = useState(false);
+
+  const prefetchDetail = useCallback(() => {
+    if (property.slug && shouldPrefetch()) {
+      router.prefetch(`/properties/${property.slug}`);
+    }
+  }, [property.slug, router]);
 
   useEffect(() => {
     const frame = requestAnimationFrame(() =>
@@ -51,7 +61,11 @@ export function PropertyCard({ property }: PropertyCardProps) {
   });
 
   return (
-    <Card className="property-card flex flex-col h-full bg-white border border-[#0B2239]/8 rounded-2xl overflow-hidden shadow-xs hover:shadow-md transition-shadow">
+    <Card
+      onMouseEnter={prefetchDetail}
+      onTouchStart={prefetchDetail}
+      className="property-card flex flex-col h-full bg-white border border-[#0B2239]/8 rounded-2xl overflow-hidden shadow-xs hover:shadow-md transition-shadow"
+    >
       {/* Thumbnail Aspect Container */}
       <div className="relative aspect-[16/10] w-full bg-slate-100 overflow-hidden">
         {property.images[0] ? (

@@ -83,7 +83,8 @@ export async function loginAdminAction(formData: FormData) {
         path: "/",
       });
 
-      await logAuditEvent({
+      // Log audit event asynchronously without blocking the login response
+      void logAuditEvent({
         actor: {
           id: result.account._id.toString(),
           role: result.account.role,
@@ -92,7 +93,7 @@ export async function loginAdminAction(formData: FormData) {
         },
         action: "ADMIN_LOGIN",
         reason: "Administrator successfully signed into Ratiwal Control Center",
-      });
+      }).catch((e) => console.error("Non-fatal audit log error:", e));
 
       return { success: true, requiresMfa: false };
     }

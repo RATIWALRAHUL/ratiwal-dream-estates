@@ -4,9 +4,11 @@ import {
   getAllProperties,
   getPropertyBySlug,
   getRelatedProperties,
-} from "@/data/properties";
+} from "@/lib/data/properties";
 import { PropertyDetailPageClient } from "@/components/property/detail/PropertyDetailPageClient";
 import { siteConfig } from "@/config/site";
+
+export const revalidate = 120;
 
 interface PropertyDetailPageProps {
   params: Promise<{ slug: string }>;
@@ -14,7 +16,7 @@ interface PropertyDetailPageProps {
 
 export async function generateMetadata({ params }: PropertyDetailPageProps) {
   const { slug } = await params;
-  const property = getPropertyBySlug(slug);
+  const property = await getPropertyBySlug(slug);
 
   if (!property) {
     return getMetadata({
@@ -41,21 +43,26 @@ export async function generateMetadata({ params }: PropertyDetailPageProps) {
 }
 
 export async function generateStaticParams() {
-  const properties = getAllProperties();
-  return properties.map((property) => ({
-    slug: property.slug,
-  }));
+  try {
+    const properties = await getAllProperties();
+    return properties.map((property) => ({
+      slug: property.slug,
+    }));
+  } catch {
+    return [];
+  }
 }
 
 export default async function PropertyDetailPage({ params }: PropertyDetailPageProps) {
   const { slug } = await params;
-  const property = getPropertyBySlug(slug);
+  const [property, relatedProperties] = await Promise.all([
+    getPropertyBySlug(slug),
+    getRelatedProperties(slug, 3),
+  ]);
 
   if (!property) {
     notFound();
   }
-
-  const relatedProperties = getRelatedProperties(property.slug, 3);
   const coords = property.coordinates || { latitude: 26.8428, longitude: 75.6415 };
 
   const jsonLd = {

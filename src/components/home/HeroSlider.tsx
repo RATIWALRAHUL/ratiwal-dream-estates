@@ -189,7 +189,7 @@ export function HeroSlider() {
           <div className="hero-left-content">
             {/* Top Eyebrow Badge */}
             <div className="hero-eyebrow-pill">
-              <Sparkles size={13} className="text-[#38bdf8] shrink-0" />
+              <ShieldCheck size={13} className="text-[#38bdf8] shrink-0" />
               <span>Verified Land &amp; Luxury Estates</span>
               <span className="opacity-40 hidden sm:inline">•</span>
               <span className="text-[#a5f3fc] font-normal hidden sm:inline">Jaipur &amp; Navi Mumbai</span>

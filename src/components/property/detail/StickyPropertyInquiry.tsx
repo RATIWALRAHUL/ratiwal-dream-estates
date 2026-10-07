@@ -103,7 +103,7 @@ export function StickyPropertyInquiry({
             <span>Direct Landowner &amp; Developer Rates</span>
           </div>
           <div className="flex items-center gap-2">
-            <Sparkles className="w-3.5 h-3.5 text-[#52BDE9] flex-shrink-0" />
+            <CheckCircle2 className="w-3.5 h-3.5 text-[#52BDE9] flex-shrink-0" />
             <span>On-Site Escort &amp; Boundary Demarcation</span>
           </div>
         </div>

@@ -1,21 +1,42 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { ArrowRight, Menu, MessageCircle, X } from "lucide-react";
+import { ArrowRight, ChevronDown, MapPin, Menu, MessageCircle, Sparkles, X } from "lucide-react";
 import { siteConfig } from "@/config/site";
 import { navigationConfig } from "@/config/navigation";
 import { generateWhatsAppUrl } from "@/lib/whatsapp";
 import { cn } from "@/lib/utils";
+import { useLocations } from "@/lib/hooks/useLocations";
 import MobileNavigation from "./MobileNavigation";
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isLocationDropdownOpen, setIsLocationDropdownOpen] = useState(false);
+  const locationDropdownTimeout = useRef<NodeJS.Timeout | null>(null);
   const pathname = usePathname();
+  const { locations: dbLocations } = useLocations();
   const closeMobileNav = useCallback(() => setIsOpen(false), []);
+
+  useEffect(() => {
+    setIsLocationDropdownOpen(false);
+  }, [pathname]);
+
+  const handleLocationMouseEnter = () => {
+    if (locationDropdownTimeout.current) {
+      clearTimeout(locationDropdownTimeout.current);
+    }
+    setIsLocationDropdownOpen(true);
+  };
+
+  const handleLocationMouseLeave = () => {
+    locationDropdownTimeout.current = setTimeout(() => {
+      setIsLocationDropdownOpen(false);
+    }, 150);
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -72,9 +93,122 @@ export default function Header() {
           </Link>
 
           {/* Desktop Navigation Link Lists */}
-          <nav className="hidden xl:flex nav-links my-auto" aria-label="Main Navigation">
+          <nav className="hidden xl:flex nav-links my-auto items-center" aria-label="Main Navigation">
             {navigationConfig.mainNav.filter((link) => ["Home", "Properties", "Locations", "Investment", "About Us", "Contact"].includes(link.label)).map((link) => {
-              const isActive = pathname === link.href;
+              const isLocationsLink = link.label === "Locations";
+              const isActive = pathname === link.href || (isLocationsLink && pathname.startsWith("/locations"));
+
+              if (isLocationsLink) {
+                return (
+                  <div
+                    key={link.href}
+                    className="relative group my-auto"
+                    onMouseEnter={handleLocationMouseEnter}
+                    onMouseLeave={handleLocationMouseLeave}
+                  >
+                    <Link
+                      href={link.href}
+                      className={cn(
+                        "nav-link inline-flex items-center gap-1 cursor-pointer",
+                        isActive && "active"
+                      )}
+                      aria-expanded={isLocationDropdownOpen}
+                      aria-haspopup="true"
+                    >
+                      <span>{link.label}</span>
+                      <ChevronDown
+                        size={13}
+                        className={cn(
+                          "transition-transform duration-200 text-current opacity-70",
+                          isLocationDropdownOpen && "rotate-180 opacity-100"
+                        )}
+                      />
+                    </Link>
+
+                    {/* Dynamic DB Locations Dropdown Menu */}
+                    <div
+                      className={cn(
+                        "absolute top-[calc(100%+8px)] left-1/2 -translate-x-1/2 w-[300px] bg-white rounded-2xl border border-[rgba(7,26,40,0.1)] shadow-[0_18px_45px_rgba(7,26,40,0.14)] p-2 transition-all duration-200 z-50",
+                        isLocationDropdownOpen
+                          ? "opacity-100 visible translate-y-0 pointer-events-auto"
+                          : "opacity-0 invisible -translate-y-2 pointer-events-none"
+                      )}
+                      role="menu"
+                    >
+                      {/* Dropdown Header */}
+                      <div className="px-3 py-2 border-b border-slate-100 flex items-center justify-between">
+                        <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
+                          Markets & Corridors
+                        </span>
+                        <Link
+                          href="/locations"
+                          className="text-[11px] font-bold text-[#087fc3] hover:underline inline-flex items-center gap-0.5"
+                          onClick={() => setIsLocationDropdownOpen(false)}
+                        >
+                          <span>All</span>
+                          <ArrowRight size={11} />
+                        </Link>
+                      </div>
+
+                      {/* DB Locations List */}
+                      <div className="py-1 max-h-[300px] overflow-y-auto space-y-0.5">
+                        {dbLocations.length > 0 ? (
+                          dbLocations.map((loc) => {
+                            const isCurrent = pathname === `/locations/${loc.slug}`;
+                            return (
+                              <Link
+                                key={loc.id || loc.slug}
+                                href={`/locations/${loc.slug}`}
+                                onClick={() => setIsLocationDropdownOpen(false)}
+                                className={cn(
+                                  "flex items-start gap-2.5 px-3 py-2 rounded-xl text-left transition-colors",
+                                  isCurrent
+                                    ? "bg-sky-50 text-[#087fc3]"
+                                    : "hover:bg-slate-50 text-slate-800"
+                                )}
+                                role="menuitem"
+                              >
+                                <div className="w-6 h-6 rounded-lg bg-sky-50 text-[#087fc3] flex items-center justify-center shrink-0 mt-0.5">
+                                  <MapPin size={13} />
+                                </div>
+                                <div className="min-w-0 flex-1">
+                                  <div className="text-xs font-bold text-slate-900 truncate">
+                                    {loc.name}
+                                  </div>
+                                  <div className="text-[10px] text-slate-500 truncate">
+                                    {loc.city ? `${loc.city}, ${loc.state}` : loc.state || "Prime Corridor"}
+                                  </div>
+                                </div>
+                              </Link>
+                            );
+                          })
+                        ) : (
+                          <Link
+                            href="/locations"
+                            onClick={() => setIsLocationDropdownOpen(false)}
+                            className="block px-3 py-2 text-xs text-slate-600 hover:bg-slate-50 rounded-xl"
+                          >
+                            Explore Operating Corridors
+                          </Link>
+                        )}
+                      </div>
+
+                      {/* Dropdown Footer CTA */}
+                      <div className="pt-1.5 mt-1 border-t border-slate-100">
+                        <Link
+                          href="/locations"
+                          onClick={() => setIsLocationDropdownOpen(false)}
+                          className="w-full flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl text-[11px] font-bold bg-[#071a28] text-white hover:bg-[#0c2c44] transition-colors"
+                        >
+                          <MapPin size={12} className="text-[#38bdf8]" />
+                          <span>Explore All Verified Markets</span>
+                        </Link>
+                      </div>
+                    </div>
+                  </div>
+                );
+              }
+
               return (
                 <Link
                   key={link.href}

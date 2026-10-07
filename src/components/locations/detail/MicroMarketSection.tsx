@@ -1,14 +1,14 @@
 import Link from "next/link";
 import { Compass, ShieldCheck, MapPin, ArrowRight } from "lucide-react";
 import { Location } from "@/types/location";
-import { getPropertiesForLocation } from "@/data/locations";
+import type { Property } from "@/types/property";
 
 interface MicroMarketSectionProps {
   location: Location;
+  allLocationProperties: Property[];
 }
 
-export function MicroMarketSection({ location }: MicroMarketSectionProps) {
-  const allLocationProperties = getPropertiesForLocation(location.name);
+export function MicroMarketSection({ location, allLocationProperties }: MicroMarketSectionProps) {
 
   return (
     <section

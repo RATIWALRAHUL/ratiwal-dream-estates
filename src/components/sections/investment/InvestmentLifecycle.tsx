@@ -8,7 +8,7 @@ import {
   Scale, 
   CheckCircle2, 
   ArrowRight,
-  Sparkles
+  ShieldCheck
 } from "lucide-react";
 import { Reveal } from "@/components/home/Reveal";
 
@@ -62,7 +62,7 @@ export function InvestmentLifecycle() {
         <div className="max-w-3xl mx-auto text-center mb-10 sm:mb-14">
           <Reveal>
             <div className="inline-flex items-center justify-center gap-1.5 px-3.5 py-1 rounded-full bg-[var(--advisor-ivory)] border border-[rgba(8,127,195,0.2)] shadow-2xs mb-3">
-              <Sparkles size={13} className="text-[var(--ratiwal-blue)] flex-shrink-0" />
+              <ShieldCheck size={13} className="text-[var(--ratiwal-blue)] flex-shrink-0" />
               <span className="text-[10px] sm:text-[11.5px] font-bold tracking-[0.14em] uppercase text-[var(--ratiwal-blue)]">
                 DISCIPLINED PROCESS
               </span>

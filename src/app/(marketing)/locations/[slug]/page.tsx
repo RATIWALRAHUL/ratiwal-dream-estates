@@ -1,6 +1,8 @@
 import { notFound } from "next/navigation";
 import { getMetadata } from "@/lib/seo";
-import { locations, getLocationBySlug, getPropertiesForLocation } from "@/data/locations";
+import { getAllLocations, getLocationBySlug } from "@/lib/data/locations";
+import { getAllProperties } from "@/lib/data/properties";
+import { getPropertiesForLocation } from "@/lib/utils/location-stats";
 import { LocationDetailHero } from "@/components/locations/detail/LocationDetailHero";
 import { LocationOverview } from "@/components/locations/detail/LocationOverview";
 import { MicroMarketSection } from "@/components/locations/detail/MicroMarketSection";
@@ -19,7 +21,7 @@ interface LocationPageProps {
 
 export async function generateMetadata({ params }: LocationPageProps) {
   const { slug } = await params;
-  const location = getLocationBySlug(slug);
+  const location = await getLocationBySlug(slug);
 
   if (!location) {
     return getMetadata({
@@ -38,21 +40,33 @@ export async function generateMetadata({ params }: LocationPageProps) {
 
 // Generate static routes at build time for all known locations
 export async function generateStaticParams() {
-  return locations.map((loc) => ({
-    slug: loc.slug,
-  }));
+  try {
+    const locations = await getAllLocations();
+    return locations.map((loc) => ({
+      slug: loc.slug,
+    }));
+  } catch {
+    return [];
+  }
 }
+
+export const revalidate = 120;
 
 export default async function LocationDetailPage({ params }: LocationPageProps) {
   const { slug } = await params;
-  const location = getLocationBySlug(slug);
+  
+  // Parallel fetch: remove waterfall
+  const [location, allProperties] = await Promise.all([
+    getLocationBySlug(slug),
+    getAllProperties(),
+  ]);
 
   if (!location) {
     notFound();
   }
 
   // Filter properties for this specific location
-  const regionalProperties = getPropertiesForLocation(location.name);
+  const regionalProperties = getPropertiesForLocation(allProperties, location.name);
 
   // Structured Data (JSON-LD) for Place & ItemList
   const jsonLd = {
@@ -121,13 +135,13 @@ export default async function LocationDetailPage({ params }: LocationPageProps) 
       />
 
       {/* 1. Location Detail Hero */}
-      <LocationDetailHero location={location} />
+      <LocationDetailHero location={location} propertyCount={regionalProperties.length} />
 
       {/* 2. Market Overview & Buyer Profiles */}
       <LocationOverview location={location} />
 
       {/* 3. Micro-Markets Section */}
-      <MicroMarketSection location={location} />
+      <MicroMarketSection location={location} allLocationProperties={regionalProperties} />
 
       {/* 4. Infrastructure Milestones Timeline */}
       <InfrastructureTimeline infrastructure={location.infrastructure} locationName={location.name} />

@@ -295,6 +295,11 @@ PropertySchema.pre("validate", function () {
 });
 
 // Compound query indexes
+PropertySchema.index({ publicationStatus: 1, sortOrder: 1, createdAt: -1 });
+PropertySchema.index({ publicationStatus: 1, featured: 1, sortOrder: 1, createdAt: -1 });
+PropertySchema.index({ slug: 1, publicationStatus: 1 });
+PropertySchema.index({ publicationStatus: 1, locationId: 1, sortOrder: 1 });
+PropertySchema.index({ publicationStatus: 1, propertyType: 1, sortOrder: 1 });
 PropertySchema.index({ publicationStatus: 1, listingStatus: 1, publishedAt: -1 });
 PropertySchema.index({ publicationStatus: 1, updatedAt: -1 });
 PropertySchema.index({ locationId: 1, publicationStatus: 1, listingStatus: 1 });

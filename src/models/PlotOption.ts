@@ -111,6 +111,7 @@ PlotOptionSchema.virtual("rateRupeesPerSqFt").get(function () {
 });
 
 // Compound Indexes
+PlotOptionSchema.index({ propertyId: 1, publiclyVisible: 1, sortOrder: 1 });
 PlotOptionSchema.index({ propertyId: 1, status: 1, sortOrder: 1 });
 PlotOptionSchema.index({ propertyId: 1, plotNumber: 1 }, { unique: true, sparse: true });
 PlotOptionSchema.index({ propertyId: 1, areaSqFt: 1 });

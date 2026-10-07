@@ -20,6 +20,7 @@ import {
 import { siteConfig } from "@/config/site";
 import { navigationConfig } from "@/config/navigation";
 import { generateWhatsAppUrl } from "@/lib/whatsapp";
+import { useLocations } from "@/lib/hooks/useLocations";
 
 // Clean custom social SVGs
 function InstagramIcon({ className = "w-4 h-4" }: { className?: string }) {
@@ -45,6 +46,7 @@ function LinkedinIcon({ className = "w-4 h-4" }: { className?: string }) {
 export default function Footer() {
   const [newsletterEmail, setNewsletterEmail] = useState("");
   const [newsletterStatus, setNewsletterStatus] = useState<"idle" | "success">("idle");
+  const { locations: dbLocations } = useLocations();
 
   const handleNewsletterSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -91,7 +93,7 @@ export default function Footer() {
     <footer className="w-full bg-white border-t border-slate-200/90 text-slate-700 relative z-10" aria-label="Site footer">
       {/* Top Trust & Value Strip */}
       <div className="border-b border-slate-100 bg-slate-50/70">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="w-[calc(100%-52px)] sm:w-[calc(100%-68px)] max-w-[1300px] mx-auto px-0 py-8">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {trustHighlights.map((item, index) => {
               const Icon = item.icon;
@@ -119,7 +121,7 @@ export default function Footer() {
       </div>
 
       {/* Main Footer Content */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-14 pb-12">
+      <div className="w-[calc(100%-52px)] sm:w-[calc(100%-68px)] max-w-[1300px] mx-auto px-0 pt-14 pb-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-8">
           {/* Col 1: Brand & Overview (4 cols on lg) */}
           <div className="lg:col-span-4 flex flex-col justify-between">
@@ -242,29 +244,52 @@ export default function Footer() {
               Locations & Plots
             </h3>
             <ul className="space-y-2.5 text-sm">
-              {navigationConfig.footerNav.properties.map((link) => (
-                <li key={link.href}>
-                  <Link
-                    href={link.href}
-                    className="text-slate-600 hover:text-[#087fc3] hover:translate-x-1 inline-flex items-center gap-1.5 transition-all duration-200 group"
-                  >
-                    <span className="text-slate-300 group-hover:text-[#087fc3]">›</span>
-                    <span>{link.label}</span>
-                  </Link>
-                </li>
-              ))}
-              <li>
-                <Link
-                  href="/locations/ajmer"
-                  className="text-slate-600 hover:text-[#087fc3] hover:translate-x-1 inline-flex items-center gap-1.5 transition-all duration-200"
-                >
-                  <span className="text-slate-300">›</span>
-                  Ajmer Road Expressway
-                </Link>
-              </li>
               <li>
                 <Link
                   href="/properties"
+                  className="text-slate-600 hover:text-[#087fc3] hover:translate-x-1 inline-flex items-center gap-1.5 transition-all duration-200 group"
+                >
+                  <span className="text-slate-300 group-hover:text-[#087fc3]">›</span>
+                  <span>All Properties</span>
+                </Link>
+              </li>
+              {dbLocations && dbLocations.length > 0 ? (
+                dbLocations.slice(0, 5).map((loc) => (
+                  <li key={loc.id || loc.slug}>
+                    <Link
+                      href={`/locations/${loc.slug}`}
+                      className="text-slate-600 hover:text-[#087fc3] hover:translate-x-1 inline-flex items-center gap-1.5 transition-all duration-200 group"
+                    >
+                      <span className="text-slate-300 group-hover:text-[#087fc3]">›</span>
+                      <span>{loc.name}</span>
+                    </Link>
+                  </li>
+                ))
+              ) : (
+                <>
+                  <li>
+                    <Link
+                      href="/locations/jaipur"
+                      className="text-slate-600 hover:text-[#087fc3] hover:translate-x-1 inline-flex items-center gap-1.5 transition-all duration-200 group"
+                    >
+                      <span className="text-slate-300 group-hover:text-[#087fc3]">›</span>
+                      <span>Jaipur Growth Corridors</span>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      href="/locations/navi-mumbai"
+                      className="text-slate-600 hover:text-[#087fc3] hover:translate-x-1 inline-flex items-center gap-1.5 transition-all duration-200 group"
+                    >
+                      <span className="text-slate-300 group-hover:text-[#087fc3]">›</span>
+                      <span>Navi Mumbai & Panvel</span>
+                    </Link>
+                  </li>
+                </>
+              )}
+              <li>
+                <Link
+                  href="/locations"
                   className="text-slate-600 hover:text-[#087fc3] hover:translate-x-1 inline-flex items-center gap-1.5 transition-all duration-200 font-medium text-[#087fc3]"
                 >
                   <span className="text-[#087fc3]">→</span>
@@ -348,7 +373,7 @@ export default function Footer() {
         <div className="mt-12 p-6 sm:p-8 rounded-2xl bg-gradient-to-r from-slate-50 via-sky-50/40 to-slate-50 border border-slate-200/80 flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="max-w-xl text-center md:text-left">
             <div className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-[#087fc3] mb-1">
-              <Sparkles className="w-3.5 h-3.5" />
+              <Mail className="w-3.5 h-3.5" />
               <span>Property Opportunities Newsletter</span>
             </div>
             <h4 className="text-base sm:text-lg font-bold text-slate-900">
@@ -373,7 +398,7 @@ export default function Footer() {
                   placeholder="Enter your email address"
                   value={newsletterEmail}
                   onChange={(e) => setNewsletterEmail(e.target.value)}
-                  className="px-4 py-2.5 text-xs bg-white border border-slate-300 rounded-xl text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-[#087fc3] focus:ring-2 focus:ring-[#087fc3]/20 transition-all min-w-[240px]"
+                  className="px-4 py-2.5 text-xs bg-white border border-[#087fc3] rounded-xl text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-[#087fc3] shadow-none transition-all min-w-[240px]"
                 />
                 <button
                   type="submit"
@@ -390,7 +415,7 @@ export default function Footer() {
 
       {/* Bottom Copyright & Legal Links */}
       <div className="border-t border-slate-200/90 bg-slate-50/90 py-6">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+        <div className="w-[calc(100%-52px)] sm:w-[calc(100%-68px)] max-w-[1300px] mx-auto px-0 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-500">
           <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-4 text-center sm:text-left">
             <p>© {new Date().getFullYear()} {siteConfig.name}. All rights reserved.</p>
             <span className="hidden sm:inline text-slate-300">•</span>

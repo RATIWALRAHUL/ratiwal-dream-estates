@@ -300,7 +300,8 @@ export function EmbeddedSiteVisit({ property }: EmbeddedSiteVisitProps) {
                       value={selectedDate}
                       min={new Date().toISOString().split("T")[0]}
                       onChange={(e) => setSelectedDate(e.target.value)}
-                      className="w-full px-3 py-2 rounded-xl bg-[rgba(255,255,255,0.08)] border border-[rgba(255,255,255,0.15)] text-white text-xs focus:outline-none focus:ring-2 focus:ring-[#52BDE9]"
+                      className="w-full px-3 py-2 rounded-xl bg-[rgba(255,255,255,0.08)] border border-[rgba(255,255,255,0.14)] hover:border-[rgba(255,255,255,0.25)] focus:border-[#087fc3] text-white text-xs outline-none focus:outline-none shadow-none transition-colors"
+                      style={{ outline: "none", boxShadow: "none" }}
                     />
                   </div>
 
@@ -350,9 +351,10 @@ export function EmbeddedSiteVisit({ property }: EmbeddedSiteVisitProps) {
                     placeholder="e.g. Vikram Sharma"
                     className={`w-full px-4 py-2.5 rounded-xl bg-[rgba(255,255,255,0.08)] border ${
                       serverErrors.fullName || serverErrors.name
-                        ? "border-red-400 ring-1 ring-red-400"
-                        : "border-[rgba(255,255,255,0.15)]"
-                    } text-white text-sm focus:outline-none focus:ring-2 focus:ring-[#52BDE9]`}
+                        ? "border-red-400 focus:border-red-400"
+                        : "border-[rgba(255,255,255,0.14)] hover:border-[rgba(255,255,255,0.25)] focus:border-[#087fc3]"
+                    } text-white text-sm outline-none focus:outline-none shadow-none transition-colors`}
+                    style={{ outline: "none", boxShadow: "none" }}
                     {...register("fullName", {
                       onChange: () => {
                         clearFieldError("fullName");
@@ -377,9 +379,10 @@ export function EmbeddedSiteVisit({ property }: EmbeddedSiteVisitProps) {
                     placeholder="+91 98765 43210"
                     className={`w-full px-4 py-2.5 rounded-xl bg-[rgba(255,255,255,0.08)] border ${
                       serverErrors.phone
-                        ? "border-red-400 ring-1 ring-red-400"
-                        : "border-[rgba(255,255,255,0.15)]"
-                    } text-white text-sm focus:outline-none focus:ring-2 focus:ring-[#52BDE9]`}
+                        ? "border-red-400 focus:border-red-400"
+                        : "border-[rgba(255,255,255,0.14)] hover:border-[rgba(255,255,255,0.25)] focus:border-[#087fc3]"
+                    } text-white text-sm outline-none focus:outline-none shadow-none transition-colors`}
+                    style={{ outline: "none", boxShadow: "none" }}
                     {...register("phone", {
                       onChange: () => clearFieldError("phone"),
                     })}
@@ -404,9 +407,10 @@ export function EmbeddedSiteVisit({ property }: EmbeddedSiteVisitProps) {
                     placeholder="name@domain.com"
                     className={`w-full px-4 py-2.5 rounded-xl bg-[rgba(255,255,255,0.08)] border ${
                       serverErrors.email
-                        ? "border-red-400 ring-1 ring-red-400"
-                        : "border-[rgba(255,255,255,0.15)]"
-                    } text-white text-sm focus:outline-none focus:ring-2 focus:ring-[#52BDE9]`}
+                        ? "border-red-400 focus:border-red-400"
+                        : "border-[rgba(255,255,255,0.14)] hover:border-[rgba(255,255,255,0.25)] focus:border-[#087fc3]"
+                    } text-white text-sm outline-none focus:outline-none shadow-none transition-colors`}
+                    style={{ outline: "none", boxShadow: "none" }}
                     {...register("email", {
                       onChange: () => clearFieldError("email"),
                     })}
@@ -428,7 +432,8 @@ export function EmbeddedSiteVisit({ property }: EmbeddedSiteVisitProps) {
                     min={1}
                     max={10}
                     defaultValue={1}
-                    className="w-full px-4 py-2.5 rounded-xl bg-[rgba(255,255,255,0.08)] border border-[rgba(255,255,255,0.15)] text-white text-sm font-mono focus:outline-none focus:ring-2 focus:ring-[#52BDE9]"
+                    className="w-full px-4 py-2.5 rounded-xl bg-[rgba(255,255,255,0.08)] border border-[rgba(255,255,255,0.14)] hover:border-[rgba(255,255,255,0.25)] focus:border-[#087fc3] text-white text-sm font-mono outline-none focus:outline-none shadow-none transition-colors"
+                    style={{ outline: "none", boxShadow: "none" }}
                     {...register("visitorCount", {
                       valueAsNumber: true,
                       onChange: () => clearFieldError("visitorCount"),
@@ -444,7 +449,8 @@ export function EmbeddedSiteVisit({ property }: EmbeddedSiteVisitProps) {
                 <textarea
                   rows={2}
                   placeholder="e.g. Interested in East-facing villa plots, requesting revenue search review."
-                  className="w-full px-4 py-2 rounded-xl bg-[rgba(255,255,255,0.08)] border border-[rgba(255,255,255,0.15)] text-white text-sm focus:outline-none focus:ring-2 focus:ring-[#52BDE9]"
+                  className="w-full px-4 py-2 rounded-xl bg-[rgba(255,255,255,0.08)] border border-[rgba(255,255,255,0.14)] hover:border-[rgba(255,255,255,0.25)] focus:border-[#087fc3] text-white text-sm outline-none focus:outline-none shadow-none transition-colors"
+                  style={{ outline: "none", boxShadow: "none" }}
                   {...register("message", {
                     onChange: () => clearFieldError("message"),
                   })}

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useId } from "react";
+import React, { useId, useState } from "react";
 import { Phone } from "lucide-react";
 
 interface PhoneInputProps {
@@ -11,6 +11,7 @@ interface PhoneInputProps {
   onPhoneChange: (phone: string) => void;
   error?: string;
   required?: boolean;
+  disabled?: boolean;
 }
 
 const COUNTRY_CODES = [
@@ -28,23 +29,26 @@ export function PhoneInput({
   onPhoneChange,
   error,
   required = true,
+  disabled = false,
 }: PhoneInputProps) {
   const id = useId();
   const errorId = `${id}-error`;
+  const [isFocused, setIsFocused] = useState(false);
 
   return (
     <div className="space-y-1.5 w-full text-left">
       <label htmlFor={id} className="block text-xs font-bold text-[#071a28]">
-        {label} {required && <span className="text-rose-500">*</span>}
+        {label} {required && isFocused && <span className="text-rose-500 font-bold ml-0.5 animate-in fade-in duration-200">*</span>}
       </label>
 
-      <div className="flex rounded-2xl border border-[rgba(7,26,40,0.12)] bg-[#fcfbf9] overflow-hidden focus-within:border-[#0088cc] focus-within:bg-white focus-within:ring-2 focus-within:ring-[#0088cc]/20 transition-all">
+      <div className={`flex rounded-2xl border border-[rgba(7,26,40,0.12)] bg-[#fcfbf9] overflow-hidden focus-within:border-[#0088cc] focus-within:bg-white shadow-none transition-all ${disabled ? "opacity-60 cursor-not-allowed" : ""}`}>
         {/* Country Code Select */}
         <select
           value={countryCode}
+          disabled={disabled}
           onChange={(e) => onCountryCodeChange(e.target.value)}
           aria-label="Country calling code"
-          className="bg-stone-100/70 border-r border-[rgba(7,26,40,0.1)] px-2.5 py-2.5 sm:py-3 text-xs sm:text-sm font-semibold text-[#071a28] focus:outline-hidden cursor-pointer"
+          className="bg-stone-100/70 border-r border-[rgba(7,26,40,0.1)] px-2.5 py-2.5 sm:py-3 text-xs sm:text-sm font-semibold text-[#071a28] focus:outline-hidden cursor-pointer disabled:cursor-not-allowed"
         >
           {COUNTRY_CODES.map((c) => (
             <option key={c.code} value={c.code}>
@@ -60,15 +64,18 @@ export function PhoneInput({
             id={id}
             type="tel"
             required={required}
+            disabled={disabled}
             value={phone}
             onChange={(e) => {
               const cleaned = e.target.value.replace(/[^0-9\s\-]/g, "");
               onPhoneChange(cleaned);
             }}
+            onFocus={() => setIsFocused(true)}
+            onBlur={() => setIsFocused(false)}
             placeholder="98290 12345"
             aria-invalid={Boolean(error)}
             aria-describedby={error ? errorId : undefined}
-            className="w-full pl-9 pr-3.5 py-2.5 sm:py-3 text-xs sm:text-sm bg-transparent border-0 text-[#071a28] placeholder-stone-400 focus:outline-hidden"
+            className="w-full pl-9 pr-3.5 py-2.5 sm:py-3 text-xs sm:text-sm bg-transparent border-0 text-[#071a28] placeholder-stone-400 focus:outline-hidden disabled:cursor-not-allowed"
           />
         </div>
       </div>

@@ -12,6 +12,7 @@ import {
 import { CmsSlugService } from "./cms-slug.service";
 import { CmsSanitizerService } from "./cms-sanitizer.service";
 import { logAuditEvent } from "./audit.service";
+import { invalidateLocationCache } from "@/lib/data/locations";
 
 export interface SaveCmsDraftInput {
   entryId?: string;
@@ -201,6 +202,7 @@ export class CmsPublishingService {
     } else if (entry.contentType === "LOCATION_PAGE") {
       revalidatePath(`/locations`);
       revalidatePath(`/locations/${entry.slug}`);
+      invalidateLocationCache(entry.slug);
     } else {
       revalidatePath(`/${entry.slug}`);
     }

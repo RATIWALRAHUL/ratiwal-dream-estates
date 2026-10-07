@@ -56,7 +56,7 @@ export function VerificationTimeline() {
 
               {/* Progress summary badge */}
               <div className="hidden lg:flex items-center gap-3 p-3 rounded-xl bg-[var(--surface)] border border-[rgba(7,26,40,0.06)]">
-                <Sparkles size={16} className="text-[var(--ratiwal-blue)]" />
+                <ShieldCheck size={16} className="text-[var(--ratiwal-blue)]" />
                 <span className="text-xs font-bold text-[var(--midnight)]">
                   Step {activeStep + 1} of {verificationProtocol.steps.length}: {verificationProtocol.steps[activeStep].title}
                 </span>
