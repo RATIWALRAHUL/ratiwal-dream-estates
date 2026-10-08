@@ -16,7 +16,7 @@ export function PropertiesHero() {
   ];
 
   return (
-    <section className="relative pt-20 sm:pt-22 md:pt-24 pb-6 sm:pb-12 overflow-hidden" aria-labelledby="properties-hero-title">
+    <section className="relative pt-28 sm:pt-32 md:pt-36 pb-6 sm:pb-12 overflow-hidden" aria-labelledby="properties-hero-title">
       {/* Background Glow */}
       <div className="absolute inset-0 pointer-events-none -z-10 overflow-hidden">
         <div className="absolute -top-[10%] left-1/2 -translate-x-1/2 w-[1000px] h-[400px] bg-[radial-gradient(ellipse_at_center,rgba(66,183,232,0.12),transparent_70%)] blur-3xl" />

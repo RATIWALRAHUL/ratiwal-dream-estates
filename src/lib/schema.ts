@@ -149,8 +149,8 @@ export function buildRealEstateListingSchema(property: Property) {
     dateModified: property.updatedAt,
     category: property.propertyType,
     image: property.images && property.images.length > 0
-      ? property.images.map((img) => `${siteConfig.url}${img}`)
-      : [`${siteConfig.url}/images/about/township-development.jpg`],
+      ? property.images.map((img) => (img.startsWith("http") ? img : `${siteConfig.url}${img}`))
+      : [`${siteConfig.url}/opengraph-image.png`],
     place: {
       "@type": "Place",
       name: property.name,

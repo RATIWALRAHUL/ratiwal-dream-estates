@@ -56,30 +56,42 @@ export function PropertyFAQ({ property }: PropertyFAQProps) {
           </h2>
         </div>
 
-        <div className="space-y-2.5 sm:space-y-3">
+        <div className="space-y-3">
           {faqs.map((faq, idx) => {
             const isOpen = openIndex === idx;
             return (
               <div
                 key={idx}
-                className="rounded-xl sm:rounded-2xl border border-[rgba(7,26,40,0.08)] bg-[#F5F1E9] overflow-hidden transition-colors"
+                className={`rounded-2xl border transition-all duration-300 overflow-hidden ${
+                  isOpen
+                    ? "bg-white border-[rgba(7,132,200,0.35)] shadow-[0_4px_16px_rgba(7,132,200,0.06)]"
+                    : "bg-white border-[rgba(7,26,40,0.08)] shadow-xs hover:border-[rgba(7,132,200,0.25)] hover:shadow-sm"
+                }`}
               >
                 <button
                   type="button"
                   onClick={() => toggle(idx)}
-                  className="w-full p-3.5 sm:p-5 text-left flex items-center justify-between gap-3 sm:gap-4 font-heading text-xs sm:text-sm md:text-base font-bold text-[#031C2B] hover:text-[#0784C8] transition-colors focus-visible:outline"
+                  className="w-full p-4 sm:p-5 text-left flex items-center justify-between gap-4 font-semibold text-sm sm:text-base text-[#031C2B] hover:text-[#0784C8] transition-colors focus-visible:outline-none"
                   aria-expanded={isOpen}
                 >
-                  <span>{faq.q}</span>
-                  <ChevronDown
-                    className={`w-4 h-4 text-[#667d8f] flex-shrink-0 transition-transform duration-200 ${
-                      isOpen ? "rotate-180 text-[#0784C8]" : ""
+                  <span className="leading-snug">{faq.q}</span>
+                  <div
+                    className={`w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 transition-all duration-300 ${
+                      isOpen
+                        ? "bg-[rgba(7,132,200,0.12)] text-[#0784C8]"
+                        : "bg-[rgba(7,26,40,0.04)] text-[#667d8f]"
                     }`}
-                  />
+                  >
+                    <ChevronDown
+                      className={`w-4 h-4 transition-transform duration-300 ${
+                        isOpen ? "rotate-180 text-[#0784C8]" : ""
+                      }`}
+                    />
+                  </div>
                 </button>
 
                 {isOpen && (
-                  <div className="px-5 pb-5 pt-1 text-xs sm:text-sm text-[#4a6171] leading-relaxed border-t border-[rgba(7,26,40,0.04)]">
+                  <div className="px-4 sm:px-5 pb-5 pt-1 text-xs sm:text-sm text-[#4a6171] leading-relaxed border-t border-[rgba(7,26,40,0.04)] animate-fadeIn">
                     <p>{faq.a}</p>
                   </div>
                 )}

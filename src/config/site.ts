@@ -11,7 +11,7 @@ export const siteConfig = {
   contact: {
     phone: process.env.NEXT_PUBLIC_BUSINESS_PHONE || "+91-9929533436",
     whatsapp: process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "+91-9929533436",
-    email: process.env.NEXT_PUBLIC_BUSINESS_EMAIL || "info@ratiwaldreamestates.com",
+    email: process.env.NEXT_PUBLIC_BUSINESS_EMAIL || "sureshkumawat6917@gmail.com",
     address: "Jaipur, Rajasthan, India",
     officeHours: "10:00 AM - 7:00 PM (IST)",
   },

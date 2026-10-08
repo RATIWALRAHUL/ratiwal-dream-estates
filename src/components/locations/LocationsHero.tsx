@@ -25,7 +25,7 @@ export function LocationsHero({ locations, totalActiveProperties }: LocationsHer
   ];
 
   return (
-    <section className="relative pt-20 sm:pt-22 md:pt-24 pb-10 sm:pb-14 overflow-hidden" aria-labelledby="locations-hero-heading">
+    <section className="relative pt-28 sm:pt-32 md:pt-36 pb-10 sm:pb-14 overflow-hidden" aria-labelledby="locations-hero-heading">
       {/* Subtle Background Radial Glow */}
       <div className="absolute inset-0 pointer-events-none -z-10 overflow-hidden">
         <div className="absolute -top-[10%] left-1/2 -translate-x-1/2 w-[1000px] h-[400px] bg-[radial-gradient(ellipse_at_center,rgba(66,183,232,0.12),transparent_70%)] blur-3xl" />
@@ -39,10 +39,10 @@ export function LocationsHero({ locations, totalActiveProperties }: LocationsHer
         {/* Hero Title & Subheading */}
         <div className="max-w-4xl mx-auto text-center mb-10 sm:mb-12">
           <Reveal>
-            <div className="inline-flex items-center justify-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1.5 rounded-full bg-[var(--advisor-ivory)] border border-[rgba(8,127,195,0.2)] shadow-xs mb-4 max-w-full">
-              <Compass size={14} className="text-[var(--ratiwal-blue)] flex-shrink-0" />
-              <span className="text-[10px] xs:text-[11px] sm:text-[12.5px] font-bold tracking-[0.06em] xs:tracking-[0.1em] sm:tracking-[0.16em] uppercase text-[var(--ratiwal-blue)] font-body whitespace-nowrap leading-none">
-                VERIFIED REGIONAL CORRIDORS &amp; MICRO-MARKETS
+            <div className="inline-flex items-center justify-center gap-1.5 sm:gap-2 px-3.5 py-1.5 rounded-full bg-sky-50 border border-sky-100/80 mb-4 max-w-full">
+              <MapPin size={13} className="text-[#087fc3] flex-shrink-0" />
+              <span className="text-xs font-semibold text-[#087fc3] whitespace-nowrap">
+                Rajasthan &amp; Maharashtra Property Corridors
               </span>
             </div>
           </Reveal>
@@ -50,10 +50,10 @@ export function LocationsHero({ locations, totalActiveProperties }: LocationsHer
           <Reveal delay={100}>
             <h1
               id="locations-hero-heading"
-              className="font-instrument text-[2.75rem] sm:text-[3.6rem] md:text-[4.4rem] lg:text-[4.8rem] text-[var(--midnight)] font-normal leading-[1.02] tracking-tight mb-5"
+              className="font-instrument text-[2.75rem] sm:text-[3.6rem] md:text-[4.4rem] lg:text-[4.8rem] text-[var(--midnight)] font-normal leading-[1.05] tracking-tight mb-5"
             >
-              Property opportunities{" "}
-              <span className="italic text-[var(--ratiwal-blue)]">shaped by location.</span>
+              Prime Locations &amp;{" "}
+              <span className="italic text-[var(--ratiwal-blue)]">Township Hubs</span>
             </h1>
           </Reveal>
 

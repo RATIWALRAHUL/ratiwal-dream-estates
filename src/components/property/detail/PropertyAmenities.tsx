@@ -52,7 +52,7 @@ export function PropertyAmenities({ amenities, propertyName }: PropertyAmenities
             return (
               <div
                 key={idx}
-                className="p-3.5 sm:p-5 rounded-xl sm:rounded-2xl bg-[#F5F1E9] border border-[rgba(7,26,40,0.06)] flex flex-col justify-between"
+                className="p-3.5 sm:p-5 rounded-xl sm:rounded-2xl bg-[var(--surface)] hover:bg-white border border-[rgba(7,26,40,0.08)] hover:border-[rgba(7,132,200,0.25)] shadow-2xs hover:shadow-xs transition-all duration-200 flex flex-col justify-between"
               >
                 <div>
                   <div className="flex items-center justify-between mb-3">

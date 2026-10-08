@@ -210,7 +210,7 @@ Sitemap: https://ratiwaldreamestates.com/sitemap.xml`}
   "name": "Ratiwal Dream Estates",
   "url": "https://ratiwaldreamestates.com",
   "telephone": "+91 98290 12345",
-  "email": "info@ratiwaldreamestates.com",
+  "email": "sureshkumawat6917@gmail.com",
   "address": {
     "@type": "PostalAddress",
     "streetAddress": "Ratiwal Tower, Tonk Road",

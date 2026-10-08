@@ -333,11 +333,11 @@ export default function Footer() {
                 <div className="w-8 h-8 rounded-lg bg-white text-[#087fc3] shadow-2xs flex items-center justify-center flex-shrink-0 group-hover:bg-[#087fc3] group-hover:text-white transition-colors duration-200">
                   <Mail className="w-4 h-4" />
                 </div>
-                <div className="overflow-hidden">
+                <div className="overflow-hidden min-w-0">
                   <span className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider block">
                     Inquiries & Proposals
                   </span>
-                  <span className="font-semibold text-slate-900 text-xs sm:text-sm truncate block group-hover:text-[#087fc3] transition-colors">
+                  <span className="font-semibold text-slate-900 text-xs sm:text-sm break-all block group-hover:text-[#087fc3] transition-colors">
                     {siteConfig.contact.email}
                   </span>
                 </div>

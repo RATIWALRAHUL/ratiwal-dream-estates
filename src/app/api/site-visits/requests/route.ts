@@ -156,12 +156,14 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
 
     if (isObjectId) {
       property = await Property.findOne(
-        { _id: data.propertyId, publicationStatus: "PUBLISHED", archivedAt: null },
+        { _id: data.propertyId, publicationStatus: "PUBLISHED" },
         { _id: 1, locationId: 1, title: 1 }
       ).lean();
-    } else if (data.propertyId !== "general-consultation") {
+    }
+    
+    if (!property && data.propertyId !== "general-consultation") {
       property = await Property.findOne(
-        { slug: data.propertyId, publicationStatus: "PUBLISHED", archivedAt: null },
+        { slug: data.propertyId, publicationStatus: "PUBLISHED" },
         { _id: 1, locationId: 1, title: 1 }
       ).lean();
     }
@@ -171,9 +173,10 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
       ? new Types.ObjectId(data.locationId)
       : property?.locationId ? new Types.ObjectId(property.locationId) : undefined;
 
-    // Verify preferred start is in future
+    // Verify preferred start is in future (with 5-minute grace margin for client/server clock skew)
     const requestedStartAt = new Date(data.preferredStartAt);
-    if (isNaN(requestedStartAt.getTime()) || requestedStartAt <= new Date()) {
+    const graceWindowMs = 5 * 60 * 1000;
+    if (isNaN(requestedStartAt.getTime()) || requestedStartAt.getTime() < Date.now() - graceWindowMs) {
       return NextResponse.json(
         { success: false, error: "Requested tour date must be in the future.", fields: { preferredStartAt: ["Must be in the future"] } },
         { status: 400 }
@@ -246,6 +249,14 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
         ],
       });
     } else {
+      // Update email or fullName if not set
+      if (!lead.normalizedEmail && normalizedEmailVal) {
+        lead.normalizedEmail = normalizedEmailVal;
+        lead.displayEmail = displayEmailVal;
+      }
+      if ((!lead.fullName || lead.fullName === "Customer") && data.fullName) {
+        lead.fullName = data.fullName;
+      }
       // Append inquiry event to existing lead timeline
       lead.timeline.push({
         eventType: "INQUIRY_SUBMITTED",

@@ -33,6 +33,7 @@ const marqueeItems = [
 export default async function HomePage() {
   const properties = await getAllProperties();
   const featured = properties.filter((property) => property.featured);
+  const displayedProperties = (featured.length > 0 ? featured : properties).slice(0, 3);
 
   return (
     <>
@@ -64,13 +65,22 @@ export default async function HomePage() {
             </Link>
           </div>
         </Reveal>
-        {featured.length > 0 && (
+        {displayedProperties.length > 0 && (
           <Reveal className="property-grid editorial-grid reveal-stagger">
-            {featured.map((property) => (
+            {displayedProperties.map((property) => (
               <PropertyCard property={property} key={property.id} />
             ))}
           </Reveal>
         )}
+        <Reveal>
+          <div className="flex justify-center mt-10 sm:mt-12">
+            <MagneticButton>
+              <Link href="/properties" className="button-primary inline-flex items-center gap-2">
+                View All Properties <ArrowRight size={17} />
+              </Link>
+            </MagneticButton>
+          </div>
+        </Reveal>
       </section>
       <Reveal>
         <section className="about-section" aria-labelledby="about-title">

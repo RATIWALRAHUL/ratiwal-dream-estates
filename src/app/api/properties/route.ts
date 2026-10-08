@@ -88,7 +88,7 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
           priceLabel: p.priceLabel,
           featured: p.featured,
           status: p.status,
-          thumbnail: p.images[0] || "/images/about/township-development.jpg",
+          thumbnail: p.images[0] || null,
           shortDescription: p.shortDescription,
         }));
 

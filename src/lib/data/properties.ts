@@ -152,7 +152,7 @@ function mapProperty(doc: PopulatedPropertyDoc, plotOptions: PopulatedPlotOption
     propertyType: PROPERTY_TYPE_LABELS[doc.propertyType] as StaticProperty["propertyType"],
     plotSizes,
     priceLabel,
-    images: sortedMedia.length > 0 ? sortedMedia.map((m) => m.url) : ["/images/about/township-development.jpg"],
+    images: sortedMedia.map((m) => m.url),
     highlights: doc.highlights || [],
     connectivity: (doc.connectivityMilestones || []).map(
       (m) => `${m.destination} — ${m.approxTravelTime} via ${m.route}`

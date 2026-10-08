@@ -25,10 +25,12 @@ export async function generateMetadata({ params }: PropertyDetailPageProps) {
     });
   }
 
-  const primaryImage =
-    property.images && property.images.length > 0
-      ? `${siteConfig.url}${property.images[0]}`
-      : `${siteConfig.url}/images/about/township-development.jpg`;
+  const rawImage = property.images && property.images.length > 0 ? property.images[0] : "";
+  const primaryImage = rawImage.startsWith("http")
+    ? rawImage
+    : rawImage
+    ? `${siteConfig.url}${rawImage}`
+    : `${siteConfig.url}/opengraph-image.png`;
 
   return getMetadata({
     title: `${property.name} in ${property.city}`,

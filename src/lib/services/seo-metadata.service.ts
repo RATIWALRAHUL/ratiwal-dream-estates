@@ -32,7 +32,7 @@ export class SeoMetadataService {
       description: siteConfig.tagline,
       url: siteConfig.url,
       telephone: "+91 98290 12345",
-      email: "info@ratiwaldreamestates.com",
+      email: siteConfig.contact.email,
       address: {
         "@type": "PostalAddress",
         streetAddress: "Ratiwal Tower, Tonk Road",

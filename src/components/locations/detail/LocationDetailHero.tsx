@@ -26,7 +26,7 @@ export function LocationDetailHero({ location, propertyCount }: LocationDetailHe
 
   return (
     <section
-      className="relative pt-6 pb-12 sm:pb-16 overflow-hidden border-b border-[rgba(7,26,40,0.06)]"
+      className="relative pt-28 sm:pt-32 md:pt-36 pb-12 sm:pb-16 overflow-hidden border-b border-[rgba(7,26,40,0.06)]"
       aria-labelledby="location-detail-hero-heading"
     >
       {/* Background ambient glow */}
@@ -43,26 +43,26 @@ export function LocationDetailHero({ location, propertyCount }: LocationDetailHe
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
           {/* Left Column: Location Info */}
           <div className="lg:col-span-7 flex flex-col items-start">
-            {/* Eyebrow Badge */}
-            <div className="flex flex-wrap items-center gap-2.5 mb-4">
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[var(--advisor-ivory)] border border-[rgba(8,127,195,0.2)] shadow-xs">
-                <Compass size={13} className="text-[var(--ratiwal-blue)]" />
-                <span className="text-[11px] font-bold tracking-[0.14em] uppercase text-[var(--ratiwal-blue)] font-body">
-                  REGIONAL MARKET GUIDE
-                </span>
-              </div>
-              <span className="text-xs text-[var(--text-secondary)] font-semibold">
-                {location.state} • {location.region}
+            {/* Location Tag */}
+            <div className="flex flex-wrap items-center gap-2 mb-4">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-sky-50 text-[#087fc3] text-xs font-semibold border border-sky-100/80 shadow-2xs">
+                <MapPin size={13} className="text-[#087fc3]" />
+                <span>{location.name}, {location.state}</span>
               </span>
+              {location.region && (
+                <span className="text-xs text-slate-500 font-medium">
+                  • {location.region}
+                </span>
+              )}
             </div>
 
             {/* Headline */}
             <h1
               id="location-detail-hero-heading"
-              className="font-instrument text-[2.5rem] sm:text-[3.25rem] md:text-[3.75rem] text-[var(--midnight)] font-normal leading-[1.05] tracking-tight mb-4"
+              className="font-instrument text-[2.5rem] sm:text-[3.25rem] md:text-[3.75rem] text-[var(--midnight)] font-normal leading-[1.08] tracking-tight mb-4"
             >
-              Explore property opportunities in{" "}
-              <span className="italic text-[var(--ratiwal-blue)]">{location.name}.</span>
+              Residential &amp; Commercial Plots in{" "}
+              <span className="italic text-[#087fc3]">{location.name}.</span>
             </h1>
 
             {/* Short Tagline & Editorial Description */}

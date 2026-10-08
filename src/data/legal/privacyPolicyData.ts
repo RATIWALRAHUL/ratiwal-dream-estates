@@ -126,7 +126,7 @@ export const privacyPolicyData: LegalPageData = {
       title: "Consent & Communication Preferences",
       paragraphs: [
         "We respect your communication preferences and do not engage in unauthorized third-party marketing or spam campaigns.",
-        "You have the right to modify your preferred mode of contact (Voice Call, WhatsApp, Email, or In-Person Office Consultation) or unsubscribe from periodic market newsletters at any time by contacting info@ratiwaldreamestates.com.",
+        "You have the right to modify your preferred mode of contact (Voice Call, WhatsApp, Email, or In-Person Office Consultation) or unsubscribe from periodic market newsletters at any time by contacting sureshkumawat6917@gmail.com.",
       ],
     },
     {

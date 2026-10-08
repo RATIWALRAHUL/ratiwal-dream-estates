@@ -14,9 +14,11 @@ export function PropertyCinematicGallery({ images, propertyName }: PropertyCinem
   const [isLightboxOpen, setIsLightboxOpen] = useState(false);
   const [activePhotoIndex, setActivePhotoIndex] = useState(0);
 
-  const validImages = images && images.length > 0
-    ? images
-    : ["/images/about/township-development.jpg"];
+  if (!images || images.length === 0) {
+    return null;
+  }
+
+  const validImages = images;
 
   const openLightbox = (index: number) => {
     setActivePhotoIndex(index);
