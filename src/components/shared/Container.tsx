@@ -9,7 +9,7 @@ export function Container({ className, as: Component = "div", ...props }: Contai
   return (
     <Component
       className={cn(
-        "w-full max-w-container mx-auto px-4 sm:px-6 lg:px-8",
+        "w-full max-w-container mx-auto px-3 sm:px-4 lg:px-6",
         className
       )}
       {...props}

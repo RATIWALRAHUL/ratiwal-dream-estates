@@ -33,7 +33,8 @@
     "audit:orphans:fix": "tsx --conditions=react-server scripts/audit-orphans.ts --fix",
     "test:perf": "tsx --conditions=react-server scripts/verify-phase2-performance.ts",
     "test:equiv": "tsx --conditions=react-server scripts/test-backend-equivalence.ts",
-    "test:agent-readiness": "tsx --conditions=react-server scripts/test-agent-readiness.ts"
+    "test:agent-readiness": "tsx --conditions=react-server scripts/test-agent-readiness.ts",
+    "test:chatbot": "tsx --conditions=react-server scripts/test-chatbot.ts"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.7.1",
@@ -45,6 +46,7 @@
     "lucide-react": "^1.31.0",
     "mongoose": "^9.9.3",
     "next": "16.3.0",
+    "openai": "^7.32.0",
     "pdf-lib": "^1.17.1",
     "react": "19.2.8",
     "react-dom": "19.2.8",
@@ -57,10 +59,12 @@
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
+    "@types/pdf-parse": "^1.1.5",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.3.0",
+    "pdf-parse": "^2.4.5",
     "tailwindcss": "^4",
     "tsx": "^4.23.12",
     "typescript": "^5"

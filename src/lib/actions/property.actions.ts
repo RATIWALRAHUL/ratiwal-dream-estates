@@ -599,6 +599,35 @@ export async function publishPropertyAction(
 }
 
 /**
+ * Server action to run and return the 16-point publishing checklist for a property
+ */
+export async function validatePublishingChecklistAction(
+  propertyId: string
+): Promise<ActionResult<PublishingChecklistResult>> {
+  try {
+    await requireAdminSession(["EDITOR", "ADMIN", "SUPER_ADMIN"]);
+
+    if (!Types.ObjectId.isValid(propertyId)) {
+      return { success: false, code: "NOT_FOUND", message: "Invalid property ID format." };
+    }
+
+    await connectToDatabase();
+    const checklist = await validatePublishingChecklist(propertyId);
+
+    return {
+      success: true,
+      data: checklist,
+      message: checklist.canPublish
+        ? "Property satisfies all publishing requirements."
+        : `Property has ${checklist.blocking.length} blocking issue(s).`,
+    };
+  } catch (error: unknown) {
+    const err = error as Error;
+    return { success: false, code: "DATABASE_ERROR", message: err.message || "Failed to validate publishing checklist." };
+  }
+}
+
+/**
  * 6. Archive Property (Admin / Super Admin only)
  */
 export async function archivePropertyAction(
@@ -798,27 +827,96 @@ export async function changePublishedSlugAction(
 }
 
 /**
- * 9. Validate Publishing Checklist (Server Action for Client Pre-flight Modal)
+ * 10. Hide Property from Website (Revert directly to DRAFT)
  */
-export async function validatePublishingChecklistAction(
-  propertyId: string
-): Promise<ActionResult<PublishingChecklistResult>> {
+export async function unpublishPropertyToDraftAction(
+  propertyId: string,
+  expectedVersion?: number
+): Promise<ActionResult> {
   try {
-    await requireAdminSession(["EDITOR", "ADMIN", "SUPER_ADMIN"]);
-    const checklist = await validatePublishingChecklist(propertyId);
+    const session = await requireAdminSession(["ADMIN", "SUPER_ADMIN"]);
+    await connectToDatabase();
+
+    const property = await Property.findById(propertyId);
+    if (!property) {
+      return { success: false, code: "NOT_FOUND", message: "Property not found." };
+    }
+
+    const previousStatus = property.publicationStatus;
+    property.publicationStatus = "DRAFT";
+    property.increment();
+    await property.save();
+
+    await logAuditEvent({
+      actor: session.user,
+      action: "PROPERTY_RETURNED_TO_DRAFT",
+      targetPropertyId: property._id,
+      changes: [{ field: "publicationStatus", from: previousStatus, to: "DRAFT" }],
+    });
+
+    safeRevalidatePath("/dashboard/properties");
+    safeRevalidatePath(`/dashboard/properties/${propertyId}/edit`);
+    safeRevalidatePath(`/properties/${property.slug}`);
+    safeRevalidatePath("/properties");
+    safeRevalidatePath("/dashboard");
+    safeRevalidatePath("/");
+    invalidatePropertyCache(property.slug);
+
     return {
       success: true,
-      data: checklist,
-      message: checklist.canPublish
-        ? "Pre-flight validation passed."
-        : `${checklist.blocking.length} blocking issue(s) require resolution.`,
+      message: `Property "${property.title}" hidden from website and reverted to DRAFT status.`,
     };
   } catch (error: unknown) {
     const err = error as Error;
-    return {
-      success: false,
-      code: "DATABASE_ERROR",
-      message: err.message || "Failed to evaluate publishing checklist.",
-    };
+    return { success: false, code: "DATABASE_ERROR", message: err.message || "Failed to hide property." };
   }
 }
+
+/**
+ * 11. Delete Property (Admin / Super Admin only)
+ */
+export async function deletePropertyAction(
+  propertyId: string
+): Promise<ActionResult> {
+  try {
+    const session = await requireAdminSession(["ADMIN", "SUPER_ADMIN"]);
+    await connectToDatabase();
+
+    const property = await Property.findById(propertyId);
+    if (!property) {
+      return { success: false, code: "NOT_FOUND", message: "Property not found." };
+    }
+
+    const title = property.title;
+    const slug = property.slug;
+
+    const { PlotOption } = await import("@/models/PlotOption");
+    const { MediaAsset } = await import("@/models/MediaAsset");
+
+    await PlotOption.deleteMany({ propertyId: property._id });
+    await MediaAsset.deleteMany({ ownerId: property._id });
+    await Property.findByIdAndDelete(property._id);
+
+    await logAuditEvent({
+      actor: session.user,
+      action: "PROPERTY_ARCHIVED",
+      targetPropertyId: property._id,
+      changes: [{ field: "deleted", to: true }],
+    });
+
+    safeRevalidatePath("/dashboard/properties");
+    safeRevalidatePath("/properties");
+    safeRevalidatePath("/dashboard");
+    safeRevalidatePath("/");
+    invalidatePropertyCache(slug);
+
+    return {
+      success: true,
+      message: `Property "${title}" and all associated inventory units deleted successfully.`,
+    };
+  } catch (error: unknown) {
+    const err = error as Error;
+    return { success: false, code: "DATABASE_ERROR", message: err.message || "Failed to delete property." };
+  }
+}
+

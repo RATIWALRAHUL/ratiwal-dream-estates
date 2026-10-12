@@ -25,6 +25,7 @@ interface PopulatedPropertyDoc {
   fullDescription?: string;
   propertyType: keyof typeof PROPERTY_TYPE_LABELS;
   listingStatus: keyof typeof LISTING_STATUS_LABELS;
+  inventoryMode?: "RESIDENTIAL_INVENTORY" | "COMMERCIAL_INVENTORY";
   locality?: string;
   address?: string;
   featured: boolean;
@@ -126,12 +127,25 @@ function mapProperty(doc: PopulatedPropertyDoc, plotOptions: PopulatedPlotOption
     .filter((m) => m.publicationStatus === "ACTIVE")
     .sort((a, b) => (b.isPrimary ? 1 : 0) - (a.isPrimary ? 1 : 0) || a.sortOrder - b.sortOrder);
 
+  const isCommercial = doc.inventoryMode === "COMMERCIAL_INVENTORY" || doc.propertyType === "COMMERCIAL_PLOT";
   const plotSizes =
     plotOptions.length > 0
-      ? Array.from(new Set(plotOptions.map((p) => `${sqFtToSqYards(p.areaSqFt)} Sq. Yds`)))
+      ? Array.from(
+          new Set(
+            plotOptions.map((p) =>
+              doc.inventoryMode === "COMMERCIAL_INVENTORY"
+                ? `${p.areaSqFt} Sq. Ft`
+                : `${sqFtToSqYards(p.areaSqFt)} Sq. Yds`
+            )
+          )
+        )
       : Array.from(
           new Set(
-            [doc.area.minimumAreaSqFt, doc.area.maximumAreaSqFt].map((sqFt) => `${sqFtToSqYards(sqFt)} Sq. Yds`)
+            [doc.area.minimumAreaSqFt, doc.area.maximumAreaSqFt].map((sqFt) =>
+              doc.inventoryMode === "COMMERCIAL_INVENTORY"
+                ? `${sqFt} Sq. Ft`
+                : `${sqFtToSqYards(sqFt)} Sq. Yds`
+            )
           )
         );
 
@@ -222,6 +236,7 @@ export const PROPERTY_CARD_PROJECTION = {
   slug: 1,
   shortDescription: 1,
   propertyType: 1,
+  inventoryMode: 1,
   listingStatus: 1,
   locality: 1,
   address: 1,

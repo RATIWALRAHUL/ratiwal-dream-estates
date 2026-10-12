@@ -1,6 +1,7 @@
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import FloatingWhatsAppButton from "@/components/layout/FloatingWhatsAppButton";
+import { ChatWidget } from "@/components/chat/ChatWidget";
 
 export default function MarketingLayout({
   children,
@@ -15,6 +16,7 @@ export default function MarketingLayout({
       </main>
       <Footer />
       <FloatingWhatsAppButton />
+      <ChatWidget />
     </div>
   );
 }

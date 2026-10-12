@@ -7,6 +7,8 @@ import {
   ExternalLink,
   Edit,
   Eye,
+  EyeOff,
+  Trash2,
   Layers,
   Send,
   CheckCircle2,
@@ -27,6 +29,8 @@ import {
   publishPropertyAction,
   archivePropertyAction,
   restorePropertyToDraftAction,
+  unpublishPropertyToDraftAction,
+  deletePropertyAction,
 } from "@/lib/actions/property.actions";
 
 interface PropertyTableProps {
@@ -44,6 +48,7 @@ export function PropertyTable({ data, userRole = "ADMIN" }: PropertyTableProps) 
 
   // Active action modal states
   const [archiveModal, setArchiveModal] = useState<{ id: string; title: string; version: number } | null>(null);
+  const [deleteModal, setDeleteModal] = useState<{ id: string; title: string } | null>(null);
   const [archiveReason, setArchiveReason] = useState("");
   const [actionError, setActionError] = useState<string | null>(null);
   const [actionSuccess, setActionSuccess] = useState<string | null>(null);
@@ -92,6 +97,36 @@ export function PropertyTable({ data, userRole = "ADMIN" }: PropertyTableProps) 
       const res = await publishPropertyAction(id, version);
       if (res.success) {
         setActionSuccess(res.message);
+        router.refresh();
+      } else {
+        setActionError(res.message);
+      }
+    });
+  };
+
+  const handleUnpublish = async (id: string) => {
+    setActionError(null);
+    setActionSuccess(null);
+    startTransition(async () => {
+      const res = await unpublishPropertyToDraftAction(id);
+      if (res.success) {
+        setActionSuccess(res.message);
+        router.refresh();
+      } else {
+        setActionError(res.message);
+      }
+    });
+  };
+
+  const handleDeleteConfirm = async () => {
+    if (!deleteModal) return;
+    setActionError(null);
+    setActionSuccess(null);
+    startTransition(async () => {
+      const res = await deletePropertyAction(deleteModal.id);
+      if (res.success) {
+        setActionSuccess(res.message);
+        setDeleteModal(null);
         router.refresh();
       } else {
         setActionError(res.message);
@@ -332,32 +367,35 @@ export function PropertyTable({ data, userRole = "ADMIN" }: PropertyTableProps) 
                               </Link>
                             )}
 
-                            {/* 5. Status Workflow Actions */}
-                            {item.publicationStatus === "DRAFT" && (
-                              <button
-                                type="button"
-                                onClick={() => handleSubmitForReview(item.id, 0)}
-                                disabled={isPending}
-                                title="Submit for Review"
-                                className="p-1.5 rounded-lg text-purple-700 hover:bg-purple-600 hover:text-white transition-colors border border-[rgba(7,26,40,0.1)] cursor-pointer"
-                              >
-                                <Send className="w-3.5 h-3.5" />
-                              </button>
-                            )}
-
+                            {/* 5. Show / Publish on Website */}
                             {(userRole === "ADMIN" || userRole === "SUPER_ADMIN") &&
-                              item.publicationStatus === "REVIEW" && (
+                              item.publicationStatus !== "PUBLISHED" && (
                                 <button
                                   type="button"
                                   onClick={() => handlePublish(item.id, 0)}
                                   disabled={isPending}
-                                  title="Publish Property"
+                                  title="Show on Website (Publish Live)"
                                   className="p-1.5 rounded-lg bg-emerald-600 text-white hover:bg-emerald-700 transition-colors shadow-2xs cursor-pointer"
                                 >
                                   <CheckCircle2 className="w-3.5 h-3.5" />
                                 </button>
                               )}
 
+                            {/* 6. Hide from Website / Move to Draft */}
+                            {(userRole === "ADMIN" || userRole === "SUPER_ADMIN") &&
+                              item.publicationStatus === "PUBLISHED" && (
+                                <button
+                                  type="button"
+                                  onClick={() => handleUnpublish(item.id)}
+                                  disabled={isPending}
+                                  title="Hide from Website (Revert to Draft)"
+                                  className="p-1.5 rounded-lg text-amber-700 hover:bg-amber-600 hover:text-white transition-colors border border-[rgba(7,26,40,0.1)] cursor-pointer"
+                                >
+                                  <EyeOff className="w-3.5 h-3.5" />
+                                </button>
+                              )}
+
+                            {/* 7. Archive */}
                             {(userRole === "ADMIN" || userRole === "SUPER_ADMIN") &&
                               item.publicationStatus === "PUBLISHED" && (
                                 <button
@@ -373,6 +411,7 @@ export function PropertyTable({ data, userRole = "ADMIN" }: PropertyTableProps) 
                                 </button>
                               )}
 
+                            {/* 8. Restore from Archive */}
                             {(userRole === "ADMIN" || userRole === "SUPER_ADMIN") &&
                               item.publicationStatus === "ARCHIVED" && (
                                 <button
@@ -385,6 +424,19 @@ export function PropertyTable({ data, userRole = "ADMIN" }: PropertyTableProps) 
                                   <RotateCcw className="w-3.5 h-3.5" />
                                 </button>
                               )}
+
+                            {/* 9. Delete Property */}
+                            {(userRole === "ADMIN" || userRole === "SUPER_ADMIN") && (
+                              <button
+                                type="button"
+                                onClick={() => setDeleteModal({ id: item.id, title: item.title })}
+                                disabled={isPending}
+                                title="Delete Property Permanently"
+                                className="p-1.5 rounded-lg text-red-600 hover:bg-red-600 hover:text-white transition-colors border border-[rgba(7,26,40,0.1)] cursor-pointer"
+                              >
+                                <Trash2 className="w-3.5 h-3.5" />
+                              </button>
+                            )}
                           </div>
                         </td>
                       </tr>
@@ -538,6 +590,45 @@ export function PropertyTable({ data, userRole = "ADMIN" }: PropertyTableProps) 
                 className="px-4 py-2 rounded-xl bg-rose-600 text-white text-xs font-bold hover:bg-rose-700 disabled:opacity-50 transition-colors shadow-xs cursor-pointer"
               >
                 {isPending ? "Archiving..." : "Confirm Archive"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Delete Confirmation Modal */}
+      {deleteModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-xs">
+          <div className="max-w-md w-full p-6 rounded-3xl bg-white shadow-2xl border border-red-100 space-y-4">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-red-50 text-red-600 flex items-center justify-center shrink-0">
+                <Trash2 className="w-5 h-5" />
+              </div>
+              <div>
+                <h3 className="text-sm font-bold text-[#071a28]">Delete Property Permanently</h3>
+                <p className="text-xs text-[#647581]">{deleteModal.title}</p>
+              </div>
+            </div>
+
+            <p className="text-xs text-[#647581]">
+              Are you sure you want to permanently delete this property? This will delete the property record, its associated plot inventory options, and media relationships. This action cannot be undone.
+            </p>
+
+            <div className="flex items-center justify-end gap-2 pt-2">
+              <button
+                type="button"
+                onClick={() => setDeleteModal(null)}
+                className="px-4 py-2 rounded-xl border border-[rgba(7,26,40,0.12)] text-xs font-semibold text-[#071a28] hover:bg-slate-50 cursor-pointer"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                onClick={handleDeleteConfirm}
+                disabled={isPending}
+                className="px-4 py-2 rounded-xl bg-red-600 text-white text-xs font-bold hover:bg-red-700 disabled:opacity-50 transition-colors shadow-xs cursor-pointer"
+              >
+                {isPending ? "Deleting..." : "Confirm Delete"}
               </button>
             </div>
           </div>

@@ -1,0 +1,190 @@
+Ratiwal Dream Estates
+MASTER CLIENT REQUIREMENTS & PRE-LAUNCH DATA PACKAGE
+Document ID: RDE-REQ-2026
+Status: Release Gate Complete
+Stack: Next.js 16 / MongoDB Atlas
+Platform Verification Summary: All 69 application routes (16 marketing SSG/ISR pages, 53 authenticated CRM/API endpoints) are compiled, performance-
+benchmarked (LCP 1.08s, CLS 0.000), and database-indexed with zero errors. The data requested in this document is required from Ratiwal Dream Estates
+leadership to authorize public commercial operations.
+1. Top 8 Commercial Launch Blockers (Strictly Mandatory)
+The following 8 items are required by law, statutory real estate regulations, and system architecture prior to public advertising:
+ID 	REQUIREMENT SUMMARY 	OPERATIONAL & LEGAL PURPOSE 	REQUIRED CLIENT ACTION
+BLOCK-01 Legal Entity & Registered Address Statutory business disclosure & validity of advisory
+mandates.
+Provide registered legal name & complete
+street address with pincode.
+BLOCK-02 State RERA Agent Registration ID Mandatory compliance under RERA Act Sec 9/10 for
+plotted real estate marketing.
+Provide Rajasthan RERA & MahaRERA Agent
+certificate registration numbers.
+BLOCK-03 Sales Leads Email & WhatsApp
+Line
+Inquiries submitted from website forms must route
+directly to sales advisors.
+Designate lead distribution email inbox &
+verified WhatsApp business number.
+BLOCK-04 Super Admin Account Holder 	Production administrative portal requires root executive
+credentials for staff management.
+Provide Full Name, Business Email, and
+Mobile Number for Super Admin setup.
+BLOCK-05 Live Property Catalog
+Confirmation
+Real plot dimensions, pricing, and sanction documents
+must be approved.
+Complete the Property Master Data Sheet
+(Page 3) for launch projects.
+BLOCK-06 Domain DNS Delegation Public web traffic cannot route to the live server without
+configured DNS records.
+Authorize registrar to point A/CNAME records
+to the production server.
+BLOCK-07 Transactional Email Gateway Lead notifications, password resets, and user alerts
+require an active mail service.
+Provide Resend API key or corporate SMTP
+server access credentials.
+BLOCK-08 DPDP Act Legal Terms Sign-Off Platform compliance with Digital Personal Data
+Protection (DPDP) Act 2023.
+Legal counsel sign-off on Privacy Policy,
+Terms, and Disclaimer (Page 4).
+2. Pre-Launch Content & Compliance Upload Checklist
+Company Structure: Legal registered entity name & office address. 	High-Res Photos: Hero images, layout maps & PDF brochures.
+RERA Certificates: Rajasthan & Maharashtra agent IDs. 	Trust Metrics: Approval of 10+ Years, 1K+ Clients, 500+ Projects.
+Contact Channels: Public phone, email & WhatsApp number. 	Client Testimonials: Sign-off on buyer stories on /testimonials.
+Super Admin: Executive full name & corporate email. 	Domain DNS: DNS A/CNAME delegation to live host.
+Property Catalog: Completed Data Sheet per township. 	Email Gateway: Resend API key or corporate SMTP config.
+Ratiwal Dream Estates — Master Client Requirements Package 	Page 1 of 4
+
+-- 1 of 4 --
+
+Ratiwal Dream Estates
+SECTION 2: CLIENT INFORMATION & BUSINESS SETUP FORM
+Fillable Form
+Mandatory Pre-Launch
+2.1. COMPANY & LEGAL REGISTRATION 	MANDATORY
+Official Registered Legal Name:
+Ratiwal Dream Estates [ Specify Pvt Ltd / LLP / Partnership / Proprietor ]
+Rajasthan RERA Real Estate Agent Registration Number:
+RAJ/A/2026/___________ (or attach RERA certificate)
+Maharashtra MahaRERA Agent Number (if applicable):
+A520000___________ (or N/A if operating exclusively in Rajasthan)
+Goods & Services Tax (GSTIN) Number:
+08AAAAA0000A1Z5 (15-character statutory GST identification)
+2.2. PUBLIC & SALES CONTACT CHANNELS 	MANDATORY
+Primary Public Phone Number (Header & Footer):
++91-9929533436 (or alternate official client number)
+Advisory / Secondary Direct Hotline:
++91-__________________ (Dedicated sales advisor direct line)
+WhatsApp Business Line (Direct Click-to-Chat):
++91-9929533436 (Monitored business chat line)
+Primary Public Email & Sales Leads Receiving Inbox:
+info@ratiwaldreamestates.com / sales@ratiwaldreamestates.com
+2.3. PHYSICAL REGISTERED OFFICE ADDRESS 	MANDATORY
+Building / Commercial Complex & Suite:
+Office No. ___, Commercial Complex / Tower
+Street / Area & Landmark:
+Main Road / Sector, Landmark Near Metro / Expressway
+City, State & Pincode:
+Jaipur, Rajasthan — 3020__
+Google Maps Location Link:
+https://maps.app.goo.gl/________________________
+Operating Business Hours: [ ] Mon–Sat: 10:00 AM – 7:00 PM IST (Approved Default) [ ] Custom: _________________________
+2.4. SUPER ADMINISTRATOR ACCOUNT 	MANDATORY
+Super Admin Full Name:
+Primary Executive Name (Full Name)
+Official Business Email (Receives Root Access Invitation):
+admin@ratiwaldreamestates.com
+Mobile Number (For Security SMS / 2FA Verification):
++91-__________________
+2.5. OFFICIAL SOCIAL MEDIA CHANNELS
+Facebook Page URL:
+https://facebook.com/ratiwaldreamestates
+Instagram Profile URL:
+https://instagram.com/ratiwaldreamestates
+LinkedIn Company Page & YouTube URL:
+https://linkedin.com/company/ratiwaldreamestates
+2.6. HOMEPAGE TAGLINE & TRUST METRICS SIGN-OFF
+Tagline: "Lifelong Property Consultancy, Built on Trust & Transparency." 	Approved as Drafted
+Trust Counters: 10+ Years Experience | 1K+ Satisfied Clients | 500+ Verified Projects | 100% Transparency 	Approved as Drafted
+Ratiwal Dream Estates — Master Client Requirements Package 	Page 2 of 4
+
+-- 2 of 4 --
+
+Ratiwal Dream Estates
+SECTION 3: PROPERTY MASTER DATA SHEET TEMPLATE
+Inventory Schema
+1 Copy per Township
+3.1. PROJECT IDENTITY & OVERVIEW 	MANDATORY
+Property / Township Name:
+e.g., Royal Palms Township / Ring Road Logistics Hub
+Developer / Promoter Organization:
+e.g., Ratiwal Infrastructure / Partner Promoter Firm
+Property Classification:
+[ ] Residential Plot [ ] Commercial Plot [ ] Farmhouse [ ] Industrial
+3.2. LOCATION & SPATIAL CONNECTIVITY 	MANDATORY
+State, City & Micro-Market Corridor:
+Rajasthan, Jaipur — Ajmer Road SEZ / Ring Road Hub
+GPS Coordinates (Latitude, Longitude):
+Lat: 26.8428° N, Long: 75.6415° E (or Google Maps Pin)
+Key Expressway & Transit Connectivity:
+200ft Sector Road, 5 mins from Delhi-Mumbai Expressway
+3.3. STATUTORY APPROVALS & DUE DILIGENCE 	MANDATORY
+Planning Authority Sanction:
+[ ] JDA Approved [ ] ADA [ ] CIDCO NAINA [ ] 90A Patta
+State RERA Project Registration Number:
+RAJ/P/2026/___________ (or Exempt / Plotted Scheme)
+Land Title Deed Classification:
+[ ] Freehold 90A Patta [ ] Direct Allotment [ ] Leasehold
+Bank Finance & Mortgage Approvals:
+Approved by SBI, HDFC, ICICI, Axis Bank & BOB
+3.4. PLOT DIMENSIONS, PRICING & INVENTORY
+CONFIGURATION 	AREA (SQ. YDS / FT) 	DIMENSIONS 	STARTING PRICE 	STATUS
+Plot Option A 	111.11 Sq. Yds (1,000 Sq. Ft.) 20 × 50 ft 	₹ 28.50 Lakhs onwards 	[ ] Available [ ] Sold
+Plot Option B 	200.00 Sq. Yds (1,800 Sq.
+Ft.) 	30 × 60 ft 	₹ 52.00 Lakhs onwards 	[ ] Available [ ] Sold
+Plot Option C 	277.77 Sq. Yds (2,500 Sq.
+Ft.) 35 × 70 ft 	₹ 72.50 Lakhs onwards 	[ ] Available [ ] Sold
+Custom Villa Plot 500.00 Sq. Yds (4,500 Sq.
+Ft.) 	50 × 90 ft 	₹ 1.35 Crores onwards 	[ ] Available [ ] Sold
+Booking Token Amount: ₹ 1,00,000 / ₹ 2,00,000 | Payment Plan: 20% Booking, 70% Registry/Mutation, 10% Possession
+3.5. KEY FEATURES & AMENITIES (SELECT ALL INCLUDED IN LAYOUT)
+60ft / 40ft Wide Black-top Bitumen Roads
+Underground Electricity & LED Street Lights
+Gated Grand Entrance with 24/7 Security & CCTV
+Landscaped Central Park & Children's Play Area
+Clubhouse, Swimming Pool & Community Hall
+Rainwater Harvesting & Underground Sewerage Line
+Ratiwal Dream Estates — Master Client Requirements Package 	Page 3 of 4
+
+-- 3 of 4 --
+
+Ratiwal Dream Estates
+SECTION 4: MEDIA SPECS, LEGAL SIGN-OFF & AUTHORIZATION
+Final Handover
+Executive Sign-Off
+4. Property Media & File Upload Specifications
+ASSET CATEGORY 	MIN RESOLUTION 	ASPECT RATIO 	FORMATS 	STANDARD NAMING EXAMPLE
+Hero Banner 	2400 × 1600 px 	3:2 (Landscape) 	WebP / JPG 	royal-palms-hero.webp
+Listing Thumbnail 	1200 × 800 px 	3:2 (Landscape) 	WebP / JPG 	royal-palms-thumb.webp
+Gallery Photos 	1920 × 1080 px 	16:9 / 3:2 	WebP / JPG 	royal-palms-gallery-01.webp
+Master Plan 	3000 × 2000 px 	Landscape 	PNG / PDF 	royal-palms-master-plan.png
+PDF Brochure 	— (Max 15 MB) 	Document 	PDF 	royal-palms-brochure.pdf
+Sanction Order 	— (Max 10 MB) 	Document 	PDF 	royal-palms-sanction.pdf
+5. Statutory Compliance & DPDP Act 2023 Sign-Offs
+The web platform includes production-ready drafts aligned with Indian Real Estate regulations and the DPDP Act 2023:
+1. Privacy Policy (/privacy-policy): Data collection, lead processing & grievance redressal. 	Approved as Drafted
+2. Terms of Service (/terms-of-service): Advisory terms, intellectual property & liability limits. 	Approved as Drafted
+3. Real Estate Disclaimer (/disclaimer): Advisory consultant role disclosure & title verification. 	Approved as Drafted
+6. Final Client Authorization & Launch Sign-Off
+By signing below, the authorized executive confirms that the business details, RERA credentials, contact routing, and property templates provided are accurate and
+approved for live commercial deployment on the Ratiwal Dream Estates platform:
+Authorized Representative Name:
+e.g. Rahul Ratiwal / Managing Director
+Official Title / Designation:
+Managing Director / Partner / Principal Broker
+Corporate Signature / Digital Seal:
+[ Authorized Signature & Seal ]
+Date of Authorization:
+August 31, 2026
+Ratiwal Dream Estates — Master Client Requirements Package 	Page 4 of 4
+
+-- 4 of 4 --
+

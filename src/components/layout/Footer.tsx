@@ -93,7 +93,7 @@ export default function Footer() {
     <footer className="w-full bg-white border-t border-slate-200/90 text-slate-700 relative z-10" aria-label="Site footer">
       {/* Top Trust & Value Strip */}
       <div className="border-b border-slate-100 bg-slate-50/70">
-        <div className="w-[calc(100%-52px)] sm:w-[calc(100%-68px)] max-w-[1300px] mx-auto px-0 py-8">
+        <div className="w-[calc(100%-32px)] sm:w-[calc(100%-48px)] max-w-[1300px] mx-auto px-0 py-8">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {trustHighlights.map((item, index) => {
               const Icon = item.icon;
@@ -121,7 +121,7 @@ export default function Footer() {
       </div>
 
       {/* Main Footer Content */}
-      <div className="w-[calc(100%-52px)] sm:w-[calc(100%-68px)] max-w-[1300px] mx-auto px-0 pt-14 pb-12">
+      <div className="w-[calc(100%-32px)] sm:w-[calc(100%-48px)] max-w-[1300px] mx-auto px-0 pt-14 pb-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-8">
           {/* Col 1: Brand & Overview (4 cols on lg) */}
           <div className="lg:col-span-4 flex flex-col justify-between">
@@ -415,7 +415,7 @@ export default function Footer() {
 
       {/* Bottom Copyright & Legal Links */}
       <div className="border-t border-slate-200/90 bg-slate-50/90 py-6">
-        <div className="w-[calc(100%-52px)] sm:w-[calc(100%-68px)] max-w-[1300px] mx-auto px-0 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+        <div className="w-[calc(100%-32px)] sm:w-[calc(100%-48px)] max-w-[1300px] mx-auto px-0 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-500">
           <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-4 text-center sm:text-left">
             <p>© {new Date().getFullYear()} {siteConfig.name}. All rights reserved.</p>
             <span className="hidden sm:inline text-slate-300">•</span>

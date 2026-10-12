@@ -12,10 +12,10 @@ import { Reveal } from "@/components/home/Reveal";
 import { CountUp } from "@/components/home/CountUp";
 import { MagneticButton } from "@/components/home/MagneticButton";
 
-export const revalidate = 60;
+export const dynamic = "force-dynamic";
 
 export const metadata = getMetadata({
-  title: "Premium Plots in Jaipur & Navi Mumbai",
+  title: "Premium Plots in Jaipur, Ajmer & Kishangarh",
   description:
     "Discover verified residential and commercial plots with Ratiwal Dream Estates, your trusted property consultancy.",
   slug: "",
@@ -30,10 +30,20 @@ const marqueeItems = [
   { icon: ShieldCheck, label: "100% Transparency Always" },
 ];
 
+function shuffleProperties<T>(array: T[]): T[] {
+  const result = [...array];
+  for (let i = result.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [result[i], result[j]] = [result[j], result[i]];
+  }
+  return result;
+}
+
 export default async function HomePage() {
   const properties = await getAllProperties();
-  const featured = properties.filter((property) => property.featured);
-  const displayedProperties = (featured.length > 0 ? featured : properties).slice(0, 3);
+  // Dynamically shuffle properties on every page refresh/visit showing exactly 3 randomized projects across all cities
+  const shuffled = shuffleProperties(properties);
+  const displayedProperties = shuffled.length > 0 ? shuffled.slice(0, 3) : [];
 
   return (
     <>
