@@ -8,6 +8,7 @@ import { PropertyCard } from "@/components/property/PropertyCard";
 import { HomeSearch } from "@/components/home/HomeSearch";
 import { HeroSlider } from "@/components/home/HeroSlider";
 import { PropertyAdvisorSection } from "@/components/home/PropertyAdvisorSection";
+import { HomeFAQ } from "@/components/home/HomeFAQ";
 import { Reveal } from "@/components/home/Reveal";
 import { CountUp } from "@/components/home/CountUp";
 import { MagneticButton } from "@/components/home/MagneticButton";
@@ -198,6 +199,7 @@ export default async function HomePage() {
           </div>
         </section>
       </Reveal>
+      <HomeFAQ />
       <Reveal>
         <section className="prefooter-cta grain" aria-labelledby="cta-title">
           <Image

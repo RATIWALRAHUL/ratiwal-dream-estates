@@ -44,6 +44,7 @@ export function PropertyCinematicGallery({ images, propertyName }: PropertyCinem
             fill
             priority
             sizes="(max-width: 1024px) 100vw, 65vw"
+            unoptimized={leadImage.startsWith("/images/")}
             className="object-cover transition-transform duration-700 group-hover:scale-105"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-[#031C2B] via-transparent to-transparent opacity-40 group-hover:opacity-20 transition-opacity" />
@@ -72,6 +73,7 @@ export function PropertyCinematicGallery({ images, propertyName }: PropertyCinem
                   alt={`${propertyName} gallery photograph ${idx + 2}`}
                   fill
                   sizes="(max-width: 1024px) 50vw, 35vw"
+                  unoptimized={img.startsWith("/images/")}
                   className="object-cover transition-transform duration-700 group-hover:scale-105"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#031C2B] via-transparent to-transparent opacity-40 group-hover:opacity-20 transition-opacity" />

@@ -60,6 +60,13 @@ export function PropertyCard({ property }: PropertyCardProps) {
     locationName: displayLocation,
   });
 
+  const initialImage = property.images[0] || "/images/placeholders/property-placeholder.jpg";
+  const [imgSrc, setImgSrc] = useState(initialImage);
+
+  useEffect(() => {
+    setImgSrc(property.images[0] || "/images/placeholders/property-placeholder.jpg");
+  }, [property.images]);
+
   return (
     <Card
       onMouseEnter={prefetchDetail}
@@ -68,14 +75,18 @@ export function PropertyCard({ property }: PropertyCardProps) {
     >
       {/* Thumbnail Aspect Container */}
       <div className="relative aspect-[16/10] w-full bg-slate-100 overflow-hidden">
-        {property.images[0] ? (
+        {imgSrc ? (
           <Image
-            src={property.images[0]}
+            src={imgSrc}
             alt={displayName}
             fill
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
             quality={80}
             loading="lazy"
+            unoptimized={imgSrc.startsWith("/images/")}
+            onError={() => {
+              setImgSrc("/images/placeholders/property-placeholder.jpg");
+            }}
             className="property-card-image object-cover"
           />
         ) : (

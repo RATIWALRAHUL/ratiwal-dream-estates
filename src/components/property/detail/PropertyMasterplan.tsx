@@ -52,6 +52,7 @@ export function PropertyMasterplan({ masterplan, propertyName }: PropertyMasterp
               alt={`${propertyName} official masterplan layout`}
               fill
               sizes="(max-width: 1024px) 100vw, 800px"
+              unoptimized={masterplan.imageUrl.startsWith("/images/")}
               className="object-cover transition-transform duration-500 group-hover:scale-103"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-[#031C2B]/30 via-transparent to-transparent opacity-60" />
@@ -125,6 +126,7 @@ export function PropertyMasterplan({ masterplan, propertyName }: PropertyMasterp
                 src={masterplan.imageUrl}
                 alt={masterplan.title}
                 fill
+                unoptimized={masterplan.imageUrl.startsWith("/images/")}
                 className="object-contain"
               />
             </div>

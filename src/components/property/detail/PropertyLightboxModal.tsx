@@ -90,6 +90,7 @@ export function PropertyLightboxModal({
             alt={`${propertyName} — Photo ${currentIndex + 1}`}
             fill
             sizes="(max-width: 1200px) 100vw, 1200px"
+            unoptimized={images[currentIndex]?.startsWith("/images/")}
             className="object-contain"
             priority
           />
@@ -123,7 +124,14 @@ export function PropertyLightboxModal({
               }`}
               aria-label={`Go to photo ${idx + 1}`}
             >
-              <Image src={img} alt={`Thumbnail ${idx + 1}`} fill className="object-cover" />
+              <Image
+                src={img}
+                alt={`Thumbnail ${idx + 1}`}
+                fill
+                sizes="64px"
+                unoptimized={img.startsWith("/images/")}
+                className="object-cover"
+              />
             </button>
           ))}
         </div>

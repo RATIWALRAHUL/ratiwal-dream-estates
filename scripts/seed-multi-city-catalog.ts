@@ -284,18 +284,30 @@ The development accommodates verified plot sizes from 100 Sq. Yds (900 Sq. Ft) u
     ],
     images: [
       {
-        url: "https://cdn.prod.website-files.com/67b6bb5106e0b321737746fb/6a1168966d8984fcaaa74a81_banner.jpg",
+        url: "/images/properties/bhumija-green-block-a-hero.jpg",
         fileName: "bhumija-green-block-a-hero.jpg",
-        altText: "Bhumija Green Block A Scenic Township Grounds Sikar Road Jaipur",
-        caption: "Main entrance and landscaped avenue at Bhumija Green Block A",
+        altText: "Bhumija Green Dubai Inspired Monumental Entry Gate on Sikar Road Jaipur",
+        caption: "Monumental architectural entrance gate at Bhumija Green Block A",
         isPrimary: true
       },
       {
-        url: "https://cdn.prod.website-files.com/67b6bb5106e0b321737746fb/6a116960ab1112b07709b114_layout.jpg",
-        fileName: "bhumija-green-block-a-layout.jpg",
-        altText: "JDA Layout Plan of Bhumija Green Block A Sikar Road Jaipur",
-        caption: "Official layout plan showing demarcated plot parcels and open parks",
+        url: "/images/properties/bhumija-green-block-a-layout.webp",
+        fileName: "bhumija-green-block-a-layout.webp",
+        altText: "Official JDA Approved Layout Plan of Bhumija Green Block A Nindar Sikar Road",
+        caption: "JDA and RERA verified master layout map of Bhumija Green",
         isLayout: true
+      },
+      {
+        url: "/images/properties/bhumija-green-block-a-park.jpg",
+        fileName: "bhumija-green-block-a-park.jpg",
+        altText: "Green Land Themed Parks and Open Spaces at Bhumija Green Jaipur",
+        caption: "Landscaped thematic gardens and community walking tracks"
+      },
+      {
+        url: "/images/properties/bhumija-green-block-a-fountain.jpg",
+        fileName: "bhumija-green-block-a-fountain.jpg",
+        altText: "Illuminated Musical Water Fountain at Bhumija Green Block A",
+        caption: "Dubai-inspired central musical fountain illuminated at night"
       }
     ]
   },
@@ -348,18 +360,30 @@ The development offers verified plot sizes from 100 Sq. Yds up to estate parcels
     ],
     images: [
       {
-        url: "https://cdn.prod.website-files.com/67b6bb5106e0b321737746fb/6a1169f46d8984fcaaa793ba_banner.jpg",
+        url: "/images/properties/riyasat-heritage-extension-hero.jpg",
         fileName: "riyasat-heritage-extension-hero.jpg",
-        altText: "Riyasat Heritage Extension Grand Plotted Community Chaksu Jaipur",
-        caption: "Main entrance and lush perimeter landscaping at Riyasat Heritage Extension",
+        altText: "Riyasat Heritage Extension Grand Entrance and Boulevard in Chaksu Jaipur",
+        caption: "Royal heritage entrance and main avenue at Riyasat Heritage Extension",
         isPrimary: true
       },
       {
-        url: "https://cdn.prod.website-files.com/67b6bb5106e0b321737746fb/6a116a8dab1112b0770a09e0_layout.jpg",
+        url: "/images/properties/riyasat-heritage-extension-layout.jpg",
         fileName: "riyasat-heritage-extension-layout.jpg",
-        altText: "JDA Layout Plan of Riyasat Heritage Extension Chaksu Jaipur",
-        caption: "Master layout plan showing large estate demarcations and broad avenues",
+        altText: "Official JDA and RERA Approved Marketing Map of Riyasat Heritage Extension",
+        caption: "Complete master plan and plot numbering map",
         isLayout: true
+      },
+      {
+        url: "/images/properties/riyasat-heritage-extension-overview.jpg",
+        fileName: "riyasat-heritage-extension-overview.jpg",
+        altText: "Panoramic Green Landscape Overview of Riyasat Heritage Extension Chaksu",
+        caption: "Vast landscaped township with paved avenues and manicured gardens"
+      },
+      {
+        url: "/images/properties/riyasat-heritage-extension-park.jpg",
+        fileName: "riyasat-heritage-extension-park.jpg",
+        altText: "Central Green Park and Gazebo at Riyasat Heritage Extension",
+        caption: "Community botanical park with shaded gazebos and paved trails"
       }
     ]
   },
@@ -421,27 +445,27 @@ The project offers commercial plot sizes ranging between 106 Sq. Yards and 200 S
     ],
     images: [
       {
-        url: "https://www.happyrealearth.com/uploads/blog//3dnBTcSv0h3d9uek9Fg7KL4IhsY21KH6hYyM0lth.webp",
+        url: "/images/properties/happy-business-park-hero.webp",
         fileName: "happy-business-park-hero.webp",
         altText: "Happy Business Park Commercial Highway Entrance Gagwana Ajmer",
         caption: "Main commercial entrance and boulevard of Happy Business Park on NH-8 Ajmer",
         isPrimary: true
       },
       {
-        url: "https://www.happyrealearth.com/uploads/blog//A8Ptaf91HxsEDo5mXRHIipml8Dx5KrkbNTPquLY2.webp",
+        url: "/images/properties/happy-business-park-layout.webp",
         fileName: "happy-business-park-layout.webp",
         altText: "Approved ADA Commercial Master Layout Plan of Happy Business Park Ajmer",
         caption: "Detailed ADA and RERA approved commercial plot layout with 60ft roads",
         isLayout: true
       },
       {
-        url: "https://www.happyrealearth.com/uploads/blog//x0T4UTSoPx2CfN4vcMEbIL3g7JInCUa881D20iAI.webp",
+        url: "/images/properties/happy-business-park-overview.webp",
         fileName: "happy-business-park-overview.webp",
         altText: "Wide Concrete Road Network and Highway Frontage at Happy Business Park",
         caption: "Internal 60-ft and 40-ft commercial roads with underground infrastructure"
       },
       {
-        url: "https://www.happyrealearth.com/uploads/blog//pDimfqffOuVaJfCvNpUDxEwUH3koXpwmy1x2RjKv.webp",
+        url: "/images/properties/happy-business-park-site.webp",
         fileName: "happy-business-park-site.webp",
         altText: "Panoramic Site Development at Happy Business Park Gagwana Ajmer",
         caption: "Ground demarcation and ongoing commercial infrastructure development"

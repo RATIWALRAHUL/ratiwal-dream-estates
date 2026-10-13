@@ -48,8 +48,8 @@ export function MarketAtlas({ summary, activeState = "ALL" }: MarketAtlasProps) 
       {/* Background Hero Asset with Website Navy Gradient */}
       <div className="absolute inset-0 z-0">
         <Image
-          src="/images/hero/slide-1.jpg"
-          alt="Ratiwal Planned Land Development"
+          src="/images/hero/hero-township-gate.jpg"
+          alt="Ratiwal verified grand township entrance and infrastructure"
           fill
           priority
           sizes="(max-width: 1200px) 100vw, 1320px"

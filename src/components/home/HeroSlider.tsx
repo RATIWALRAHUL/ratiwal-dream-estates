@@ -28,34 +28,34 @@ export interface HeroSlide {
 const HERO_SLIDES: HeroSlide[] = [
   {
     id: 1,
-    image: "/images/hero/slide-1.jpg",
-    alt: "Masterplanned luxury township with wide roads and palm tree boulevards at golden hour",
+    image: "/images/hero/hero-township-gate.jpg",
+    alt: "Riyasat Paradise II monumental grand entrance gateway and palm-lined boulevard in Vatika, Jaipur",
     title: "Masterplanned Townships",
-    location: "Ajmer Road SEZ Corridor, Jaipur",
+    location: "Vatika & Ring Road Corridor, Jaipur",
     headlineHighlight: "future begins.",
   },
   {
     id: 2,
-    image: "/images/hero/slide-2.jpg",
-    alt: "Exclusive modern luxury hillside villa enclave at twilight with infinity pools",
-    title: "Luxury Villa Communities",
-    location: "Navi Mumbai Coastal Outskirts",
+    image: "/images/hero/hero-heritage-park.jpg",
+    alt: "Royal heritage gazebos, botanical gardens and landscaped paved pathways at Riyasat Heritage Extension, Chaksu",
+    title: "Heritage Enclaves",
+    location: "Chaksu Urban Masterplan, Jaipur",
     headlineHighlight: "legacy grows.",
   },
   {
     id: 3,
-    image: "/images/hero/slide-3.jpg",
-    alt: "JDA approved demarcated residential plotted layout with clubhouse and lush central park",
+    image: "/images/hero/hero-plotted-layout.jpg",
+    alt: "JDA approved demarcated residential plots with paved curb and sector signage at Riyasat Paradise II",
     title: "Approved Plotted Layouts",
     location: "Jaipur Ring Road Expressway",
     headlineHighlight: "dreams settle.",
   },
   {
     id: 4,
-    image: "/images/hero/slide-4.jpg",
-    alt: "Architectural luxury villa estate with twilight ambient pool lighting and mountain backdrop",
-    title: "Signature Estates",
-    location: "High-Growth Investment Corridors",
+    image: "/images/hero/hero-divine-enclave.jpg",
+    alt: "Neelkanth Nagar monumental gated entrance with Trishul emblem, palm boulevards and secure community living",
+    title: "Divine Gated Living",
+    location: "Chaksu Highway Corridor, Jaipur",
     headlineHighlight: "wealth compounds.",
   },
 ];
@@ -168,7 +168,7 @@ export function HeroSlider() {
                   priority={index === 0}
                   loading={index === 0 ? undefined : "lazy"}
                   sizes="100vw"
-                  quality={75}
+                  unoptimized
                   className="hero-slide-image"
                 />
               </div>
