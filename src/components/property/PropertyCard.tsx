@@ -83,7 +83,6 @@ export function PropertyCard({ property }: PropertyCardProps) {
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
             quality={80}
             loading="lazy"
-            unoptimized={imgSrc.startsWith("/images/")}
             onError={() => {
               setImgSrc("/images/placeholders/property-placeholder.jpg");
             }}

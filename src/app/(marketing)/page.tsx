@@ -162,7 +162,7 @@ export default async function HomePage() {
             {testimonials[0] && (
               <article className="story-card story-featured">
                 <Quote className="story-quote" aria-hidden="true" />
-                <div className="stars" aria-label={`${testimonials[0].rating || 5} out of 5 stars`}>
+                <div className="stars" role="img" aria-label={`${testimonials[0].rating || 5} out of 5 stars`}>
                   {Array.from({ length: testimonials[0].rating || 5 }, (_, index) => (
                     <Star key={index} fill="currentColor" />
                   ))}
@@ -181,7 +181,7 @@ export default async function HomePage() {
             {testimonials.slice(1, 3).map((item) => (
               <article className="story-card" key={item.id}>
                 <Quote className="story-quote" aria-hidden="true" />
-                <div className="stars" aria-label={`${item.rating || 5} out of 5 stars`}>
+                <div className="stars" role="img" aria-label={`${item.rating || 5} out of 5 stars`}>
                   {Array.from({ length: item.rating || 5 }, (_, index) => (
                     <Star key={index} fill="currentColor" />
                   ))}

@@ -405,15 +405,15 @@ export function PropertyAdvisorSection() {
       <div className="max-w-[1500px] mx-auto px-5 sm:px-8 md:px-10 lg:px-14 xl:px-16 pb-10 sm:pb-12">
         <div className="flex items-center justify-between gap-4">
           <div className="flex items-baseline gap-2.5">
-            <span className="font-signature text-[28px] sm:text-[34px] text-[#0B2239]/40 leading-none -rotate-3 inline-block">
+            <span className="font-signature text-[28px] sm:text-[34px] text-[#0B2239]/60 leading-none -rotate-3 inline-block">
               Let&apos;s Build
             </span>
-            <span className="text-[10.5px] sm:text-[12px] font-bold text-[#0B2239]/35 tracking-[0.14em] uppercase">
+            <span className="text-[10.5px] sm:text-[12px] font-bold text-[#0B2239]/70 tracking-[0.14em] uppercase">
               A BETTER TOMORROW
             </span>
             <div className="hidden sm:block h-px flex-1 min-w-[60px] bg-[#0B2239]/15" />
           </div>
-          <div className="hidden sm:flex items-center gap-3 text-[10.5px] sm:text-[12px] font-bold text-[#0B2239]/35 tracking-[0.12em] uppercase whitespace-nowrap">
+          <div className="hidden sm:flex items-center gap-3 text-[10.5px] sm:text-[12px] font-bold text-[#0B2239]/70 tracking-[0.12em] uppercase whitespace-nowrap">
             <span>LAND</span>
             <span className="text-[#D9A62E]/50">|</span>
             <span>PEOPLE</span>

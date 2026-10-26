@@ -168,7 +168,6 @@ export function HeroSlider() {
                   priority={index === 0}
                   loading={index === 0 ? undefined : "lazy"}
                   sizes="100vw"
-                  unoptimized
                   className="hero-slide-image"
                 />
               </div>
@@ -259,7 +258,6 @@ export function HeroSlider() {
                   onClick={() => goToSlide(idx)}
                   role="tab"
                   aria-selected={isActive}
-                  aria-label={`Slide ${idx + 1}: ${slide.title}`}
                   className={`hero-tab-btn ${isActive ? "active" : ""}`}
                 >
                   <div className="hero-tab-meta">

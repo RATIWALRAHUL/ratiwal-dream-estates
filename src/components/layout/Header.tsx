@@ -228,7 +228,7 @@ export default function Header() {
               target="_blank"
               rel="noopener noreferrer"
               className="nav-cta-ghost"
-              aria-label="Contact us on WhatsApp (opens in a new tab)"
+              aria-label={`${siteConfig.ctas.secondary.label} (opens in a new tab)`}
             >
               <MessageCircle aria-hidden="true" />
               {siteConfig.ctas.secondary.label}

@@ -106,9 +106,9 @@ export default function Footer() {
                     <Icon className="w-5 h-5" />
                   </div>
                   <div>
-                    <h4 className="text-xs font-bold text-slate-900 tracking-wide uppercase">
+                    <h3 className="text-xs font-bold text-slate-900 tracking-wide uppercase">
                       {item.title}
-                    </h4>
+                    </h3>
                     <p className="text-xs text-slate-500 mt-0.5 leading-relaxed">
                       {item.desc}
                     </p>
@@ -150,7 +150,7 @@ export default function Footer() {
 
             {/* Social Channels */}
             <div className="mt-6 pt-6 border-t border-slate-100">
-              <span className="text-xs font-semibold uppercase tracking-wider text-slate-400 block mb-3">
+              <span className="text-xs font-semibold uppercase tracking-wider text-slate-500 block mb-3">
                 Connect With Us
               </span>
               <div className="flex items-center gap-2.5">
@@ -316,7 +316,7 @@ export default function Footer() {
                   <Phone className="w-4 h-4" />
                 </div>
                 <div>
-                  <span className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider block">
+                  <span className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider block">
                     Direct Advisory Line
                   </span>
                   <span className="font-semibold text-slate-900 text-sm group-hover:text-[#087fc3] transition-colors">
@@ -334,7 +334,7 @@ export default function Footer() {
                   <Mail className="w-4 h-4" />
                 </div>
                 <div className="overflow-hidden min-w-0">
-                  <span className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider block">
+                  <span className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider block">
                     Inquiries & Proposals
                   </span>
                   <span className="font-semibold text-slate-900 text-xs sm:text-sm break-all block group-hover:text-[#087fc3] transition-colors">

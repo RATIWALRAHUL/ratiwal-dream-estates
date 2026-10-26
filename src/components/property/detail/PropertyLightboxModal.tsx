@@ -90,7 +90,6 @@ export function PropertyLightboxModal({
             alt={`${propertyName} — Photo ${currentIndex + 1}`}
             fill
             sizes="(max-width: 1200px) 100vw, 1200px"
-            unoptimized={images[currentIndex]?.startsWith("/images/")}
             className="object-contain"
             priority
           />
@@ -129,7 +128,6 @@ export function PropertyLightboxModal({
                 alt={`Thumbnail ${idx + 1}`}
                 fill
                 sizes="64px"
-                unoptimized={img.startsWith("/images/")}
                 className="object-cover"
               />
             </button>

@@ -17,7 +17,7 @@ export function TestimonialCarousel({ testimonials }: { testimonials: Testimonia
 
         return (
           <article className="testimonial-card" aria-hidden={active !== testimonials.indexOf(item)} key={item.id}>
-            <div className="stars" aria-label={`${rating} out of 5 stars`}>
+            <div className="stars" role="img" aria-label={`${rating} out of 5 stars`}>
               {Array.from({ length: rating }, (_, i) => (
                 <Star key={i} size={15} fill="currentColor" />
               ))}
