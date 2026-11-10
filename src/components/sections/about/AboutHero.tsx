@@ -7,6 +7,7 @@ import { ArrowRight, ShieldCheck, Scale, Sparkles, MapPin, Award } from "lucide-
 import { Breadcrumbs } from "@/components/shared/Breadcrumbs";
 import { MagneticButton } from "@/components/home/MagneticButton";
 import { Reveal } from "@/components/home/Reveal";
+import { firmStats } from "@/config/site";
 
 export function AboutHero() {
   const breadcrumbItems = [{ label: "About Us", href: "/about" }];
@@ -14,7 +15,7 @@ export function AboutHero() {
   const badges = [
     { icon: ShieldCheck, label: "100% Verified Titles" },
     { icon: Scale, label: "Zero Speculative Markup" },
-    { icon: Award, label: "10+ Years Advisory" },
+    { icon: Award, label: `${firmStats.yearsExperience} Years Advisory` },
     { icon: MapPin, label: "Jaipur & Maharashtra Hubs" },
   ];
 

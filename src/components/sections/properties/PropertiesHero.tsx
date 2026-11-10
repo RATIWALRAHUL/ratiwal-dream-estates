@@ -44,8 +44,8 @@ export function PropertiesHero() {
               id="properties-hero-title"
               className="font-instrument text-[1.95rem] xs:text-[2.35rem] sm:text-[3.2rem] md:text-[4rem] lg:text-[4.6rem] text-[var(--midnight)] font-normal leading-[1.1] sm:leading-[1.03] tracking-tight mb-3 sm:mb-5"
             >
-              Curated land opportunities, verified{" "}
-              <span className="italic text-[var(--ratiwal-blue)]">without compromise.</span>
+              Residential &amp; Commercial Plots for Sale,{" "}
+              <span className="italic text-[var(--ratiwal-blue)]">verified with legal clarity.</span>
             </h1>
           </Reveal>
 

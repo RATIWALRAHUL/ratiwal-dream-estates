@@ -8,6 +8,10 @@ export const dynamic = "force-dynamic";
 export const metadata = {
   title: "Secure Payment Portal | Ratiwal Dream Estates",
   description: "Complete your luxury land conveyance instalment online.",
+  robots: {
+    index: false,
+    follow: false,
+  },
 };
 
 export default async function PublicPaymentPage({

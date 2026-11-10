@@ -6,7 +6,7 @@ import { LegalPageLayout } from "@/components/legal/LegalPageLayout";
 export const metadata = getMetadata({
   title: "Terms of Service",
   description:
-    "Review the terms and conditions governing your use of the Ratiwal Dream Estates real-estate advisory portal, property inquiries, consultation services, and corridor intelligence tools.",
+    "Terms and conditions for using the Ratiwal Dream Estates website, including property inquiries, consultation services and corridor intelligence tools.",
   slug: "/terms-of-service",
 });
 

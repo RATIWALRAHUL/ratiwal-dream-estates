@@ -3,13 +3,14 @@ import "server-only";
 import { createHash, randomBytes } from "crypto";
 
 import { connectToDatabase } from "@/lib/db/mongoose";
-import { ChannelPartner } from "@/models/ChannelPartner";
-import { PartnerAccount } from "@/models/PartnerAccount";
+import { ChannelPartner, IChannelPartner } from "@/models/ChannelPartner";
+import { PartnerAccount, IPartnerAccount } from "@/models/PartnerAccount";
 import { PartnerInvitation, IPartnerInvitation } from "@/models/PartnerInvitation";
 
 import { hashPartnerPassword, createPartnerSessionToken } from "@/lib/auth/partner-session";
 import { CommunicationOutboxService } from "@/lib/services/communication-outbox.service";
 import { logAuditEvent } from "@/lib/services/audit.service";
+import { siteConfig } from "@/config/site";
 
 export interface SendPartnerInvitationInput {
   partnerId: string;
@@ -81,7 +82,7 @@ export class PartnerInvitationService {
       await partner.save();
     }
 
-    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://ratiwaldreamestates.com";
+    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || siteConfig.url;
     const inviteUrl = `${baseUrl}/partner/claim?token=${rawToken}`;
 
     // Enqueue Outbox Notification
@@ -117,7 +118,7 @@ export class PartnerInvitationService {
    */
   public static async verifyInvitationToken(rawToken: string): Promise<{
     invitation: IPartnerInvitation;
-    partner: any;
+    partner: IChannelPartner;
   }> {
     await connectToDatabase();
 
@@ -134,7 +135,8 @@ export class PartnerInvitationService {
 
     return {
       invitation,
-      partner: invitation.partnerId,
+      // partnerId is populated above, so it holds the ChannelPartner document.
+      partner: invitation.partnerId as unknown as IChannelPartner,
     };
   }
 
@@ -147,8 +149,8 @@ export class PartnerInvitationService {
     phone?: string;
   }): Promise<{
     sessionToken: string;
-    partner: any;
-    account: any;
+    partner: IChannelPartner;
+    account: IPartnerAccount;
   }> {
     await connectToDatabase();
 

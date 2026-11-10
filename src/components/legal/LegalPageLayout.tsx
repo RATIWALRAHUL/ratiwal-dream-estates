@@ -113,7 +113,7 @@ export function LegalPageLayout({ data }: LegalPageLayoutProps) {
             </div>
 
             {/* Right Column: Main Legal Content Body (75% on desktop - 9 of 12 cols) */}
-            <main className="lg:col-span-8 xl:col-span-9 bg-white p-6 sm:p-10 md:p-12 rounded-2xl sm:rounded-3xl border border-[rgba(7,26,40,0.08)] shadow-sm">
+            <div className="lg:col-span-8 xl:col-span-9 bg-white p-6 sm:p-10 md:p-12 rounded-2xl sm:rounded-3xl border border-[rgba(7,26,40,0.08)] shadow-sm">
               <div className="space-y-10 sm:space-y-12">
                 {data.sections.map((section) => (
                   <LegalSection key={section.id} section={section} />
@@ -122,7 +122,7 @@ export function LegalPageLayout({ data }: LegalPageLayoutProps) {
 
               {/* Verified Contact & Compliance Footer Card */}
               <LegalContactCard />
-            </main>
+            </div>
           </div>
         </div>
       </div>

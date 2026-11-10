@@ -5,7 +5,7 @@ import Image from "next/image";
 import { Phone, Mail, MessageSquare, ShieldCheck, Sparkles, CheckCircle2, Award, Check } from "lucide-react";
 import { Reveal } from "@/components/home/Reveal";
 import { generateWhatsAppUrl } from "@/lib/whatsapp";
-import { siteConfig } from "@/config/site";
+import { siteConfig, firmStats } from "@/config/site";
 import { advisorData } from "@/data/advisorData";
 
 export function AboutLeadership() {
@@ -13,17 +13,17 @@ export function AboutLeadership() {
 
   const credentials = [
     {
-      title: "8+ Years Dedicated Land Advisory",
-      metric: "8+ Yrs",
+      title: `${firmStats.yearsExperience} Years Dedicated Land Advisory`,
+      metric: `${firmStats.yearsExperience} Yrs`,
       desc: "Specializing in Rajasthan high-growth corridors, masterplan alignments, and long-term land wealth creation.",
     },
     {
-      title: "250+ Satisfied Families & Investors",
-      metric: "250+",
+      title: `${firmStats.familiesGuided} Satisfied Families & Investors`,
+      metric: firmStats.familiesGuided,
       desc: "Providing direct one-on-one fiduciary advisory with zero broker speculation and complete price transparency.",
     },
     {
-      title: "50,000+ Sq. Yards Successfully Transacted",
+      title: `${firmStats.sqYardsTransacted} Sq. Yards Successfully Transacted`,
       metric: "50K+ Yds",
       desc: "Expert legal verification across Jamabandi, Patta conversion, Section 90A/90B approvals, and Sub-Registrar registries.",
     },
@@ -140,7 +140,7 @@ export function AboutLeadership() {
                     <div className="grid grid-cols-3 gap-1.5 sm:gap-2.5 mt-3.5 pt-3 border-t border-white/10 text-center">
                       <div className="bg-white/[0.05] hover:bg-white/[0.09] border border-white/10 rounded-xl py-2 px-1 transition-all">
                         <span className="block text-[13px] sm:text-[15px] font-extrabold text-white leading-tight tracking-tight">
-                          8+ Yrs
+                          {firmStats.yearsExperience} Yrs
                         </span>
                         <span className="text-[9.5px] sm:text-[10px] text-white/60 uppercase tracking-wider font-semibold mt-0.5 block">
                           Advisory
@@ -148,7 +148,7 @@ export function AboutLeadership() {
                       </div>
                       <div className="bg-white/[0.05] hover:bg-white/[0.09] border border-white/10 rounded-xl py-2 px-1 transition-all">
                         <span className="block text-[13px] sm:text-[15px] font-extrabold text-white leading-tight tracking-tight">
-                          250+
+                          {firmStats.familiesGuided}
                         </span>
                         <span className="text-[9.5px] sm:text-[10px] text-white/60 uppercase tracking-wider font-semibold mt-0.5 block">
                           Families

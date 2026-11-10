@@ -40,6 +40,10 @@ export interface EvidenceReference {
 export interface CaseStudy {
   slug: string;
   title: string;
+  /** SEO-only <title> (without brand). Falls back to `title`. Not shown on the page. */
+  metaTitle?: string;
+  /** SEO-only meta description. Falls back to `summary`. Not shown on the page. */
+  metaDescription?: string;
   tagline: string;
   summary: string;
   clientDisplayName: string;

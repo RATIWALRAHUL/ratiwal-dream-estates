@@ -35,7 +35,7 @@ export const locations: Location[] = [
           "Concentration of top schools, universities & hospital campuses",
         ],
         regulatoryAuthority: "Jaipur Development Authority (JDA)",
-        relevantPropertySlugs: ["royal-palms-township-ajmer-road-jaipur"],
+        relevantPropertySlugs: [],
       },
       {
         id: "mm-jaipur-ring-rd",
@@ -51,7 +51,7 @@ export const locations: Location[] = [
           "High capital appreciation driven by freight & logistics decentralization",
         ],
         regulatoryAuthority: "Jaipur Development Authority (JDA)",
-        relevantPropertySlugs: ["ring-road-logistics-commercial-hub-jaipur"],
+        relevantPropertySlugs: [],
       },
       {
         id: "mm-jaipur-tonk-rd",
@@ -67,7 +67,7 @@ export const locations: Location[] = [
           "High residential rental demand from healthcare and academic professionals",
         ],
         regulatoryAuthority: "Jaipur Development Authority (JDA)",
-        relevantPropertySlugs: ["imperial-enclave-tonk-road-jaipur"],
+        relevantPropertySlugs: ["riyasat-paradise-ii"],
       },
     ],
     infrastructure: [
@@ -240,7 +240,7 @@ export const locations: Location[] = [
           "Interconnected to Virar-Alibaug Multi-Modal Corridor network",
         ],
         regulatoryAuthority: "CIDCO / NAINA / MahaRERA",
-        relevantPropertySlugs: ["aerotropolis-prime-plotted-node-navi-mumbai"],
+        relevantPropertySlugs: [],
       },
       {
         id: "mm-nm-mthl-corridor",
@@ -256,7 +256,7 @@ export const locations: Location[] = [
           "Surrounding port and logistics connectivity linked to JNPT",
         ],
         regulatoryAuthority: "CIDCO / MMRDA",
-        relevantPropertySlugs: ["aerotropolis-prime-plotted-node-navi-mumbai"],
+        relevantPropertySlugs: [],
       },
     ],
     infrastructure: [
@@ -429,7 +429,7 @@ export const locations: Location[] = [
           "ADA (Ajmer Development Authority) compliant zoning",
         ],
         regulatoryAuthority: "Ajmer Development Authority (ADA)",
-        relevantPropertySlugs: ["aravalli-greens-retreat-plots-ajmer"],
+        relevantPropertySlugs: [],
       },
       {
         id: "mm-ajmer-kishangarh-axis",
@@ -445,7 +445,7 @@ export const locations: Location[] = [
           "Strategic transit node between Jaipur and Ajmer",
         ],
         regulatoryAuthority: "ADA / RIICO",
-        relevantPropertySlugs: ["aravalli-greens-retreat-plots-ajmer"],
+        relevantPropertySlugs: [],
       },
     ],
     infrastructure: [
@@ -601,7 +601,7 @@ export const locations: Location[] = [
           "High institutional and NRI investment concentration",
         ],
         regulatoryAuthority: "CIDCO / NAINA / MahaRERA",
-        relevantPropertySlugs: ["aerotropolis-prime-plotted-node-navi-mumbai"],
+        relevantPropertySlugs: [],
       },
       {
         id: "mm-panvel-expressway-axis",
@@ -617,7 +617,7 @@ export const locations: Location[] = [
           "Strong capital appreciation driven by highway visibility",
         ],
         regulatoryAuthority: "PMC (Panvel Municipal Corporation) / CIDCO",
-        relevantPropertySlugs: ["aerotropolis-prime-plotted-node-navi-mumbai"],
+        relevantPropertySlugs: [],
       },
     ],
     infrastructure: [
@@ -773,7 +773,7 @@ export const locations: Location[] = [
           "High institutional lease yields and heavy vehicle logistics access",
         ],
         regulatoryAuthority: "RIICO / Statutory Industrial Zone",
-        relevantPropertySlugs: ["dmic-industrial-commercial-logistics-bhiwadi"],
+        relevantPropertySlugs: [],
       },
       {
         id: "mm-bhiwadi-alwar-bypass",
@@ -789,7 +789,7 @@ export const locations: Location[] = [
           "High rental demand for residential and commercial units",
         ],
         regulatoryAuthority: "Bhiwadi Urban Improvement Trust (UIT) / RIICO",
-        relevantPropertySlugs: ["dmic-industrial-commercial-logistics-bhiwadi"],
+        relevantPropertySlugs: [],
       },
     ],
     infrastructure: [

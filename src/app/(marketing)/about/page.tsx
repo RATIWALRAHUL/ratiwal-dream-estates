@@ -13,9 +13,9 @@ import { buildBreadcrumbSchema, buildWebPageSchema, sanitizeJsonLd } from "@/lib
 import { siteConfig } from "@/config/site";
 
 export const metadata = getMetadata({
-  title: "About Us — Lifelong Property Consultancy Built on Trust",
+  title: "About Us — Property Consultancy",
   description:
-    "Learn about Ratiwal Dream Estates, our founding principles, our 6-stage land verification protocol, and our fiduciary commitment to transparent property advisory in Rajasthan and Maharashtra.",
+    "Meet Ratiwal Dream Estates, a Jaipur-based property consultancy. Learn our land verification process and how we guide plot buyers and investors.",
   slug: "/about",
 });
 

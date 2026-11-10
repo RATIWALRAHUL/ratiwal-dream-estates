@@ -79,7 +79,7 @@ export function PropertyDetailPageClient({
         {/* 3. Main Content Two-Column Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
           {/* Main Left Reading & Interactive Column (8 cols) */}
-          <main className="lg:col-span-8 min-w-0">
+          <div className="lg:col-span-8 min-w-0">
             {/* Quick Property Facts */}
             <PropertyQuickFacts property={property} />
 
@@ -134,7 +134,7 @@ export function PropertyDetailPageClient({
 
             {/* Property FAQ Accordion */}
             <PropertyFAQ property={property} />
-          </main>
+          </div>
 
           {/* Sticky Inquiry Side Panel (4 cols on desktop) */}
           <aside className="hidden lg:block lg:col-span-4 sticky top-24 self-start">

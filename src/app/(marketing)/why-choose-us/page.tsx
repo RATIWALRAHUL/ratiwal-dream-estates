@@ -24,7 +24,7 @@ import {
 } from "@/lib/schema";
 
 export const metadata = getMetadata({
-  title: "Why Choose Ratiwal Dream Estates | Verified Property Advisory",
+  title: "Why Choose Us — Verified Advisory",
   description:
     "Discover Ratiwal Dream Estates’ verification-first approach to property discovery, documentation support, pricing transparency, and local real-estate guidance.",
   slug: "/why-choose-us",
@@ -57,7 +57,7 @@ export default async function WhyChooseUsPage() {
         dangerouslySetInnerHTML={{ __html: sanitizeJsonLd(jsonLd) }}
       />
 
-      <main id="main-content" className="w-full">
+      <div className="w-full">
         {/* Section 1: Premium Editorial Hero */}
         <WhyChooseHero />
 
@@ -90,7 +90,7 @@ export default async function WhyChooseUsPage() {
 
         {/* Section 11: Premium Conversion CTA */}
         <FinalConsultationCTA />
-      </main>
+      </div>
     </>
   );
 }

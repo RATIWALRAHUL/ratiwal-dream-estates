@@ -10,9 +10,9 @@ import { buildBreadcrumbSchema, buildWebPageSchema, sanitizeJsonLd } from "@/lib
 import { siteConfig } from "@/config/site";
 
 export const metadata = getMetadata({
-  title: "Contact Us — Private Land Advisory & Site Visits",
+  title: "Contact Us — Site Visits & Advisory",
   description:
-    "Schedule a 1-on-1 land consultation with Ratiwal Dream Estates advisors in Jaipur, arrange an accompanied on-ground site inspection, or chat directly on WhatsApp.",
+    "Schedule a land consultation with Ratiwal Dream Estates advisors in Jaipur, arrange an accompanied site visit, or chat with us directly on WhatsApp.",
   slug: "/contact",
 });
 

@@ -14,7 +14,7 @@ import { InsightFinalCTA } from "@/components/insights/InsightFinalCTA";
 import { siteConfig } from "@/config/site";
 
 export const metadata = getMetadata({
-  title: "Property Insights, Buying Guides & Market Research",
+  title: "Property Insights & Buying Guides",
   description:
     "Explore property-buying guides, documentation checklists, RERA education, location insights, and market resources from Ratiwal Dream Estates.",
   slug: "/insights",

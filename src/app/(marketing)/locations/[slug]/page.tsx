@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import { getMetadata } from "@/lib/seo";
+import { getMetadata, pickFittingText } from "@/lib/seo";
 import { getAllLocations, getLocationBySlug } from "@/lib/data/locations";
 import { getAllProperties } from "@/lib/data/properties";
 import { getPropertiesForLocation } from "@/lib/utils/location-stats";
@@ -24,17 +24,24 @@ export async function generateMetadata({ params }: LocationPageProps) {
   const location = await getLocationBySlug(slug);
 
   if (!location) {
-    return getMetadata({
-      title: "Location Not Found",
-      noIndex: true,
-    });
+    notFound();
   }
 
+  // heroImage may be empty (e.g. no photo uploaded yet), a site path, or an absolute URL.
+  const hero = location.heroImage?.trim();
+  const image = hero ? (hero.startsWith("http") ? hero : `${siteConfig.url}${hero}`) : undefined;
+  const state = location.state?.split("/")[0].trim();
+
   return getMetadata({
-    title: `Property in ${location.name} | Market Guide`,
-    description: `Explore properties, micro-markets, infrastructure context, and buyer guidance for ${location.name} with ${siteConfig.name}.`,
+    title: `Property & Plots in ${location.name}`,
+    description: pickFittingText([
+      `Explore residential and commercial plots, micro-markets, infrastructure, connectivity and buyer guidance for ${location.name}${state ? `, ${state}` : ""} with ${siteConfig.name}.`,
+      `Explore residential and commercial plots, micro-markets, infrastructure, connectivity and buyer guidance for ${location.name}${state ? `, ${state}` : ""}.`,
+      `Explore residential and commercial plots, micro-markets, infrastructure and buyer guidance for ${location.name}.`,
+    ]),
     slug: `/locations/${location.slug}`,
-    image: `${siteConfig.url}${location.heroImage}`,
+    image,
+    imageAlt: image ? `${location.name}${state ? `, ${state}` : ""}` : undefined,
   });
 }
 
@@ -51,6 +58,7 @@ export async function generateStaticParams() {
 }
 
 export const revalidate = 120;
+export const dynamicParams = false;
 
 export default async function LocationDetailPage({ params }: LocationPageProps) {
   const { slug } = await params;

@@ -10,7 +10,6 @@ export const testimonials: Testimonial[] = [
     city: "Jaipur",
     state: "Rajasthan",
     propertyType: "Residential Plot",
-    relatedPropertySlug: "royal-palms-township-ajmer-road-jaipur",
     relatedLocationSlug: "jaipur",
     rating: 5,
     reviewDate: "June 2026",
@@ -36,7 +35,6 @@ export const testimonials: Testimonial[] = [
     city: "Navi Mumbai / Panvel",
     state: "Maharashtra",
     propertyType: "NAINA Plotted Land",
-    relatedPropertySlug: "aerotropolis-prime-plotted-node-navi-mumbai",
     relatedLocationSlug: "navi-mumbai",
     rating: 5,
     reviewDate: "May 2026",
@@ -62,7 +60,6 @@ export const testimonials: Testimonial[] = [
     city: "Jaipur",
     state: "Rajasthan",
     propertyType: "Commercial Land",
-    relatedPropertySlug: "ring-road-logistics-commercial-hub-jaipur",
     relatedLocationSlug: "jaipur",
     rating: 5,
     reviewDate: "April 2026",
@@ -88,7 +85,6 @@ export const testimonials: Testimonial[] = [
     city: "Ajmer",
     state: "Rajasthan",
     propertyType: "Scenic Residential Plot",
-    relatedPropertySlug: "aravalli-greens-retreat-plots-ajmer",
     relatedLocationSlug: "ajmer",
     rating: 5,
     reviewDate: "March 2026",
@@ -114,7 +110,6 @@ export const testimonials: Testimonial[] = [
     city: "Bhiwadi",
     state: "Rajasthan / NCR",
     propertyType: "Industrial Logistics Parcel",
-    relatedPropertySlug: "dmic-industrial-commercial-logistics-bhiwadi",
     relatedLocationSlug: "bhiwadi",
     rating: 5,
     reviewDate: "February 2026",
@@ -137,6 +132,8 @@ export const caseStudies: CaseStudy[] = [
   {
     slug: "clarity-in-jda-patta-and-plot-shortlisting-jaipur",
     title: "Navigating JDA 90A Sanctions & Sectoral Plot Selection",
+    metaTitle: "JDA 90A Plot Selection Case Study",
+    metaDescription: "How first-time plot buyers navigated 90A land conversion and secured a JDA-sanctioned residential plot with immediate mutation, in a 45-day advisory.",
     tagline: "How a family found the right residential plot on Ajmer Road with complete revenue transparency",
     summary:
       "A structured 45-day advisory engagement helping first-time plot buyers navigate complex revenue land conversions and secure a JDA-sanctioned residential plot with immediate mutation rights.",
@@ -165,7 +162,6 @@ export const caseStudies: CaseStudy[] = [
     timeframe: "45 days from initial advisory consultation to registered title deed.",
     clientQuote:
       "Ratiwal Dream Estates made sure we didn’t fall into the trap of unapproved agricultural societies. Every single document was checked before we spent a rupee.",
-    relatedPropertySlug: "royal-palms-township-ajmer-road-jaipur",
     relatedLocationSlug: "jaipur",
     heroImage: "/images/locations/jaipur.jpg",
     clientConsent: true,
@@ -175,6 +171,8 @@ export const caseStudies: CaseStudy[] = [
   {
     slug: "remote-nri-due-diligence-panvel-naina-node",
     title: "Remote Due Diligence & NAINA Aerotropolis Land Acquisition",
+    metaTitle: "NRI Land Purchase in Panvel-NAINA",
+    metaDescription: "How an NRI investor bought plotted land in the Panvel-NAINA airport influence corridor through remote due diligence, without travelling from Dubai.",
     tagline: "Transparent remote documentation and legal liaison for an overseas buyer in Dubai",
     summary:
       "Comprehensive end-to-end legal and technical advisory for an NRI investor acquiring high-growth plotted land in the Panvel-NAINA airport influence corridor without international travel.",
@@ -203,7 +201,6 @@ export const caseStudies: CaseStudy[] = [
     timeframe: "30 days completely remote engagement.",
     clientQuote:
       "The detailed video surveys, revenue title reports, and regular updates made this remote investment seamless and completely transparent.",
-    relatedPropertySlug: "aerotropolis-prime-plotted-node-navi-mumbai",
     relatedLocationSlug: "navi-mumbai",
     heroImage: "/images/locations/panvel.jpg",
     clientConsent: true,
@@ -213,6 +210,8 @@ export const caseStudies: CaseStudy[] = [
   {
     slug: "commercial-logistics-land-banking-jaipur-ring-road",
     title: "Commercial Frontage & Heavy Freight Access Due Diligence",
+    metaTitle: "Ring Road Commercial Land Case Study",
+    metaDescription: "Case study: acquiring commercial land with 200ft Ring Road frontage, power sanction and heavy vehicle access checks for a logistics buyer in Jaipur.",
     tagline: "Structured land-banking for an institutional logistics and warehousing setup",
     summary:
       "Strategic acquisition of commercial land with 200ft direct Ring Road frontage, high-tension power sanction, and heavy vehicle turning radius clearances.",
@@ -241,7 +240,6 @@ export const caseStudies: CaseStudy[] = [
     timeframe: "60 days structured advisory.",
     clientQuote:
       "Ratiwal's understanding of JDA commercial zoning and highway access rights saved us months of bureaucratic uncertainty.",
-    relatedPropertySlug: "ring-road-logistics-commercial-hub-jaipur",
     relatedLocationSlug: "jaipur",
     heroImage: "/images/locations/bhiwadi.jpg",
     clientConsent: true,
@@ -251,6 +249,8 @@ export const caseStudies: CaseStudy[] = [
   {
     slug: "scenic-retreat-villa-plot-ajmer-pushkar",
     title: "Scenic Foothill Verification & ADA Layout Scrutiny",
+    metaTitle: "Ajmer Pushkar Bypass Plot Case Study",
+    metaDescription: "How a family acquired a holiday-home plot on the Pushkar Bypass in Ajmer after ADA scheme, forest boundary and Jamabandi verification.",
     tagline: "Holiday villa land acquisition along Pushkar Bypass with eco-sensitive clearance",
     summary:
       "Guiding a family through Ajmer Development Authority (ADA) scheme scrutiny to acquire a scenic holiday home plot overlooking the Aravalli mountains.",
@@ -279,7 +279,6 @@ export const caseStudies: CaseStudy[] = [
     timeframe: "25 days from site inspection to final registration.",
     clientQuote:
       "The peaceful setting along with total legal clarity gave us complete peace of mind. We are delighted with the guidance.",
-    relatedPropertySlug: "aravalli-greens-retreat-plots-ajmer",
     relatedLocationSlug: "ajmer",
     heroImage: "/images/locations/ajmer.jpg",
     clientConsent: true,

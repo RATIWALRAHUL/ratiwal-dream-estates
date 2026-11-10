@@ -1,13 +1,31 @@
+/**
+ * Single source of truth for track-record figures.
+ * The advisor and the firm are the same practice, so every surface
+ * (advisor card, About, footer, contact, JSON-LD) must read from here.
+ */
+export const firmStats = {
+  yearsExperience: "8+",
+  familiesGuided: "250+",
+  sqYardsTransacted: "50,000+",
+} as const;
+
+function resolveCanonicalSiteUrl(): string {
+  const envUrl = process.env.NEXT_PUBLIC_SITE_URL || process.env.SITE_URL;
+  if (envUrl && !envUrl.includes("localhost")) {
+    let clean = envUrl.replace(/\/$/, "");
+    if (!clean.startsWith("http")) clean = `https://${clean}`;
+    if (clean.includes("ratiwaldreamestates.com") && !clean.includes("www.ratiwaldreamestates.com")) {
+      clean = clean.replace("ratiwaldreamestates.com", "www.ratiwaldreamestates.com");
+    }
+    return clean;
+  }
+  return "https://www.ratiwaldreamestates.com";
+}
+
 export const siteConfig = {
   name: "Ratiwal Dream Estates",
   tagline: "Lifelong Property Consultancy, Built on Trust & Transparency.",
-  url:
-    (process.env.NEXT_PUBLIC_SITE_URL && !process.env.NEXT_PUBLIC_SITE_URL.includes("localhost")
-      ? process.env.NEXT_PUBLIC_SITE_URL
-      : process.env.SITE_URL && !process.env.SITE_URL.includes("localhost")
-      ? process.env.SITE_URL
-      : "https://ratiwaldreamestates.com"
-    ).replace(/\/$/, ""),
+  url: resolveCanonicalSiteUrl(),
   contact: {
     phone: process.env.NEXT_PUBLIC_BUSINESS_PHONE || "+91-9929533436",
     whatsapp: process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "+91-9929533436",
@@ -24,10 +42,10 @@ export const siteConfig = {
     displayPhone: "+91 99295 33436",
     rawPhone: "9929533436",
     reraNo: "RAJ/A/2019/983",
-    experience: "8+ Years",
-    clients: "250+",
-    salesExperience: "50,000+ Sq. Yards",
-    salesDetails: "50,000+ Sq. Yards Sell Experience",
+    experience: `${firmStats.yearsExperience} Years`,
+    clients: firmStats.familiesGuided,
+    salesExperience: `${firmStats.sqYardsTransacted} Sq. Yards`,
+    salesDetails: `${firmStats.sqYardsTransacted} Sq. Yards Sell Experience`,
     image: "/images/brand/suresh-kumawat.jpg",
   },
   social: {

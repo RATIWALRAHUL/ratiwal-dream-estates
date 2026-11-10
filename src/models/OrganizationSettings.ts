@@ -1,4 +1,5 @@
 import mongoose, { Schema, Document, Model, Types } from "mongoose";
+import { siteConfig } from "@/config/site";
 import {
   GeneralSettings,
   RegionalSettings,
@@ -27,13 +28,13 @@ const GeneralSettingsSchema = new Schema<GeneralSettings>(
   {
     orgDisplayName: { type: String, default: "Ratiwal Dream Estates" },
     legalBusinessName: { type: String, default: "Ratiwal Dream Estates Private Limited" },
-    supportEmail: { type: String, default: "support@ratiwaldreamestates.com" },
-    supportPhone: { type: String, default: "+91 98290 12345" },
+    supportEmail: { type: String, default: siteConfig.contact.email },
+    supportPhone: { type: String, default: siteConfig.contact.phone },
     registeredOfficeAddress: {
       type: String,
       default: "Ratiwal Towers, Tonk Road, Jaipur, Rajasthan 302015, India",
     },
-    websiteUrl: { type: String, default: "https://ratiwaldreamestates.com" },
+    websiteUrl: { type: String, default: siteConfig.url },
     companyRegistrationNumber: { type: String, default: "U70109RJ2023PTC088219" },
     gstNumber: { type: String, default: "08AABCR1234F1Z5" },
     socialLinks: {

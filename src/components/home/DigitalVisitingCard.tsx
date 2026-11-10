@@ -5,9 +5,11 @@ import React, {
   useCallback,
   useEffect,
   useRef,
+  useSyncExternalStore,
   CSSProperties,
 } from "react";
 import Image from "next/image";
+import { siteConfig } from "@/config/site";
 import {
   RotateCcw,
   Share2,
@@ -354,22 +356,35 @@ function ShareModal({ onClose, pageUrl }: { onClose: () => void; pageUrl: string
   );
 }
 
+// ─── prefers-reduced-motion as an external store (no setState in effects) ─────
+const REDUCED_MOTION_QUERY = "(prefers-reduced-motion: reduce)";
+
+function subscribeReducedMotion(onChange: () => void) {
+  const mq = window.matchMedia(REDUCED_MOTION_QUERY);
+  mq.addEventListener("change", onChange);
+  return () => mq.removeEventListener("change", onChange);
+}
+
+function getReducedMotionSnapshot() {
+  return window.matchMedia(REDUCED_MOTION_QUERY).matches;
+}
+
+function getReducedMotionServerSnapshot() {
+  return false;
+}
+
 // ─── DigitalVisitingCard — main export ────────────────────────────────────────
 export default function DigitalVisitingCard() {
   const [isFlipped, setIsFlipped] = useState(false);
   const [showShare, setShowShare] = useState(false);
   const [dlStatus, setDlStatus] = useState<"idle" | "done">("idle");
-  const [reducedMotion, setReducedMotion] = useState(false);
-  const [pageUrl, setPageUrl] = useState("https://ratiwaldreamestates.com");
-
-  useEffect(() => {
-    setPageUrl(window.location.origin);
-    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
-    setReducedMotion(mq.matches);
-    const handler = (e: MediaQueryListEvent) => setReducedMotion(e.matches);
-    mq.addEventListener("change", handler);
-    return () => mq.removeEventListener("change", handler);
-  }, []);
+  const reducedMotion = useSyncExternalStore(
+    subscribeReducedMotion,
+    getReducedMotionSnapshot,
+    getReducedMotionServerSnapshot
+  );
+  // Share the canonical production origin (not whatever host served the page).
+  const pageUrl = siteConfig.url;
 
   const handleFlip = useCallback(() => setIsFlipped((p) => !p), []);
 

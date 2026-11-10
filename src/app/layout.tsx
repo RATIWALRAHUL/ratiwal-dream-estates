@@ -48,7 +48,9 @@ const mono = JetBrains_Mono({
   display: "swap",
 });
 
-export const metadata: Metadata = getMetadata();
+// Root defaults carry no canonical: every public route sets its own via
+// getMetadata({ slug }), and private/404 routes must not inherit the homepage URL.
+export const metadata: Metadata = getMetadata({ omitCanonical: true, omitRobots: true });
 
 export default function RootLayout({
   children,

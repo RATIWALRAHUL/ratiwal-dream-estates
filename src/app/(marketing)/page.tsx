@@ -2,52 +2,62 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, Building2, Check, Clock3, FileCheck2, MapPin, Quote, ShieldCheck, Star } from "lucide-react";
 import { getMetadata } from "@/lib/seo";
+import { firmStats } from "@/config/site";
 import { getAllProperties } from "@/lib/data/properties";
+import { getAllLocations } from "@/lib/data/locations";
+import { summarizeLocations } from "@/lib/utils/listing-summary";
+import { homeCopy } from "@/lib/seo-copy";
 import { testimonials } from "@/data/testimonials";
 import { PropertyCard } from "@/components/property/PropertyCard";
 import { HomeSearch } from "@/components/home/HomeSearch";
 import { HeroSlider } from "@/components/home/HeroSlider";
 import { PropertyAdvisorSection } from "@/components/home/PropertyAdvisorSection";
 import { HomeFAQ } from "@/components/home/HomeFAQ";
+import { HOME_FAQS } from "@/data/home-faqs";
+import { JsonLd, getFaqPageSchema } from "@/components/seo/JsonLd";
 import { Reveal } from "@/components/home/Reveal";
 import { CountUp } from "@/components/home/CountUp";
 import { MagneticButton } from "@/components/home/MagneticButton";
 
-export const dynamic = "force-dynamic";
+// ISR: the page has no per-request data. On-demand revalidation (revalidatePath("/"))
+// is triggered from property.actions.ts when a property changes.
+export const revalidate = 60;
 
-export const metadata = getMetadata({
-  title: "Premium Plots in Jaipur, Ajmer & Kishangarh",
-  description:
-    "Discover verified residential and commercial plots with Ratiwal Dream Estates, your trusted property consultancy.",
-  slug: "",
-});
+// Title/description are built from the saved Location records (MongoDB), main market
+// first, so every location saved in the dashboard is reflected automatically.
+export async function generateMetadata() {
+  const [locations, properties] = await Promise.all([getAllLocations(), getAllProperties()]);
+  return getMetadata({ ...homeCopy(summarizeLocations(locations, properties)), slug: "" });
+}
 
 const marqueeItems = [
   { icon: ShieldCheck, label: "Verified Land" },
   { icon: FileCheck2, label: "Clear Documentation" },
   { icon: MapPin, label: "Local Expertise" },
-  { icon: Clock3, label: "10+ Years Experience" },
+  { icon: Clock3, label: `${firmStats.yearsExperience} Years Experience` },
   { icon: Building2, label: "500+ Verified Projects" },
   { icon: ShieldCheck, label: "100% Transparency Always" },
 ];
 
-function shuffleProperties<T>(array: T[]): T[] {
-  const result = [...array];
-  for (let i = result.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [result[i], result[j]] = [result[j], result[i]];
-  }
-  return result;
+/**
+ * Deterministic homepage selection: featured properties first, then the rest,
+ * each group keeping the database order (sortOrder asc, createdAt desc).
+ * Stable between requests so the page can be cached and crawlers see consistent links.
+ */
+function selectHomeProperties<T extends { featured?: boolean }>(array: T[], count: number): T[] {
+  const featured = array.filter((p) => p.featured);
+  const rest = array.filter((p) => !p.featured);
+  return [...featured, ...rest].slice(0, count);
 }
 
 export default async function HomePage() {
   const properties = await getAllProperties();
-  // Dynamically shuffle properties on every page refresh/visit showing exactly 3 randomized projects across all cities
-  const shuffled = shuffleProperties(properties);
-  const displayedProperties = shuffled.length > 0 ? shuffled.slice(0, 3) : [];
+  const displayedProperties = selectHomeProperties(properties, 3);
+  const faqJsonLd = getFaqPageSchema(HOME_FAQS);
 
   return (
     <>
+      <JsonLd data={faqJsonLd} />
       <HeroSlider />
       <HomeSearch properties={properties} />
       <div className="proof-marquee" aria-hidden="true">
@@ -134,8 +144,8 @@ export default async function HomePage() {
               </div>
             </div>
             <div className="metrics">
-              <span><strong><CountUp end={10} suffix="+" /></strong><small>Years of<br />Experience</small></span>
-              <span><strong><CountUp end={1} decimals={0} suffix="K+" /></strong><small>Happy<br />Clients</small></span>
+              <span><strong><CountUp end={parseInt(firmStats.yearsExperience, 10)} suffix="+" /></strong><small>Years of<br />Experience</small></span>
+              <span><strong><CountUp end={parseInt(firmStats.familiesGuided, 10)} suffix="+" /></strong><small>Families<br />Guided</small></span>
               <span><strong><CountUp end={500} suffix="+" /></strong><small>Verified<br />Projects</small></span>
               <span><strong><CountUp end={100} suffix="%" /></strong><small>Transparency<br />Always</small></span>
             </div>

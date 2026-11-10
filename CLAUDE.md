@@ -69,3 +69,29 @@
 - **Seeder:** `npx tsx scripts/seed-jaipur-townships.ts` (Idempotent seed of all verified projects).
 - **Update Gate & Plots:** `npx tsx scripts/update-card-gate-images.ts`.
 - **Verification:** `npx tsx scripts/verify-jaipur-townships.ts` (Validates 100% database health, single primary image, and ImageKit hosting).
+
+---
+
+## 8. SEO Development Rules
+
+For every new page or modification:
+
+1. Follow the installed SEO skills.
+2. Add unique metadata.
+3. Use semantic HTML.
+4. Maintain correct H1-H6 hierarchy.
+5. Add relevant internal links.
+6. Implement appropriate schema.
+7. Optimize images and alt text.
+8. Ensure canonical URL correctness.
+9. Check indexability.
+10. Test mobile performance.
+11. Preserve existing functionality.
+
+Never publish unverified business information.  
+Never create thin or duplicate location pages.  
+Never promise Google ranking positions.  
+
+Before major SEO changes, generate an implementation plan.  
+After implementation, run SEO validation and report changed files.
+

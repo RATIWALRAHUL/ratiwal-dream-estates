@@ -3,6 +3,8 @@
  * @description Branded HTML email shell and helper utilities for Ratiwal Dream Estates.
  * Implements editorial luxury styling: Navy #071a28, Cyan #087fc3, Warm neutral #f8f7f4.
  */
+import { siteConfig } from "@/config/site";
+
 
 export function escapeHtml(str: unknown): string {
   if (str === null || str === undefined) return "";
@@ -27,8 +29,7 @@ export interface EmailRenderOptions {
 }
 
 export function renderBrandedEmailHtml(options: EmailRenderOptions): string {
-  const siteUrl = process.env.SITE_URL || "https://ratiwaldreamestates.com";
-  const logoUrl = `${siteUrl}/images/brand/ratiwal-logo.svg`;
+  const siteUrl = siteConfig.url;
 
   return `<!DOCTYPE html>
 <html lang="en">
@@ -199,7 +200,7 @@ export function renderBrandedEmailHtml(options: EmailRenderOptions): string {
 }
 
 export function generatePlainTextEmail(options: EmailRenderOptions): string {
-  const siteUrl = process.env.SITE_URL || "https://ratiwaldreamestates.com";
+  const siteUrl = siteConfig.url;
   let text = `RATIWAL DREAM ESTATES\nStrategic Plotted Land & Advisory\n==================================\n\n`;
 
   if (options.recipientName) {

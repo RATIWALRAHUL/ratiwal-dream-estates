@@ -1,6 +1,9 @@
+import { Suspense } from "react";
 import { getMetadata } from "@/lib/seo";
 import { getAllLocations } from "@/lib/data/locations";
 import { getAllProperties } from "@/lib/data/properties";
+import { summarizeLocations } from "@/lib/utils/listing-summary";
+import { locationsCopy } from "@/lib/seo-copy";
 import { LocationsHero } from "@/components/locations/LocationsHero";
 import { MarketMap } from "@/components/locations/MarketMap";
 import { LocationDirectory } from "@/components/locations/LocationDirectory";
@@ -9,13 +12,15 @@ import { LocationComparison } from "@/components/locations/LocationComparison";
 import { LocationAdvisoryCTA } from "@/components/locations/LocationAdvisoryCTA";
 import { siteConfig } from "@/config/site";
 
-export const metadata = getMetadata({
-  title: "Property Locations & Market Guides",
-  description:
-    "Explore Ratiwal Dream Estates property locations, micro-markets, infrastructure context, and available real-estate opportunities across Rajasthan and Maharashtra.",
-  slug: "/locations",
-  image: `${siteConfig.url}/images/locations/jaipur.jpg`,
-});
+export async function generateMetadata() {
+  const [locations, properties] = await Promise.all([getAllLocations(), getAllProperties()]);
+  return getMetadata({
+    ...locationsCopy(summarizeLocations(locations, properties)),
+    slug: "/locations",
+    image: `${siteConfig.url}/images/locations/jaipur.jpg`,
+    imageAlt: "Jaipur, Rajasthan",
+  });
+}
 
 export const revalidate = 120;
 
@@ -80,7 +85,11 @@ export default async function LocationsPage() {
       <MarketMap locations={locations} properties={properties} />
 
       {/* 3. Location Directory with Verified Filter State */}
-      <LocationDirectory locations={locations} properties={properties} />
+      {/* useSearchParams() inside needs its own Suspense boundary; without it the whole
+          page falls back to client rendering and crawlers see only the loading state. */}
+      <Suspense fallback={null}>
+        <LocationDirectory locations={locations} properties={properties} />
+      </Suspense>
 
       {/* 4. Strategic Micro-Market Context Preview */}
       <MicroMarketPreview locations={locations} />

@@ -13,9 +13,9 @@ import { buildBreadcrumbSchema, buildWebPageSchema, sanitizeJsonLd } from "@/lib
 import { siteConfig } from "@/config/site";
 
 export const metadata = getMetadata({
-  title: "Investment Strategy — Capital Allocation & Growth Corridors",
+  title: "Land Investment & Growth Corridors",
   description:
-    "Discover Ratiwal Dream Estates' institutional land investment thesis. Model land ROI, explore high-velocity growth corridors in Jaipur & Navi Mumbai, and access 100% verified titles.",
+    "Understand land investment with Ratiwal Dream Estates: model returns, compare growth corridors in Jaipur and Navi Mumbai, and review title verification.",
   slug: "/investment",
 });
 

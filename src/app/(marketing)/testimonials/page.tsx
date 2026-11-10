@@ -16,9 +16,9 @@ import { TestimonialsFinalCTA } from "@/components/testimonials/TestimonialsFina
 import { siteConfig } from "@/config/site";
 
 export const metadata = getMetadata({
-  title: "Client Stories & Property Experiences",
+  title: "Client Stories & Case Studies",
   description:
-    "Read verified client experiences and property advisory case studies from Ratiwal Dream Estates.",
+    "Read client experiences and property advisory case studies from Ratiwal Dream Estates, covering plot buying, due diligence and site visits.",
   slug: "/testimonials",
   image: `${siteConfig.url}/images/about/office-consultation.jpg`,
 });

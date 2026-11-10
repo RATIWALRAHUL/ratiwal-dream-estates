@@ -3,11 +3,9 @@
  * @description Central template registry and message generator for all 14 communication event types.
  */
 
-import {
-  NotificationEventType,
-  NotificationChannel,
-} from "@/types/communication";
+import { NotificationEventType } from "@/types/communication";
 import { renderBrandedEmailHtml, generatePlainTextEmail, escapeHtml } from "./email-base";
+import { siteConfig } from "@/config/site";
 
 export interface RenderedEmail {
   subject: string;
@@ -42,7 +40,7 @@ export class TemplateRegistry {
     eventType: NotificationEventType,
     variables: Record<string, unknown>
   ): RenderedMessage {
-    const siteUrl = process.env.SITE_URL || "https://ratiwaldreamestates.com";
+    const siteUrl = siteConfig.url;
 
     switch (eventType) {
       case "INQUIRY_RECEIVED_CUSTOMER": {

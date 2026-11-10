@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { notFound } from "next/navigation";
-import { getMetadata } from "@/lib/seo";
+import { getMetadata, fitMetaText } from "@/lib/seo";
 import { getAllPublishedCaseStudies, getCaseStudyBySlug } from "@/data/testimonials";
 import { getPropertyBySlug } from "@/lib/data/properties";
 import { getLocationBySlug } from "@/lib/data/locations";
@@ -26,22 +26,36 @@ interface CaseStudyPageProps {
   params: Promise<{ slug: string }>;
 }
 
+/** Existing location photos in /public/images/locations, keyed by location slug. */
+const LOCATION_SOCIAL_IMAGES: Record<string, string> = {
+  jaipur: "/images/locations/jaipur.jpg",
+  ajmer: "/images/locations/ajmer.jpg",
+  "navi-mumbai": "/images/locations/navi-mumbai.jpg",
+  panvel: "/images/locations/panvel.jpg",
+  bhiwadi: "/images/locations/bhiwadi.jpg",
+};
+
 export async function generateMetadata({ params }: CaseStudyPageProps) {
   const { slug } = await params;
   const caseStudy = getCaseStudyBySlug(slug);
 
   if (!caseStudy) {
-    return getMetadata({
-      title: "Case Study Not Found",
-      noIndex: true,
-    });
+    notFound();
   }
 
+  // Use the image of the location the story is about when we have one, so the
+  // social preview matches the story (the page's own hero image is unchanged).
+  const locationImage = caseStudy.relatedLocationSlug
+    ? LOCATION_SOCIAL_IMAGES[caseStudy.relatedLocationSlug]
+    : undefined;
+
   return getMetadata({
-    title: `${caseStudy.title} | Client Story`,
-    description: caseStudy.summary,
+    title: caseStudy.metaTitle || caseStudy.title,
+    description: fitMetaText(caseStudy.metaDescription || caseStudy.summary),
     slug: `/testimonials/${caseStudy.slug}`,
-    image: `${siteConfig.url}${caseStudy.heroImage}`,
+    image: `${siteConfig.url}${locationImage || caseStudy.heroImage}`,
+    imageAlt: caseStudy.location,
+    ogType: "article",
   });
 }
 
@@ -51,6 +65,8 @@ export async function generateStaticParams() {
     slug: cs.slug,
   }));
 }
+
+export const dynamicParams = false;
 
 export default async function CaseStudyDetailPage({ params }: CaseStudyPageProps) {
   const { slug } = await params;

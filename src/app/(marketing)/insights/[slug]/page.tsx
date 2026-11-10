@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { getMetadata } from "@/lib/seo";
+import { getMetadata, fitMetaText } from "@/lib/seo";
 import {
   getAllApprovedArticles,
   getArticleBySlug,
@@ -28,17 +28,18 @@ export async function generateMetadata({ params }: InsightDetailPageProps) {
   const article = getArticleBySlug(slug);
 
   if (!article) {
-    return getMetadata({
-      title: "Article Not Found",
-      noIndex: true,
-    });
+    notFound();
   }
 
   return getMetadata({
-    title: article.title,
-    description: article.excerpt,
+    title: article.metaTitle || article.title,
+    description: fitMetaText(article.metaDescription || article.excerpt),
     slug: `/insights/${article.slug}`,
     image: `${siteConfig.url}${article.heroImage}`,
+    imageAlt: article.title,
+    ogType: "article",
+    publishedTime: article.publishedAt,
+    modifiedTime: article.updatedAt || article.publishedAt,
   });
 }
 
@@ -48,6 +49,8 @@ export async function generateStaticParams() {
     slug: art.slug,
   }));
 }
+
+export const dynamicParams = false;
 
 export default async function InsightDetailPage({ params }: InsightDetailPageProps) {
   const { slug } = await params;
@@ -141,7 +144,7 @@ export default async function InsightDetailPage({ params }: InsightDetailPagePro
             </aside>
 
             {/* Main Reading Column (8 cols on lg) */}
-            <main className="lg:col-span-8 order-1 lg:order-2">
+            <div className="lg:col-span-8 order-1 lg:order-2">
               {/* Key Takeaways Box */}
               <KeyTakeaways takeaways={article.keyTakeaways} />
 
@@ -169,7 +172,7 @@ export default async function InsightDetailPage({ params }: InsightDetailPagePro
                   <span>Back to all property insights</span>
                 </Link>
               </div>
-            </main>
+            </div>
           </div>
 
           {/* Related Articles Section */}

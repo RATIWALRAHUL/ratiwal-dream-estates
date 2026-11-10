@@ -1,3 +1,5 @@
+import { firmStats } from "@/config/site";
+
 export interface PropertyAdvisor {
   company: string;
   name: string;
@@ -27,11 +29,11 @@ export const advisorData: PropertyAdvisor = {
   phoneRaw: "+919929533436",
   email: "sureshkumawat6917@gmail.com",
   rera: "RAJ/A/2019/983",
-  experience: "8+ Years",
+  experience: `${firmStats.yearsExperience} Years`,
   experienceLabel: "Land Advisory",
-  clients: "250+ Families",
+  clients: `${firmStats.familiesGuided} Families`,
   clientsLabel: "Guided",
-  propertySold: "50,000+ Sq. Yards",
+  propertySold: `${firmStats.sqYardsTransacted} Sq. Yards`,
   propertySoldLabel: "Transacted",
   imageCutout: "/images/brand/suresh-kumawat-cutout.png",
 };

@@ -6,27 +6,30 @@ import {
   PropertiesCustomMandateCTA 
 } from "@/components/sections/properties";
 import { getAllProperties } from "@/lib/data/properties";
+import { getAllLocations } from "@/lib/data/locations";
+import { summarizeLocations } from "@/lib/utils/listing-summary";
+import { catalogCopy } from "@/lib/seo-copy";
 import { buildBreadcrumbSchema, buildWebPageSchema, sanitizeJsonLd } from "@/lib/schema";
 import { siteConfig } from "@/config/site";
 
 export const revalidate = 60;
 
-export const metadata = getMetadata({
-  title: "Verified Residential & Commercial Plots Portfolio",
-  description:
-    "Explore our vetted collection of premium residential and commercial plots in Jaipur, Ajmer, Navi Mumbai, Panvel, and Bhiwadi. 100% verified titles with full legal dossiers.",
-  slug: "/properties",
-});
+// Title/description are built from the saved Location records (MongoDB), main market
+// first, so every location saved in the dashboard is reflected automatically.
+export async function generateMetadata() {
+  const [locations, properties] = await Promise.all([getAllLocations(), getAllProperties()]);
+  return getMetadata({ ...catalogCopy(summarizeLocations(locations, properties)), slug: "/properties" });
+}
 
 export default async function PropertiesPage() {
-  const properties = await getAllProperties();
+  const [properties, locations] = await Promise.all([getAllProperties(), getAllLocations()]);
+  const copy = catalogCopy(summarizeLocations(locations, properties));
   const jsonLd = {
     "@context": "https://schema.org",
     "@graph": [
       buildWebPageSchema({
-        title: "Verified Residential & Commercial Plots Portfolio | Ratiwal Dream Estates",
-        description:
-          "Explore our vetted collection of premium residential and commercial plots in Jaipur, Ajmer, Navi Mumbai, Panvel, and Bhiwadi.",
+        title: `${copy.title} | Ratiwal Dream Estates`,
+        description: copy.description,
         url: `${siteConfig.url}/properties`,
         type: "CollectionPage",
       }),

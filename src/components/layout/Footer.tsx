@@ -17,7 +17,7 @@ import {
   ShieldCheck,
   Sparkles,
 } from "lucide-react";
-import { siteConfig } from "@/config/site";
+import { siteConfig, firmStats } from "@/config/site";
 import { navigationConfig } from "@/config/navigation";
 import { generateWhatsAppUrl } from "@/lib/whatsapp";
 import { useLocations } from "@/lib/hooks/useLocations";
@@ -84,8 +84,8 @@ export default function Footer() {
     },
     {
       icon: CheckCircle2,
-      title: "10+ Years of Trust",
-      desc: "Over 1,000+ satisfied land buyers & investors",
+      title: `${firmStats.yearsExperience} Years of Trust`,
+      desc: `${firmStats.familiesGuided} families & investors guided`,
     },
   ];
 

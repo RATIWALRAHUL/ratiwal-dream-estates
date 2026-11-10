@@ -11,6 +11,7 @@ import { logAuditEvent } from "@/lib/services/audit.service";
 import { CommunicationOutboxService } from "@/lib/services/communication-outbox.service";
 import { hashCustomerPassword, createCustomerSessionToken } from "@/lib/auth/customer-session";
 import { PortalAccessRole } from "@/types/portal";
+import { siteConfig } from "@/config/site";
 
 export interface SendPortalInvitationInput {
   partyId: string | Types.ObjectId;
@@ -102,7 +103,7 @@ export class PortalInvitationService {
       sentTimestamp: new Date(),
     });
 
-    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://ratiwaldreamestates.com";
+    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || siteConfig.url;
     const inviteUrl = `${baseUrl}/portal/claim?token=${rawToken}`;
 
     // Enqueue Transactional Communication Outbox Event

@@ -381,6 +381,7 @@ export async function updatePropertyAction(
     if (current.publicationStatus === "PUBLISHED") {
       safeRevalidatePath(`/properties/${current.slug}`);
       safeRevalidatePath("/properties");
+      safeRevalidatePath("/");
       invalidatePropertyCache(current.slug);
     }
 
@@ -679,6 +680,7 @@ export async function archivePropertyAction(
     safeRevalidatePath(`/dashboard/properties/${propertyId}/edit`);
     safeRevalidatePath(`/properties/${property.slug}`);
     safeRevalidatePath("/properties");
+    safeRevalidatePath("/");
     safeRevalidatePath("/dashboard");
     invalidatePropertyCache(property.slug);
 
@@ -813,6 +815,7 @@ export async function changePublishedSlugAction(
     safeRevalidatePath(`/properties/${oldSlug}`);
     safeRevalidatePath(`/properties/${parsed.data.newSlug}`);
     safeRevalidatePath("/properties");
+    safeRevalidatePath("/");
     invalidatePropertyCache(oldSlug);
     invalidatePropertyCache(parsed.data.newSlug);
 
@@ -840,6 +843,14 @@ export async function unpublishPropertyToDraftAction(
     const property = await Property.findById(propertyId);
     if (!property) {
       return { success: false, code: "NOT_FOUND", message: "Property not found." };
+    }
+
+    if (expectedVersion !== undefined && property.__v !== expectedVersion) {
+      return {
+        success: false,
+        code: "CONFLICT",
+        message: "Property record changed. Refresh before hiding it from the website.",
+      };
     }
 
     const previousStatus = property.publicationStatus;

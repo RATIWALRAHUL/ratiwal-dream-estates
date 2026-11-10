@@ -42,12 +42,21 @@ export function getRealEstateAgentSchema() {
     description: siteConfig.tagline,
     telephone: siteConfig.contact.phone,
     email: siteConfig.contact.email,
+    founder: {
+      "@type": "Person",
+      "@id": `${baseUrl}/#advisor`,
+      name: siteConfig.agent.legalName,
+      alternateName: siteConfig.agent.name,
+      jobTitle: siteConfig.agent.role,
+      telephone: siteConfig.agent.phone,
+      email: siteConfig.agent.email,
+      identifier: siteConfig.agent.reraNo,
+      description: `RERA Registered Property Advisor (${siteConfig.agent.reraNo}) with ${siteConfig.agent.experience} experience in Jaipur and Rajasthan real estate.`,
+    },
     address: {
       "@type": "PostalAddress",
-      streetAddress: "Ajmer Road Corridor & Tonk Road Junction",
       addressLocality: "Jaipur",
       addressRegion: "Rajasthan",
-      postalCode: "302001",
       addressCountry: "IN",
     },
     areaServed: [

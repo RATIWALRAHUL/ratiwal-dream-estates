@@ -1,98 +1,12 @@
-"use client";
-
-import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import {
-  Phone,
-  Mail,
-  Users,
-  TrendingUp,
-  ShieldCheck,
-} from "lucide-react";
+import { Mail, ShieldCheck } from "lucide-react";
+import { Reveal } from "@/components/home/Reveal";
 import { advisorData } from "@/data/advisorData";
+import { firmStats, siteConfig } from "@/config/site";
 
-/* -----------------------------------------------------------------------------
-   Architectural backdrop SVG - subtle architectural elevation
------------------------------------------------------------------------------ */
-function ArchitecturalBackdrop() {
-  return (
-    <svg
-      className="absolute inset-0 w-full h-full pointer-events-none"
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 620 820"
-      preserveAspectRatio="xMidYMid slice"
-      aria-hidden="true"
-    >
-      <g fill="none" strokeLinecap="round" strokeLinejoin="round">
-        {/* Modern building right-side elevation */}
-        <g stroke="#0798D8" strokeWidth="1" opacity="0.18">
-          <line x1="370" y1="60" x2="370" y2="820" />
-          <line x1="420" y1="120" x2="420" y2="820" />
-          <line x1="470" y1="160" x2="470" y2="820" />
-          <line x1="520" y1="100" x2="520" y2="820" />
-          <line x1="570" y1="140" x2="570" y2="820" />
-          <path d="M 350 200 L 420 120 L 490 160 L 560 100 L 620 140" strokeWidth="1.5" />
-          <path d="M 370 280 L 470 200 L 570 240" />
-          <line x1="350" y1="300" x2="620" y2="300" strokeWidth="0.8" strokeDasharray="4 4" opacity="0.4" />
-          <line x1="350" y1="420" x2="620" y2="420" strokeWidth="0.8" strokeDasharray="4 4" opacity="0.4" />
-          <line x1="350" y1="540" x2="620" y2="540" strokeWidth="0.8" strokeDasharray="4 4" opacity="0.4" />
-        </g>
-        {/* Right-side building windows grid */}
-        <g stroke="#0798D8" strokeWidth="0.8" opacity="0.12">
-          {[300, 360, 420, 480, 540, 600].map((y) =>
-            [390, 440, 490, 540].map((x) => (
-              <rect key={`${x}-${y}`} x={x} y={y} width="22" height="34" rx="2" />
-            ))
-          )}
-        </g>
-        {/* Gold accent geometric */}
-        <g stroke="#D9A62E" strokeWidth="1" opacity="0.15">
-          <polygon points="460,160 520,100 580,160 520,220" />
-          <line x1="520" y1="80" x2="520" y2="820" strokeWidth="1.5" opacity="0.2" />
-        </g>
-      </g>
-    </svg>
-  );
-}
+/* Official photograph of the advisor (real portrait, no cut-out, no AI imagery). */
+const PORTRAIT_SRC = "/images/brand/suresh-kumawat.jpg";
 
-/* -----------------------------------------------------------------------------
-   Brand Logo (vector) - top-left of navy panel
------------------------------------------------------------------------------ */
-function BrandLogo() {
-  return (
-    <div className="flex items-center gap-2 xs:gap-2.5 min-w-0">
-      <svg
-        width="34"
-        height="34"
-        viewBox="0 0 100 100"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        className="w-7 h-7 xs:w-8 xs:h-8 sm:w-9 sm:h-9 flex-shrink-0"
-        aria-hidden="true"
-      >
-        <path d="M 18 52 L 50 20 L 82 52" stroke="#0798D8" strokeWidth="7" strokeLinecap="round" strokeLinejoin="round" />
-        <line x1="24" y1="58" x2="24" y2="80" stroke="#0798D8" strokeWidth="6" strokeLinecap="round" />
-        <line x1="36" y1="42" x2="36" y2="90" stroke="#0798D8" strokeWidth="6" strokeLinecap="round" />
-        <line x1="50" y1="28" x2="50" y2="96" stroke="#0798D8" strokeWidth="6" strokeLinecap="round" />
-        <line x1="64" y1="18" x2="64" y2="90" stroke="#0798D8" strokeWidth="6" strokeLinecap="round" />
-        <line x1="76" y1="58" x2="76" y2="80" stroke="#0798D8" strokeWidth="6" strokeLinecap="round" />
-      </svg>
-      <div className="flex flex-col min-w-0">
-        <div className="flex items-baseline gap-1 xs:gap-1.5 font-extrabold text-[13px] xs:text-[15px] sm:text-[18px] tracking-[0.02em] leading-tight whitespace-nowrap">
-          <span className="text-white">RATIWAL</span>
-          <span className="text-[#0798D8]">DREAM</span>
-        </div>
-        <span className="text-white/75 font-medium text-[7.5px] xs:text-[8.5px] sm:text-[10px] tracking-[0.24em] uppercase leading-none mt-0.5">
-          ESTATES
-        </span>
-      </div>
-    </div>
-  );
-}
-
-/* -----------------------------------------------------------------------------
-   WhatsApp SVG icon
------------------------------------------------------------------------------ */
 function WhatsAppIcon({ className = "w-5 h-5" }: { className?: string }) {
   return (
     <svg className={className} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -101,327 +15,112 @@ function WhatsAppIcon({ className = "w-5 h-5" }: { className?: string }) {
   );
 }
 
-/* -----------------------------------------------------------------------------
-   Stat Item
------------------------------------------------------------------------------ */
-function StatItem({
-  icon: Icon,
-  value,
-  label1,
-  label2,
-}: {
-  icon: React.ElementType;
-  value: string;
-  label1: string;
-  label2: string;
-}) {
-  return (
-    <div className="flex flex-col sm:flex-row sm:items-start gap-1.5 sm:gap-3 min-w-0">
-      <div className="w-7 h-7 xs:w-8 xs:h-8 sm:w-10 sm:h-10 rounded-full border border-[#0798D8]/30 flex items-center justify-center text-[#0798D8] flex-shrink-0 sm:mt-1">
-        <Icon size={14} className="sm:hidden" strokeWidth={1.8} />
-        <Icon size={18} className="hidden sm:block" strokeWidth={1.8} />
-      </div>
-      <div className="min-w-0">
-        <div className="text-[1.4rem] xs:text-[1.75rem] sm:text-[2.2rem] font-extrabold text-[#0B2239] leading-none tracking-tight font-body">
-          {value}
-        </div>
-        <div className="text-[11px] xs:text-[12px] sm:text-[13.5px] font-semibold text-[#0B2239] mt-1 leading-tight sm:whitespace-nowrap">
-          {label1}
-        </div>
-        <div className="text-[9.5px] xs:text-[10.5px] sm:text-[12.5px] text-[#52657A] font-normal leading-tight mt-0.5 sm:whitespace-nowrap">
-          {label2}
-        </div>
-      </div>
-    </div>
-  );
-}
+/** Credentials, in the order a buyer checks them. All figures come from firmStats / advisorData. */
+const ledger: { label: string; value: string }[] = [
+  { label: "Experience", value: `${firmStats.yearsExperience} years in land advisory` },
+  { label: "Families guided", value: firmStats.familiesGuided },
+  { label: "Land transacted", value: `${firmStats.sqYardsTransacted} sq. yards` },
+  { label: "RERA registration", value: advisorData.rera },
+  ...(advisorData.legalName ? [{ label: "Registered name", value: advisorData.legalName }] : []),
+];
 
-/* -----------------------------------------------------------------------------
-   Main Component
------------------------------------------------------------------------------ */
+const focusRing =
+  "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#087fc3]";
+
 export function PropertyAdvisorSection() {
-  const sectionRef = useRef<HTMLElement>(null);
-  const [isVisible, setIsVisible] = useState(false);
-
-  const whatsappMessage = encodeURIComponent(
+  const whatsappUrl = `https://wa.me/919929533436?text=${encodeURIComponent(
     "Hello Suresh, I would like to discuss a property opportunity."
-  );
-  const whatsappUrl = `https://wa.me/919929533436?text=${whatsappMessage}`;
-
-  useEffect(() => {
-    const node = sectionRef.current;
-    if (!node) return;
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-          observer.disconnect();
-        }
-      },
-      { threshold: 0.08 }
-    );
-    observer.observe(node);
-    return () => observer.disconnect();
-  }, []);
+  )}`;
 
   return (
-    <section
-      ref={sectionRef}
-      id="property-advisor"
-      aria-labelledby="advisor-heading"
-      className="relative w-full bg-[#F7F5EF] overflow-hidden"
-    >
-      {/* Main content */}
-      <div className="w-[calc(100%-32px)] sm:w-[calc(100%-48px)] max-w-[1300px] mx-auto px-0 pt-6 pb-12 xs:pt-8 xs:pb-14 sm:py-20 lg:py-24 xl:py-28">
-        <div className="grid grid-cols-1 lg:grid-cols-[56fr_44fr] xl:grid-cols-[54fr_46fr] gap-8 lg:gap-10 xl:gap-16 items-stretch">
-
-          {/* LEFT COLUMN */}
-          <div
-            className={`flex flex-col gap-7 sm:gap-8 lg:gap-8 xl:gap-9 transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] ${
-              isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-            }`}
-          >
-            {/* Top content */}
-            <div>
-              {/* Eyebrow */}
-              <div className="flex items-center gap-3 mb-4 sm:mb-5">
-                <div className="w-10 sm:w-14 h-[1.5px] bg-[#0798D8]" aria-hidden="true" />
-                <span className="text-[11.5px] sm:text-[13px] font-bold tracking-[0.14em] uppercase text-[#0798D8] font-body">
-                  DIRECT PROPERTY ADVISORY
-                </span>
-              </div>
-
-              {/* Main Heading */}
-              <h2
-                id="advisor-heading"
-                className="font-instrument font-normal text-[#0B2239] leading-[1.08] tracking-tight mb-4 sm:mb-6
-                           text-[1.85rem] xs:text-[2.15rem] sm:text-[2.6rem] md:text-[3rem] lg:text-[3.2rem] xl:text-[3.8rem]"
-              >
-                Property guidance,
-                <br />
-                shaped around you.
-              </h2>
-
-              {/* Gold divider */}
-              <div className="w-[62px] h-[3px] bg-[#D9A62E] mb-5 sm:mb-6" aria-hidden="true" />
-
-              {/* Description */}
-              <p className="text-[14.5px] sm:text-[16px] lg:text-[16px] xl:text-[17px] text-[#52657A] leading-[1.62] max-w-[640px]">
-                Direct one-on-one advisory led by Senior Property Advisor{" "}
-                <strong className="text-[#0B2239] font-semibold">{advisorData.name}</strong>{" "}
-                (RERA: {advisorData.rera}). Clear legal verification, genuine corridor
-                valuations, and transparent guidance from initial enquiry to final registry.
-              </p>
-
-              {/* Responsive 3-column stats */}
-              <div className="grid grid-cols-3 divide-x divide-[#0B2239]/10 border-t border-b border-[#0B2239]/10 py-4 xs:py-5 sm:py-6 my-2">
-                <div className="pr-2 xs:pr-3 sm:px-3 lg:px-3 xl:px-6 first:pl-0">
-                  <StatItem icon={Users} value="8+" label1="Years Exp." label2="Land Advisory" />
-                </div>
-                <div className="px-2 xs:px-3 sm:px-3 lg:px-3 xl:px-6">
-                  <StatItem icon={Users} value="250+" label1="Families" label2="Guided" />
-                </div>
-                <div className="pl-2 xs:pl-3 sm:px-3 lg:px-3 xl:px-6 last:pr-0">
-                  <StatItem icon={TrendingUp} value="50K+" label1="Sq. Yards" label2="Transacted" />
-                </div>
-              </div>
+    <Reveal>
+      <section id="property-advisor" className="about-section" aria-labelledby="advisor-heading">
+        {/* Portrait: same blueprint-panel + glass-badge device as the About section */}
+        <div className="about-visual advisor-visual">
+          <div className="about-image-wrap">
+            <div className="about-image advisor-portrait">
+              <Image
+                src={PORTRAIT_SRC}
+                alt={`${advisorData.name}, ${advisorData.designation} at ${advisorData.company}`}
+                fill
+                sizes="(max-width: 900px) 90vw, 520px"
+                quality={85}
+                className="object-cover object-top"
+              />
             </div>
-
-            {/* CTA Buttons */}
-            <div>
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5 sm:gap-3 xl:flex xl:flex-wrap xl:gap-4 mb-4">
-                {/* WhatsApp */}
-                <a
-                  href={whatsappUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-full xl:w-auto inline-flex items-center justify-center gap-1.5 xs:gap-2 bg-[#25D366] hover:bg-[#1da956] text-white
-                             h-[46px] xs:h-[48px] sm:h-[50px] lg:h-[52px] xl:h-[56px] px-2.5 xs:px-3.5 sm:px-4 xl:px-7 rounded-full
-                             text-[12.5px] xs:text-[13.5px] sm:text-[13.5px] lg:text-[14px] xl:text-[15px] font-bold whitespace-nowrap
-                             shadow-[0_4px_18px_rgba(37,211,102,0.3)] hover:shadow-[0_6px_24px_rgba(37,211,102,0.4)]
-                             transition-all duration-250 active:scale-[0.98]"
-                  aria-label={`Message ${advisorData.name} on WhatsApp`}
-                >
-                  <WhatsAppIcon className="w-4 h-4 xs:w-4.5 xs:h-4.5 sm:w-5 sm:h-5 flex-shrink-0" />
-                  <span>WhatsApp</span>
-                </a>
-
-                {/* Call */}
-                <a
-                  href={`tel:${advisorData.phoneRaw}`}
-                  className="w-full xl:w-auto inline-flex items-center justify-center gap-1.5 xs:gap-2 bg-white hover:bg-[#f0f7fd] text-[#0B2239]
-                             border border-[#0798D8]/40 hover:border-[#0798D8]
-                             h-[46px] xs:h-[48px] sm:h-[50px] lg:h-[52px] xl:h-[56px] px-2.5 xs:px-3.5 sm:px-4 xl:px-7 rounded-full
-                             text-[12.5px] xs:text-[13.5px] sm:text-[13.5px] lg:text-[14px] xl:text-[15px] font-bold whitespace-nowrap
-                             shadow-[0_2px_10px_rgba(7,152,216,0.1)] hover:shadow-[0_4px_16px_rgba(7,152,216,0.18)]
-                             transition-all duration-250 active:scale-[0.98]"
-                >
-                  <Phone size={15} className="text-[#0798D8] flex-shrink-0 sm:w-[16px] sm:h-[16px]" strokeWidth={2} />
-                  <span>Call Advisor</span>
-                </a>
-
-                {/* Email: desktop & tablet only */}
-                <a
-                  href={`mailto:${advisorData.email}`}
-                  className="hidden sm:inline-flex w-full xl:w-auto items-center justify-center gap-1.5 xs:gap-2 bg-white hover:bg-[#f0f7fd] text-[#0B2239]
-                             border border-[#0798D8]/40 hover:border-[#0798D8]
-                             h-[46px] xs:h-[48px] sm:h-[50px] lg:h-[52px] xl:h-[56px] px-2.5 xs:px-3.5 sm:px-4 xl:px-7 rounded-full
-                             text-[12.5px] xs:text-[13.5px] sm:text-[13.5px] lg:text-[14px] xl:text-[15px] font-bold whitespace-nowrap
-                             shadow-[0_2px_10px_rgba(7,152,216,0.1)] hover:shadow-[0_4px_16px_rgba(7,152,216,0.18)]
-                             transition-all duration-250 active:scale-[0.98]"
-                >
-                  <Mail size={15} className="text-[#0798D8] flex-shrink-0 sm:w-[16px] sm:h-[16px]" strokeWidth={2} />
-                  <span>Send Email</span>
-                </a>
-              </div>
-
-              {/* Footnote */}
-              <p className="text-[11.5px] sm:text-[13px] text-[#8A9BAA] font-medium leading-relaxed">
-                RERA Registered: {advisorData.rera} &bull; 100% Free &amp; Confidential Advisory
-              </p>
+            <div className="floating-badge">
+              <i>
+                <ShieldCheck size={18} />
+              </i>
+              <span>
+                <strong>{advisorData.name}</strong>
+                <small>{advisorData.designation}</small>
+              </span>
             </div>
           </div>
+        </div>
 
-          {/* RIGHT COLUMN — NAVY PANEL */}
-          <div
-            className={`relative flex h-full transition-all duration-700 delay-200 ease-[cubic-bezier(0.22,1,0.36,1)] ${
-              isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
-            }`}
-          >
-            <div className="relative w-full h-full min-h-[500px] xs:min-h-[540px] sm:min-h-[600px] lg:min-h-[640px]
-                            bg-[#082A40] rounded-[24px] sm:rounded-[32px] overflow-hidden
-                            shadow-[0_24px_60px_rgba(4,18,31,0.4)] border border-white/[0.07]
-                            flex flex-col select-none">
+        {/* Profile */}
+        <div className="about-copy">
+          <p className="eyebrow">Your property advisor</p>
+          <h2 id="advisor-heading">
+            Property guidance,
+            <br className="hidden sm:inline" /> shaped around you.
+          </h2>
+          <p>
+            Every enquiry is handled one-on-one by {advisorData.name}, from the first conversation
+            to the final registry. Titles are verified, corridor valuations are genuine, and nothing
+            is hidden from you.
+          </p>
 
-              {/* Subtle top-left radial glow */}
-              <div className="absolute top-0 left-0 w-[300px] h-[300px] rounded-full bg-[#0798D8]/12 blur-[80px] pointer-events-none" aria-hidden="true" />
-              {/* Subtle bottom-right warm glow */}
-              <div className="absolute bottom-0 right-0 w-[280px] h-[280px] rounded-full bg-[#D9A62E]/08 blur-[70px] pointer-events-none" aria-hidden="true" />
-
-              {/* Architectural backdrop */}
-              <ArchitecturalBackdrop />
-
-              {/* Top Bar: Logo + RERA badge */}
-              <div className="relative z-30 flex items-center justify-between gap-2 xs:gap-3 px-4 xs:px-5 sm:px-7 pt-4 xs:pt-5 sm:pt-6">
-                <BrandLogo />
-
-                <div className="inline-flex items-center gap-1 xs:gap-1.5 px-2.5 py-1 xs:px-3 xs:py-1.5 rounded-full border border-[#D9A62E] bg-transparent flex-shrink-0">
-                  <ShieldCheck size={11} className="text-[#D9A62E] sm:w-[13px] sm:h-[13px]" strokeWidth={2.2} aria-hidden="true" />
-                  <span className="text-white text-[8px] xs:text-[9px] sm:text-[10.5px] font-bold tracking-[0.07em] uppercase whitespace-nowrap">
-                    RERA VERIFIED
-                  </span>
-                </div>
-              </div>
-
-              {/* Gold divider below header */}
-              <div className="relative z-20 mx-4 xs:mx-5 sm:mx-7 mt-3 xs:mt-4 w-12 sm:w-14 h-[2px] bg-[#D9A62E]" aria-hidden="true" />
-
-              {/* Trust Motto */}
-              <div className="relative z-20 px-4 xs:px-5 sm:px-7 mt-3 xs:mt-4 sm:mt-5">
-                <p className="text-[#D9A62E] font-bold text-[11.5px] xs:text-[13px] sm:text-[14.5px] tracking-[0.14em] uppercase leading-[1.65] font-body max-w-[200px]">
-                  TRUSTED GUIDANCE
-                  <br />
-                  FOR A BRIGHTER
-                  <br />
-                  TOMORROW
-                </p>
-              </div>
-
-              {/* Right Side Vertical Text */}
-              <div className="absolute right-3 xs:right-4 sm:right-6 top-[150px] sm:top-[200px] z-20 flex flex-col gap-1 pointer-events-none" aria-hidden="true">
-                {["PEOPLE", "TRUST", "", "PROPERTIES", "GROW", "", "RELATIONSHIPS", "LAST"].map((word, i) =>
-                  word === "" ? (
-                    <div key={i} className="h-3 sm:h-4 w-px bg-[#D9A62E]/30 mx-auto" />
-                  ) : (
-                    <span key={i} className="text-white/60 sm:text-white/70 font-bold text-[7px] sm:text-[8.5px] tracking-[0.16em] uppercase leading-none">
-                      {word}
-                    </span>
-                  )
-                )}
-              </div>
-
-              {/* Script Signature Overlay */}
-              <div className="absolute left-4 xs:left-5 sm:left-7 top-[160px] sm:top-[220px] lg:top-[260px] z-10 pointer-events-none" aria-hidden="true">
-                <div className="font-signature text-[28px] xs:text-[32px] sm:text-[42px] text-white/15 leading-[1.1] -rotate-6">
-                  Suresh
-                  <br />
-                  Ratiwal
-                </div>
-              </div>
-
-              {/* Consultant Portrait */}
+          <dl className="mb-7 border-t border-[rgba(7,26,40,0.12)]">
+            {ledger.map((row) => (
               <div
-                className="absolute left-1/2 -translate-x-1/2 bottom-[75px] xs:bottom-[80px] sm:bottom-[96px] z-[15] pointer-events-none w-[80%] xs:w-[74%] sm:w-[68%] lg:w-[68%] top-[120px] sm:top-[160px] lg:top-[165px]"
+                key={row.label}
+                className="grid grid-cols-[minmax(0,9.5rem)_1fr] sm:grid-cols-[11rem_1fr] gap-4 border-b border-[rgba(7,26,40,0.07)] py-3"
               >
-                {/* Portrait fade at bottom */}
-                <div className="absolute bottom-0 inset-x-0 h-[30%] bg-gradient-to-t from-[#082A40] via-[#082A40]/40 to-transparent z-10" aria-hidden="true" />
-
-                <div className="relative w-full h-full">
-                  <Image
-                    src={advisorData.imageCutout}
-                    alt={`${advisorData.name} — Senior Property Advisor`}
-                    fill
-                    priority
-                    sizes="(max-width: 768px) 80vw, 45vw"
-                    className="object-contain object-top drop-shadow-[0_12px_30px_rgba(0,0,0,0.65)]"
-                  />
-                </div>
+                <dt className="text-[.86rem] text-[#566773]">{row.label}</dt>
+                <dd className="text-[.92rem] font-semibold text-[#071a28] tabular-nums">{row.value}</dd>
               </div>
+            ))}
+          </dl>
 
-              {/* Advisor Identity Card */}
-              <div className="relative z-30 mt-auto mx-3 xs:mx-4 sm:mx-5 mb-3 xs:mb-4 sm:mb-5">
-                <div className="bg-[#051822]/90 backdrop-blur-md rounded-[16px] sm:rounded-[22px] border border-white/[0.12] px-3.5 py-3 sm:px-5 sm:py-4">
-                  {/* Name + Role */}
-                  <div className="flex items-start justify-between gap-3">
-                    <div>
-                      <h3 className="text-white font-bold text-[18px] xs:text-[20px] sm:text-[24px] font-playfair leading-tight tracking-tight">
-                        {advisorData.name}
-                      </h3>
-                      <div className="text-[#D9A62E] text-[9px] xs:text-[9.5px] sm:text-[10.5px] font-extrabold tracking-[0.14em] uppercase mt-0.5">
-                        SENIOR PROPERTY ADVISOR
-                      </div>
-                      <div className="text-white/75 text-[11.5px] xs:text-[12px] sm:text-[13px] font-medium mt-0.5">
-                        {advisorData.role}
-                      </div>
-                      <div className="text-white/50 text-[10.5px] xs:text-[11px] sm:text-[11.5px] font-mono mt-0.5">
-                        RERA: {advisorData.rera}
-                        {advisorData.legalName && (
-                          <span className="text-white/40 text-[9.5px] sm:text-[10px] font-sans ml-1.5">
-                            (Regd: {advisorData.legalName})
-                          </span>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+          {/* Direct contact, in the site's white story-card style */}
+          <div className="rounded-[18px] border border-[rgba(7,29,45,0.08)] bg-white p-5 sm:p-6 shadow-[0_14px_35px_rgba(7,29,45,0.06)]">
+            <p className="text-[.82rem] font-semibold text-[#071a28]">Speak to {advisorData.name.split(" ")[0]} directly</p>
+            <a
+              href={`tel:${advisorData.phoneRaw}`}
+              className={`mt-1 inline-block font-instrument text-[2rem] sm:text-[2.3rem] leading-tight text-[#071a28] hover:text-[#087fc3] transition-colors rounded ${focusRing}`}
+            >
+              {advisorData.phone}
+            </a>
+
+            <div className="mt-4 flex flex-wrap gap-3">
+              <a
+                href={whatsappUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`Message ${advisorData.name} on WhatsApp`}
+                className={`button-primary ${focusRing}`}
+              >
+                <WhatsAppIcon className="w-[17px] h-[17px]" />
+                <span>WhatsApp</span>
+              </a>
+              <a
+                href={`mailto:${advisorData.email}`}
+                className={`inline-flex min-h-[52px] items-center justify-center gap-2 rounded-full border border-[rgba(7,26,40,0.14)] bg-white px-6 text-[.85rem] font-bold text-[#071a28] transition-colors hover:border-[#087fc3] hover:text-[#087fc3] ${focusRing}`}
+              >
+                <Mail size={16} aria-hidden="true" />
+                <span>Email</span>
+              </a>
             </div>
-          </div>
 
-        </div>
-      </div>
-
-      {/* Bottom Editorial Signature Line */}
-      <div className="max-w-[1500px] mx-auto px-5 sm:px-8 md:px-10 lg:px-14 xl:px-16 pb-10 sm:pb-12">
-        <div className="flex items-center justify-between gap-4">
-          <div className="flex items-baseline gap-2.5">
-            <span className="font-signature text-[28px] sm:text-[34px] text-[#0B2239]/60 leading-none -rotate-3 inline-block">
-              Let&apos;s Build
-            </span>
-            <span className="text-[10.5px] sm:text-[12px] font-bold text-[#0B2239]/70 tracking-[0.14em] uppercase">
-              A BETTER TOMORROW
-            </span>
-            <div className="hidden sm:block h-px flex-1 min-w-[60px] bg-[#0B2239]/15" />
-          </div>
-          <div className="hidden sm:flex items-center gap-3 text-[10.5px] sm:text-[12px] font-bold text-[#0B2239]/70 tracking-[0.12em] uppercase whitespace-nowrap">
-            <span>LAND</span>
-            <span className="text-[#D9A62E]/50">|</span>
-            <span>PEOPLE</span>
-            <span className="text-[#D9A62E]/50">|</span>
-            <span>OPPORTUNITY</span>
+            <p className="mt-4 text-[.72rem] text-[#71808d]">
+              Free and confidential. Office hours {siteConfig.contact.officeHours}.
+            </p>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </Reveal>
   );
 }

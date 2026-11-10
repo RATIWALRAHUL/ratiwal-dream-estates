@@ -4,6 +4,8 @@ export const insights: InsightArticle[] = [
   {
     slug: "essential-guide-plot-buying",
     title: "The Comprehensive Land & Plot Buying Due Diligence Guide",
+    metaTitle: "Plot Buying Due Diligence Guide",
+    metaDescription: "Step-by-step due diligence for buying plotted land: check statutory sanctions, understand conversion orders and avoid unapproved agricultural layouts.",
     excerpt:
       "A step-by-step masterplan for evaluating freehold plotted land, verifying statutory development sanctions, understanding conversion orders, and avoiding unapproved agricultural layouts.",
     category: "Property Buying Guides",
@@ -27,7 +29,6 @@ export const insights: InsightArticle[] = [
     featured: true,
     readingTimeMinutes: 7,
     relatedLocationSlugs: ["jaipur", "ajmer", "navi-mumbai"],
-    relatedPropertySlugs: ["royal-palms-township-ajmer-road-jaipur", "aravalli-greens-retreat-plots-ajmer"],
     relatedArticleSlugs: ["understanding-property-documentation", "rera-fundamentals-for-plot-buyers"],
     downloadableResourceSlugs: ["plot-buying-due-diligence-checklist", "site-visit-inspection-framework"],
     keyTakeaways: [
@@ -42,7 +43,7 @@ export const insights: InsightArticle[] = [
         heading: "1. Understanding Land Classifications & Legal Status",
         paragraphs: [
           "In Indian real estate, land is broadly categorized into Agricultural (Khatedari), Non-Agricultural (NA), Commercial, and Institutional parcels. Acquiring agricultural land for residential self-construction without statutory conversion is illegal and creates high eviction risk.",
-          "Under state revenue laws (such as Section 90A of the Rajasthan Land Revenue Act), agricultural land must be formally surrendered to the planning authority (e.g., Jaipur Development Authority) and regularized with a formal land use conversion order before plots can be demarcated and registered.",
+          "Under state revenue laws (such as Section 90A of the Rajasthan Land Revenue Act), agricultural land must be formally surrendered to the planning authority (e.g., Jaipur Development Authority) and regularized with a formal land use conversion order before [residential plots in Jaipur](/locations/jaipur) can be demarcated and registered.",
         ],
         callout: {
           type: "important",
@@ -76,7 +77,7 @@ export const insights: InsightArticle[] = [
         id: "physical-inspection-and-demarcation",
         heading: "4. Physical Demarcation & Infrastructure Readiness",
         paragraphs: [
-          "Paper approvals must be validated on the ground. During your physical site inspection, verify that the plot boundaries match the exact Total Station coordinate survey.",
+          "Paper approvals must be validated on the ground. During your physical site inspection, verify that the plot boundaries match the exact Total Station coordinate survey, as practiced across verified townships like [Neelkanth Nagar](/properties/neelkanth-nagar).",
           "Ensure that basic infrastructure—such as paved sector roads, underground electrical cabling conduits, water drainage pipelines, and boundary walls—is actively under construction or operational.",
         ],
       },
@@ -99,6 +100,8 @@ export const insights: InsightArticle[] = [
   {
     slug: "understanding-property-documentation",
     title: "Understanding Land Titles, 90A Sanctions & Revenue Extracts",
+    metaTitle: "Land Titles, 90A & Revenue Extracts",
+    metaDescription: "A legal guide to Jamabandi, Khasra Milan maps, 7/12 extracts, title deeds and mutation, explained for plot buyers in Rajasthan and Maharashtra.",
     excerpt:
       "A comprehensive legal guide decoding Jamabandi (Parcha Khatauni), Khasra Milan maps, 7/12 extracts, title deeds, and municipal mutation protocols across Rajasthan and Maharashtra.",
     category: "Legal & Documentation",
@@ -122,7 +125,6 @@ export const insights: InsightArticle[] = [
     featured: false,
     readingTimeMinutes: 8,
     relatedLocationSlugs: ["jaipur", "navi-mumbai", "panvel"],
-    relatedPropertySlugs: ["royal-palms-township-ajmer-road-jaipur", "aerotropolis-prime-plotted-node-navi-mumbai"],
     relatedArticleSlugs: ["essential-guide-plot-buying", "rera-fundamentals-for-plot-buyers"],
     downloadableResourceSlugs: ["property-document-request-sheet", "plot-buying-due-diligence-checklist"],
     keyTakeaways: [
@@ -167,7 +169,7 @@ export const insights: InsightArticle[] = [
         id: "encumbrance-and-title-search",
         heading: "3. Conducting a 30-Year Title Search",
         paragraphs: [
-          "A title search involves auditing past conveyance deeds, partition deeds, gift deeds, and release deeds registered against the property's Khasra or Survey Number for at least 30 continuous years.",
+          "A title search involves auditing past conveyance deeds, partition deeds, gift deeds, and release deeds registered against the property's Khasra or Survey Number for at least 30 continuous years, standard due diligence applied across our [Jaipur corridor properties](/locations/jaipur) including [Riyasat Paradise II](/properties/riyasat-paradise-ii).",
           "This search confirms that no co-owners, legal heirs, or financial institutions hold undisclosed claims or mortgages over the land.",
         ],
       },
@@ -190,6 +192,8 @@ export const insights: InsightArticle[] = [
   {
     slug: "rera-fundamentals-for-plot-buyers",
     title: "RERA Compliance & Buyer Safeguards for Plotted Townships",
+    metaTitle: "RERA Safeguards for Plot Buyers",
+    metaDescription: "How the RERA Act protects plot buyers: escrow account rules, layout disclosure requirements and project completion timelines, explained simply.",
     excerpt:
       "How the Real Estate (Regulation and Development) Act protects plot buyers: escrow account rules, layout disclosure mandates, and statutory project completion timelines.",
     category: "RERA Education",
@@ -213,7 +217,6 @@ export const insights: InsightArticle[] = [
     featured: false,
     readingTimeMinutes: 6,
     relatedLocationSlugs: ["jaipur", "navi-mumbai"],
-    relatedPropertySlugs: ["royal-palms-township-ajmer-road-jaipur", "aerotropolis-prime-plotted-node-navi-mumbai"],
     relatedArticleSlugs: ["essential-guide-plot-buying", "understanding-property-documentation"],
     downloadableResourceSlugs: ["property-document-request-sheet"],
     keyTakeaways: [
@@ -243,7 +246,7 @@ export const insights: InsightArticle[] = [
         id: "quarterly-compliance-audit",
         heading: "3. How to Check a Project on the RERA Portal",
         paragraphs: [
-          "Before issuing any cheque, visit the official state RERA portal (e.g., rera.rajasthan.gov.in or maharera.mahaonline.gov.in) and enter the project registration number.",
+          "Before issuing any cheque, visit the official state RERA portal (e.g., rera.rajasthan.gov.in or maharera.mahaonline.gov.in) and enter the project registration number, a transparency standard maintained across verified projects like [Vrindavan Viihaar](/properties/vrindavan-viihaar) in the [Ajmer corridor](/locations/ajmer).",
         ],
         checklist: [
           "Verify the Sanctioned Layout Plan uploaded on the RERA portal matches the sales brochure",
@@ -271,6 +274,8 @@ export const insights: InsightArticle[] = [
   {
     slug: "site-visit-inspection-framework",
     title: "The On-Ground Plot & Land Inspection Protocol",
+    metaTitle: "Plot Site Visit Inspection Protocol",
+    metaDescription: "A practical protocol for inspecting a plot on site: access roads, natural drainage, boundary pegs and power line setbacks, before you commit.",
     excerpt:
       "A practical engineering and legal protocol for evaluating physical access roads, natural drainage gradients, total station boundary pegs, and power line setbacks.",
     category: "Site Visit & Evaluation",
@@ -288,7 +293,6 @@ export const insights: InsightArticle[] = [
     featured: false,
     readingTimeMinutes: 6,
     relatedLocationSlugs: ["jaipur", "ajmer", "panvel"],
-    relatedPropertySlugs: ["royal-palms-township-ajmer-road-jaipur", "ring-road-logistics-commercial-hub-jaipur"],
     relatedArticleSlugs: ["essential-guide-plot-buying", "evaluating-corridor-infrastructure-claims"],
     downloadableResourceSlugs: ["site-visit-inspection-framework"],
     keyTakeaways: [
@@ -318,7 +322,7 @@ export const insights: InsightArticle[] = [
         id: "utility-cabling-and-infrastructure",
         heading: "3. Checking Underground Utilities & Transformers",
         paragraphs: [
-          "Modern premium townships install underground electricity cables, water supply pipelines, and optical fiber conduits. Inspect utility junction boxes, transformer locations, and dedicated underground sewage treatment plants (STP).",
+          "Modern premium townships install underground electricity cables, water supply pipelines, and optical fiber conduits. Inspect utility junction boxes, transformer locations, and dedicated underground sewage treatment plants (STP), key infrastructure benchmarks featured in [Aero Crystal](/properties/aero-crystal) within the [Kishangarh growth corridor](/locations/kishangarh).",
         ],
       },
     ],
@@ -334,6 +338,8 @@ export const insights: InsightArticle[] = [
   {
     slug: "evaluating-corridor-infrastructure-claims",
     title: "Auditing Masterplan & Infrastructure Claims in Growth Corridors",
+    metaTitle: "Verify Infrastructure Claims",
+    metaDescription: "How to tell approved, funded infrastructure from speculative announcements along the Delhi-Mumbai Expressway, ring roads and airport corridors.",
     excerpt:
       "How to distinguish approved, funded infrastructure projects from speculative developer announcements across the Delhi-Mumbai Expressway, Ring Roads, and Airport nodes.",
     category: "Market Intelligence",
@@ -351,7 +357,6 @@ export const insights: InsightArticle[] = [
     featured: false,
     readingTimeMinutes: 7,
     relatedLocationSlugs: ["jaipur", "navi-mumbai", "panvel", "bhiwadi"],
-    relatedPropertySlugs: ["aerotropolis-prime-plotted-node-navi-mumbai", "ring-road-logistics-commercial-hub-jaipur"],
     relatedArticleSlugs: ["essential-guide-plot-buying", "demystifying-land-pricing-additional-charges"],
     keyTakeaways: [
       "Differentiate between 'Approved / Under Construction' infrastructure and 'Proposed / Conceptual' masterplan lines.",
@@ -364,7 +369,7 @@ export const insights: InsightArticle[] = [
         id: "infrastructure-maturity-stages",
         heading: "1. The 4 Stages of Infrastructure Development",
         paragraphs: [
-          "Real estate marketing frequently conflates conceptual proposals with operational infrastructure. To make informed investment decisions, categorize all cited infrastructure into four distinct maturity phases.",
+          "Real estate marketing frequently conflates conceptual proposals with operational infrastructure. To make informed investment decisions, categorize all cited infrastructure into four distinct maturity phases across active belts like the [Jaipur Ring Road corridors](/locations/jaipur) and [Panvel growth node](/locations/panvel).",
         ],
         table: {
           headers: ["Development Stage", "Legal / Financial Evidence", "Investment Risk Level", "Price Impact"],
@@ -381,7 +386,7 @@ export const insights: InsightArticle[] = [
         id: "verifying-official-gazettes",
         heading: "2. How to Verify Government Gazettes & Tenders",
         paragraphs: [
-          "When an expressway, metro line, or industrial corridor is cited as a selling point, look for the Section 3A / 3D Land Acquisition Notifications published in the Gazette of India or the State Gazette.",
+          "When an expressway, metro line, or industrial corridor is cited as a selling point, look for the Section 3A / 3D Land Acquisition Notifications published in the Gazette of India or the State Gazette, essential when evaluating commercial land along transport arteries like [Happy Business Park](/properties/happy-business-park).",
           "Check the National Highways Authority of India (NHAI) project tracker to confirm contract award dates and construction milestones.",
         ],
       },
@@ -404,6 +409,8 @@ export const insights: InsightArticle[] = [
   {
     slug: "demystifying-land-pricing-additional-charges",
     title: "Land Pricing Architecture: Base Price, PLC, Stamp Duty & Development Charges",
+    metaTitle: "Plot Pricing & Additional Charges",
+    metaDescription: "Understand every cost in a land purchase: base rate, corner plot premium, external development charges and registration taxes such as stamp duty.",
     excerpt:
       "A complete financial breakdown of all costs associated with land acquisition: understanding basic land rates, corner plot premiums, external development levies, and statutory registration taxes.",
     category: "Property Buying Guides",
@@ -421,7 +428,6 @@ export const insights: InsightArticle[] = [
     featured: false,
     readingTimeMinutes: 7,
     relatedLocationSlugs: ["jaipur", "navi-mumbai", "ajmer"],
-    relatedPropertySlugs: ["royal-palms-township-ajmer-road-jaipur", "aravalli-greens-retreat-plots-ajmer"],
     relatedArticleSlugs: ["essential-guide-plot-buying", "understanding-property-documentation"],
     downloadableResourceSlugs: ["land-pricing-and-charges-worksheet"],
     keyTakeaways: [
@@ -435,7 +441,7 @@ export const insights: InsightArticle[] = [
         id: "anatomy-of-land-pricing",
         heading: "1. The Anatomy of Total Acquisition Cost",
         paragraphs: [
-          "When budgeting for a residential or commercial plot, calculate your Total Acquisition Cost (TAC) by aggregating base land costs, developer infrastructure charges, and statutory state levies.",
+          "When budgeting for a residential or commercial plot, calculate your Total Acquisition Cost (TAC) by aggregating base land costs, developer infrastructure charges, and statutory state levies across [verified property listings](/properties).",
         ],
         checklist: [
           "Base Land Rate (Calculated per Sq. Yard or Sq. Meter)",
@@ -454,7 +460,7 @@ export const insights: InsightArticle[] = [
           "Developers levy PLC premiums for plots with specific architectural advantages. Common categories include:",
           "• Corner Plots: Dual road frontage delivering superior ventilation, sunlight, and access (5% to 10% premium).",
           "• Park Facing Plots: Direct unobstructed green views with no front development (5% to 8% premium).",
-          "• Boulevard Frontage: Positioned along the 60ft or 80ft main spine road (5% to 10% premium).",
+          "• Boulevard Frontage: Positioned along the 60ft or 80ft main spine road (5% to 10% premium), typical in organized township layouts such as [Bhumija Green Block A](/properties/bhumija-green-block-a).",
         ],
       },
       {

@@ -15,21 +15,21 @@ import { siteConfig } from "@/config/site";
  * ==============================================================================
  */
 
+// Matching is prefix-based (RFC 9309). "/dashboard" blocks "/dashboard" and "/dashboard/*".
+// "/partner/" + "/partner$" is used instead of a bare "/partner" so a future public
+// "/partners" page is not blocked. "/_next/" is intentionally NOT listed: crawlers
+// need /_next/static and /_next/image to render pages.
 const PRIVATE_DISALLOWED_PATHS = [
-  "/admin/",
-  "/dashboard/",
-  "/portal/",
+  "/admin",
+  "/dashboard",
+  "/portal",
   "/partner/",
-  "/kyc/",
-  "/payments/",
-  "/preview/",
-  "/api/",
-  "/_next/",
-  "/account/",
-  "/profile/",
-  "/login/",
-  "/register/",
-  "/internal/",
+  "/partner$",
+  "/kyc",
+  "/payments",
+  "/preview",
+  "/api",
+  "/internal",
 ];
 
 export default function robots(): MetadataRoute.Robots {

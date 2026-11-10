@@ -54,6 +54,10 @@ export interface ArticleSection {
 export interface InsightArticle {
   slug: string;
   title: string;
+  /** SEO-only <title> (without brand). Falls back to `title`. Not shown on the page. */
+  metaTitle?: string;
+  /** SEO-only meta description. Falls back to `excerpt`. Not shown on the page. */
+  metaDescription?: string;
   excerpt: string;
   category: InsightCategory;
   tags?: string[];

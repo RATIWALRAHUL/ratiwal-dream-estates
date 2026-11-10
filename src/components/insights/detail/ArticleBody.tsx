@@ -1,8 +1,42 @@
+import React from "react";
+import Link from "next/link";
 import { CheckCircle2, AlertTriangle, Info, ShieldCheck } from "lucide-react";
 import { ArticleSection } from "@/types/insight";
 
 interface ArticleBodyProps {
   sections: ArticleSection[];
+}
+
+function renderTextWithLinks(text: string): React.ReactNode {
+  const linkRegex = /\[([^\]]+)\]\(([^)]+)\)/g;
+  if (!linkRegex.test(text)) {
+    return text;
+  }
+  const parts: React.ReactNode[] = [];
+  let lastIndex = 0;
+  let match: RegExpExecArray | null;
+  linkRegex.lastIndex = 0;
+
+  while ((match = linkRegex.exec(text)) !== null) {
+    if (match.index > lastIndex) {
+      parts.push(text.substring(lastIndex, match.index));
+    }
+    const [, label, href] = match;
+    parts.push(
+      <Link
+        key={`${href}-${match.index}`}
+        href={href}
+        className="font-medium text-[#087fc3] underline decoration-[#087fc3]/40 underline-offset-4 hover:decoration-[#087fc3] transition-colors"
+      >
+        {label}
+      </Link>
+    );
+    lastIndex = match.index + match[0].length;
+  }
+  if (lastIndex < text.length) {
+    parts.push(text.substring(lastIndex));
+  }
+  return parts;
 }
 
 export function ArticleBody({ sections }: ArticleBodyProps) {
@@ -17,7 +51,7 @@ export function ArticleBody({ sections }: ArticleBodyProps) {
           {/* Paragraphs */}
           <div className="space-y-4 text-sm sm:text-base text-[#2c3e50] leading-relaxed">
             {section.paragraphs.map((p, idx) => (
-              <p key={idx}>{p}</p>
+              <p key={idx}>{renderTextWithLinks(p)}</p>
             ))}
           </div>
 
@@ -104,7 +138,7 @@ export function ArticleBody({ sections }: ArticleBodyProps) {
                   </h3>
                   <div className="space-y-3 text-sm text-[#2c3e50] leading-relaxed">
                     {sub.paragraphs.map((sp, pIdx) => (
-                      <p key={pIdx}>{sp}</p>
+                      <p key={pIdx}>{renderTextWithLinks(sp)}</p>
                     ))}
                   </div>
                 </div>
