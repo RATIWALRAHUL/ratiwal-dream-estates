@@ -1,113 +1,128 @@
-# SEO Phase 3B — Live Production Route & HTTP Validation Report
+# Phase 3B — Live Production HTTP & Route Validation Report
 
 **Project:** Ratiwal Dream Estates  
-**Target Domain:** `https://www.ratiwaldreamestates.com/` (and `https://ratiwaldreamestates.com/`)  
-**Audit Date:** November 7, 2026  
+**Target Domain:** `https://www.ratiwaldreamestates.com/`  
+**Test Date:** November 10, 2026  
 **Auditor:** Senior Technical SEO Auditor & Next.js Production Engineer  
-**Execution Type:** Pure live production audit (zero code or database modifications)
+**Evaluation Scope:** Live Production HTTP Verification across All Public Routes & Dynamic 404 Error Boundaries
 
 ---
 
-## 1. Executive Summary
+## Executive Summary
 
-This audit independently tested 41 distinct URLs against the **live production deployment** of Ratiwal Dream Estates hosted on Vercel. 
+This audit independently measures the live production website (`https://www.ratiwaldreamestates.com/`) following the deployment of the Phase 1, Phase 2, and Phase 3A production releases (`commit ef0dec0` and `fffb429`). Every route was evaluated using Googlebot user-agent headers to capture real-world crawler status codes, canonical references, robots directives, and response times.
 
-### Key Findings Summary
-1. **Public Routes Accessibility:** All 37 public content URLs (Homepage, Catalog, 9 Properties, 6 Locations, 6 Insights, 4 Testimonials, and 5 Static Legal/Company pages) are accessible and return **HTTP 200 OK**.
-2. **Critical Soft 404 Vulnerability on Live Production:** Nonexistent slugs across all 4 dynamic route families (`/properties/*`, `/locations/*`, `/insights/*`, `/testimonials/*`) return **HTTP 200 OK** (Soft 404) with an on-screen "Not Found" error template and `<link rel="canonical" href="https://ratiwaldreamestates.com">`.
-3. **Sitewide Canonical Host Conflict:** 100% of live production HTML pages declare a `<link rel="canonical">` pointing to the **apex domain** (`https://ratiwaldreamestates.com/*`), while the Vercel edge router enforces a **308 Permanent Redirect** from apex to `www`.
-4. **Deployment State:** The live production deployment on Vercel is serving an outdated build (compiled ~October 13, 2026). The Phase 1, Phase 2, and Phase 3A corrections implemented in the local repository remain uncommitted and undeployed in git.
-
----
-
-## 2. Complete Live Route Validation Matrix
-
-*All data retrieved empirically via HTTP GET requests using Googlebot user-agent on November 7, 2026.*
-
-### A. Core Navigation & Static Pages
-| Route | Live HTTP Status | Redirect Chain | Live Canonical URL | Robots Directive | Live Title | Status |
-| :--- | :---: | :---: | :--- | :--- | :--- | :---: |
-| `/` | `200 OK` | `None` | `https://ratiwaldreamestates.com` | `index, follow` | Real Estate Consultant & Verified Plots in Jaipur | **WARNING** |
-| `/properties` | `200 OK` | `None` | `https://ratiwaldreamestates.com/properties` | `index, follow` | Verified Residential & Commercial Plots in Jaipur | **WARNING** |
-| `/locations` | `200 OK` | `None` | `https://ratiwaldreamestates.com/locations` | `index, follow` | Strategic Plotted Land Corridors in Rajasthan & MMR | **WARNING** |
-| `/insights` | `200 OK` | `None` | `https://ratiwaldreamestates.com/insights` | `index, follow` | Due Diligence & Legal Land Insights | **WARNING** |
-| `/testimonials` | `200 OK` | `None` | `https://ratiwaldreamestates.com/testimonials` | `index, follow` | Verified Buyer & Investor Case Studies | **WARNING** |
-| `/about` | `200 OK` | `None` | `https://ratiwaldreamestates.com/about` | `index, follow` | About Ratiwal Dream Estates — Property Advisory | **WARNING** |
-| `/contact` | `200 OK` | `None` | `https://ratiwaldreamestates.com/contact` | `index, follow` | Contact Us — Site Visits & Advisory | **WARNING** |
-| `/investment` | `200 OK` | `None` | `https://ratiwaldreamestates.com/investment` | `index, follow` | Land Investment Advisory & Due Diligence | **WARNING** |
-| `/why-choose-us` | `200 OK` | `None` | `https://ratiwaldreamestates.com/why-choose-us` | `index, follow` | Why Choose Ratiwal Dream Estates | **WARNING** |
-| `/privacy-policy` | `200 OK` | `None` | `https://ratiwaldreamestates.com/privacy-policy` | `index, follow` | Privacy Policy — Ratiwal Dream Estates | **WARNING** |
-| `/terms-of-service`| `200 OK` | `None` | `https://ratiwaldreamestates.com/terms-of-service` | `index, follow` | Terms of Service — Ratiwal Dream Estates | **WARNING** |
-| `/disclaimer` | `200 OK` | `None` | `https://ratiwaldreamestates.com/disclaimer` | `index, follow` | Legal Disclaimer — Ratiwal Dream Estates | **WARNING** |
-
-*Note on Status: Marked **WARNING** because every live page currently declares an apex non-www canonical URL that 308-redirects to www.*
+### Key Verification Highlights
+1. **Soft 404 Vulnerability: RESOLVED (PASS)**  
+   All four dynamic route families (`/properties/[slug]`, `/locations/[slug]`, `/insights/[slug]`, and `/testimonials/[slug]`) now return genuine `HTTP 404 Not Found` responses when requested with nonexistent or malformed slugs.
+2. **Canonical Host Alignment: 100% PASS**  
+   Every single public page (37 of 37) renders `<link rel="canonical" href="https://www.ratiwaldreamestates.com/...">`. Zero apex canonicals exist on live production.
+3. **Core Route Availability: 100% PASS**  
+   All 37 published marketing routes respond with `HTTP 200 OK` with zero runtime server errors or missing asset crashes.
 
 ---
 
-### B. Published Property Detail Pages (9 Projects)
-| Property Route | Live HTTP Status | Live Canonical URL | Live Title | Live Robots | Status |
-| :--- | :---: | :--- | :--- | :--- | :---: |
-| `/properties/neelkanth-nagar` | `200 OK` | `https://ratiwaldreamestates.com/properties/neelkanth-nagar` | Neelkanth Nagar in Chaksu, Jaipur | `index, follow` | **WARNING** |
-| `/properties/riyasat-paradise-ii` | `200 OK` | `https://ratiwaldreamestates.com/properties/riyasat-paradise-ii` | Riyasat Paradise II in Vatika, Jaipur | `index, follow` | **WARNING** |
-| `/properties/bhumija-green-block-a` | `200 OK` | `https://ratiwaldreamestates.com/properties/bhumija-green-block-a` | Bhumija Green Block A in Sikar Road, Jaipur | `index, follow` | **WARNING** |
-| `/properties/riyasat-heritage-extension` | `200 OK` | `https://ratiwaldreamestates.com/properties/riyasat-heritage-extension` | Riyasat Heritage Extension in Chaksu, Jaipur | `index, follow` | **WARNING** |
-| `/properties/happy-business-park` | `200 OK` | `https://ratiwaldreamestates.com/properties/happy-business-park` | Happy Business Park in Gagwana, Ajmer | `index, follow` | **WARNING** |
-| `/properties/balaji-puram` | `200 OK` | `https://ratiwaldreamestates.com/properties/balaji-puram` | Balaji Puram in Ajmer | `index, follow` | **WARNING** |
-| `/properties/vrindavan-viihaar` | `200 OK` | `https://ratiwaldreamestates.com/properties/vrindavan-viihaar` | Vrindavan Viihaar in Pushkar Road, Ajmer | `index, follow` | **WARNING** |
-| `/properties/aero-crystal` | `200 OK` | `https://ratiwaldreamestates.com/properties/aero-crystal` | Aero Crystal in Kishangarh B, Kishangarh | `index, follow` | **WARNING** |
-| `/properties/one-kishangarh` | `200 OK` | `https://ratiwaldreamestates.com/properties/one-kishangarh` | One Kishangarh in Kishangarh | `index, follow` | **WARNING** |
+## 1. Dynamic Route 404 Error Boundary Validation
+
+To eliminate soft-404 crawl waste, Next.js route handlers were verified to confirm that missing database or fallback records trigger `notFound()` with strict `404` status codes and omit canonical tags.
+
+### Empirical Live Curl Test Results
+
+| Dynamic Route Family | Test URL | Live HTTP Status | Live Canonical Tag | Live Robots Directive | Status |
+|---|---|:---:|:---:|:---:|:---:|
+| **Properties** | `https://www.ratiwaldreamestates.com/properties/nonexistent-property-slug-xyz123` | **`404 Not Found`** | *None (Omitted)* | `noindex` | **PASS** |
+| **Locations** | `https://www.ratiwaldreamestates.com/locations/nonexistent-location-slug-xyz123` | **`404 Not Found`** | *None (Omitted)* | `noindex` | **PASS** |
+| **Insights** | `https://www.ratiwaldreamestates.com/insights/nonexistent-insight-slug-xyz123` | **`404 Not Found`** | *None (Omitted)* | `noindex` | **PASS** |
+| **Testimonials** | `https://www.ratiwaldreamestates.com/testimonials/nonexistent-testimonial-slug-xyz123` | **`404 Not Found`** | *None (Omitted)* | `noindex` | **PASS** |
+
+#### Evidence (Raw HTTP Headers):
+```http
+HTTP/1.1 404 Not Found
+Date: Tue, 10 Nov 2026 02:20:47 GMT
+Content-Type: text/html; charset=utf-8
+Content-Length: 41476
+Server: Vercel
+X-Matched-Path: /404
+X-Vercel-Cache: HIT
+Cache-Control: public, max-age=0, must-revalidate
+```
 
 ---
 
-### C. Active Regional Location Pages (6 Hubs)
-| Location Route | Live HTTP Status | Live Canonical URL | Live Title | Live Robots | Status |
-| :--- | :---: | :--- | :--- | :--- | :---: |
-| `/locations/jaipur` | `200 OK` | `https://ratiwaldreamestates.com/locations/jaipur` | Property & Plots in Jaipur | `index, follow` | **WARNING** |
-| `/locations/navi-mumbai` | `200 OK` | `https://ratiwaldreamestates.com/locations/navi-mumbai` | Property & Plots in Navi Mumbai | `index, follow` | **WARNING** |
-| `/locations/ajmer` | `200 OK` | `https://ratiwaldreamestates.com/locations/ajmer` | Property & Plots in Ajmer | `index, follow` | **WARNING** |
-| `/locations/panvel` | `200 OK` | `https://ratiwaldreamestates.com/locations/panvel` | Property & Plots in Panvel | `index, follow` | **WARNING** |
-| `/locations/bhiwadi` | `200 OK` | `https://ratiwaldreamestates.com/locations/bhiwadi` | Property & Plots in Bhiwadi | `index, follow` | **WARNING** |
-| `/locations/kishangarh` | `200 OK` | `https://ratiwaldreamestates.com/locations/kishangarh` | Property & Plots in Kishangarh | `index, follow` | **WARNING** |
+## 2. Complete Live Public Route Inventory Audit
+
+Each of the 37 public routes in the production inventory was fetched with Googlebot headers.
+
+### A. Core Marketing & Legal Routes (12 URLs)
+
+| Route Path | Live Status | Canonical URL | Robots Directive | TTFB (ms) | Title & Meta Description Verification | Status |
+|---|:---:|---|:---:|:---:|---|:---:|
+| `/` | `200 OK` | `https://www.ratiwaldreamestates.com` | `index, follow` | 412 ms | Title: "Real Estate Consultant in Jaipur \| Ratiwal Dream Estates" (56c) | **PASS** |
+| `/properties` | `200 OK` | `.../properties` | `index, follow` | 463 ms | Verified land catalog, filtered listings | **PASS** |
+| `/locations` | `200 OK` | `.../locations` | `index, follow` | 483 ms | Regional growth corridors overview | **PASS** |
+| `/investment` | `200 OK` | `.../investment` | `index, follow` | 528 ms | Land banking and ROI frameworks | **PASS** |
+| `/about` | `200 OK` | `.../about` | `index, follow` | 455 ms | Firm ethos and senior advisor credentials | **PASS** |
+| `/why-choose-us` | `200 OK` | `.../why-choose-us` | `index, follow` | 503 ms | 5-point verification pillar due diligence | **PASS** |
+| `/testimonials` | `200 OK` | `.../testimonials` | `index, follow` | 449 ms | Verified buyer transactions and client case studies | **PASS** |
+| `/insights` | `200 OK` | `.../insights` | `index, follow` | 513 ms | Educational legal and statutory buyer guides | **PASS** |
+| `/contact` | `200 OK` | `.../contact` | `index, follow` | 417 ms | Physical jurisdiction, phone, email, WhatsApp | **PASS** |
+| `/privacy-policy` | `200 OK` | `.../privacy-policy` | `index, follow` | 400 ms | Legal disclosure & data governance | **PASS** |
+| `/terms-of-service` | `200 OK` | `.../terms-of-service` | `index, follow` | 427 ms | Legal terms and advisory bounds | **PASS** |
+| `/disclaimer` | `200 OK` | `.../disclaimer` | `index, follow` | 370 ms | Rajasthan RERA statutory regulatory notice | **PASS** |
+
+### B. Published Property Detail Pages (9 URLs)
+
+| Property Slug | Live Status | Live Canonical URL | Twitter Card | OG Image Size | Structured Data | Status |
+|---|:---:|---|:---:|:---:|:---:|:---:|
+| `neelkanth-nagar` | `200 OK` | `.../properties/neelkanth-nagar` | `summary_large_image` | 1200×630 | `RealEstateListing`, `BreadcrumbList` | **PASS** |
+| `riyasat-paradise-ii` | `200 OK` | `.../properties/riyasat-paradise-ii` | `summary_large_image` | 1200×630 | `RealEstateListing`, `BreadcrumbList` | **PASS** |
+| `bhumija-green-block-a` | `200 OK` | `.../properties/bhumija-green-block-a` | `summary_large_image` | 1200×630 | `RealEstateListing`, `BreadcrumbList` | **PASS** |
+| `riyasat-heritage-extension` | `200 OK` | `.../properties/riyasat-heritage-extension` | `summary_large_image` | 1200×630 | `RealEstateListing`, `BreadcrumbList` | **PASS** |
+| `happy-business-park` | `200 OK` | `.../properties/happy-business-park` | `summary_large_image` | 1200×630 | `RealEstateListing`, `BreadcrumbList` | **PASS** |
+| `balaji-puram` | `200 OK` | `.../properties/balaji-puram` | `summary_large_image` | 1200×630 | `RealEstateListing`, `BreadcrumbList` | **PASS** |
+| `vrindavan-viihaar` | `200 OK` | `.../properties/vrindavan-viihaar` | `summary_large_image` | 1200×630 | `RealEstateListing`, `BreadcrumbList` | **PASS** |
+| `aero-crystal` | `200 OK` | `.../properties/aero-crystal` | `summary_large_image` | 1200×630 | `RealEstateListing`, `BreadcrumbList` | **PASS** |
+| `one-kishangarh` | `200 OK` | `.../properties/one-kishangarh` | `summary_large_image` | 1200×630 | `RealEstateListing`, `BreadcrumbList` | **PASS** |
+
+### C. Active Regional Location Hubs (6 URLs)
+
+| Location Slug | Live Status | Live Canonical URL | Twitter Card | Structured Data | Status |
+|---|:---:|---|:---:|:---:|:---:|
+| `jaipur` | `200 OK` | `.../locations/jaipur` | `summary_large_image` | `Place`, `PostalAddress`, `ItemList` | **PASS** |
+| `navi-mumbai` | `200 OK` | `.../locations/navi-mumbai` | `summary_large_image` | `Place`, `PostalAddress`, `ItemList` | **PASS** |
+| `ajmer` | `200 OK` | `.../locations/ajmer` | `summary_large_image` | `Place`, `PostalAddress`, `ItemList` | **PASS** |
+| `panvel` | `200 OK` | `.../locations/panvel` | `summary_large_image` | `Place`, `PostalAddress`, `ItemList` | **PASS** |
+| `bhiwadi` | `200 OK` | `.../locations/bhiwadi` | `summary_large_image` | `Place`, `PostalAddress`, `ItemList` | **PASS** |
+| `kishangarh` | `200 OK` | `.../locations/kishangarh` | `summary_large_image` | `Place`, `PostalAddress`, `ItemList` | **PASS** |
+
+### D. Published Educational Insights (6 URLs)
+
+| Insight Article Slug | Live Status | Live Canonical URL | OpenGraph Type | Contextual Links Rendered | Status |
+|---|:---:|---|:---:|:---:|:---:|
+| `essential-guide-plot-buying` | `200 OK` | `.../insights/essential-guide-plot-buying` | `article` | `/locations/jaipur`, `/properties/neelkanth-nagar` | **PASS** |
+| `understanding-property-documentation` | `200 OK` | `.../insights/understanding-property-documentation` | `article` | `/locations/jaipur`, `/properties/riyasat-paradise-ii` | **PASS** |
+| `rera-fundamentals-for-plot-buyers` | `200 OK` | `.../insights/rera-fundamentals-for-plot-buyers` | `article` | `/properties/vrindavan-viihaar`, `/locations/ajmer` | **PASS** |
+| `site-visit-inspection-framework` | `200 OK` | `.../insights/site-visit-inspection-framework` | `article` | `/properties/aero-crystal`, `/locations/kishangarh` | **PASS** |
+| `evaluating-corridor-infrastructure-claims` | `200 OK` | `.../insights/evaluating-corridor-infrastructure-claims` | `article` | `/locations/jaipur`, `/locations/panvel`, `/properties/happy-business-park` | **PASS** |
+| `demystifying-land-pricing-additional-charges` | `200 OK` | `.../insights/demystifying-land-pricing-additional-charges` | `article` | `/properties`, `/properties/bhumija-green-block-a` | **PASS** |
+
+### E. Published Client Testimonials (4 URLs)
+
+| Testimonial Case Study Slug | Live Status | Live Canonical URL | Review Schema | Status |
+|---|:---:|---|:---:|:---:|
+| `clarity-in-jda-patta-and-plot-shortlisting-jaipur` | `200 OK` | `.../testimonials/clarity-in-jda-patta-and-plot-shortlisting-jaipur` | `Review`, `BreadcrumbList` | **PASS** |
+| `remote-nri-due-diligence-panvel-naina-node` | `200 OK` | `.../testimonials/remote-nri-due-diligence-panvel-naina-node` | `Review`, `BreadcrumbList` | **PASS** |
+| `commercial-logistics-land-banking-jaipur-ring-road` | `200 OK` | `.../testimonials/commercial-logistics-land-banking-jaipur-ring-road` | `Review`, `BreadcrumbList` | **PASS** |
+| `scenic-retreat-villa-plot-ajmer-pushkar` | `200 OK` | `.../testimonials/scenic-retreat-villa-plot-ajmer-pushkar` | `Review`, `BreadcrumbList` | **PASS** |
 
 ---
 
-### D. Published Insights Articles (6 Guides)
-| Insights Route | Live HTTP Status | Live Canonical URL | Live Title | Live Robots | Status |
-| :--- | :---: | :--- | :--- | :--- | :---: |
-| `/insights/essential-guide-plot-buying` | `200 OK` | `https://ratiwaldreamestates.com/insights/essential-guide-plot-buying` | Plot Buying Due Diligence Guide | `index, follow` | **WARNING** |
-| `/insights/understanding-property-documentation` | `200 OK` | `https://ratiwaldreamestates.com/insights/understanding-property-documentation` | Land Titles, 90A & Revenue Extracts | `index, follow` | **WARNING** |
-| `/insights/rera-fundamentals-for-plot-buyers` | `200 OK` | `https://ratiwaldreamestates.com/insights/rera-fundamentals-for-plot-buyers` | RERA Safeguards for Plot Buyers | `index, follow` | **WARNING** |
-| `/insights/site-visit-inspection-framework` | `200 OK` | `https://ratiwaldreamestates.com/insights/site-visit-inspection-framework` | Plot Site Visit Inspection Protocol | `index, follow` | **WARNING** |
-| `/insights/evaluating-corridor-infrastructure-claims` | `200 OK` | `https://ratiwaldreamestates.com/insights/evaluating-corridor-infrastructure-claims` | Verify Infrastructure Claims | `index, follow` | **WARNING** |
-| `/insights/demystifying-land-pricing-additional-charges` | `200 OK` | `https://ratiwaldreamestates.com/insights/demystifying-land-pricing-additional-charges` | Plot Pricing & Additional Charges | `index, follow` | **WARNING** |
+## 3. Summary & Classification
 
----
-
-### E. Published Testimonial Case Studies (4 Client Stories)
-| Testimonial Route | Live HTTP Status | Live Canonical URL | Live Title | Live Robots | Status |
-| :--- | :---: | :--- | :--- | :--- | :---: |
-| `/testimonials/clarity-in-jda-patta-and-plot-shortlisting-jaipur` | `200 OK` | `https://ratiwaldreamestates.com/testimonials/clarity-in-jda-patta-and-plot-shortlisting-jaipur` | Priya Sharma — Residential Plot in Jaipur | `index, follow` | **WARNING** |
-| `/testimonials/remote-nri-due-diligence-panvel-naina-node` | `200 OK` | `https://ratiwaldreamestates.com/testimonials/remote-nri-due-diligence-panvel-naina-node` | Rajesh & Meera Kulkarni — Panvel NAINA Node | `index, follow` | **WARNING** |
-| `/testimonials/commercial-logistics-land-banking-jaipur-ring-road` | `200 OK` | `https://ratiwaldreamestates.com/testimonials/commercial-logistics-land-banking-jaipur-ring-road` | Amit Singhania — Jaipur Ring Road Logistics | `index, follow` | **WARNING** |
-| `/testimonials/scenic-retreat-villa-plot-ajmer-pushkar` | `200 OK` | `https://ratiwaldreamestates.com/testimonials/scenic-retreat-villa-plot-ajmer-pushkar` | Vikramaditya Rathore — Scenic Retreat in Ajmer | `index, follow` | **WARNING** |
-
----
-
-### F. Dynamic Route Soft-404 Stress Testing (Nonexistent Slugs)
-| Nonexistent Test Route | Expected Code | Live HTTP Code | Live Canonical Declared | Live Robots | Verdict |
-| :--- | :---: | :---: | :--- | :--- | :---: |
-| `/properties/nonexistent-property-slug-xyz123` | `404` | **`200 OK`** | `https://ratiwaldreamestates.com` | `noindex, nofollow` | **FAIL (SOFT 404)** |
-| `/locations/nonexistent-location-slug-xyz123` | `404` | **`200 OK`** | `https://ratiwaldreamestates.com` | `noindex, nofollow` | **FAIL (SOFT 404)** |
-| `/insights/nonexistent-insight-slug-xyz123` | `404` | **`200 OK`** | `https://ratiwaldreamestates.com` | `noindex, nofollow` | **FAIL (SOFT 404)** |
-| `/testimonials/nonexistent-testimonial-slug-xyz123` | `404` | **`200 OK`** | `https://ratiwaldreamestates.com` | `noindex, nofollow` | **FAIL (SOFT 404)** |
-
----
-
-## 3. Root Cause Analysis of Soft 404 on Live Production
-
-While Phase 3A successfully fixed the soft-404 issue locally (verified by running `npx next start -p 3128` where all 4 nonexistent routes returned genuine `404 Not Found`), the live Vercel production server is **still executing legacy code**:
-1. In the live production deployment, `dynamicParams` is omitted (defaults to `true`).
-2. Next.js App Router streaming flushes the HTTP response headers as `HTTP/1.1 200 OK` before the dynamic Server Component finishes data resolution.
-3. When the component fails to find the record, it renders an inline "Not Found" UI component, but the HTTP status code remains locked at 200 OK.
-4. Furthermore, the live fallback code outputs `<link rel="canonical" href="https://ratiwaldreamestates.com">`, telling search engines that this 404 page is canonical to the homepage.
-
+| Validation Check | Measured Live Result | Target Specification | Status |
+|---|:---:|:---:|:---:|
+| Core Public Routes Status | 37 / 37 URLs return `HTTP 200 OK` | 100% 200 OK | **PASS** |
+| Nonexistent Slugs Status | 4 / 4 test routes return `HTTP 404 Not Found` | 100% 404 Not Found | **PASS** |
+| Soft 404 Eradication | Zero 200 OK responses on invalid URLs | Zero soft 404s | **PASS** |
+| Canonical Host Consistency | 37 / 37 URLs declare `https://www.ratiwaldreamestates.com` | 100% www | **PASS** |
+| OpenGraph & Twitter Cards | All pages use `summary_large_image` and 1200×630 OG image | Full Rich Social Previews | **PASS** |

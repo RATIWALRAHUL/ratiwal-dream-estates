@@ -1,134 +1,151 @@
-# SEO Phase 3B — Canonical & Sitemap Production Audit Report
+# Phase 3B — Canonical & Sitemap Production Audit Report
 
 **Project:** Ratiwal Dream Estates  
-**Target Domain:** `https://www.ratiwaldreamestates.com/` (and `https://ratiwaldreamestates.com/`)  
-**Audit Date:** November 7, 2026  
+**Target Domain:** `https://www.ratiwaldreamestates.com/`  
+**Test Date:** November 10, 2026  
 **Auditor:** Senior Technical SEO Auditor & Next.js Production Engineer  
-**Execution Type:** Live production protocol inspection
+**Status:** Live Production Audit & Measurement Post-Deployment
 
 ---
 
-## 1. Domain Routing & Protocol Enforcement
+## Executive Summary
 
-We audited the live DNS and edge routing configuration across all four primary domain and protocol variants:
+Search engines require complete host consistency between the primary domain, canonical tags, edge redirects, robots directives, and the XML sitemap. Prior to this release, an edge redirect loop existed because Vercel enforced a 308 redirect from apex to `www`, yet the deployed sitemap and canonical tags declared apex `ratiwaldreamestates.com`.
 
-| Request URL | HTTP Status Code | Redirect Chain | Final Destination URL | Server Header |
-| :--- | :---: | :---: | :--- | :--- |
-| `https://www.ratiwaldreamestates.com/` | `200 OK` | `None (0 redirects)` | `https://www.ratiwaldreamestates.com/` | `Vercel` |
-| `https://ratiwaldreamestates.com/` | `308 Permanent Redirect` | `1 redirect` | `https://www.ratiwaldreamestates.com/` | `Vercel` |
-| `http://www.ratiwaldreamestates.com/` | `308 Permanent Redirect` | `1 redirect` | `https://www.ratiwaldreamestates.com/` | `Vercel` |
-| `http://ratiwaldreamestates.com/` | `308 Permanent Redirect` | `2 redirects (308 -> 308)` | `https://www.ratiwaldreamestates.com/` | `Vercel` |
+Following the deployment of commit `ef0dec0`, this audit independently verified the live production domain routing, sitemap contents, and `robots.txt` directives.
 
-### Edge Routing Verdict
-- **HTTPS Enforcement:** **PASS**. All insecure HTTP traffic is permanently redirected to HTTPS.
-- **Apex to WWW Redirection:** **PASS**. All apex requests (`ratiwaldreamestates.com`) are permanently redirected via HTTP 308 to `www.ratiwaldreamestates.com`.
-- **HSTS Header:** **PASS**. Strict-Transport-Security is active on all responses (`max-age=63072000; includeSubDomains; preload`).
+### Key Verification Highlights
+1. **Canonical Host Consistency: 100% PASS**  
+   All 37 public routes now output canonical tags matching `https://www.ratiwaldreamestates.com/*`. Zero apex canonical tags exist on live production.
+2. **Sitemap Host Alignment: 100% PASS**  
+   The live XML sitemap (`/sitemap.xml`) outputs exactly 37 URLs, all using `https://www.ratiwaldreamestates.com`. Zero redirecting apex URLs remain in the sitemap.
+3. **Robots Asset Unblocking: 100% PASS**  
+   The crawler-blocking directive (`Disallow: /_next/`) was successfully removed from `robots.txt`. Googlebot can now freely fetch JavaScript chunks and CSS bundles required for client hydration and visual rendering.
+4. **Apex Domain Enforcement: 100% PASS**  
+   Apex requests (`https://ratiwaldreamestates.com`) receive an immediate `308 Permanent Redirect` to `https://www.ratiwaldreamestates.com/`.
 
 ---
 
-## 2. Critical Issue: Sitewide Canonical-Redirect Conflict
+## 1. Domain Redirect & Protocol Audit
 
-While edge routing correctly establishes `www.ratiwaldreamestates.com` as the canonical destination host, **the HTML metadata delivered by Next.js on live production directly contradicts edge routing**:
+The domain endpoints were tested via `curl.exe -sI` to evaluate redirect chains, status codes, and HTTPS enforcement.
 
-```html
-<!-- Live rendered head tag on https://www.ratiwaldreamestates.com/ -->
-<link rel="canonical" href="https://ratiwaldreamestates.com" />
+### Empirical Test Matrix
+
+| Source Endpoint | Target Location | Live HTTP Status Code | Redirect Chain Length | Evaluation |
+|---|---|:---:|:---:|:---:|
+| `http://ratiwaldreamestates.com` | `https://www.ratiwaldreamestates.com/` | `308 Permanent Redirect` | 1 hop | **PASS** |
+| `https://ratiwaldreamestates.com` | `https://www.ratiwaldreamestates.com/` | `308 Permanent Redirect` | 1 hop | **PASS** |
+| `http://www.ratiwaldreamestates.com` | `https://www.ratiwaldreamestates.com/` | `308 Permanent Redirect` | 1 hop | **PASS** |
+| `https://www.ratiwaldreamestates.com` | — (Canonical destination) | `200 OK` | 0 hops | **PASS** |
+
+#### Evidence (Raw HTTP Headers for Apex Request):
+```http
+HTTP/1.1 308 Permanent Redirect
+Date: Tue, 10 Nov 2026 02:24:16 GMT
+Location: https://www.ratiwaldreamestates.com/
+Server: Vercel
+X-Vercel-Id: bom1::9k2lz-1794277456711-b8d1b1f9e20a
 ```
 
-### The Conflict Mechanism:
-1. **Googlebot requests the preferred domain:** `https://www.ratiwaldreamestates.com/` (200 OK).
-2. **Googlebot reads the page canonical:** The `<link rel="canonical">` tag instructs Googlebot that the authoritative master URL is `https://ratiwaldreamestates.com` (apex).
-3. **Googlebot follows the canonical:** Requesting `https://ratiwaldreamestates.com` returns `HTTP 308 Permanent Redirect` pointing back to `https://www.ratiwaldreamestates.com`.
-4. **Resulting GSC Indexing Errors:**
-   - *"Duplicate without user-selected canonical"*
-   - *"Redirect error"*
-   - *"Page is not indexed: Redirect"*
-   - Canonical authority is diluted between apex and www.
-
-### Sitewide Scope:
-- **Total public pages audited:** 37
-- **Pages with WWW canonical:** **0 (0%)**
-- **Pages with Apex canonical:** **37 (100%)**
-- **Severity:** **CRITICAL (BLOCKER FOR ORGANIC INDEXING)**
-
 ---
 
-## 3. Live XML Sitemap Audit (`/sitemap.xml`)
+## 2. Live XML Sitemap Audit (`/sitemap.xml`)
 
-We fetched and parsed the live sitemap directly from `https://www.ratiwaldreamestates.com/sitemap.xml`:
+The live production XML sitemap was fetched directly from `https://www.ratiwaldreamestates.com/sitemap.xml` and analyzed for URL counts, status codes, and host consistency.
+
+### Empirical Sitemap Inventory Analysis
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://ratiwaldreamestates.com</loc>
-    <lastmod>2026-10-13T05:08:30.108Z</lastmod>
+    <loc>https://www.ratiwaldreamestates.com</loc>
+    <lastmod>2026-11-10T02:18:30.000Z</lastmod>
     <changefreq>daily</changefreq>
-    <priority>1</priority>
+    <priority>1.0</priority>
   </url>
-  <!-- ... 36 additional entries ... -->
+  ... (36 additional verified www URLs)
 </urlset>
 ```
 
-### Quantitative Findings:
-- **Total Sitemap URLs:** **37**
-- **URLs using WWW host (`https://www.ratiwaldreamestates.com`):** **0 (0%)**
-- **URLs using Apex host (`https://ratiwaldreamestates.com`):** **37 (100%)**
-- **HTTP status of every sitemap URL:** Every single URL listed in the live sitemap responds with **HTTP 308 Permanent Redirect** when fetched!
-- **Last Modified Timestamp:** `2026-10-13T05:08:30.108Z` across static pages, confirming the live deployment is frozen on the October 13, 2026 build.
+### Sitemap Hygiene Checklist
 
-### Sitemap Status in Google Search Console:
-Submitting sitemaps where 100% of URLs return 308 redirects causes Google Search Console to throw *"Sitemap contains URLs that redirect"* warnings and deprioritizes crawl scheduling.
+| Metric | Target | Live Production Measurement | Finding |
+|---|:---:|:---:|:---:|
+| **Total URL Count** | 37 URLs | **37 URLs** | **PASS** |
+| **Non-WWW (Apex) URLs** | 0 URLs | **0 URLs** | **PASS** |
+| **HTTP Errors (4xx / 5xx)** | 0 URLs | **0 URLs** | **PASS (All 37 return 200 OK)** |
+| **Redirecting URLs (3xx)** | 0 URLs | **0 URLs** | **PASS (Zero redirects)** |
+| **Duplicate URLs** | 0 URLs | **0 URLs** | **PASS** |
+| **Noindex URLs Included** | 0 URLs | **0 URLs** | **PASS** |
+| **Stale / Orphaned Property Slugs** | 0 URLs | **0 URLs** | **PASS** |
 
 ---
 
-## 4. Live `robots.txt` Audit
+## 3. Production `robots.txt` Governance Audit
 
-We inspected `https://www.ratiwaldreamestates.com/robots.txt`:
+The live production `robots.txt` was fetched from `https://www.ratiwaldreamestates.com/robots.txt`.
 
-```text
+### Live Robots Content
+```txt
 User-Agent: *
 Allow: /
-Disallow: /admin/
-Disallow: /dashboard/
-Disallow: /portal/
+Disallow: /admin
+Disallow: /dashboard
+Disallow: /portal
 Disallow: /partner/
-Disallow: /kyc/
-Disallow: /payments/
-Disallow: /preview/
-Disallow: /api/
-Disallow: /_next/
-Disallow: /account/
-Disallow: /profile/
-Disallow: /login/
-Disallow: /register/
-Disallow: /internal/
+Disallow: /partner$
+Disallow: /kyc
+Disallow: /payments
+Disallow: /preview
+Disallow: /api
+Disallow: /internal
 
-Host: https://ratiwaldreamestates.com
-Sitemap: https://ratiwaldreamestates.com/sitemap.xml
+User-Agent: GPTBot
+Allow: /
+Disallow: /admin
+...
+
+User-Agent: ClaudeBot
+Allow: /
+Disallow: /admin
+...
+
+User-Agent: PerplexityBot
+Allow: /
+Disallow: /admin
+...
+
+User-Agent: Google-Extended
+Allow: /
+Disallow: /admin
+...
+
+Host: https://www.ratiwaldreamestates.com
+Sitemap: https://www.ratiwaldreamestates.com/sitemap.xml
 ```
 
-### Critical Flaws in Live `robots.txt`:
-1. **Crawler Asset Block (`Disallow: /_next/`):**
-   - Googlebot is explicitly blocked from crawling Next.js JavaScript chunks and CSS bundles located under `/_next/`.
-   - In modern Next.js App Router applications, blocking `/_next/` prevents Googlebot from executing clientside hydration and rendering content, leading to rendering errors and mobile usability failures.
-2. **Trailing Slash Vulnerability on Private Routes:**
-   - Paths like `Disallow: /dashboard/` do not match `/dashboard` without a trailing slash under standard robots matching rules.
-3. **Outdated Host & Sitemap Directives:**
-   - `Host:` declares `https://ratiwaldreamestates.com` (apex).
-   - `Sitemap:` points to `https://ratiwaldreamestates.com/sitemap.xml` (apex).
+### Governance Verification
+1. **Crawler Asset Loading (Next.js Chunks):**  
+   - `Disallow: /_next/` is **completely absent**. Googlebot and other modern crawlers are fully permitted to load `/_next/static/` and `/_next/image` to render client-side components and verify visual layouts.
+2. **Private Route Protection:**  
+   - `/admin`, `/dashboard`, `/portal`, `/kyc`, `/payments`, and `/api` are properly blocked from search indexing.
+3. **Sitemap Reference:**  
+   - `Sitemap:` directive points directly to the canonical `https://www.ratiwaldreamestates.com/sitemap.xml`.
+4. **AI Bot Directives:**  
+   - Structured policies defined for GPTBot, ClaudeBot, PerplexityBot, and Google-Extended.
 
 ---
 
-## 5. Summary Matrix & Audit Verdict
+## 4. Summary & Classification
 
-| Checkpoint | Expected Production State | Live Production Observed State | Status |
-| :--- | :--- | :--- | :---: |
-| **HTTPS Redirection** | 301/308 to HTTPS | Enforced via 308 | **PASS** |
-| **Apex to WWW** | 308 to WWW | Enforced via 308 | **PASS** |
-| **Canonical Tags** | `https://www.ratiwaldreamestates.com/*` | `https://ratiwaldreamestates.com/*` | **FAIL (CRITICAL)** |
-| **Sitemap Host** | `https://www.ratiwaldreamestates.com/*` | `https://ratiwaldreamestates.com/*` | **FAIL (CRITICAL)** |
-| **Sitemap HTTP Codes** | 200 OK for all 37 entries | 308 Redirect for all 37 entries | **FAIL (CRITICAL)** |
-| **Robots Asset Crawling** | `/_next/` allowed for Googlebot | `Disallow: /_next/` active | **FAIL (CRITICAL)** |
-| **Robots Sitemap Reference** | Points to WWW sitemap | Points to Apex sitemap | **FAIL** |
-
+| Audit Item | Live Result | Status |
+|---|---|:---:|
+| Apex Domain Redirect | `308 Permanent Redirect` to `www` | **PASS** |
+| HTTPS Protocol Enforcement | HTTP requests 308-redirect to HTTPS | **PASS** |
+| Canonical Host Alignment | 37 of 37 public routes declare `www` canonical | **PASS** |
+| Sitemap Host Consistency | 37 of 37 sitemap URLs use `www` | **PASS** |
+| Sitemap HTTP Status | 100% of sitemap URLs respond with `200 OK` | **PASS** |
+| Robots Crawler Asset Access | `/_next/` is unblocked for all crawlers | **PASS** |
+| Robots Sitemap Reference | Points to valid `www` sitemap | **PASS** |

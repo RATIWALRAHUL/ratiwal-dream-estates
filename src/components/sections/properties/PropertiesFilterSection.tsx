@@ -164,6 +164,16 @@ export function PropertiesFilterSection({ properties }: PropertiesFilterSectionP
     return ["All", ...unique];
   }, [properties]);
 
+  const typeCounts = useMemo(() => {
+    const counts: Record<string, number> = { All: properties.length };
+    for (const p of properties) {
+      if (p.propertyType) {
+        counts[p.propertyType] = (counts[p.propertyType] || 0) + 1;
+      }
+    }
+    return counts;
+  }, [properties]);
+
   const statuses = useMemo(() => {
     const unique = Array.from(new Set(properties.map((p) => p.status))).filter(Boolean);
     return ["All", ...unique];
@@ -286,6 +296,44 @@ export function PropertiesFilterSection({ properties }: PropertiesFilterSectionP
 
   return (
     <div className="w-full">
+      {/* Quick Category Filter Tabs */}
+      <div
+        className="flex flex-wrap items-center gap-2 mb-5"
+        role="tablist"
+        aria-label="Filter properties by category"
+      >
+        {propertyTypes.map((type) => {
+          const isSelected = selectedType === type;
+          const label = type === "All" ? "All Parcels" : `${type}s`;
+          const count = typeCounts[type] || 0;
+          return (
+            <button
+              key={type}
+              type="button"
+              role="tab"
+              aria-selected={isSelected}
+              onClick={() => setSelectedType(type)}
+              className={`inline-flex items-center gap-2 px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer ${
+                isSelected
+                  ? "bg-[var(--midnight)] text-white shadow-sm ring-2 ring-[var(--midnight)]/20"
+                  : "bg-white text-[var(--text-secondary)] border border-slate-200 hover:border-slate-300 hover:text-[var(--midnight)] hover:bg-slate-50"
+              }`}
+            >
+              <span>{label}</span>
+              <span
+                className={`text-[11px] px-1.5 py-0.5 rounded-md font-semibold ${
+                  isSelected
+                    ? "bg-white/20 text-white"
+                    : "bg-slate-100 text-[var(--text-secondary)]"
+                }`}
+              >
+                {count}
+              </span>
+            </button>
+          );
+        })}
+      </div>
+
       {/* Interactive Filter Bar */}
       <div className="bg-white rounded-2xl sm:rounded-3xl p-5 sm:p-6 border border-[rgba(7,26,40,0.1)] shadow-sm mb-8 space-y-4">
         

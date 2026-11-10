@@ -18,6 +18,7 @@ const playfair = Playfair_Display({
   variable: "--font-playfair",
   weight: ["400", "600", "700", "800"],
   display: "swap",
+  preload: false,
 });
 
 const alexBrush = Alex_Brush({
@@ -25,6 +26,7 @@ const alexBrush = Alex_Brush({
   variable: "--font-signature",
   weight: ["400"],
   display: "swap",
+  preload: false,
 });
 
 const instrument = Instrument_Serif({
@@ -46,6 +48,7 @@ const mono = JetBrains_Mono({
   variable: "--font-mono",
   weight: ["400", "600"],
   display: "swap",
+  preload: false,
 });
 
 // Root defaults carry no canonical: every public route sets its own via

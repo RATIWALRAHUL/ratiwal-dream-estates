@@ -130,6 +130,15 @@ export function getMetadata({
       description: pageDescription,
       images: [ogImageUrl],
     },
+    ...((process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION || process.env.GOOGLE_SITE_VERIFICATION)
+      ? {
+          verification: {
+            google:
+              process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION ||
+              process.env.GOOGLE_SITE_VERIFICATION,
+          },
+        }
+      : {}),
     ...(omitRobots
       ? {}
       : {

@@ -13,7 +13,12 @@ export const downloadableResources: DownloadableResource[] = [
     version: "v2.4",
     updatedAt: "August 2026",
     reviewStatus: "approved",
-    relatedArticleSlugs: ["essential-guide-plot-buying", "understanding-property-documentation"],
+    relatedArticleSlugs: [
+      "essential-guide-plot-buying",
+      "understanding-property-documentation",
+      "section-90a-land-conversion-rajasthan",
+      "types-of-jda-patta-jaipur-verification",
+    ],
   },
   {
     slug: "site-visit-inspection-framework",
@@ -41,7 +46,12 @@ export const downloadableResources: DownloadableResource[] = [
     version: "v2.0",
     updatedAt: "August 2026",
     reviewStatus: "approved",
-    relatedArticleSlugs: ["understanding-property-documentation", "rera-fundamentals-for-plot-buyers"],
+    relatedArticleSlugs: [
+      "understanding-property-documentation",
+      "rera-fundamentals-for-plot-buyers",
+      "section-90a-land-conversion-rajasthan",
+      "types-of-jda-patta-jaipur-verification",
+    ],
   },
   {
     slug: "land-pricing-and-charges-worksheet",
