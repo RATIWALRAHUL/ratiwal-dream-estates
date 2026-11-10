@@ -128,3 +128,4 @@ Data source: MongoDB Atlas cluster (`ratiwal_dream_estates`), synchronized with 
 - **Product / RealEstateListing Schema:** Includes official title, description, location coordinates, price specification, and image references.
 - **OpenGraph & Twitter Card:** Declares full canonical URL, 1200×630 primary township image, and `summary_large_image` Twitter card.
 - **Soft 404 Elimination:** Any slug not in the 9-property array immediately returns HTTP 404 (tested with `/properties/fake-slug-test` -> genuine 404).
+

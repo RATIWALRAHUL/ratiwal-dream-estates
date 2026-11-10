@@ -87,3 +87,4 @@ In alignment with the Phase 3C Keyword-to-URL Map and architectural principles e
 | `/properties` | Verified Land Portfolio | Interactive Filters, Active Opportunities, Due Diligence Framework | Property cards, plot options | Home > Properties |
 | `/locations/jaipur` | Jaipur Land & Plotted Developments | Micro-Market Corridors, Verified Townships, Growth Drivers | Corridor highlights, connectivity milestones | Home > Locations > Jaipur |
 | `/investment` | Strategic Land Investment Advisory | Investment Framework, Growth Drivers, Due Diligence Protocols | Risk mitigation, corridor returns | Home > Investment |
+

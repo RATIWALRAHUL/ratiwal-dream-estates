@@ -72,3 +72,4 @@ Under Google's Search Essentials (formerly Webmaster Guidelines), generating pro
 - **Breadcrumbs:** `Home > Locations > [Location Name]` on all 6 pages.
 - **Schema.org:** Each page incorporates `Place` or `AdministrativeArea` structured data with verified geographic coordinates, containedInPlace attributes, and canonical service links.
 - **Sitemap Inclusion:** All 6 locations are cleanly declared in `/sitemap.xml` and return HTTP 200 OK.
+
