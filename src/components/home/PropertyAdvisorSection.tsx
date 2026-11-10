@@ -24,6 +24,10 @@ const ledger: { label: string; value: string }[] = [
   ...(advisorData.legalName ? [{ label: "Registered name", value: advisorData.legalName }] : []),
 ];
 
+/* Bento card: the site's white story-card surface. */
+const card =
+  "rounded-[26px] border border-[rgba(7,29,45,0.08)] bg-white shadow-[0_14px_35px_rgba(7,29,45,0.06)]";
+
 const focusRing =
   "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#087fc3]";
 
@@ -34,21 +38,29 @@ export function PropertyAdvisorSection() {
 
   return (
     <Reveal>
-      <section id="property-advisor" className="about-section" aria-labelledby="advisor-heading">
-        {/* Portrait: same blueprint-panel + glass-badge device as the About section */}
-        <div className="about-visual advisor-visual">
-          <div className="about-image-wrap">
-            <div className="about-image advisor-portrait">
-              <Image
-                src={PORTRAIT_SRC}
-                alt={`${advisorData.name}, ${advisorData.designation} at ${advisorData.company}`}
-                fill
-                sizes="(max-width: 900px) 90vw, 520px"
-                quality={85}
-                className="object-cover object-top"
-              />
-            </div>
-            <div className="floating-badge">
+      <section
+        id="property-advisor"
+        aria-labelledby="advisor-heading"
+        className="w-[calc(100%-32px)] sm:w-[calc(100%-48px)] max-w-[1300px] mx-auto py-10 sm:py-16 lg:py-20"
+      >
+        {/*
+          Bento grid. Row 1-2: photo (tall) beside intro + credentials. Row 3: contact strip.
+          Grid items stretch, so cards sharing a row are always the same height.
+        */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-5">
+          {/* Photo card: spans both rows, fills whatever height the right column needs */}
+          <figure
+            className={`${card} relative m-0 overflow-hidden lg:col-span-5 lg:row-span-2 aspect-[4/5] sm:aspect-[5/4] lg:aspect-auto min-h-[360px]`}
+          >
+            <Image
+              src={PORTRAIT_SRC}
+              alt={`${advisorData.name}, ${advisorData.designation} at ${advisorData.company}`}
+              fill
+              sizes="(max-width: 1024px) 100vw, 520px"
+              quality={85}
+              className="object-cover object-top"
+            />
+            <figcaption className="floating-badge">
               <i>
                 <ShieldCheck size={18} />
               </i>
@@ -56,46 +68,66 @@ export function PropertyAdvisorSection() {
                 <strong>{advisorData.name}</strong>
                 <small>{advisorData.designation}</small>
               </span>
-            </div>
-          </div>
-        </div>
+            </figcaption>
+          </figure>
 
-        {/* Profile */}
-        <div className="about-copy">
-          <p className="eyebrow">Your property advisor</p>
-          <h2 id="advisor-heading">
-            Property guidance,
-            <br className="hidden sm:inline" /> shaped around you.
-          </h2>
-          <p>
-            Every enquiry is handled one-on-one by {advisorData.name}, from the first conversation
-            to the final registry. Titles are verified, corridor valuations are genuine, and nothing
-            is hidden from you.
-          </p>
-
-          <dl className="mb-7 border-t border-[rgba(7,26,40,0.12)]">
-            {ledger.map((row) => (
-              <div
-                key={row.label}
-                className="grid grid-cols-[minmax(0,9.5rem)_1fr] sm:grid-cols-[11rem_1fr] gap-4 border-b border-[rgba(7,26,40,0.07)] py-3"
-              >
-                <dt className="text-[.86rem] text-[#566773]">{row.label}</dt>
-                <dd className="text-[.92rem] font-semibold text-[#071a28] tabular-nums">{row.value}</dd>
-              </div>
-            ))}
-          </dl>
-
-          {/* Direct contact, in the site's white story-card style */}
-          <div className="rounded-[18px] border border-[rgba(7,29,45,0.08)] bg-white p-5 sm:p-6 shadow-[0_14px_35px_rgba(7,29,45,0.06)]">
-            <p className="text-[.82rem] font-semibold text-[#071a28]">Speak to {advisorData.name.split(" ")[0]} directly</p>
-            <a
-              href={`tel:${advisorData.phoneRaw}`}
-              className={`mt-1 inline-block font-instrument text-[2rem] sm:text-[2.3rem] leading-tight text-[#071a28] hover:text-[#087fc3] transition-colors rounded ${focusRing}`}
+          {/* Intro card */}
+          <div className={`${card} lg:col-span-7 p-6 sm:p-9 flex flex-col justify-center`}>
+            <p className="eyebrow">Your property advisor</p>
+            <h2
+              id="advisor-heading"
+              className="mt-3 font-instrument font-normal text-[#071a28] leading-[1.04] tracking-tight text-[2.2rem] xs:text-[2.5rem] sm:text-[3rem] xl:text-[3.6rem]"
             >
-              {advisorData.phone}
-            </a>
+              Property guidance,
+              <br className="hidden sm:inline" /> shaped around you.
+            </h2>
+            <p className="mt-4 max-w-[34rem] text-[.95rem] sm:text-base leading-[1.7] text-[#4a5568]">
+              Every enquiry is handled one-on-one by {advisorData.name}, from the first conversation
+              to the final registry. Titles are verified, corridor valuations are genuine, and
+              nothing is hidden from you.
+            </p>
+          </div>
 
-            <div className="mt-4 flex flex-wrap gap-3">
+          {/* Credentials card */}
+          <div className={`${card} lg:col-span-7 p-6 sm:p-9`}>
+            <h3 className="text-[.82rem] font-semibold text-[#071a28]">Credentials</h3>
+            <dl className="mt-2">
+              {ledger.map((row, i) => (
+                <div
+                  key={row.label}
+                  className={`grid grid-cols-[minmax(0,9.5rem)_1fr] sm:grid-cols-[12rem_1fr] gap-4 py-3 ${
+                    i === 0 ? "" : "border-t border-[rgba(7,26,40,0.07)]"
+                  }`}
+                >
+                  <dt className="text-[.86rem] text-[#566773]">{row.label}</dt>
+                  <dd className="text-[.92rem] font-semibold text-[#071a28] tabular-nums">{row.value}</dd>
+                </div>
+              ))}
+            </dl>
+          </div>
+
+          {/* Contact strip: dark card, same navy as the hero and closing banner */}
+          <div
+            className="lg:col-span-12 relative overflow-hidden rounded-[26px] bg-[#071a28] text-white p-6 sm:p-9
+                       bg-[linear-gradient(rgba(66,183,232,.05)_1px,transparent_1px),linear-gradient(90deg,rgba(66,183,232,.05)_1px,transparent_1px)] bg-[size:35px_35px]
+                       shadow-[0_30px_74px_rgba(7,26,40,0.18)] flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6"
+          >
+            <div>
+              <p className="text-[.82rem] font-semibold text-white/70">
+                Speak to {advisorData.name.split(" ")[0]} directly
+              </p>
+              <a
+                href={`tel:${advisorData.phoneRaw}`}
+                className={`mt-1 inline-block font-instrument text-[2.2rem] sm:text-[3rem] leading-tight text-white hover:text-[#42b7e8] transition-colors rounded ${focusRing}`}
+              >
+                {advisorData.phone}
+              </a>
+              <p className="mt-1 text-[.78rem] text-white/60">
+                Free and confidential. Office hours {siteConfig.contact.officeHours}.
+              </p>
+            </div>
+
+            <div className="flex flex-wrap gap-3">
               <a
                 href={whatsappUrl}
                 target="_blank"
@@ -106,18 +138,11 @@ export function PropertyAdvisorSection() {
                 <WhatsAppIcon className="w-[17px] h-[17px]" />
                 <span>WhatsApp</span>
               </a>
-              <a
-                href={`mailto:${advisorData.email}`}
-                className={`inline-flex min-h-[52px] items-center justify-center gap-2 rounded-full border border-[rgba(7,26,40,0.14)] bg-white px-6 text-[.85rem] font-bold text-[#071a28] transition-colors hover:border-[#087fc3] hover:text-[#087fc3] ${focusRing}`}
-              >
+              <a href={`mailto:${advisorData.email}`} className={`button-ghost ${focusRing}`}>
                 <Mail size={16} aria-hidden="true" />
                 <span>Email</span>
               </a>
             </div>
-
-            <p className="mt-4 text-[.72rem] text-[#71808d]">
-              Free and confidential. Office hours {siteConfig.contact.officeHours}.
-            </p>
           </div>
         </div>
       </section>

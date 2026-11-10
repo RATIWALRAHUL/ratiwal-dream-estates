@@ -1948,8 +1948,3 @@ select:focus-visible {
   box-shadow: none !important;
 }
 
-
-
-/* Advisor portrait: reuses the About visual device (offset blueprint panel, glass badge) with a portrait ratio */
-.advisor-visual { width: 100%; max-width: 520px; }
-.about-image.advisor-portrait { min-height: 0; max-height: none; aspect-ratio: 4 / 5; }
