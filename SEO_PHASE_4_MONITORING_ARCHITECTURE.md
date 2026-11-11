@@ -136,3 +136,4 @@ To capture micro-conversion events (such as WhatsApp clicks and outbound calls) 
 - **Phase 4.1 (Immediate Architecture & Audits):** Deliver the 8 monitoring specifications, establish the GSC baseline, audit existing conversion events, and configure the technical health checklist. (Zero code changes to core logic).
 - **Phase 4.2 (Client Integration - Subject to Approval):** Add GA4 via `@next/third-parties/google`, wire non-PII micro-conversion events, and establish the Looker Studio dashboard.
 - **Phase 4.3 (Automated Server Telemetry - Subject to Approval):** Implement a daily/weekly server-side cron job utilizing the official Google Search Console API to archive impressions and queries directly into a lightweight MongoDB collection.
+

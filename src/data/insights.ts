@@ -499,7 +499,7 @@ export const insights: InsightArticle[] = [
   {
     slug: "section-90a-land-conversion-rajasthan",
     title: "Section 90-A Rajasthan Land Revenue Act: Complete Agricultural to Non-Agricultural Plot Conversion Guide",
-    metaTitle: "Section 90-A Rajasthan Land Conversion Guide",
+    metaTitle: "Section 90-A Land Conversion Guide",
     metaDescription: "Step-by-step statutory guide to Section 90-A land conversion in Rajasthan: surrender procedure, Tehsildar inquiry, JDA layout sanction and Patta issuance.",
     excerpt: "A comprehensive statutory breakdown of Section 90-A under the Rajasthan Land Revenue Act, explaining how agricultural land is legally surrendered, regularized, and approved for residential plotted townships.",
     category: "Legal & Documentation",
@@ -601,7 +601,7 @@ export const insights: InsightArticle[] = [
   {
     slug: "types-of-jda-patta-jaipur-verification",
     title: "Types of JDA Patta in Jaipur: Complete Verification, Registry & Legal Validity Guide",
-    metaTitle: "Types of JDA Patta in Jaipur: Verification Guide",
+    metaTitle: "Types of JDA Patta in Jaipur",
     metaDescription: "Comprehensive guide to JDA Patta types in Jaipur: 90-A Plotted Patta, Regularization Patta, Lease Deed vs Freehold, Society Patta risks, and verification.",
     excerpt: "An exhaustive legal guide analyzing every category of JDA Patta in Jaipur, contrasting planned 90-A township deeds with regularization Pattas and warning against high-risk society paper.",
     category: "Legal & Documentation",

@@ -11,9 +11,9 @@ export function TrustSummary() {
               <ShieldCheck className="w-5 h-5" aria-hidden="true" />
             </div>
             <div>
-              <h3 className="font-heading text-base font-bold text-[#031C2B] mb-1">
+              <h2 className="font-heading text-base font-bold text-[#031C2B] mb-1">
                 Published with Client Consent
-              </h3>
+              </h2>
               <p className="text-xs text-[#536574] leading-relaxed">
                 Stories and quotes are published exclusively with documented client authorization. Personal identity and budgets are protected.
               </p>
@@ -26,9 +26,9 @@ export function TrustSummary() {
               <FileCheck2 className="w-5 h-5" aria-hidden="true" />
             </div>
             <div>
-              <h3 className="font-heading text-base font-bold text-[#031C2B] mb-1">
+              <h2 className="font-heading text-base font-bold text-[#031C2B] mb-1">
                 Genuine Advisory Records
-              </h3>
+              </h2>
               <p className="text-xs text-[#536574] leading-relaxed">
                 Verified reviews represent authentic consultations, JDA/CIDCO due diligence engagements, or registered land acquisitions.
               </p>
@@ -41,9 +41,9 @@ export function TrustSummary() {
               <Lock className="w-5 h-5" aria-hidden="true" />
             </div>
             <div>
-              <h3 className="font-heading text-base font-bold text-[#031C2B] mb-1">
+              <h2 className="font-heading text-base font-bold text-[#031C2B] mb-1">
                 Privacy &amp; Data Protection
-              </h3>
+              </h2>
               <p className="text-xs text-[#536574] leading-relaxed">
                 We never disclose confidential client finances, phone numbers, exact residential addresses, or sensitive registry papers.
               </p>

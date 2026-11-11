@@ -26,6 +26,7 @@ import {
   CheckSquare,
   ListTodo,
   Globe,
+  TrendingUp,
 } from "lucide-react";
 import type { AdminUser } from "@/lib/auth/session";
 import {
@@ -246,7 +247,14 @@ export function DashboardSidebar({ user }: DashboardSidebarProps) {
       label: "Content & SEO",
       href: "/dashboard/content",
       icon: Globe,
-      active: pathname.startsWith("/dashboard/content") || pathname.startsWith("/dashboard/seo"),
+      active: pathname.startsWith("/dashboard/content"),
+      badgeCount: 0,
+    },
+    {
+      label: "SEO Performance",
+      href: "/dashboard/seo",
+      icon: TrendingUp,
+      active: pathname.startsWith("/dashboard/seo"),
       badgeCount: 0,
     },
     {

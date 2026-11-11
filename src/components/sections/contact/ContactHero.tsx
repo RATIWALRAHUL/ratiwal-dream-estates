@@ -119,9 +119,9 @@ export function ContactHero() {
                     </span>
                   </div>
 
-                  <h3 className="text-xs font-bold uppercase tracking-wider text-[var(--text-secondary)] mb-1">
+                  <h2 className="text-xs font-bold uppercase tracking-wider text-[var(--text-secondary)] mb-1">
                     {card.title}
-                  </h3>
+                  </h2>
 
                   <div className="font-instrument text-2xl text-[var(--midnight)] font-normal leading-tight mb-1">
                     {card.value}

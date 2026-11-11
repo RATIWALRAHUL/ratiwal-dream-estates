@@ -41,7 +41,7 @@ export function CmsOverviewView({ metrics, recentEntries }: CmsOverviewViewProps
 
         <div className="flex items-center gap-3">
           <Link
-            href="/dashboard/seo"
+            href="/dashboard/seo/health"
             className="flex items-center gap-1.5 px-3.5 py-2 text-xs font-semibold rounded-xl border border-[rgba(7,26,40,0.12)] bg-white text-[#071a28] hover:bg-stone-50 shadow-2xs transition"
           >
             <Compass className="w-4 h-4 text-[#0088cc]" />

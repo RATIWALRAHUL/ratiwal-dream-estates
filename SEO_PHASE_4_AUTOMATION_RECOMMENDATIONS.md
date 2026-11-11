@@ -115,3 +115,4 @@ graph TD
 2. Implement `/api/internal/seo/sync-telemetry` cron job to archive queries in MongoDB.
 3. Add a read-only SEO overview tab to `/dashboard/analytics`.
 - **Approval Required:** **Explicit Owner Approval** before introducing new dashboard pages or database collections.
+

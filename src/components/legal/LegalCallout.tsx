@@ -50,9 +50,9 @@ export function LegalCallout({ data, className }: LegalCalloutProps) {
         {getIcon()}
         <div className="flex-1">
           {data.title && (
-            <h4 className="font-bold text-xs uppercase tracking-wider mb-1 text-[var(--midnight)]">
+            <h3 className="font-bold text-xs uppercase tracking-wider mb-1 text-[var(--midnight)]">
               {data.title}
-            </h4>
+            </h3>
           )}
           <p className="opacity-90">{data.text}</p>
           {data.link && (

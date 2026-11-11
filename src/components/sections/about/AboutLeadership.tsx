@@ -211,7 +211,7 @@ export function AboutLeadership() {
                       <CheckCircle2 size={18} />
                     </div>
                     <div>
-                      <h4 className="text-xs sm:text-[14px] font-bold text-white mb-0.5">{cred.title}</h4>
+                      <h3 className="text-xs sm:text-[14px] font-bold text-white mb-0.5">{cred.title}</h3>
                       <p className="text-[12px] sm:text-[13px] text-white/70 leading-normal">{cred.desc}</p>
                     </div>
                   </div>

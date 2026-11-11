@@ -114,3 +114,4 @@ Only genuinely served operational locations are evaluated:
 | **P2** | Deploy GA4 Client-Side Event Dispatcher | WhatsApp clicks and phone calls are currently untracked on client side | Enable full attribution from organic landing page to advisory consultation | 6 Hours | Next.js Developer | **Yes** (Owner approval of GA4 ID) |
 | **P3** | Author Cluster 2 Guide: *Jaipur Ring Road Plotted Investment Corridor* | Ring Road development searches are surging among Rajasthan land investors | Capture early informational intent and cross-link to south Jaipur plots | 8 Hours | Content Specialist | **Yes** (Legal counsel sign-off) |
 | **P4** | Quarterly MongoDB Micro-Market Re-indexing | Maintain sub-second query response on property catalog and related listings | Prevent database latency spikes during high traffic periods | 2 Hours | Backend Lead | **No** (Standard maintenance) |
+

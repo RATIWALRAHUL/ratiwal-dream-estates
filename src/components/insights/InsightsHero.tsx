@@ -136,9 +136,9 @@ export function InsightsHero({ featuredArticle }: InsightsHeroProps) {
                     {featuredArticle.category}
                   </span>
                   
-                  <h3 className="font-instrument text-lg sm:text-xl text-[var(--midnight)] font-normal leading-snug line-clamp-2 mb-2 group-hover:text-[var(--ratiwal-blue)] transition-colors">
+                  <h2 className="font-instrument text-lg sm:text-xl text-[var(--midnight)] font-normal leading-snug line-clamp-2 mb-2 group-hover:text-[var(--ratiwal-blue)] transition-colors">
                     {featuredArticle.title}
-                  </h3>
+                  </h2>
 
                   <p className="text-xs text-[var(--text-secondary)] line-clamp-2 leading-relaxed mb-3">
                     {featuredArticle.excerpt}

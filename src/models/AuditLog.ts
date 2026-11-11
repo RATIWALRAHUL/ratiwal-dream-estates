@@ -94,6 +94,14 @@ export type AuditAction =
   // PRD 10: Analytics & Reports
   | "REPORT_EXPORTED"
   | "ANALYTICS_VIEWED"
+  // Phase 4A: SEO analytics integrations
+  | "SEO_SYNC_TRIGGERED"
+  | "SEO_SYNC_COMPLETED"
+  | "SEO_SYNC_FAILED"
+  | "SEO_KEYWORDS_EXPORTED"
+  | "SEO_TECH_SCAN_TRIGGERED"
+  | "SEO_TECH_SCAN_COMPLETED"
+  | "SEO_TECH_SCAN_FAILED"
   // PRD 11: Inventory & Units
   | "INVENTORY_UNIT_CREATED"
   | "INVENTORY_UNIT_UPDATED"

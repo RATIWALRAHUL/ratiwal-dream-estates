@@ -125,3 +125,4 @@ gtag("event", "request_site_visit", {
    - Create a lightweight helper `src/lib/analytics/events.ts` to enforce uniform event naming and strict PII stripping before dispatching to `window.gtag`.
 3. **Wire Event Handlers to Shared UI Components:**
    - Attach onClick handlers to [`src/components/layout/FloatingWhatsAppButton.tsx`](file:///r:/New%20folder/ratiwal-dream-estates/src/components/layout/FloatingWhatsAppButton.tsx) and property action bars.
+

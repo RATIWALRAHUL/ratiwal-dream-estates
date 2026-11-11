@@ -482,9 +482,9 @@ export function PropertiesFilterSection({ properties }: PropertiesFilterSectionP
 
       {/* Results Header */}
       <div className="flex items-center justify-between mb-6">
-        <div className="text-xs sm:text-sm font-semibold text-[var(--text-secondary)]">
+        <h2 className="text-xs sm:text-sm font-semibold text-[var(--text-secondary)]">
           Showing <strong className="text-[var(--midnight)]">{filteredProperties.length}</strong> verified {filteredProperties.length === 1 ? "land opportunity" : "land opportunities"}
-        </div>
+        </h2>
         {selectedCity !== "All" && (
           <span className="text-xs font-bold px-2.5 py-1 rounded-md bg-[var(--cyan-soft)] text-[var(--ratiwal-blue-deep)]">
             Filtered by: {selectedCity}

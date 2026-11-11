@@ -125,3 +125,4 @@ Within GSC's "Pages" (Index Coverage) report, track the following metrics weekly
 | **Soft 404** | 0 Pages | > 0 Pages | Investigate Next.js `notFound()` handler and server rendering |
 | **Not Found (404)** | Only legitimate dead URLs | Spikes in 404s | Confirm whether internal links point to retired slugs |
 | **Excluded by 'noindex' tag** | Private/Admin routes only | Any public route | Check `getMetadata({ noIndex: false })` in route files |
+
